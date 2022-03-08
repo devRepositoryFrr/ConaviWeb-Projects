@@ -1,0 +1,117 @@
+﻿@model ConaviWeb.Model.Request.UserRequest
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Login";
+}
+<br />
+<br />
+<form method="post" asp-action="CreateUser">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <h4>Crear nuevo usuario</h4>
+    <hr class="red">
+    <br />
+    <div class="row">
+        
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.Raw(@ViewBag.Alert)
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="LName"></label>
+                <input class="form-control" asp-for="LName" />
+                <span asp-validation-for="LName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SLName"></label>
+                <input class="form-control" asp-for="SLName" />
+                <span asp-validation-for="SLName" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="SUser"></label>
+                <input class="form-control" asp-for="SUser" autocomplete="off"/>
+                <span asp-validation-for="SUser" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password" autocomplete="off"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label> Confirmar Contraseña</label>
+                <input type="password" id="ConfirmPassword" class="form-control" required />
+                <span id="msg"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <button class="btn btn-primary " type="submit" id="btnSubmit"><span class="fa fa-plus"></span>&ensp;Crear Usuario</button>
+                <a href='@Url.Action("Index", "Sisevive")' class="btn btn-danger" ><span class="fa fa-arrow-left"></span>&ensp;Regresar</a>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+<script>
+    $(document).ready(function () {
+        showAlert();
+        $("#btnSubmit").attr("disabled", true);
+        $("#ConfirmPassword").keyup(function(){
+             if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                 $("#msg").html("La contraseña no coincide").css("color", "#a94442");
+                 $("#btnSubmit").attr("disabled", true);
+             }else{
+                 $("#msg").html("La contraseña coincide").css("color", "#13322B");
+                 $("#btnSubmit").attr("disabled", false);
+            }
+      });
+    });
+
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 6000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 12000);
+
+    }
+</script> 

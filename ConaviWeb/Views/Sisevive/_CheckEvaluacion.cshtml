@@ -1,0 +1,67 @@
+﻿@model ConaviWeb.Model.Sisevive.Evaluacion
+<form id="formChkEvaluation">
+    <h4>Revisión de solicitud</h4>
+    <hr class="red">
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div id="alertFolio" class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <button id="btnConsultar" type="submit" class="btn btn-primary pull-right"><span class="fa fa-search"></span>&ensp;Consultar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Folio</label>
+                <input id="folio" type="text" class="form-control">
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div id="divDescripcion" style="display:none">
+        <h4>Informe de evaluación</h4>
+        <hr class="red">
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Informe</label>
+                    <input id="informe" type="text" class="form-control">
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Observaciones</label>
+                    <textarea id="observacion" class="form-control" rows="12"></textarea>
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Calificación</label>
+                    <span class="text-danger"></span>
+                    <div id="d_a" class="escala-a cal-align"><span>A</span></div>
+                    <div id="d_b" class="escala-b cal-align"><span>B</span></div>
+                    <div id="d_c" class="escala-c cal-align"><span>C</span></div>
+                    <div id="d_d" class="escala-d cal-align"><span>D</span></div>
+                    <div id="d_e" class="escala-e cal-align"><span>E</span></div>
+                    <div id="d_f" class="escala-f cal-align"><span>F</span></div>
+                    <div id="d_g" class="escala-g cal-align"><span>G</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a id="btnDownInfo" href="#" target="_blank" class="btn btn-primary "><span class="fa fa-cloud-download"></span>&ensp;Descargar informe</a>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+</form>

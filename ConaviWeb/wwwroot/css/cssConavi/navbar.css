@@ -1,0 +1,357 @@
+
+@media (min-width: 768px) {
+    .container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
+        margin-right: 0;
+        margin-left: 0;
+        background-color: transparent;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
+        margin-top: 7.5px;
+        background-image: linear-gradient( 15deg, #FFFFFF 0%, #B38E5D 100%) !important;
+    }
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #821b3f;
+}
+
+.navbar-brand img {
+    content: url("../../img/encab2021.png");
+}
+
+@media (max-width: 778px) {
+    .navbar-brand img {
+        width: 270px;
+        height: auto;
+        padding-left: 30px;
+    }
+}
+
+@media (max-width: 457px) {
+    .navbar-brand img {
+        width: 270px;
+        height: auto;
+        padding-left: 30px;
+    }
+}
+
+@media (max-width: 363px) {
+    .navbar-brand img {
+        width: 230px;
+        height: auto;
+        padding-left: 30px;
+    }
+}
+
+@media (max-width: 76px) {
+    .navbar-brand img {
+        width: 150px;
+        height: auto;
+        padding-left: 30px;
+    }
+}
+
+
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-text {
+    color: #215d51 !important;
+    padding: 15px 15px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+    /* background-color: #9d9d9d; */
+    background: transparent;
+    /*color: #9d9d9d;*/
+}
+
+/*@media (min-width: 768px) .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse, .navbar-static-top .navbar-collapse {
+    padding-left: 10 !important;
+    padding-right: 10 !important; 
+}*/
+    
+
+/*colofon*/
+
+.colofon {
+    position: relative;
+    background-color: #343a40;
+    background: url("../../img/bg-colofon_2021.jpg") no-repeat center center;
+    background-image: url("../../img/bg-colofon_2021.jpg");
+    background-position-x: center;
+    background-position-y: center;
+    background-size: cover;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: #343a40;
+    background-size: auto;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.red-text {
+    color: #821b3f !important;
+    font-weight: 500 !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.lead {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 1.6em;
+}
+
+.row-fixed {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+
+
+
+
+/*nav*/
+
+.navbar-nav {
+    padding-left: 0 !important;
+    list-style: none !important;
+    flex-direction: inherit;
+}
+
+.navbar, .container, .container-fluid {
+    /*position: relative !important;*/
+    display: block !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    display: block !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+nav {
+    height: 6rem !important;
+    width: 100vw !important;
+    background-image: linear-gradient(15deg, #FFFFFF 0%, #B38E5D 100%) !important;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2) !important;
+    display: flex !important;
+    position: fixed !important;
+    z-index: 10 !important;
+    top: 0;
+}
+
+/*Styling logo*/
+.logo {
+    padding: 1vh 1vw;
+    text-align: center;
+}
+
+    .logo img {
+        height: 5rem;
+        width: 5rem;
+    }
+
+/*Styling Links*/
+/*checkpoint*/
+.nav-links {
+    display: flex;
+    list-style: none;
+    padding: 0 0.1vw;
+    align-items: center;
+    text-transform: uppercase;
+    justify-content: flex-start;
+    transform: translate(-15px,17px);
+}
+
+    .nav-links li * {
+        color: #215d51;
+        text-decoration: none;
+        padding-left:10px
+       
+        
+    }
+
+
+        .nav-links li *:hover {
+            color: #821b3f;
+        }
+
+    .nav-links li {
+        position: relative;
+    }
+
+        .nav-links li a::before {
+            content: "";
+            display: block;
+            height: 3px;
+            width: 0%;
+            background-color: #821b3f;
+            position: absolute;
+            transition: all ease-in-out 250ms;
+            margin: 0 0 0 10%;
+        }
+
+        .nav-links li a:hover::before {
+            width: 80%;
+        }
+
+/*Styling Buttons*/
+.login-button {
+    background-color: transparent;
+    border: 1.5px solid #f2f5f7;
+    border-radius: 2em;
+    padding: 0.6rem 0.8rem;
+    margin-left: 2vw;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+    .login-button:hover {
+        color: #131418;
+        background-color: #f2f5f7;
+        border: 1.5px solid #f2f5f7;
+        transition: all ease-in-out 350ms;
+    }
+
+.join-button {
+    color: #131418;
+    background-color: #61DAFB;
+    border: 1.5px solid #61DAFB;
+    border-radius: 2em;
+    padding: 0.6rem 0.8rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+    .join-button:hover {
+        color: #f2f5f7;
+        background-color: transparent;
+        border: 1.5px solid #f2f5f7;
+        transition: all ease-in-out 350ms;
+    }
+
+/*Styling Hamburger Icon*/
+.hamburger div {
+    width: 30px;
+    height: 3px;
+    background: #f2f5f7;
+    margin: 5px;
+    transition: all 0.3s ease;
+
+}
+
+.hamburger {
+    display: none;
+}
+
+/*Stying for small screens*/
+@media screen and (max-width: 800px) {
+    nav {
+        position: fixed;
+        z-index: 3;
+    }
+
+    .hamburger {
+        display: block;
+        position: absolute;
+        cursor: pointer;
+        right: 2.2%;
+        top: 50%;
+        transform: translate(12%, 40%);
+        z-index: 2;
+        transition: all 0.7s ease;
+    }
+
+
+    .nav-links {
+        margin-top: 20px;
+        transform: scale(1.1);
+        position: absolute;
+        background-image: linear-gradient(15deg, #FFFFFF 0%, #B38E5D 100%) !important;
+        height: 50vh;
+        width: 100%;
+        flex-direction: column;
+        clip-path: circle(50px at 50% -20%);
+        -webkit-clip-path: circle(50px at 90% -10%);
+        transition: all 1s ease-out;
+        pointer-events: none;
+        opacity: 0;
+        justify-content: space-evenly;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 38px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+
+        .nav-links.open {
+            clip-path: circle(1000px at 50% -10%);
+            -webkit-clip-path: circle(1000px at 50% -10%);
+            pointer-events: all;
+            opacity: 1 !important;
+            display: flex;
+            
+        }
+
+        .nav-links li {
+            opacity: 0;
+        }
+
+            .nav-links li:nth-child(1) {
+                transition: all 0.5s ease 0.2s;
+            }
+
+            .nav-links li:nth-child(2) {
+                transition: all 0.5s ease 0.4s;
+            }
+
+            .nav-links li:nth-child(3) {
+                transition: all 0.5s ease 0.6s;
+            }
+
+            .nav-links li:nth-child(4) {
+                transition: all 0.5s ease 0.7s;
+            }
+
+            .nav-links li:nth-child(5) {
+                transition: all 0.5s ease 0.8s;
+            }
+
+            .nav-links li:nth-child(6) {
+                transition: all 0.5s ease 0.9s;
+                margin: 0;
+            }
+
+            .nav-links li:nth-child(7) {
+                transition: all 0.5s ease 1s;
+                margin: 0;
+            }
+
+    li.fade {
+        opacity: 1;
+    }
+}
+/*Animating Hamburger Icon on Click*/
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px,6px);
+}
+
+.toggle .line2 {
+    transition: all 0.7s ease;
+    width: 0;
+}
+
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px,-6px);
+}

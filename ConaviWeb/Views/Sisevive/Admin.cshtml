@@ -1,0 +1,386 @@
+﻿@model ConaviWeb.Model.Sisevive.Etiquetado
+@{
+    ViewBag.Title = "Administrador";
+}
+
+<div class="form-row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <div id="spinner" class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        @Html.Raw(@ViewBag.Alert)
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group  col-md-4">
+                    <label>Tipo</label>
+                    <select id="slctTipo" class="form-control">
+                        <option value="1">Evaluación</option>
+                        <option value="2">Etiquetado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divTable" class="form-group" style="display:none;">
+    <form id="formTable">
+        <table id="table" class="table">
+            <thead>
+                <tr style="font-size:15px;">
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        FECHA
+                    </th>
+                    <th>
+                        FOLIO
+                    </th>
+                    <th>
+                        NOMBRE
+                    </th>
+                    <th>
+                        ARCHIVOS CARGADOS
+                    </th>
+                    <th>
+                        INFORME
+                    </th>
+                    <th id="letra">
+                        LETRA
+                    </th>
+                    <th>
+                        OBSERVACIONES
+                    </th>
+                    <th>
+                        ARCHIVO INFORME
+                    </th>
+                    <th>
+                        EDITAR
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+</div>
+<!-- Modal Evaluación -->
+<div class="modal fade fade-" style="z-index:1041" id="showModalEv" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Sisevive/_UpdateEvaluacion")
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal Etiquetado-->
+<div class="modal fade fade-" style="z-index:1041" id="showModalEt" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Sisevive/_UpdateEtiquetado")
+            }
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<!-- Modal Observación-->
+<div class="modal fade fade-" style="z-index:1041" id="showModalObserv" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class='modal-header'>
+                <h4 id='titulo-modal' style="font-weight: 300">Observación</h4>
+            </div>
+            <div class='modal-body' style="height: 250px; overflow-x: hidden; overflow-y: auto;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <span id="textObserv"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var table;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showAlert();
+            var tipo = $("#slctTipo option:selected").val();
+            showTable(tipo);
+
+            $('#showModalEv').on('hidden.bs.modal', function (e) {
+                $(this).find('#formUpdateEvaluacion')[0].reset();
+            });
+            $('#showModalEt').on('hidden.bs.modal', function (e) {
+                $(this).find('#formUpdateEtiquetado')[0].reset();
+            });
+
+            $('#showModalEv').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                console.log(bookId);
+                $(e.currentTarget).find('#idEvaluacion').val(bookId);
+            });
+            $('#showModalEt').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                console.log(bookId);
+                $(e.currentTarget).find('#idEtiquetado').val(bookId);
+            });
+            $('#showModalObserv').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                console.log("Observación: " + bookId);
+                $(e.currentTarget).find('#textObserv').text(bookId);
+            });
+
+            $('#slctTipo').on('change', function () {
+                console.log(this.value);
+                showTable(this.value);
+            });
+
+            var window_focus;
+
+            $(window).focus(function () {
+                window_focus = true;
+            }).blur(function () {
+                window_focus = false;
+            });
+
+            $(document).bind("click", 'input:file', function () {
+
+                var loopFocus = setInterval(function () {
+                    if (window_focus) {
+                        clearInterval(loopFocus);
+                        if ($("#f-sp1").val() === '') {
+                            $('#d-sp1').css("background-color", "#b8925f");
+                            //$('#s-sp1').text(" Cargar un archivo");
+                            $('#i-sp1').addClass("fa-file-upload");
+                            $('#i-sp1').removeClass("fa-check-circle");
+                        } else {
+                            $('#d-sp1').css("background-color", "#255d51");
+                            $('#s-sp1').text(" Archivo cargado");
+                            $('#i-sp1').addClass("fa-check-circle");
+                            $('#i-sp1').removeClass("fa-file-upload");
+                        }
+                        if ($("#f-sp2").val() === '') {
+                            $('#d-sp2').css("background-color", "#b8925f");
+                            //$('#s-sp1').text(" Cargar un archivo");
+                            $('#i-sp2').addClass("fa-file-upload");
+                            $('#i-sp2').removeClass("fa-check-circle");
+                        } else {
+                            $('#d-sp2').css("background-color", "#255d51");
+                            $('#s-sp2').text(" Archivo cargado");
+                            $('#i-sp2').addClass("fa-check-circle");
+                            $('#i-sp2').removeClass("fa-file-upload");
+                        }
+                    }
+                }, 500);
+            });
+
+            $('#d-sp1').click(function () {
+                console.log("click-perro");
+                $('#f-sp1')[0].click();
+            });
+            $('#d-sp2').click(function () {
+                console.log("click-perro2");
+                $('#f-sp2')[0].click();
+            });
+        });
+
+        function showTable(tipo) {
+            var urlTipo = "";
+            var columns;
+            if (tipo == 1) {
+                urlTipo = "/Evaluacion/ListaAjax";
+                columns = columnsEv;
+            } else {
+                urlTipo = "/Etiquetado/ListaAjax";
+                columns = columnsEt;
+            }
+            $("#spinner").show();
+            $("#divTable").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columnsEv = [
+
+            { "name": "Id", "data": "id", "targets": 0, "visible": false },
+            { "name": "Fecha", "data": "fecha", "targets": 1 },
+            { "name": "Folio", "data": "folio", "targets": 2 },
+            { "name": "Nombre", "data": "nombre", "targets": 3 },
+            {
+                "targets": 4,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a href="/DownloadZipFile/' + row.idUserCarga + "/" + row.folio + '"><i class="fa fa-file-zip-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            { "name": "Informe", "data": "informe", "targets": 5 },
+            {
+                "name": "Letra", "data": "letra", "targets": 6, "className": 'text-center'},
+            {
+                "targets": 7,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a data-book-id="' + row.observacion + '" class="gold" type="button" data-toggle="modal" data-target="#showModalObserv" style="font-size:25px;"><i class="fa fa-search"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 8,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.nombreArchInforme != null) {
+                        return '<a href="../doc/Sisevive/' + row.idUserCarga + "/" + row.folio + "/" + row.nombreArchInforme + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    }
+                    return null;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 9,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a data-book-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalEv" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            }
+        ];
+
+        var columnsEt = [
+
+            { "name": "Id", "data": "id", "targets": 0, "visible": false },
+            { "name": "Fecha", "data": "fecha", "targets": 1 },
+            { "name": "Folio", "data": "folio", "targets": 2 },
+            { "name": "Nombre", "data": "nombre", "targets": 3 },
+            {
+                "targets": 4,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a href="/DownloadZipFile/' + row.idUserCarga + "/" + row.folio + '"><i class="fa fa-file-zip-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            { "name": "Informe", "data": "informe", "targets": 5 },
+            { "name": "Letra", "data": null, "targets": 6, "visible": false},
+            {
+                "targets": 7,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a data-book-id="' + row.observacion + '" class="gold" type="button" data-toggle="modal" data-target="#showModalObserv" style="font-size:25px;"><i class="fa fa-search"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 8,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.nombreArchInforme != null) {
+                        return '<a href="../doc/Sisevive/' + row.idUserCarga + "/" + row.folio + "/" + row.nombreArchInforme + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    }
+                    return null;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 9,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a data-book-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalEt" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            }
+        ];
+
+        function showAlert() {
+
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+
+            }, 6000);
+
+
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 12000);
+
+        }
+
+    </script>
+}

@@ -1,0 +1,306 @@
+﻿/*
+    Colors gob.mx
+*/
+
+/* Menu */
+.menu {
+    /*padding-top: 20px;*/
+    background-color: #0C231E; /*#13322B;*/ /*#393c3e;*/
+}
+
+.icon {
+    padding-right: 5px;
+}
+
+.navbar-default {
+    background-color: #13322B; /*#285C4D;*/ /*#000;*/
+    border: 0;
+}
+
+    .navbar-default .navbar-nav > li > a {
+        color: #ddd;
+    }
+
+        .navbar-default .navbar-nav > li > a:hover,
+        .navbar-default .navbar-nav > li > a:focus {
+            color: #fff;
+        }
+
+    .navbar-default .navbar-nav > .active > a,
+    .navbar-default .navbar-nav > .active > a:hover,
+    .navbar-default .navbar-nav > .active > a:focus,
+    .navbar-default .navbar-nav > .open > a,
+    .navbar-default .navbar-nav > .open > a:hover,
+    .navbar-default .navbar-nav > .open > a:focus {
+        background-color: transparent;
+        color: #fff;
+    }
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.menu .nav-tabs > li.active > a,
+.menu .nav-tabs > li.active > a:hover,
+.menu .nav-tabs > li.active > a:focus {
+    color: #fff;
+}
+
+.menu .nav-tabs {
+    border: none;
+}
+
+    .menu .nav-tabs > li > a {
+        font-size: 20px;
+    }
+
+    .menu .nav-tabs > li.active > a,
+    .menu .nav-tabs > li.active > a:hover,
+    .menu .nav-tabs > li.active > a:focus {
+        background-color: transparent; /*#285C4D;*/ /*#000;*/
+        border-color: transparent; /*#285C4D;*/ /*#000;*/
+    }
+
+
+.li-tab {
+    margin-top: 20px;
+}
+
+.dropdown-menu {
+    border: 0;
+    background-color: #13322B; /*#285C4D;*/ /*#000;*/
+    border-radius: 0;
+    box-shadow: none;
+}
+
+    .dropdown-menu > li > a:hover,
+    .dropdown-menu > li > a:focus,
+    .dropdown-menu > .active > a,
+    .dropdown-menu > .active > a:hover,
+    .dropdown-menu > .active > a:focus {
+        background-color: #0C231E; /*#13322B;*/ /*#393c3e;*/
+        color: #111;
+    }
+
+    .dropdown-menu > li > a {
+        color: #ddd;
+    }
+
+        .dropdown-menu > li > a:hover,
+        .dropdown-menu > li > a:focus,
+        .dropdown-menu > .active > a,
+        .dropdown-menu > .active > a:hover,
+        .dropdown-menu > .active > a:focus {
+            color: #fff;
+        }
+
+.menu .nav > li > a {
+    color: #ddd;
+}
+
+    .menu .nav > li > a:hover,
+    .menu .nav > li > a:focus {
+        color: #fff;
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a, 
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #fff;
+        background-color: #393c3e;
+    }
+}
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #ddd;
+    }
+}
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #fff;
+        background-color: #393c3e;
+    }
+}
+
+
+@media (max-width: 970px) {
+    .icon {
+        display: none;
+    }
+}
+
+/* footer */
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 100px;
+    font-family: Montserrat, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    /* height: 100px; */
+    background-color: #13322B; /*#285C4D;*/ /*#393c3e;*/
+    color: #ddd;
+    border-top-style: solid;
+    border-top-width: 15px;
+    border-top-color: #D4C19C;
+}
+
+    /* Custom page CSS
+-------------------------------------------------- */
+    /* Not required for template or sticky footer method. */
+    /* body > .container {
+    padding: 50px 15px 0;
+} */
+    .footer > .container {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+code {
+    font-size: 80%;
+}
+
+.container .address {
+    margin: 20px 0;
+}
+
+/* Panel */
+/*
+.panel-default > .panel-heading {
+    cursor: pointer;
+}
+.panel-primary > .panel-heading {
+    background-color: #55996a;
+    border-color: #00803b;
+}
+.panel-primary {
+    border-color: #00803b;
+}*/
+
+/* Logo */
+/*.logo-conavi {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}*/
+
+/* LINK */
+a {
+    /*color: #00803b;
+    color: #4A90E2;*/
+    color: #B38E5D;
+}
+
+    a:hover, a:focus {
+        /*color: #449d44;
+        color: #2275d7;*/
+        color: #D4C19C;
+        text-decoration: none;
+    }
+
+    a:focus {
+        /* Linea punteada IE */
+        outline: none;
+    }
+
+/* Ajustar div al tamño del contenido */
+.content-inline {
+    display: inline;
+}
+
+#div-form {
+    margin: 0 0 20px;
+}
+
+/* GridView */
+.header-table {
+    text-align: center;
+}
+
+.footer-table {
+    font-weight: bold;
+}
+
+/* Map Echarts */
+#map, #chart {
+    width: 100%;
+    height: 450px;
+}
+#map2, #chart2 {
+    width: 100%;
+    height: 350px;
+}
+
+#map3, #chart3 {
+    width: 100%;
+    height: 600px;
+}
+#map4, #chart4 {
+    width: 100%;
+    height: 350px;
+}
+#map5, #chart5 {
+    width: 100%;
+    height: 250px;
+}
+
+#content_map {
+    width: 100%;
+    height: 450px;
+}
+#content_map2 {
+    width: 100%;
+    height: 350px;
+}
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-brand > img {
+height: 100%;
+padding: 15px;
+width: auto;
+}
+.navbar-brand2 > img {
+    height: auto;
+    width: 135px;
+}
+
+@media (max-width: 991px) {
+    #li-logo {
+        display: none;
+    }
+}
+
+.div-var {
+    height: 105px;
+    overflow-y: auto;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #9D2449;
+    border-color: #621132;
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #621132;
+    }

@@ -1,0 +1,321 @@
+﻿@{
+    ViewData["Title"] = "Evaluación";
+}
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+<div>
+    <h2 style="color: #13322B; text-align: center;">Evaluación de Vivienda Sustentable</h2>
+    <p style="text-align: center;">
+        En
+        esta sección podrás solicitar la evaluación de tus prototipos para que se
+        califiquen como Sustentables y consultar el resultado emitido, por lo que
+        deberás cargar los archivos requeridos en la parte inferior Es importante que
+        tomes en cuenta que, si los archivos no se cargan en los formatos solicitados y
+        en su totalidad, no se podrá realizar la evaluación correspondiente.
+    </p>
+</div>
+<br />
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6" style="display: flex;justify-content: center;">
+                <button id='btnAdd' class="btn btn-primary" type="button">
+                    <span class="fa fa-plus"></span>&ensp;Nueva solicitud
+                </button>
+            </div>
+            <div class="col-md-6" style="display: flex;justify-content: center;">
+                <button id='btnChk' class="btn btn-primary" type="button">
+                    <span class="fa fa-check"></span>&ensp;Revisión de solicitud
+                </button>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div id="divAdd" style="display:none">
+            @{
+                @await Html.PartialAsync("../Sisevive/_AddEvaluacion")
+            }
+        </div>
+        <div id="divChk" style="display:none">
+            @{
+                @await Html.PartialAsync("../Sisevive/_CheckEvaluacion")
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+<script>
+    $(document).ready(function () {
+        showAlert();
+        $("#btnAdd").on("click", function (e) {
+            $("#divChk").hide();
+            $("#divAdd").show();
+        });
+        $("#btnChk").on("click", function (e) {
+            $("#divAdd").hide();
+            $("#divChk").show();
+        });
+
+        $("#status").hide();
+        var window_focus;
+
+        $(window).focus(function () {
+            window_focus = true;
+        }).blur(function () {
+            window_focus = false;
+        });
+
+        $(document).bind("click", 'input:file', function () {
+
+            var loopFocus = setInterval(function () {
+                if (window_focus) {
+                    clearInterval(loopFocus);
+                    if ($("#f-sp1").val() === '') {
+                        $('#d-sp1').css("background-color", "#b8925f");
+                        //$('#s-sp1').text(" Cargar un archivo");
+                        $('#i-sp1').addClass("fa-file-upload");
+                        $('#i-sp1').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp1').css("background-color", "#255d51");
+                        $('#s-sp1').text(" Archivo cargado");
+                        $('#i-sp1').addClass("fa-check-circle");
+                        $('#i-sp1').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp2").val() === '') {
+                        $('#d-sp2').css("background-color", "#b8925f");
+                        //$('#s-sp2').text(" Cargar un archivo");
+                        $('#i-sp2').addClass("fa-file-upload");
+                        $('#i-sp2').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp2').css("background-color", "#255d51");
+                        $('#s-sp2').text(" Archivo cargado");
+                        $('#i-sp2').addClass("fa-check-circle");
+                        $('#i-sp2').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp3").val() === '') {
+                        $('#d-sp3').css("background-color", "#b8925f");
+                        //$('#s-sp3').text(" Cargar un archivo");
+                        $('#i-sp3').addClass("fa-file-upload");
+                        $('#i-sp3').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp3').css("background-color", "#255d51");
+                        $('#s-sp3').text(" Archivo cargado");
+                        $('#i-sp3').addClass("fa-check-circle");
+                        $('#i-sp3').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp4").val() === '') {
+                        $('#d-sp4').css("background-color", "#b8925f");
+                        //$('#s-sp4').text(" Cargar un archivo");
+                        $('#i-sp4').addClass("fa-file-upload");
+                        $('#i-sp4').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp4').css("background-color", "#255d51");
+                        $('#s-sp4').text(" Archivo cargado");
+                        $('#i-sp4').addClass("fa-check-circle");
+                        $('#i-sp4').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp5").val() === '') {
+                        $('#d-sp5').css("background-color", "#b8925f");
+                        //$('#s-sp5').text(" Cargar un archivo");
+                        $('#i-sp5').addClass("fa-file-upload");
+                        $('#i-sp5').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp5').css("background-color", "#255d51");
+                        $('#s-sp5').text(" Archivo cargado");
+                        $('#i-sp5').addClass("fa-check-circle");
+                        $('#i-sp5').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp6").val() === '') {
+                        $('#d-sp6').css("background-color", "#b8925f");
+                        //$('#s-sp6').text(" Cargar un archivo");
+                        $('#i-sp6').addClass("fa-file-upload");
+                        $('#i-sp6').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp6').css("background-color", "#255d51");
+                        $('#s-sp6').text(" Archivo cargado");
+                        $('#i-sp6').addClass("fa-check-circle");
+                        $('#i-sp6').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp7").val() === '') {
+                        $('#d-sp7').css("background-color", "#b8925f");
+                        //$('#s-sp7').text(" Cargar un archivo");
+                        $('#i-sp7').addClass("fa-file-upload");
+                        $('#i-sp7').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp7').css("background-color", "#255d51");
+                        $('#s-sp7').text(" Archivo cargado");
+                        $('#i-sp7').addClass("fa-check-circle");
+                        $('#i-sp7').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp8").val() === '') {
+                        $('#d-sp8').css("background-color", "#b8925f");
+                        //$('#s-sp8').text(" Cargar un archivo");
+                        $('#i-sp8').addClass("fa-file-upload");
+                        $('#i-sp8').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp8').css("background-color", "#255d51");
+                        $('#s-sp8').text(" Archivo cargado");
+                        $('#i-sp8').addClass("fa-check-circle");
+                        $('#i-sp8').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp9").val() === '') {
+                        $('#d-sp9').css("background-color", "#b8925f");
+                        //$('#s-sp9').text(" Cargar un archivo");
+                        $('#i-sp9').addClass("fa-file-upload");
+                        $('#i-sp9').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp9').css("background-color", "#255d51");
+                        $('#s-sp9').text(" Archivo cargado");
+                        $('#i-sp9').addClass("fa-check-circle");
+                        $('#i-sp9').removeClass("fa-file-upload");
+                    }
+                    if ($("#f-sp10").val() === '') {
+                        $('#d-sp10').css("background-color", "#b8925f");
+                        //$('#s-sp10').text(" Cargar un archivo");
+                        $('#i-sp10').addClass("fa-file-upload");
+                        $('#i-sp10').removeClass("fa-check-circle");
+                    } else {
+                        $('#d-sp10').css("background-color", "#255d51");
+                        $('#s-sp10').text(" Archivo cargado");
+                        $('#i-sp10').addClass("fa-check-circle");
+                        $('#i-sp10').removeClass("fa-file-upload");
+                    }
+                }
+            }, 500);
+        });
+
+        $('#d-sp1').click(function () { $('#f-sp1')[0].click(); });
+        $('#d-sp2').click(function () { $('#f-sp2')[0].click(); });
+        $('#d-sp3').click(function () { $('#f-sp3')[0].click(); });
+        $('#d-sp4').click(function () { $('#f-sp4')[0].click(); });
+        $('#d-sp5').click(function () { $('#f-sp5')[0].click(); });
+        $('#d-sp6').click(function () { $('#f-sp6')[0].click(); });
+        $('#d-sp7').click(function () { $('#f-sp7')[0].click(); });
+        $('#d-sp8').click(function () { $('#f-sp8')[0].click(); });
+        $('#d-sp9').click(function () { $('#f-sp9')[0].click(); });
+        $('#d-sp10').click(function () { $('#f-sp10')[0].click(); });
+
+        $("#formChkEvaluation").submit(function (e) {
+                e.preventDefault();
+
+                // Mostramos el Ajax Loader
+                //$("#AjaxLoader").show("fast");
+
+                // Deshabilitamos el botón de Submit
+            $("#btnConsultar").prop("disabled", true);
+
+            //Limpiar formulario
+            $("#informe").val("");
+            $("#observacion").val("");
+            $("#d_a").removeAttr("style after");
+            $("#d_b").removeAttr("style after");
+            $("#d_c").removeAttr("style after");
+            $("#d_d").removeAttr("style after");
+            $("#d_e").removeAttr("style after");
+            $("#d_f").removeAttr("style after");
+            $("#d_g").removeAttr("style after");
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-a:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-b:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-c:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-d:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-e:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-f:after {background: #808080;}";
+            var styleElem = document.head.appendChild(document.createElement("style"));
+            styleElem.innerHTML = ".escala-g:after {background: #808080;}";
+
+                $.ajax({
+                    url: "@Url.Action("ChkEvaluation", "Evaluacion")", // Url
+                    data: {
+                            // Datos / Parámetros
+                        Folio: $("#folio").val()
+                    },
+                    type: "post"  // Verbo HTTP
+                })
+                // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        console.log(result);
+                        if (result.informe != null) {
+
+                            // Actualiza el resultado HTML
+                            //$("#PostList").html(result);
+                            $("#divDescripcion").show();
+                            // Un pequeño esfecto especial ;)
+                            $("#divDescripcion .row").hide();
+                            $("#divDescripcion .row").slideToggle("fast");
+
+                            // Limpia el formulario
+                            //$("#folio").val("");
+
+                            //LLenamos el formiulario
+                            $("#informe").val(result.informe).prop("readonly", true);
+                            $("#observacion").val(result.observacion).prop("readonly", true);
+                            var styleElem = document.head.appendChild(document.createElement("style"));
+                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            $(".escala-" + result.letra).css("background", result.color);
+                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            //console.log(rutaInforme);
+                            $('#btnDownInfo').attr('href', rutaInforme);
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            $("#btnConsultar").prop("disabled", false);
+
+                            // Mostramos un mensaje de éxito.
+                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            $("#divDescripcion").hide();
+                            // Mostramos un mensaje de error.
+                            $("#alertFolio").append(result);
+
+                            // Habilitamos el botón de Submit
+                            $("#btnConsultar").prop("disabled", false);
+
+                            showAlert();
+                        }
+                        
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
+        });
+
+        function showAlert() {
+
+            setTimeout(function () {
+
+                $("#alerta").fadeOut(1500);
+
+            }, 6000);
+
+
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 12000);
+
+        }
+    });
+</script>

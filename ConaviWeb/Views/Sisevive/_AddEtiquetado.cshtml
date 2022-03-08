@@ -1,0 +1,60 @@
+﻿@model ConaviWeb.Model.Sisevive.Etiquetado
+<form id="formUpload" enctype="multipart/form-data" method="post" asp-action="AddEtiquetado">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <h4>Carga de información</h4>
+    <hr class="red">
+    <br />
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="form-group">
+                <label>Folio*</label>
+                <input asp-for="Folio" type="text" class="form-control">
+                <span asp-validation-for="Folio" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div id="divAdd" class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>
+                    Carta responsiva y listado de CUVs** (.xls)
+                </label>
+                <div id="d-sp1" class="file-select" style="height: 50px;">
+                    <i id="i-sp1" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="ResponsivaCuvsXls" accept=".xlsx" id="f-sp1" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="ResponsivaCuvsXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>
+                    Carta responsiva y listado de CUVs** (.pdf)
+                </label>
+                <div id="d-sp2" class="file-select" style="height: 50px;">
+                    <i id="i-sp2" class="fa fa-file-upload"></i><span id="s-sp2">Cargar un archivo</span>
+                    <input asp-for="ResponsivaCuvsPdf" accept=".pdf" id="f-sp2" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="ResponsivaCuvsPdf" class="text-danger error"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                *Folio
+                generado con la “Evaluación de Vivienda Sustentable”, será válido únicamente si la evaluación fue Aprobada
+            </p>
+            <p>
+                **Los
+                datos en ambos archivos deberán coincidir con lo registrado en el portal de RUV y con el reporte de reducción
+                de emisiones emitido por la CONAVI
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="btnUpload" type="submit" class="btn btn-primary pull-right"><span class="fa fa-cloud-upload"></span>&ensp;Enviar</button>
+        </div>
+    </div>
+</form>
+
+@section scripts{@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

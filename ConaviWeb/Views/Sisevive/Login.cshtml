@@ -1,0 +1,73 @@
+﻿@model ConaviWeb.Model.Request.UserRequest
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Login";
+}
+
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="form-signin-heading">Datos de acceso</h2>
+            </div>
+            <div class="panel-body">
+                @Html.Raw(@ViewBag.Alert)
+                @*@if (!_signInManager.IsSignedIn(User))
+            {*@
+                <form method="post" asp-action="Auth">
+                    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+
+                    <div class="form-group">
+                        <label asp-for="SUser"></label>
+                        <input class="form-control" asp-for="SUser" />
+                        <span asp-validation-for="SUser" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input class="form-control" asp-for="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <br />
+
+                    <button class="btn btn-primary pull-right" type="submit"><span class="fa fa-sign-in"></span>&ensp;Iniciar Sesión</button>
+                </form>
+                @*}
+            else
+            {
+                Context.Response.Redirect("/inicio/Acerca_de");
+            }*@
+            </div>
+            
+            <div class="panel-footer">
+                <span>
+                    ¿No estás registrado?
+                </span>
+                <a href="@Url.Action("Index", "UserSisevive")">Crear nuevo usuario</a>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+    <script>
+        $(document).ready(function () {
+            showAlert();
+        });
+        $(window).on('beforeunload', function () {
+            console.log("before");
+            
+            $('.spinner').css('display', 'block');
+        });
+
+        function showAlert() {
+
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+
+            }, 3000);
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 6000);
+
+        }
+    </script>

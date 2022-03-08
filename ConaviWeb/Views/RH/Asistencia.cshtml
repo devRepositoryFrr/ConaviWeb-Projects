@@ -1,0 +1,274 @@
+﻿@{
+    ViewData["Title"] = "Asistencia";
+}
+<form id="formRepoAsistencia">
+    <div class="form-row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <div id="spinner" class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            @Html.Raw(@ViewBag.Alert)
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-md-4">
+                        <label>Periodo</label>
+                        <select id="slctTipo" class="form-control">
+                            <option value="1">Quincenal</option>
+                            <option value="2">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label>Año</label>
+                        <select id="slctAnio" class="form-control">
+                            <option value="1">2022</option>
+                            <option value="2">2021</option>
+                        </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label>Periodo Mes</label>
+                        <select id="slctPeriodo" class="form-control">
+                            <option value="1">Enero-01</option>
+                            <option value="2">Enero-02</option>
+                            <option value="3">Febrero-01</option>
+                            <option value="4">Febrero-02</option>
+                            <option value="5">Marzo-01</option>
+                            <option value="6">Marzo-02</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group datepicker-group col-md-4">
+                        <label class="control-label" for="calendar">Fecha inicio:</label>
+                        <input class="form-control calendar" id="firstDate" type="text">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group datepicker-group col-md-4">
+                        <label class="control-label" for="calendar2">Fecha fin:</label>
+                        <input class="form-control calendar" id="lastDate" type="text">
+                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group  col-md-4">
+                        <label>Nombre del Jefe:</label>
+                        <select id="slctJefe" class="form-control">
+                            <option value="1">Dra. Edna Elena Vega Rangel</option>
+                            <option value="2">Mtro. Alonso Cacho Silva</option>
+                            <option value="3">Mtro. Alejandro Lenin Sierra Urtaza</option>
+                            <option value="4">Mtro. Armando Sergio Bustamante Fuentes</option>
+                            <option value="6">Lic. Francisco Javier Gordillo Paniagua</option>
+                            <option value="8">César Rodolfo Vélez Reyes</option>
+                            <option value="9">Lic. Livia Zaragoza García</option>
+                            <option value="10">Lic. David May Flores</option>
+                            <option value="11">Lic. Silvia Circe Díaz Duarte</option>
+                            <option value="12">Arq. Juan Javier Granados Barrón</option>
+                            <option value="13">Ing. Enrique Santos Santos</option>
+                            <option value="14">Lic. Oscar Godínez Martínez</option>
+                            <option value="15">Arq. Ruth Angélica Álvarez Alonso</option>
+                            <option value="16">Arq. Humberto Rello Gómez</option>
+                            <option value="17">Ing. Luis Felipe García García</option>
+                            <option value="18">Mtro. Jorge Ángel Marcos Vega</option>
+                            <option value="19">Lic. José Luis Maciel Hernández</option>
+                            <option value="20">Lic. Nadia Padilla Magaña</option>
+                        </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label>Puesto del jefe:</label>
+                        <input class="form-control" id="puestoJefe" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            <button class="btn btn-primary " type="submit" id="btnGenerar"><span class="fa fa-check"></span>&ensp;Generar reporte</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="results"></div>
+</form>
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script>
+  var between = [];
+    $(document).ready(function () {
+        $('.calendar').datepicker({dateFormat: 'dd-mm-yy',
+            inline: true,
+            onSelect: function (dateText, inst) {
+                var date = $(this).datepicker('getDate'),
+                    day = date.getDate(),
+                    month = date.getMonth() + 1,
+                    year = date.getFullYear();
+                alert(day + '-' + month + '-' + year);
+            }
+});
+
+        $('#slctPeriodo').on('change', function () {
+            let year = $("#slctAnio option:selected").text();
+            let array = ['01', '01', '02', '02', '03', '03', '04', '04', '05', '05', '06', '06', '07', '07', '08', '08', '09', '09', '10', '10', '11', '11', '12', '12'];
+            let month = array[(parseInt(this.value) - 1)];
+            let cDate = year + "-" + month;
+            var today = new Date(cDate);
+
+
+            let range = $("option:selected", this).text();
+            let out = range.substr(range.indexOf("-") + 1);
+            if (out == "01") {
+                var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+                let fDay = firstDayOfMonth.getDate();
+                let Month = firstDayOfMonth.getMonth() + 1;
+                let Year = firstDayOfMonth.getFullYear();
+
+                var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 15);
+                let lDay = lastDayOfMonth.getDate();
+
+                var formattedFDate = ('00' + fDay).slice(-2) + "-" + ('00' + Month).slice(-2) + "-" + Year;
+                var formattedLDate = lDay + "-" + ('00' + Month).slice(-2) + "-" + Year;
+                $("#firstDate").val(formattedFDate);
+                $("#lastDate").val(formattedLDate);
+            } else {
+                var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 16);
+                let fDay = firstDayOfMonth.getDate();
+                let Month = firstDayOfMonth.getMonth() + 1;
+                let Year = firstDayOfMonth.getFullYear();
+
+                var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 2, 0);
+                let lDay = lastDayOfMonth.getDate();
+
+                var formattedFDate = fDay + "-" + ('00' + Month).slice(-2) + "-" + Year;
+                var formattedLDate = lDay + "-" + ('00' + Month).slice(-2) + "-" + Year;
+
+                $("#firstDate").val(formattedFDate);
+                $("#lastDate").val(formattedLDate);
+            }
+
+            var start = $("#firstDate").datepicker('getDate');
+            var end = $("#lastDate").datepicker('getDate');
+               var currentDate = new Date(start);
+            while (currentDate <= end) {
+                console.log(currentDate.getDay());
+                if (currentDate.getDay() != 0 && currentDate.getDay() != 6) {
+                    //console.log("FIN DE SEMANA");
+                    let DayOfMonth = new Date(currentDate);
+                    let Day = DayOfMonth.getDate();
+                    let Month = DayOfMonth.getMonth() + 1;
+                    let Year = DayOfMonth.getFullYear();
+
+                    let formattedLDate = Day + "-" + ('00' + Month).slice(-2) + "-" + Year;
+                    between.push(formattedLDate);
+
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            //$('#results').html(between.join('<br> '));
+
+        });
+
+        $("#formRepoAsistencia").submit(function (e) {
+                e.preventDefault();
+        //Recuperamos datos
+        let periodo = $("#firstDate").val() + " al " + $("#lastDate").val();
+        let puestoJefe = $("#puestoJefe").val();
+        let nombreJefe = $("#slctJefe option:selected").text();
+        let fechas = between;
+        var myData = { Periodo: periodo, NombreJefe: nombreJefe, PuestoJefe: puestoJefe, Fechas: fechas };
+        var val = JSON.stringify(myData);
+        console.log(val);
+
+                // Mostramos el Ajax Loader
+                //$("#AjaxLoader").show("fast");
+
+                // Deshabilitamos el botón de Submit
+            $("#btnGenerar").prop("disabled", true);
+
+            //Limpiar formulario
+           //$("#informe").val("");
+
+
+                $.ajax({
+                    url: "@Url.Action("GeneratePDF", "Asistencia")", // Url
+                    contentType: 'application/json',
+                    data:
+                        // Datos
+                        val,
+                    type: "post"  // Verbo HTTP
+                })
+                // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        console.log(result);
+                        if (result.informe != null) {
+
+                            // Actualiza el resultado HTML
+                            //$("#PostList").html(result);
+                            $("#divDescripcion").show();
+
+                            // Un pequeño esfecto especial ;)
+                            $("#divDescripcion .row").hide();
+                            $("#divDescripcion .row").slideToggle("fast");
+
+                            // Limpia el formulario
+                            //$("#folio").val("");
+
+                            //LLenamos el formiulario
+                            $("#informe").val(result.informe).prop("readonly", true);
+                            $("#observacion").val(result.observacion).prop("readonly", true);
+                            var styleElem = document.head.appendChild(document.createElement("style"));
+                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            $(".escala-" + result.letra).css("background", result.color);
+                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            //console.log(rutaInforme);
+                            $('#btnDownInfo').attr('href', rutaInforme);
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            $("#btnConsultar").prop("disabled", false);
+
+                            // Mostramos un mensaje de éxito.
+                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            $("#divDescripcion").hide();
+                            // Mostramos un mensaje de error.
+                            $("#alertFolio").append(result);
+
+                            // Habilitamos el botón de Submit
+                            $("#btnGenerar").prop("disabled", false);
+
+                            showAlert();
+                        }
+
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
+        });
+    });
+
+
+</script>

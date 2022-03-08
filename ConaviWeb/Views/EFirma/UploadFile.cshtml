@@ -1,0 +1,187 @@
+﻿@model ConaviWeb.Model.Request.FileRequest
+@{
+    ViewBag.Title = "Carga";
+}
+<form id="formUpload" enctype="multipart/form-data" method="post" asp-action="LoadFile">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="spinner" class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    @Html.Raw(@ViewBag.Alert)
+                </div>
+                <div class="col-md-4">
+                    <button id='open' class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#showmodal"><span class="fa fa-plus"></span>&ensp;Agregar partición</button>
+                </div>
+            </div>
+            <div class="row col-md-4">
+                <div class="form-group">
+                    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+                    <label asp-for="Partition"></label>
+                    <select id="slctPartition" class="form-control" asp-for="Partition" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Partitions"], "Id", "Text"))">
+                        <option value="">--Select--</option>
+                    </select>
+                    <span asp-validation-for="Partition" class="text-danger"></span>
+                </div>
+                <div class="divUpload" style="display:none;">
+                    <div class="form-group">
+                        <label asp-for="FileCollection"></label>
+                        <input asp-for="FileCollection" type="file" accept=".pdf" multiple>
+                        <span asp-validation-for="FileCollection" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button id="btnUpload" type="submit" class="btn btn-primary"><span class="fa fa-cloud-upload"></span>&ensp;Cargar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="divTable" style="display:none;">
+    @{
+        @await Html.PartialAsync("../EFirma/_ListaCargados")
+    }
+</div>
+
+<!-- Modal -->
+<div class="modal fade fade-" style="z-index:1041" id="showmodal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../EFirma/_AddItems")
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}
+<script>
+    $(document).ready(function () {
+        showAlert();
+        $("#spinner").hide();
+        $('#slctPartition').on('change', function () {
+            //console.log("OnChange");
+            var partition = this.value;
+            if (partition == "") {
+                $('#divTable').hide();
+                $('.divUpload').hide();
+               // $("#btnAddProcedure").attr('href', '#');
+            } else {
+                $('#divTable').show();
+                $('.divUpload').show();
+                showTable(partition);
+            }
+        });
+
+        $('#partitionText').on("change keypress paste", function (e) {
+            var regex = new RegExp("^[a-zA-Z0-9]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+    });
+
+    $(window).on('beforeunload', function () {
+        console.log("before");
+        $('.spinner').css('display', 'block');
+    });
+
+    function showTable(partition) {
+        $("#spinner").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "/Lista/ListDetailAjax" + '/' + partition,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    //fail: function (jqXHR, textStatus, err) { console.log(err); },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+    }
+
+        var columns = [
+            {
+                "targets": -1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    //return '<a href="/customers/edit/' + row.id + '">Edit</a> | <a href="/customers/details/' + row.id + '">Details</a> | <a href="/customers/delete/' + row.id + '">Delete</a>';
+                    return '<a href="../' + row.filePath + "/" + row.fileName + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            { "name": "Id", "data": "id", "targets": 0, "visible": false },
+            { "name": "FilePath", "data": "filePath", "targets": 1 },
+            { "name": "FileName", "data": "fileName", "targets": 2 },
+            { "name": "DateUpload", "data": "dateUpload", "targets": 3 },
+            { "name": "Status", "data": "status", "targets": 4 }
+    ];
+
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+            
+        }, 3000);
+
+
+        setTimeout(function () {
+            
+            $("#alerta").remove();
+        }, 6000);
+
+    }
+
+</script>
+
+
+
+

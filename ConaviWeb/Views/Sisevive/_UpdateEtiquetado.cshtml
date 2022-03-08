@@ -1,0 +1,96 @@
+﻿@model ConaviWeb.Model.Sisevive.EtiqCustom
+<script src="~/js/jquery-1.11/jquery.min.js" type="text/javascript"></script>
+
+<form id="formUpdateEtiquetado" enctype="multipart/form-data" method="post" asp-controller="Admin" asp-action="UpdateEtiquetado">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <div class='modal-header'>
+        <h4 id='titulo-modal' style="font-weight: 300">Actualizar Etiquetado</h4>
+    </div>
+    <div class='modal-body' style="height: 550px; overflow-x: hidden; overflow-y: auto;">
+        <input id="idEtiquetado" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Informe"></label>
+                    <select id="slctInforme2" asp-for="Informe" class="form-control">
+                        <option value="">--Select--</option>
+                        <option value="1">Recibido</option>
+                        <option value="2">En revisión</option>
+                        <option value="3">Aprobado</option>
+                        <option value="4">Rechazado</option>
+                    </select>
+                </div>
+                <span id="slctInforme-error2" class="text-danger field-validation-error" data-valmsg-for="Informe" data-valmsg-replace="true" style="display:none">
+                    <span class="">El campo Informe es requerido</span>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Observacion"></label>
+                    <textarea name="Observacion" id="Observacion2" class="form-control" asp-for="Observacion" autocomplete="off" rows="6"> </textarea>
+                    <span id="observacion-error2" class="text-danger field-validation-error" data-valmsg-for="Observacion" data-valmsg-replace="true" style="display:none">
+                        <span class="">El campo Observacion es requerido</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="ArchivoInforme"></label>
+                    <div id="d-sp2" class="file-select" style="height: 50px;">
+                        <i id="i-sp2" class="fa fa-file-upload"></i><span id="s-sp2">Cargar un archivo</span>
+                        <input asp-for="ArchivoInforme" accept=".pdf" id="f-sp2" type="file" style="visibility: hidden">
+                    </div>
+                    <span id="archivoInforme-error2" class="text-danger field-validation-error" data-valmsg-for="ArchivoInforme" data-valmsg-replace="true" style="display:none;">
+                        <span class="">El campo ArchivoInforme es requerido</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#formUpdateEtiquetado").submit(function (e) {
+            var file = $("#f-sp2").val();
+            var slctInfo = $("#slctInforme2").val();
+            var observ = $("#Observacion2").val();
+            if (slctInfo == "") {
+                console.log("Entro al error vacio");
+                $("#slctInforme-error2").show();
+                e.preventDefault();
+            }
+            else if (slctInfo == 3) {
+                console.log("Entro al error aprobado");
+                if (file == "") {
+                    $("#archivoInforme-error2").show();
+                    e.preventDefault();
+                }
+            }
+            else if (slctInfo == 4) {
+                console.log("Entro al error rechazado");
+                if (observ == "") {
+                    $("#observacion-error2").show();
+                    e.preventDefault();
+                }
+                if (file == "") {
+                    $("#archivoInforme-error2").show();
+                    e.preventDefault();
+                }
+            }
+
+        });
+    });
+
+
+</script>

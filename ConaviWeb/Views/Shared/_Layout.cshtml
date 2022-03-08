@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="conavi">
+    <meta name="author" content="developer">
+    @*
+        <link rel="icon" href="../../favicon.ico">*@
+    <title>@ViewData["Title"] - CONAVI</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109077299-1"></script>
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-109077299-1');
+    </script>
+
+    <link rel="shortcut icon" href="https://framework-gb.cdn.gob.mx/favicon.ico">
+    <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    @*JQuery*@
+    <script src="~/js/jquery-1.11/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var url = window.location.pathname;
+            var urlaspx = url.length != 0 ? url : 'Dashboard/Inicio';
+
+            var idtab;
+
+        });
+
+        $(document).ready(function () {
+
+            $(".parent").click(function () {
+                $(".multi-collapse").collapse('hide');
+            });
+
+            $(".child").click(function () {
+                $(".submenu").collapse('hide');
+            });
+
+        });
+
+        function pages(url) {
+            window.location.href = url;
+        }
+
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        }
+    </script>
+    @*SNIIV*@
+    <link href="~/css/style1.css" rel="stylesheet" type="text/css" />
+    @*NavBarConavi*@
+    <link href="~/css/cssConavi/navbar.css" rel="stylesheet" type="text/css" />
+    @*ContentConavi*@
+    <link href="~/css/cssConavi/content.css" rel="stylesheet" type="text/css" />
+    @*AlertConavi*@
+    <link href="~/css/cssConavi/alert.css" rel="stylesheet" type="text/css" />
+    @*ModalConavi*@
+    <link href="~/css/cssConavi/modal.css" rel="stylesheet" type="text/css" />
+    @*ScrollConavi*@
+    <link href="~/css/cssConavi/scroll.css" rel="stylesheet" type="text/css" />
+    @*SpinnerConavi*@
+    <link href="~/css/cssConavi/spinnerCnvi.css" rel="stylesheet" type="text/css" />
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    <!-- Menú desplegable en vista parcial-->
+    @*@if (User.Identity.IsAuthenticated)
+        {*@
+    @*@await Html.PartialAsync("_NavMenu")*@
+
+    @*@await Component.InvokeAsync(nameof(ConaviWeb.Controllers.NavigationComponent))*@
+
+    @*}*@
+    
+
+
+
+    @RenderSection("Image", required: false)
+
+    @RenderSection("Mapa", required: false)
+    <div class="spinner" style="display:none">
+        <div class="cubeCnvi" id="Bloqueo">
+            <div class="sk-cube-grid">
+                <div class="sk-cube sk-cube1">
+                </div>
+                <div class="sk-cube_1 sk-cube2">
+                </div>
+                <div class="sk-cube_2 sk-cube3">
+                </div>
+                <div class="sk-cube_3 sk-cube4">
+                </div>
+                <div class="sk-cube_4 sk-cube5">
+                </div>
+                <div class="sk-cube_5 sk-cube6">
+                </div>
+                <div class="sk-cube_6 sk-cube7">
+                </div>
+                <div class="sk-cube_7 sk-cube8">
+                </div><div class="sk-cube_8 sk-cube9">
+                </div>
+                <h1 class="hCube">
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        @RenderBody()
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <div id="colofon" class="colofon red-text text-center">
+        <div class="row row-fixed">
+            <div class="col-lg-12 my-auto showcase-text">
+                <p class="lead mb-0 p-center">
+                    Avenida H. Escuela Naval Militar, número 669, piso 2 y 3, Colonia Presidentes Ejidales 1ra. Sección, Alcaldía Coyoacán, C.P. 04470, Ciudad de México.<br>Teléfono: 55.91.38.99.91<br>Opción 1<br>atencionciudadana@conavi.gob.mx
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+</body>
+</html>

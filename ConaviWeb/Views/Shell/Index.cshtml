@@ -1,0 +1,322 @@
+﻿@{
+    Layout = "_LayoutCONAVI";
+    ViewBag.Title = "Proceso ED";
+}
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="form-group col-md-4">
+        
+    </div>
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+
+    </div>
+</div>
+<form id="formShell">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Proceso</label>
+                <select id="slcProcs" class="form-control">
+                    <option value="0">--Select--</option>
+                    @{
+                        if (@TempData["rol"].ToString() == "3")
+                        {
+                            <option value="/H2H/conavi/OrdenPago/original/">Orden de Pago</option>
+                            <option value="/H2H/conavi/PagoMasivo/beneficiarios/">Pago a Beneficiarios</option>
+                            <option value="/H2H/conavi/PagoMasivo/proveedores/">Pago a Proveedores</option>
+                            <option value="/H2H/conavi/reportes/">Reportes</option>
+                            <option value="/H2H/conavi/ComprobanteOrdenPago/">Comprobantes de pago PEV</option>
+                            <option value="/H2H/conavi/OrdenPago/cancela/">Cancelación de Orden de Pago</option>
+                            <option value="/H2H/conavi/DAZ/">Deposito Azteca</option>
+                        }
+                        else if (@TempData["rol"].ToString() == "4")
+                        {
+                            <option value="/H2H/conavi/PagoMasivo/proveedores/">Pago a Proveedores</option>
+                            <option value="/H2H/conavi/RetencionExtemporanea/">Retenciones Extemporáneas</option>
+                            <option value="/H2H/conavi/reportes/">Reportes</option>
+                            <option value="/H2H/conavi/ComprobanteOrdenPago/">Comprobantes de pago PEV</option>
+                            <option value="/H2H/conavi/OrdenPago/cancela/">Cancelación de Orden de Pago</option>
+                            <option value="/H2H/conavi/DAZ/">Deposito Azteca</option>
+
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Tipo Solicitud</label>
+                <select id="slctType" class="form-control">
+                    <option value="0">--Select--</option>
+                    @*<option value="encrypt">Encriptado</option>
+                        <option value="decrypt">Desencriptado</option>*@
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+<br />
+<br />
+<br />
+
+<div class="form-group" id="divTable">
+    <form id="formTable">
+        <table id="table" class="table" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>
+                        NOMBRE ARCHIVO
+                    </th>
+                    <th>
+                        VoBo
+                    </th>
+                    <th>
+                        ACCIONES
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script>
+    var rol = "";
+    $(document).ready(function () {
+        showAlert();
+        rol = '@TempData["rol"]';
+        console.log(rol);
+    });
+        var table;
+        $(document).ready(function () {
+            $("#slctType").prop("disabled", true);
+            $("#divTable").hide();
+        });
+
+    $('#slcProcs').on('change', function () {
+        var textValue = this.value;
+        console.log(textValue);
+        $("#slctType").val(0);
+        $('#slctType')
+                .empty()
+            .append('<option selected="selected" value="0">--Select--</option>');
+        $("#divTable").show();
+        $('#table').DataTable().clear().draw();
+
+        if (textValue == 0) {
+            $("#slctType").prop("disabled", true);
+            $("#divTable").hide();
+        }
+        switch (textValue) {
+            case "/H2H/conavi/PagoMasivo/proveedores/":
+                $("#slctType").append($("<option />").val("encrypt").text("Encriptado"));
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/ComprobanteOrdenPago/":
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/reportes/":
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/DAZ/":
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/RetencionExtemporanea/":
+                $("#slctType").append($("<option />").val("encrypt").text("Encriptado"));
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/PagoMasivo/beneficiarios/":
+                $("#slctType").append($("<option />").val("encrypt").text("Encriptado"));
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/OrdenPago/original/":
+                $("#slctType").append($("<option />").val("encrypt").text("Encriptado"));
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            case "/H2H/conavi/OrdenPago/cancela/":
+                $("#slctType").append($("<option />").val("encrypt").text("Encriptado"));
+                $("#slctType").append($("<option />").val("decrypt").text("Desencriptado"));
+                $("#slctType").prop("disabled", false);
+                break;
+            default:
+                console.log("default: ", textValue);
+        }
+    });
+
+    $('#slctType').on('change', function () {
+        var textValue = this.value;
+        console.log(textValue);
+        if (textValue != 0) {
+            var path = $('#slcProcs').find('option:selected').val();
+            //console.log(data);
+            
+                showTable2(textValue, path);
+            
+        }
+    });
+
+   
+    function showTable2(data, path) {
+        var pathR = path.replace(/\/+/g, '-');
+        var columns = [];
+        var columnsE = [
+            { "name": "Name", "data": "fileName", "targets": 0 },
+            {
+                "targets": 1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.dateVoBo2 != "0001-01-01T00:00:00") {
+                        return '<span class="fa fa-check" style="font-size:25px;"></span> | <span class="fa fa-check" style="font-size:25px;"></span>';
+                    } else if (row.dateVoBo1 == "0001-01-01T00:00:00") {
+                        return '<span>N/A</span>';
+                    }
+                    else {
+                        return '<span class="fa fa-check" style="font-size:25px;"></span>';
+                    }
+
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 2,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.dateVoBo2 == "0001-01-01T00:00:00" && row.dateED == "0001-01-01T00:00:00") {
+                        return '<a href="/ShellValidate/' + row.fileName + '/' + pathR + '/' + 'encrypt"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
+                    } else if (row.dateVoBo2 != "0001-01-01T00:00:00" && row.dateED == "0001-01-01T00:00:00") {
+                        return '<a href="/ShellED/' + row.fileName + '/encrypt/' + pathR + '"><i class="fa fa-lock gold" style="font-size:25px;"></i></a>';
+                    } else if (row.dateED != "0001-01-01T00:00:00") {
+                        return '<span class="fa fa-check-square-o" style="font-size:25px;"></span>';
+                    }
+                },
+                "sortable": false,
+                "className": 'text-center'
+            }
+        ];
+
+        var columnsD = [
+            { "name": "Name", "data": "fileName", "targets": 0 },
+            {
+                "targets": 1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.dateVoBo2 != "0001-01-01T00:00:00") {
+                        return '<span class="fa fa-check" style="font-size:25px;"></span> | <span class="fa fa-check" style="font-size:25px;"></span>';
+                    } else if (row.dateVoBo1 == "0001-01-01T00:00:00") {
+                        return '<span>N/A</span>';
+                    } else {
+                        return '<span class="fa fa-check" style="font-size:25px;"></span>';
+                    }
+                    
+
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 2,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.dateVoBo2 == "0001-01-01T00:00:00" && row.dateED == "0001-01-01T00:00:00") {
+                        return '<a href="/ShellValidate/' + row.fileName + '/' + pathR + '/' + 'decrypt"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
+                    } else if (row.dateVoBo2 != "0001-01-01T00:00:00" && row.dateED == "0001-01-01T00:00:00") {
+                        return '<a href="/ShellED/' + row.fileName + '/decrypt/' + pathR + '"><i class="fa fa-lock gold" style="font-size:25px;"></i></a>';
+                    } else if (row.dateED != "0001-01-01T00:00:00") {
+                        return '<span class="fa fa-check-square-o" style="font-size:25px;"></span>';
+                    }
+                },
+                "sortable": false,
+                "className": 'text-center'
+            }
+        ];
+        if (data == 'encrypt') {
+            columns = columnsE;
+        } else {
+            columns = columnsD;
+        }
+        console.log(data, path);
+            //$("#spinner").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: '@Url.Action("ListaAjaxBD", "Shell")',
+                    data: {type:data, process:path},
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    //success: function (data) {
+                    //    // Request success
+                    //    console.log(data);
+                    //},
+                    complete: function () {
+                        //$("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+    }
+
+
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 6000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 12000);
+
+    }
+</script>

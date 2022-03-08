@@ -1,0 +1,159 @@
+﻿@model ConaviWeb.Model.Request.FileRequest
+@{
+    ViewBag.Title = "Archivos Firmados";
+}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div id="spinner" class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            @*<a id="btnAddProcedure" asp-controller="ListSignedFiles" asp-action="DownloadZipFile">Descargar</a>*@
+            <div class="form-group col-md-6 divUpload">
+                <a class="btn btn-primary pull-right" id="btnAddProcedure" asp-controller="ListSignedFiles" asp-action="DownloadZipFile"><span class="fa fa-cloud-download"></span>&ensp;Descargar</a>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label asp-for="Partition"></label>
+                <select id="slctPartition" name="slctPartition" class="form-control" asp-for="Partition" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Partitions"], "Id" , "Text" ))">
+                    <option value="0">--Select--</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            RUTA
+                        </th>
+                        <th>
+                            NOMBRE
+                        </th>
+                        <th>
+                            FECHA CARGA
+                        </th>
+                        <th>
+                            ESTATUS
+                        </th>
+                        <th>
+                            DETALLE
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var table;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showTable(0);
+            var oldref = $("#btnAddProcedure").attr('href');
+            $("#btnAddProcedure").attr('href','#');
+            $('#slctPartition').on('change', function () {
+                var textValue = this.value;
+                if (textValue == 0) {
+                    $("#btnAddProcedure").attr('href', '#');
+                } else {
+                    //console.log(textValue);
+                    var newhref = oldref + '/' + textValue;
+                    //console.log(newhref);
+
+                    $("#btnAddProcedure").attr("href", newhref);
+                }
+
+                showTable(textValue);
+            });
+        });
+
+        function showTable(textValue) {
+            $("#spinner").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "/ListSigned/ListaFirmadosAjax" + '/' + textValue,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [0],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            {
+                "targets": -1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    //return '<a href="/customers/edit/' + row.id + '">Edit</a> | <a href="/customers/details/' + row.id + '">Details</a> | <a href="/customers/delete/' + row.id + '">Delete</a>';
+                    return '<a href="../' + row.filePath + "/" + row.fileName + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            { "name": "Id", "data": "id", "targets": 0, "visible": false },
+            { "name": "FilePath", "data": "filePath", "targets": 1 },
+            { "name": "FileName", "data": "fileName", "targets": 2 },
+            { "name": "DateUpload", "data": "dateUpload", "targets": 3 },
+            { "name": "Status", "data": "status", "targets": 4 }
+        ];
+
+    </script>
+}

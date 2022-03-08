@@ -1,0 +1,27 @@
+.alertaOp {
+    /*display: none;
+    position: fixed;
+    width: 50%;
+    padding: 20px;
+    margin-top: 50px;*/
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    z-index: 999
+}
+
+.alerta-sm{
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+.alerta-sm-hidden{
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}

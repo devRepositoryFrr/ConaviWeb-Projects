@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+<div>
+    <h2 style="color: #13322B; text-align: center;">Vivienda Sustentable Conavi</h2>
+    <p style="text-align: center;">
+        La
+        Comisión Nacional de Vivienda (CONAVI) cuenta con un
+        etiquetado en la categoría de “Vivienda Sustentable” para las
+        viviendas que respeten las condiciones ambientales, económicas y
+        sociales.
+    </p>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12" style="display: flex;justify-content: center;">
+                        <button class="btn btn-primary" onclick="location.href='@Url.Action("Index","Evaluacion")'">
+                            Evaluación de Vivienda Sustentable
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12" style="display: flex;justify-content: center;">
+                        <p style="height: 80px;">
+                            Evaluación
+                            de que la envolvente
+                            térmica y las tecnologías del
+                            proyecto contribuyen al ahorro
+                            energético y a la disminución de los
+                            efectos adversos al medio ambiente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12" style="display: flex;justify-content: center;">
+                        <button class="btn btn-primary" onclick="location.href='@Url.Action("Index","Etiquetado")'">
+                            Etiquetado de Vivienda Sustentable
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12" style="display: flex;justify-content: center;">
+                        <p style="height: 80px;">
+                            Validación
+                            de que la vivienda
+                            construida integra criterios de
+                            sustentabilidad y respeta las
+                            condiciones ambientales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

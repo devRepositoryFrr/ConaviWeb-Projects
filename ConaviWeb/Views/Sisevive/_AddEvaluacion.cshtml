@@ -1,0 +1,100 @@
+﻿@model ConaviWeb.Model.Sisevive.Evaluacion
+<form id="formUpload" enctype="multipart/form-data" method="post" asp-action="AddEvaluation">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <h4>Carga de información</h4>
+    <hr class="red">
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Datos generales (.xls)</label>
+                <div id="d-sp1" class="file-select" style="height: 50px;">
+                    <i id="i-sp1" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="DatoGeneralXls" accept=".xlsx" id="f-sp1" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="DatoGeneralXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>Plano de sembrado (.xls)</label>
+                <div id="d-sp2" class="file-select" style="height: 50px;">
+                    <i id="i-sp2" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="PlanoSembradoXls" accept=".xlsx" id="f-sp2" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="PlanoSembradoXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>Plano de sembrado (.pdf)</label>
+                <div id="d-sp3" class="file-select" style="height: 50px;">
+                    <i id="i-sp3" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="PlanoSembradoPdf" accept=".pdf" id="f-sp3" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="PlanoSembradoPdf" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>Planos arquitectónicos (.xls)</label>
+                <div id="d-sp4" class="file-select" style="height: 50px;">
+                    <i id="i-sp4" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="PlanoArquitectonicoXls" accept=".xlsx" id="f-sp4" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="PlanoArquitectonicoXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>Planos arquitectónicos (.pdf)</label>
+                <div id="d-sp5" class="file-select" style="height: 50px;">
+                    <i id="i-sp5" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="PlanoArquitectonicoPdf" accept=".pdf" id="f-sp5" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="PlanoArquitectonicoPdf" class="text-danger error"></span>
+            </div>
+</div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Materiales (.xls)</label>
+                <div id="d-sp6" class="file-select" style="height: 50px;">
+                    <i id="i-sp6" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="MaterialesXls" accept=".xlsx" id="f-sp6" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="MaterialesXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>Materiales (.pdf)</label>
+                <div id="d-sp7" class="file-select" style="height: 50px;">
+                    <i id="i-sp7" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="MaterialesPdf" accept=".pdf" id="f-sp7" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="MaterialesPdf" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>DEEVi (.xls)</label>
+                <div id="d-sp8" class="file-select" style="height: 50px;">
+                    <i id="i-sp8" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="DeeviXls" accept=".xlsx" id="f-sp8" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="DeeviXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>SAAVi (.xls)</label>
+                <div id="d-sp9" class="file-select" style="height: 50px;">
+                    <i id="i-sp9" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="SaaviXls" accept=".xlsx" id="f-sp9" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="SaaviXls" class="text-danger error"></span>
+            </div>
+            <div class="form-group">
+                <label>IDG (.xls)</label>
+                <div id="d-sp10" class="file-select" style="height: 50px;">
+                    <i id="i-sp10" class="fa fa-file-upload"></i><span id="s-sp1">Cargar un archivo</span>
+                    <input asp-for="IdgXls" accept=".xlsx" id="f-sp10" type="file" style="visibility: hidden">
+                </div>
+                <span asp-validation-for="IdgXls" class="text-danger error"></span>
+            </div>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <button id="btnUpload" type="submit" class="btn btn-primary pull-right"><span class="fa fa-cloud-upload"></span>&ensp;Enviar</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

@@ -1,0 +1,34 @@
+
+
+
+body {
+    overflow: overlay !important;
+  }
+  
+  .div1 {
+    background: grey;
+    margin-top: 200px;
+    margin-bottom: 20px;
+    height: 20px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #661e2c;
+}
+
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #B38E5D;
+}
+
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }

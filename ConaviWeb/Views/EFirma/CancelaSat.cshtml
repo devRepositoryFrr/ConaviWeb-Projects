@@ -1,0 +1,48 @@
+﻿@model ConaviWeb.Model.Request.DataSignRequest
+@{
+    ViewBag.Title = "Cancelación";
+}
+@*<div class="spinner" style="display:none">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>*@
+
+<div class="form-group row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form id="formSign" class="submit-once" enctype="multipart/form-data" method="post" asp-route="Cancel">
+                    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+                    <div class="form-group">
+                        <label asp-for="KeySat"></label>
+                        <input asp-for="KeySat" type="file" accept=".key">
+                        <span asp-validation-for="KeySat" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CerSat"></label>
+
+                        <input asp-for="CerSat" type="file" accept=".cer">
+                        <span asp-validation-for="CerSat" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PassFirmante"></label>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" asp-for="PassFirmante" />
+                        <span asp-validation-for="PassFirmante" class="text-danger"></span>
+                    </div>
+                    @*<label asp-for="ArrayFiles"></label>*@
+                    <div class="form-group">
+                        <input class="form-control" id="arrayCHK" type="hidden" asp-for="ArrayFiles" readonly />
+                        <span asp-validation-for="ArrayFiles" class="text-danger"></span>
+                    </div>
+                    <button type="submit" id="btnFirma" class="btn btn-primary pull-right"><span class="fa fa-exclamation-triangle"></span>&ensp;Cancelar Firma</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+        @section Scripts {@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}}

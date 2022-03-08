@@ -1,0 +1,172 @@
+
+.hCube{
+    font-size: 14px;
+}
+
+.sk-cube-grid {
+    width: 180px;
+    height: 180px;
+    margin: 100px auto;
+    margin: 0;
+    position: absolute !important;
+    top: 50% !important;
+    -ms-transform: translateY(-50%) !important;
+    transform: translateY(-50%) !important;
+    right:44%
+}
+
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: transparent;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+          background-image: url(../../img/spinnerCnvi/9.png);
+    background-size: 100% 100%;
+}
+
+    .sk-cube-grid .sk-cube_1 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/8.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_2 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/7.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_3 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/6.png);
+        background-size: 100% 100%;
+    }
+
+
+    .sk-cube-grid .sk-cube_4 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/5.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_5 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/4.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_6 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/3.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_7 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/2.png);
+        background-size: 100% 100%;
+    }
+
+    .sk-cube-grid .sk-cube_8 {
+        width: 33%;
+        height: 33%;
+        background-color: transparent;
+        float: left;
+        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+        background-image: url(../../img/spinnerCnvi/1.png);
+        background-size: 100% 100%;
+    }
+
+
+
+
+
+
+
+
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
+}

@@ -1,0 +1,240 @@
+﻿@model ConaviWeb.Model.Request.FileRequest
+@{
+    ViewBag.Title = "Cancelación";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <div id="spinner" class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <div class="form-group">
+                    @Html.Raw(@ViewBag.Alert)
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label asp-for="Partition"></label>
+                <select id="slctPartition" name="slctPartition" class="form-control" asp-for="Partition" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Partitions"], "Id" , "Text" ))">
+                    <option value="0">--Select--</option>
+                </select>
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="hidden" asp-for="Partition" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th><input type="checkbox" class="master"></th>
+                        <th>
+                            RUTA
+                        </th>
+                        <th>
+                            NOMBRE
+                        </th>
+                        <th>
+                            FECHA CARGA
+                        </th>
+                        <th>
+                            ESTATUS
+                        </th>
+                        <th>
+                            DETALLE
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+    <br />
+    <br />
+    <br />
+    @{
+        @await Html.PartialAsync("../EFirma/CancelaSat")
+
+    }
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script>
+        var table;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showAlert();
+            showTable(0);
+            $('#slctPartition').on('change', function () {
+                var textValue = this.value;
+
+                showTable(textValue);
+            });
+
+            // Handle click on "Select all" control
+            $('.master').on('click', function () {
+                // Get all rows with search applied
+                var rows = table.rows({ 'search': 'applied' }).nodes();
+                // Check/uncheck checkboxes for all rows in the table
+                $('input[type="checkbox"]', rows).prop('checked', this.checked);
+                var result = setArrayChks();
+            });
+
+            // Handle click on checkbox to set state of "Select all" control
+            $('#table tbody').on('change', 'input[type="checkbox"]', function () {
+                var result = setArrayChks();
+                // If checkbox is not checked
+                if (!this.checked) {
+                    var el = $('.master').get(0);
+                    // If "Select all" control is checked and has 'indeterminate' property
+                    if (el && el.checked && ('indeterminate' in el)) {
+                        // Set visual state of "Select all" control
+                        // as 'indeterminate'
+                        el.indeterminate = true;
+                    }
+                }
+            });
+
+        });
+            $(window).on('beforeunload', function () {
+                console.log("before");
+                $('.spinner').css('display', 'block');
+            });
+
+        function showTable(textValue) {
+            $("#spinner").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "/ListCancel/ListaFirmadosAjax" + '/' + textValue,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            {
+                "targets": -1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    //return '<a href="/customers/edit/' + row.id + '">Edit</a> | <a href="/customers/details/' + row.id + '">Details</a> | <a href="/customers/delete/' + row.id + '">Delete</a>';
+                    return '<a href="../' + row.filePath + "/" + row.fileName + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            { "name": "Id", "data": "id", "targets": 0, "visible": false },
+            {
+                "targets": 1,
+                'data': 'id',
+                'render': function (data, type, row) {
+                    if (type === 'display') {
+                        if (row.status === 'Firmado' && row.tipo_apoyo != '') {
+                            data = '<input type="checkbox" id="' + data + '" class="sub_chk" value="' + data + '">';
+                        } else {
+                            data = '';
+                        }
+                    }
+                    return data;
+                }
+            },
+            { "name": "FilePath", "data": "filePath", "targets": 2 },
+            { "name": "FileName", "data": "fileName", "targets": 3 },
+            { "name": "DateUpload", "data": "dateUpload", "targets": 4 },
+            { "name": "Status", "data": "status", "targets": 5 }
+        ];
+
+        function setArrayChks(){
+            var matches = [];
+            var checkedcollection = table.$(".sub_chk:checked", { "page": "all" });
+            checkedcollection.each(function (index, elem) {
+                matches.push($(elem).val());
+            });
+            console.log(matches);
+            //matches && matches.length > 0
+            if (matches.length > 0) {
+                var array = matches.join(",");
+                $('[id$=arrayCHK]').val(array);
+                return true;
+            } else {
+                $('[id$=arrayCHK]').val('');
+                return false;
+            }
+            }
+
+            function showAlert() {
+
+                setTimeout(function () {
+                    $("#alerta").fadeOut(1500);
+
+                }, 3000);
+
+
+                setTimeout(function () {
+
+                    $("#alerta").remove();
+                }, 6000);
+
+            }
+
+        </script>
+    }
+
+

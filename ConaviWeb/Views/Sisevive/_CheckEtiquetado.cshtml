@@ -1,0 +1,54 @@
+﻿@model ConaviWeb.Model.Sisevive.Etiquetado
+<form id="formChkEtiquetado">
+    <h4>Revisión de solicitud</h4>
+    <hr class="red">
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div id="alertFolio" class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <button id="btnConsultar" type="submit" class="btn btn-primary pull-right"><span class="fa fa-search"></span>&ensp;Consultar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Folio</label>
+                <input id="folio" type="text" class="form-control">
+                <span class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div id="divDescripcion" style="display:none">
+        <h4>Informe de etiquetado</h4>
+        <hr class="red">
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Informe</label>
+                    <input id="informe" type="text" class="form-control">
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Observaciones</label>
+                    <textarea id="observacion" class="form-control" rows="12"></textarea>
+                    <span class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a id="btnDownInfo" href="#" target="_blank" class="btn btn-primary "><span class="fa fa-cloud-download"></span>&ensp;Descargar informe</a>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+</form>

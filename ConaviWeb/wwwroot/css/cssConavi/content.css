@@ -1,0 +1,452 @@
+@media (pointer:none),
+(pointer:coarse) {
+    .file-select,
+    .btn-default,
+    .btn-primary {
+        width: 100% !important;
+    }
+    .queja_formulario{
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+}
+
+html {
+    font-family: 'Montserrat' !important;
+    font-family: sans-serif !important;
+    -ms-text-size-adjust: 100% !important;
+    -webkit-text-size-adjust: 100% !important;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: .65;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+}
+
+.img-back{
+    background-image: url('../img/pleca.png') !important;
+    background-size: cover !important;
+}
+
+/*conavi icon*/
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('../../fonts/icomoon.eot?1gzlwq');
+    src: url('../../fonts/icomoon.eot?1gzlwq#iefix') format('embedded-opentype'), url('../../fonts/icomoon.ttf?1gzlwq') format('truetype'), url('../../fonts/icomoon.woff?1gzlwq') format('woff'), url('../../fonts/icomoon.svg?1gzlwq#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.icon-cnv:before {
+    content: "\e900";
+}
+
+
+/*conavi icon*/
+
+p {
+    text-align: justify;
+}
+
+.p-center {
+    text-align: center !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    pointer-events: all !important;
+}
+
+.file-select {
+    padding: 10px !important;
+    font-size: 18px;
+    background-color: #b8925f;
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    width: 209px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.file-select:hover {
+    background-color: #b8915fa4;
+    color: #fff;
+}
+
+select:focus,
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+    border-color: #b38e5d77 !important;
+    box-shadow: 0 1px 1px #b38e5d77 inset, 0 0 8px #b38e5d77 !important;
+    
+}
+
+.number {
+    -moz-appearance: textfield;
+ }
+
+select,
+button,
+input {
+    margin-bottom: 12.5px;
+}
+
+button {
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.subtitulo {
+    font-weight: lighter !important;
+    font-size: 1.4em;
+    margin: 0.83em 0;
+}
+
+.p-text {
+    text-align: justify;
+}
+
+.izq {
+    margin-right: 100px;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.breadcrumb {
+    margin-top: 25px !important;
+}
+
+.breadcrumb>li {
+    display: inline-block;
+}
+
+.text-dot {
+    height: 8px;
+    width: 8px;
+    margin: 0 2px;
+    background-color: #821b3f;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.enlace {
+    cursor: pointer;
+}
+
+.enlace:hover{
+color: inherit;
+}
+
+.ca {
+    width: 400px;
+    justify-self: center;
+}
+
+.img-page {
+    width: 100%;
+    height: 290px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+/*Galería*/
+
+
+/**/
+
+.div-color {
+    background: #f3eee6;
+    padding: 20px;
+    overflow: hidden;
+    font-size: 15px;
+}
+
+.p-decor {
+    border-color: #821b3f;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    border-left-width: 10px;
+    border-right-width: 1px;
+    padding: 10px;
+}
+
+.bottom-buffer-x15 {
+    margin-bottom: 15px;
+}
+
+.social {
+    text-align: center;
+}
+
+.social-text {
+    font-size: 35px;
+    text-align: center;
+    margin: 20px;
+}
+
+a:focus {
+    outline: 0 !important;
+}
+
+.red {
+    margin-bottom: 20px !important;
+    color: #661e2c !important;
+}
+
+.gold {
+    color: #b8925f;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.gold:hover{
+    color: #821b3f !important
+}
+
+.green {
+    color: #3e7065;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.font-xl{
+    font-size: 24px !important;
+}
+
+.red-ic {
+    color: #661e2c !important;
+}
+
+.card-center{
+    display: flex;
+    align-items: center;
+    align-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card {
+    padding: 10px;
+    border-width: 2px;
+    width: 80%;
+    height: 199.5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #821b3f65;
+    position: relative;
+    margin: auto;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 0 3px 20px rgb(130 27 63 / 0.4);
+}
+
+.shine {
+    box-shadow: 0 3px 20px rgb(255 0 0);
+}
+
+.card-tittle {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.div_queja,.div_informacion,.div_vivienda,.div_corrupcion{
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.404);
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: 50px;
+
+}
+
+.separador{
+    
+    height: 30px;
+    background-color: #b8925f;
+    border-style: solid;
+    border-width: 0vh;
+}
+
+.area-footer{
+    padding: 20px;
+    height: auto;
+    background-color: #b9b9b962;
+    border-style: solid;
+    border-width: 0vh;
+    text-align: center;
+    
+}
+
+.div-queja-text, .div-informacion-text,.div-vivienda-text{
+    padding: 10px;
+}
+
+
+.div_queja_form,.div-informacion-form, .div-vivienda-form{
+    box-shadow: 0 0 15px rgb(0 0 0 / 15%), 0 0 1px 1px rgb(0 0 0 / 10%);
+    width: 100%;
+    padding: 40px;
+    overflow: hidden;
+    /*width: 100%;*/
+    height: auto;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: 50px;
+    justify-content: center !important
+}
+
+.area-footer-form{
+    padding: 20px;
+    height: auto;
+    
+    border-top-style: solid;
+    border-color: rgba(0, 0, 0, 0.171);
+    border-width: 1px;
+    
+    
+}
+
+label.error {
+    color: #a22244;
+    margin-bottom: 0;
+    font-size: 75%;
+    font-weight: 400;
+}
+
+
+
+.hidden{
+    display: none !important;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-group-prepend, .input-group-append {
+    display: flex;
+}
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    
+}
+
+.input-group > .form-control, .input-group > .form-control-plaintext, .input-group > .custom-select, .input-group > .custom-file {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.not-radius{
+    border-radius: 0px !important;
+}
+
+.radius-left{
+border-top-left-radius: 4px;
+border-bottom-left-radius: 4px;
+}
+
+.radius-right{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.panel:hover {
+    box-shadow: 0 3px 20px rgb(130 27 63 / 0.4);
+}
+
+.datepicker-group .glyphicon, .form-control-feedback {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 39px;
+    height: 39px;
+    line-height: 39px;
+    text-align: inherit;
+    pointer-events: none;
+    color: #9D2449;
+}
