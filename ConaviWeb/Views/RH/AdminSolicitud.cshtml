@@ -1,0 +1,231 @@
+﻿@model ConaviWeb.Model.Sisevive.Etiquetado
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "AdminSol";
+}
+
+<div class="form-row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <div id="spinner" class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group">
+                        @Html.Raw(@ViewBag.Alert)
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="form-group  col-md-4">
+                        <label>Tipo</label>
+                        <select id="slctTipo" class="form-control">
+                            <option value="1">Evaluación</option>
+                            <option value="2">Etiquetado</option>
+                        </select>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+<div id="divTable" class="form-group" style="display:none;">
+    <form id="formTable">
+        <table id="table" class="table" style="width: 100%">
+            <thead>
+                <tr style="font-size:15px;">
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        FECHA
+                    </th>
+                    <th>
+                        FOLIO
+                    </th>
+                    <th>
+                        NOMBRE
+                    </th>
+                    <th>
+                        EDITAR
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div id="partial" class="row col-md-12 hidden">
+    @{
+        @await Html.PartialAsync("../RH/_SolicitudDetail")
+    }
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    var table;
+    var dataJSON;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showAlert();
+            //var tipo = $("#slctTipo option:selected").val();
+            showTable();
+            console.log(dataJSON);
+
+            /*$('#slctTipo').on('change', function () {
+                console.log(this.value);
+                showTable(this.value);
+            });*/
+
+            $('body').on('click', 'a', function (e) {
+
+                if (this.className === "gold btn-action") {
+                    let json = this.id.replace(/'/g, '"');
+                    json = JSON.parse(json)
+
+                    $.each(json, function (id, valor) {
+                        console.log(valor,id)
+                        //console.log("$('#' ", id+").val("+valor+");");
+                        $("#" + id).val(valor).attr("disabled", true);
+                    });
+
+                    $("#partial").removeClass("hidden");
+                    scroll("partial");
+                }
+
+
+            });
+        });
+
+        function showTable() {
+
+            $("#spinner").show();
+            $("#divTable").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "@Url.Action("GetSolicitudes", "AdminSolicitud")",
+                    //url: "/AdminSolicitud/GetSolicitudes",
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    //success: function (data) { console.log(data) },
+                    complete: function (data) {
+                        $("#spinner").hide();
+                        dataJSON = data.responseJSON.data;
+                        console.log(dataJSON);
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        
+        var columns = [
+
+            { "name": "Id", "data": "id", "targets": 0},
+            { "name": "Cantidad", "data": "cantidad", "targets": 1 },
+            { "name": "Unidad", "data": "unidad", "targets": 2 },
+            { "name": "Nombre", "data": "nombre", "targets": 3 },
+            //{ "name": "Editar", "data": "id", "targets": 4 }, ///Agregue este campo
+
+            /*{
+                "targets": 8,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    if (row.nombreArchInforme != null) {
+                        return '<a href="../doc/Sisevive/' + row.idUserCarga + "/" + row.folio + "/" + row.nombreArchInforme + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    }
+                    return null;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },*/
+            {
+                "targets": 4,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    let json = JSON.stringify(row);
+                    json = json.replace(/"/g, "'");
+                    
+                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            }
+        ];
+
+        function showAlert() {
+
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+
+            }, 6000);
+
+
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 12000);
+
+        }
+
+
+    function obtenerDatos(id) {
+       // $.each(val, function (id, valor) {
+
+        //});
+        console.log(dataJSON)
+
+    }
+
+        function scroll(id)  {
+            try {
+                let el = document.getElementById(id);
+                el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+            } catch (e) { console.log(e) }
+        }
+
+
+    </script>
+}

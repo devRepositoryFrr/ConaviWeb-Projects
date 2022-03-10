@@ -1,0 +1,563 @@
+﻿
+
+
+<div class="form-row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-group ficha-collapse" id="Cgeneral">
+                <div class="panel-default" style="padding:10px">
+                    <form id="form_viaticos">
+                        <!--General-->
+                        <div class="panel-heading border-colapse">
+                            <h4 class="panel-title">
+                                <a data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral" aria-expanded="true" aria-controls="Pgeneral">
+                                    <i class="fas fa-suitcase"></i> Solicitud de  viáticos anticipados
+                                </a>
+                            </h4>
+                            <button type="button" class="collpase-button collapse" data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral"></button>
+                        </div>
+                        <div class="panel-collapse collapse in border-colapse" id="Pgeneral">
+                            <div class="panel-body">
+                                <h4>Información del solicitante</h4>
+                                <hr class="red" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Nombre</small>
+                                            <input disabled class="form-control" id="nombre" name="Nombre" />
+                                            <small id="lblNombre" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Puesto</small>
+                                            <input disabled class="form-control" id="puesto" name="Puesto" />
+                                            <small id="lblPuesto" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <small>Área de adscripción </small>
+                                            <input disabled class="form-control" id="area_adscripcion" name="Area_adscripcion" />
+                                            <small id="lblArea_adscripcion" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+
+                                    </div>
+                                </div>
+                                <h4>Detalle de la comisión</h4>
+                                <hr class="red" />
+                                <div class="row" style=" margin-bottom: 10px;">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <small>Descripción de la comisión </small>
+                                            <textarea placeholder="Especifique descripción de la comisión " class="form-control" id="descripcion_comision" name="Descripcion_comision" style="resize:none"></textarea>
+                                            <small id="lblDescripcion_comision" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Unidad</small>
+                                            <input type="number" placeholder="Especifique unidad" class="form-control" id="unidad" name="Unidad" />
+                                            <small id="lblUnidad" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Cantidad</small>
+                                            <input type="number" placeholder="Especifique cantidad" class="form-control" id="cantidad" name="Cantidad" />
+                                            <small id="lblCantidad" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-4" style="float:right">
+                                        <p>
+                                            <small>Monto total</small>
+                                            <input disabled class="form-control" id="monto_total" name="Monto_total" />
+                                            <small id="lblMonto_total" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row top-buffer">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-primary" id="btnGeneral">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!--Oficio-->
+                        <div class="panel-heading border-colapse top-buffer">
+                            <h4 class="panel-title">
+                                <a data-parent="#Coficio" data-toggle="collapse" href="#Poficio" aria-expanded="true" aria-controls="Poficio">
+                                    <i class="fas fa-file-invoice"></i> Oficio de  viáticos anticipados
+                                </a>
+                            </h4>
+                            <button type="button" class="collpase-button collapse" data-parent="#Coficio" data-toggle="collapse" href="#Poficio"></button>
+                        </div>
+                        <div class="panel-collapse collapse in border-colapse" id="Poficio">
+                            <div class="panel-body">
+                                <h4>Detalle de la comisión</h4>
+                                <hr class="red" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Objetivo</small>
+                                            <textarea placeholder="Especifique objetivo" class="form-control" id="objetivo" name="Objetivo" style="resize:none"></textarea>
+                                            <small id="lblObjetivo" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Observaciones</small>
+                                            <textarea placeholder="Especifique observaciones" class="form-control" id="observaciones" name="Observaciones" style="resize:none"></textarea>
+                                            <small id="lblObservaciones" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Lugares asignados en la comisión</small>
+                                            <input placeholder="Especifique lugares asignados en la comisión" class="form-control" id="lugares_asignados_comision" name="Lugares_asignados_comision" />
+                                            <small id="lblLugares_asignados_comision" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Medio de transporte</small>
+                                            <input placeholder="Especifique medio de transporte" class="form-control" id="medio_transporte" name="Medio_transporte" />
+                                            <small id="lblMedio_transporte" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Periodo de la comisión desde</small>
+                                            <div class="form-group datepicker-group">
+                                                <input class="form-control calendar" id="periodo_comision_i" name="Periodo_comision_i" type="text">
+                                                <span class="glyphicon glyphicon-calendar picker-red" aria-="true"></span>
+                                            </div>
+                                            <small id="lblPeriodo_comision_i" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small>Periodo de la comisión hasta</small>
+                                            <div class="form-group datepicker-group">
+                                                <input class="form-control calendar" id="periodo_comision_f" name="Periodo_comision_f" type="text">
+                                                <span class="glyphicon glyphicon-calendar picker-red" aria-="true"></span>
+                                            </div>
+                                            <small id="lblPeriodo_comision_f"  style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Días de duración</small>
+                                            <input disabled class="form-control" id="dias_duracion" name="Dias_duracion" />
+                                            <small id="lblDias_duracion" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Cuota diaria</small>
+                                            <input disabled class="form-control" id="cuota_diaria" name="Cuota_diaria" value="1200" />
+                                            <small id="lblCuota_diaria" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Importe de viáticos</small>
+                                            <input disabled class="form-control" id="importe_viaticos" name="Importe_viaticos" />
+                                            <small id="lblImporte_viaticos" style="color:red" class="">Campo requerido *</small>
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="row bottom-buffer">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <small>Cuando se utilice vehículo oficial o propio</small>
+                                            </pi>
+                                            <label class="switch">
+                                                <input id="switch_casetas" type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+
+                                    </div>
+                                </div>
+                                <div id="vehiculo" class="">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>No. de casetas</small>
+                                                <input placeholder="Especifique no. de casetas" class="form-control" id="num_casetas" name="Num_casetas" />
+                                                <small id="lblNum_casetas" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p>
+                                                <small>Dotación de combustible según formula <i class="fas fa-info-circle gold" title="(kilometraje del recorrido total entre cinco por el precio del litro de gasolina magna)"></i></small>
+                                                <input placeholder="Especifique dotación de combustible según formula (kilometraje del recorrido total entre cinco por el precio del litro de gasolina magna" class="form-control" id="dotacion_combustible" name="Dotacion_combustible" />
+                                                <small id="lblDotacion_combustible" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <p>
+                                                <small>Importe de gastos con cargo a pasajes</small>
+                                                <input placeholder="Especifique importe de gastos con cargo a pasajes" class="form-control" id="importe_gastos" name="Importe_gastos" />
+                                                <small id="lblImporte_gastos" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4" style="float:right">
+                                            <p>
+                                                <small>Total</small>
+                                                <input disabled class="form-control" id="total_peajes" name="Total_peajes" />
+                                                <small id="lblTotal_peajes" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>Solicitud de pasajes aéreos</h4>
+                                    <hr class="red" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <small>Fecha de salida</small>
+                                                <div class="form-group datepicker-group">
+                                                    <input class="form-control calendar" id="fecha_salida" name="Fecha_salida" type="text" />
+                                                    <span class="glyphicon glyphicon-calendar picker-red" aria-="true"></span>
+                                                </div>
+
+
+                                                <small id="lblFecha_salida" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <small>Fecha de regreso</small>
+                                                <div class="form-group datepicker-group">
+                                                    <input class="form-control calendar" id="fecha_regreso" name="Fecha_regreso" type="text" />
+                                                    <span class="glyphicon glyphicon-calendar picker-red" aria-="true"></span>
+                                                </div>
+
+                                                <small id="lblFecha_regreso" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <small>Línea aérea</small>
+                                                <input placeholder="Especifique línea aérea" class="form-control" id="linea_aerea" name="Linea_aerea" />
+                                                <small id="lblLinea_aerea" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>
+                                                <small>Ruta</small>
+                                                <input placeholder="Especifique ruta" class="form-control" id="ruta_i" name="Ruta_i" />
+                                                <small id="lblRuta_i" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>Vuelo</small>
+                                                <input placeholder="Especifique vuelo" class="form-control" id="vuelo_i" name="Vuelo_i" />
+                                                <small id="lblVuelo_i" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>Sale</small>
+                                                <input type="time" placeholder="Especifique sale" class="form-control" id="sale_i" name="Sale_i" />
+                                                <small id="lblSale_i" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>
+
+                                                <small>Llega</small>
+                                                <input type="time" placeholder="Especifique llega" class="form-control" id="llega_i" name="Llega_i" />
+                                                <small id="lblLlega_i" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p>
+                                                <small>Ruta</small>
+                                                <input placeholder="Especifique ruta" class="form-control" id="ruta_f" name="Ruta_f" />
+                                                <small id="lblRuta_f" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>Vuelo</small>
+                                                <input placeholder="Especifique vuelo" class="form-control" id="vuelo_f" name="Vuelo_f" />
+                                                <small id="lblVuelo_f" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>Sale</small>
+                                                <input type="time" placeholder="Especifique sale" class="form-control" id="sale_f" name="Sale_f" />
+                                                <small id="lblSale_f" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>
+                                                <small>Llega</small>
+                                                <input type="time" placeholder="Especifique llega" class="form-control" id="llega_f" name="Llega_f" />
+                                                <small id="lblLlega_f" style="color:red" class="">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row top-buffer">
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" id="btnOficio">Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="results"></div>
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+
+<script>
+        $(document).ready(function () {
+
+            $("#txtNombre").val("Luis Manuel Mendoza González");
+            $("#txtPuesto").val("Desarrollador");
+            $("#txtArea_adscripcion").val("Subdirección de sistemas");
+            $("#txtMonto_total").val("1200");
+            //datepickers
+            var dateToday = new Date();
+            var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
+                defaultDate: "+1w",
+                minDate: dateToday,
+                onSelect: function (selectedDate) {
+                    var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
+                        instance = $(this).data("datepicker"),
+                        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+                    periodo.not(this).datepicker("option", option, date);
+
+                    obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
+                }
+            });
+            var aereo = $("#txtFecha_salida, #txtFecha_regreso").datepicker({
+                defaultDate: "+1w",
+                minDate: dateToday,
+                onSelect: function (selectedDate) {
+                    var option = this.id == "txtFecha_salida" ? "minDate" : "maxDate",
+                        instance = $(this).data("datepicker"),
+                        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+                    aereo.not(this).datepicker("option", option, date);
+
+
+                }
+            });
+
+            //eventos
+            $('#switch_casetas').change(function () {
+                if ($("#switch_casetas").prop('checked') == false) {
+                    $("#vehiculo").addClass("");
+
+                } else {
+                    $("#vehiculo").removeClass("");
+
+                }
+            });
+            $('#btnGeneral').click(function () {
+                let obj = $("#form_viaticos").serializeToJSON();
+                validarDatos(obj);
+                //enviarDatos(JSON.stringify(obj));
+
+                var elementos = $(".error-lbl").map(function () {
+                    return this.id;
+                }).get();
+                if (elementos == 0) {
+                    enviarDatos();
+                }
+            });
+
+            //funciones
+            function enviarDatos(obj) {
+
+
+                // Mostramos el Ajax Loader
+                //$("#AjaxLoader").show("fast");
+
+                // Deshabilitamos el botón de Submit
+                $("#btnGeneral").prop("disabled", true);
+
+            //Limpiar formulario
+           //$("#informe").val("");
+
+
+                $.ajax({
+                    url: "@Url.Action("GuardarSolicitud", "ViaticosSolicitud")", // Url
+                    contentType: 'application/json',
+                    data:
+                        // Datos
+                        obj,
+                    type: "post"  // Verbo HTTP
+                })
+                // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        console.log(result);
+                        if (result.informe != null) {
+
+                            // Actualiza el resultado HTML
+                            //$("#PostList").html(result);
+                            $("#divDescripcion").show();
+
+                            // Un pequeño esfecto especial ;)
+                            $("#divDescripcion .row").hide();
+                            $("#divDescripcion .row").slideToggle("fast");
+
+                            // Limpia el formulario
+                            //$("#folio").val("");
+
+                            //LLenamos el formiulario
+                            $("#informe").val(result.informe).prop("readonly", true);
+                            $("#observacion").val(result.observacion).prop("readonly", true);
+                            var styleElem = document.head.appendChild(document.createElement("style"));
+                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            $(".escala-" + result.letra).css("background", result.color);
+                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            //console.log(rutaInforme);
+                            $('#btnDownInfo').attr('href', rutaInforme);
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            $("#btnConsultar").prop("disabled", false);
+
+                            // Mostramos un mensaje de éxito.
+                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            $("#divDescripcion").hide();
+                            // Mostramos un mensaje de error.
+                            $("#alertFolio").append(result);
+
+                            // Habilitamos el botón de Submit
+                            $("#btnGenerar").prop("disabled", false);
+
+                            showAlert();
+                        }
+
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
+
+            }
+            function validarDatos(obj) {
+                $.each(obj, function (key, val) {
+                    if (val === "") {
+                        $("#lbl" + key).addClass("error-lbl");
+                        $("#lbl" + key).removeClass("");
+                    } else {
+                        $("#lbl" + key).removeClass("error-lbl");
+                        $("#lbl" + key).addClass("");
+                    }
+
+                });
+
+                //campos excluidos según switch
+                let exclude;
+                if ($("#switch_casetas").prop('checked') == false) {
+                    exclude = ["lblNum_casetas", "lblDotacion_combustible", "lblImporte_gastos", "lblTotal_peajes"];
+                } else {
+                    exclude = [];
+                }
+
+                for (let i = 0; i < exclude.length; i++) {
+                    $("#" + exclude[i]).removeClass("error-lbl");
+                    $("#" + exclude[i]).addClass("");
+                    console.log("#" + exclude[i])
+                }
+
+                $.each(obj, function (key, val) {
+
+                    if (val === "") {
+                        $("#txt" + key).focus();
+                        return false;
+                    }
+                });
+            }
+            function obtenerDias(f1, f2) {
+
+                let importeDiario = $("#txtCuota_diaria").val();
+                let aFecha1 = f1.split('/');
+                let aFecha2 = f2.split('/');
+                let fFecha1 = Date.UTC(aFecha1[2], aFecha1[1] - 1, aFecha1[0]);
+                let fFecha2 = Date.UTC(aFecha2[2], aFecha2[1] - 1, aFecha2[0]);
+                let dif = fFecha2 - fFecha1;
+
+                let dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+
+
+
+
+
+                if (dias >= 0) {
+                    $("#txtDias_duracion").val(dias);
+                    $("#txtImporte_viaticos").val(dias * importeDiario);
+                } else {
+                    $("#txtDias_duracion").val("");
+                    $("#txtImporte_viaticos").val("");
+
+                }
+
+
+            }
+
+
+
+        });
+</script>
