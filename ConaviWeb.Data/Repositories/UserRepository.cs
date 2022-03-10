@@ -39,11 +39,12 @@ namespace ConaviWeb.Data.Repositories
             var db = DbConnection();
 
             var sql = @"
-                         SELECT id Id, nombre Name, primer_apellido LName, segundo_apellido SLName, usuario SUser, id_rol Rol, cargo Position,
+                         SELECT u.id Id, nombre Name, primer_apellido LName, segundo_apellido SLName, usuario SUser, id_rol Rol, cargo Position,
                                 numero_empleado EmployeeNumber, rfc RFC, grado_academico Degree, fecha_alta CreateDate, integrador Integrador, 
-                                id_sistema IdSystem, area Area, firmante Signer, activo Active, email Email
-                        FROM prod_usuario.usuario
-                        WHERE id = @Id";
+                                id_sistema IdSystem, ca.descripcion Area, firmante Signer, activo Active, email Email
+                        FROM prod_usuario.usuario u
+                        LEFT JOIN prod_usuario.c_area ca ON ca.id = u.id_area
+                        WHERE u.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
         }

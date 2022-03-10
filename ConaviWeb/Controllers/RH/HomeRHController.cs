@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConaviWeb.Controllers.RH
 {
-    public class HomeController : Controller
+    public class HomeRHController : Controller
     {
         public IActionResult Index()
         {
