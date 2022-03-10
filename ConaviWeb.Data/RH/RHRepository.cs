@@ -28,6 +28,7 @@ namespace ConaviWeb.Data.RH
 
             var sql = @"
                         INSERT INTO prod_rh.solicitud_viaticos (id_usuario,
+                                folio,
                                 descripcion_comision,
                                 objetivo,
                                 observaciones,
@@ -56,6 +57,7 @@ namespace ConaviWeb.Data.RH
                                 sale_f,
                                 llega_f)
                         VALUES (@IdUsuario,
+                                @Folio,
                                 @Descripcion_comision,
                                 @Objetivo,
                                 @Observaciones,
@@ -87,6 +89,7 @@ namespace ConaviWeb.Data.RH
             var result = await db.ExecuteAsync(sql, new
             {
                 viaticos.IdUsuario,
+                viaticos.Folio,
                 viaticos.Descripcion_comision,
                 viaticos.Objetivo,
                 viaticos.Observaciones,
