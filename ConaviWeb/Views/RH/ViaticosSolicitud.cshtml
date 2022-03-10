@@ -2,7 +2,11 @@
 @{
     ViewBag.Title = "Administrador";
 }
-
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
 <div class="form-row">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -393,7 +397,7 @@
 
 <script>
         $(document).ready(function () {
-
+            showAlert();
             //$("#txtNombre").val("Luis Manuel Mendoza González");
             //$("#txtPuesto").val("Desarrollador");
             //$("#txtArea_adscripcion").val("Subdirección de sistemas");
@@ -455,7 +459,7 @@
                     json[this.name] = this.value || null;
 
                 });
-                console.log("JSON: ",json);
+                //console.log("JSON: ",json);
                 validarDatos(json);
 
                 var elementos = $(".error-lbl").map(function () {
@@ -486,7 +490,9 @@
                 })
                 // Se ejecuta si todo fue bien.
                     .done(function (result) {
-                        console.log(result);
+                        //showAlert();
+
+                        //console.log(result);
                         if (result.informe != null) {
 
                             // Actualiza el resultado HTML
@@ -514,7 +520,7 @@
                             //$("#AjaxLoader").hide("slow");
 
                             // Habilitamos el botón de Submit
-                            $("#btnConsultar").prop("disabled", false);
+                            $("#btnGeneral").prop("disabled", false);
 
                             // Mostramos un mensaje de éxito.
                             //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
@@ -524,7 +530,7 @@
                             $("#alertFolio").append(result);
 
                             // Habilitamos el botón de Submit
-                            $("#btnGenerar").prop("disabled", false);
+                            $("#btnGeneral").prop("disabled", false);
 
                             showAlert();
                         }
@@ -543,13 +549,13 @@
                 })
                 // Hacer algo siempre, haya sido exitosa o no.
                 .always(function () {
-
+                    //showAlert();
                 });
 
             }
             function validarDatos(obj) {
                 $.each(obj, function (key, val) {
-                    console.log(key, " : ", val);
+                    //console.log(key, " : ", val);
                     if (val == null) {
                         $("#lbl" + key).addClass("error-lbl");
                         $("#lbl" + key).removeClass("hidden");
@@ -571,7 +577,7 @@
                 for (let i = 0; i < exclude.length; i++) {
                     $("#" + exclude[i]).removeClass("error-lbl");
                     $("#" + exclude[i]).addClass("hidden");
-                    console.log("#" + exclude[i])
+                    //console.log("#" + exclude[i])
                 }
 
                 let exclude2;
@@ -584,7 +590,7 @@
                 for (let i = 0; i < exclude2.length; i++) {
                     $("#" + exclude2[i]).removeClass("error-lbl");
                     $("#" + exclude2[i]).addClass("hidden");
-                    console.log("#" + exclude2[i])
+                    //console.log("#" + exclude2[i])
                 }
 
                 $.each(obj, function (key, val) {
@@ -619,6 +625,22 @@
 
                 }
 
+
+            }
+
+            function showAlert() {
+                console.log("Alerta perro !!");
+                setTimeout(function () {
+
+                    $("#alerta").fadeOut(1500);
+
+                }, 6000);
+
+
+                setTimeout(function () {
+
+                    $("#alerta").remove();
+                }, 12000);
 
             }
 

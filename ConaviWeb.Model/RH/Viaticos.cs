@@ -40,6 +40,8 @@ namespace ConaviWeb.Model.RH
         public string Vuelo_f { get; set; }
         public string Sale_f { get; set; }
         public string Llega_f { get; set; }
+        public string FechaSol { get; set; }
+        public string Folio { get; set; }
     }
     public enum Horario
     {
