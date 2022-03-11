@@ -94,7 +94,7 @@
                     json = JSON.parse(json)
 
                     $.each(json, function (id, valor) {
-                        //console.log(valor,id)
+                        console.log(valor,id)
                         //console.log("$('#' ", id+").val("+valor+");");
                         //$("#" + id).attr("value", valor);
                         if (valor != null) {
@@ -108,6 +108,8 @@
                     $("#partial").removeClass("hidden");
                     scroll("partial");
                     ValidaVehiculo();
+                    ValidaAvion();
+                   
                 }
 
 
@@ -232,6 +234,29 @@
                 let el = document.getElementById(id);
                 el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
             } catch (e) { console.log(e) }
+        }
+
+
+
+
+        //Funciones mostrar/ocultar seccion vehicular o aerea
+        function ValidaAvion() {
+            //console.log("entro Avion: ", $("#fecha salida").text());
+            var salida = $('#fecha_salida').text();
+            var regreso = $('#fecha_regreso').text();
+            var salidaav = $('#horario_salidaav').text();
+            var regresoav = $('#horario_regresoav').text();
+            //console.log(salida);
+
+            if (salida != "01/01/0001 00:00:00" || regreso != "01/01/0001 00:00:00" || salidaav != "" || regresoav != "") {
+               // console.log("mostrar ");
+                $("#pasajesavion").removeClass("hidden");
+            } else {
+              // console.log("ocultar ");
+                $("#pasajesavion").addClass("hidden");
+            }
+
+
         }
 
         function ValidaVehiculo() {

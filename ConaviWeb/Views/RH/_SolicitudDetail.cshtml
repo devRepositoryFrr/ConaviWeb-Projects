@@ -165,7 +165,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="hidden" id="pasajesavion">
                                     <h4>Solicitud de pasajes aéreos</h4>
                                     <hr class="red" />
                                     <div class="row">
@@ -191,90 +191,85 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <p>
-                                                <strong>Horario estimado salida:</strong>
-                                                <select class="form-control" style="font-size:14px" id="slctHorario_salida" name="Horario_salida">
-                                                    <option value="">--- Seleccionar ---</option>
-                                                    <option value="1">Mañana</option>
-                                                    <option value="2">Tarde</option>
-                                                    <option value="3">Noche</option>
-                                                </select>
+                                                <strong>Horario estimado salida:</strong><br />
+                                                <labeel class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></labeel>
                                             </p>
                                         </div>
                                         <div class="col-md-6">
                                             <p>
-                                                <strong>Horario estimado regreso:</strong>
-                                                <select class="form-control" style="font-size:14px" id="slctHorario_regreso" name="Horario_regreso">
-                                                    <option value="">--- Seleccionar ---</option>
-                                                    <option value="1">Mañana</option>
-                                                    <option value="2">Tarde</option>
-                                                    <option value="3">Noche</option>
-                                                </select>
+                                                <strong>Horario estimado regreso:</strong><br />
+                                                <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
                                             </p>
                                         </div>
                                     </div>
-                                    <strong>Línea aérea:</strong><br>
-                                    <label class="red-text" id="linea_aerea" name="Linea_aerea" style="font-size:14px"></label>
+                                    <br />
+                                    <h4>Línea aérea:</h4><br />
+                                    <label >Vuelo Salida</label>
+                                    <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <p>
                                                 <strong>Ruta:</strong><br>
-                                                <label class="red-text" id="ruta_i" name="Ruta_i" style="font-size:14px"></label>
+                                                <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
                                             </p>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <p>
                                                 <strong>Vuelo:</strong><br>
-                                                <label class="red-text" id="vuelo_i" name="Vuelo_i" style="font-size:14px"></label>
+                                                <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
                                             </p>
                                         </div>
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-2">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <p>
                                                 <strong>Sale:</strong><br>
-                                                <label class="red-text" id="sale_i" name="Sale_i" style="font-size:14px"></label>
+                                                <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
                                             </p>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <p>
 
                                                 <strong>Llega:</strong><br>
-                                                <label class="red-text" id="llega_i" name="Llega_i" style="font-size:14px"></label>
+                                                <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <label >Vuelo Regreso</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Ruta:</strong><br>
+                                                <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Vuelo:</strong><br>
+                                                <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
                                             </p>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <p>
-                                                <strong>Ruta:</strong><br>
-                                                <label class="red-text" id="ruta_f" name="Ruta_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <p>
-                                                <strong>Vuelo:</strong><br>
-                                                <label class="red-text" id="vuelo_f" name="Vuelo_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <p>
                                                 <strong>Sale:</strong><br>
-                                                <label class="red-text" id="sale_f" name="Sale_f" style="font-size:14px"></label>
+                                                <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
                                             </p>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <p>
                                                 <strong>Llega:</strong><br>
-                                                <label class="red-text" id="llega_f" name="Llega_f" style="font-size:14px"></label>
+                                                <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="row top-buffer">
-                                        <div class="col-md-4">
-                                            <button class="btn btn-primary" id="btnOficio">Guardar</button>
-                                        </div>
+                                </div>
+                                <div class="row top-buffer">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary" id="btnOficio">Guardar</button>
                                     </div>
                                 </div>
                             </div>
@@ -294,8 +289,8 @@
         //campos excluidos según switch
 
 
-        
-            //eventos 
+
+            //eventos
             //$('#switch_casetas').change(function () {
             //    if ($("#switch_casetas").prop('checked') == false) {
             //        $("#vehiculo").addClass("");
@@ -417,17 +412,17 @@
 
                 });
 
-                 
-              
+
+
             }
 
-           
+
 
 
 
     });
 
-    
 
-    
+
+
 </script>
