@@ -135,7 +135,7 @@
                                 </div>
 
 
-                                <div id="vehiculo" class="">
+                                <div id="vehiculo" class="hidden">
                                     <div class="row " id="id_casetas">
                                         <div class="col-md-2">
                                             <p>
@@ -295,33 +295,6 @@
 
 
         
-            //datepickers
-            var dateToday = new Date();
-            var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
-                defaultDate: "+1w",
-                minDate: dateToday,
-                onSelect: function (selectedDate) {
-                    var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
-                        instance = $(this).data("datepicker"),
-                        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-                    periodo.not(this).datepicker("option", option, date);
-
-                    obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
-                }
-            });
-            var aereo = $("#txtFecha_salida, #txtFecha_regreso").datepicker({
-                defaultDate: "+1w",
-                minDate: dateToday,
-                onSelect: function (selectedDate) {
-                    var option = this.id == "txtFecha_salida" ? "minDate" : "maxDate",
-                        instance = $(this).data("datepicker"),
-                        date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-                    aereo.not(this).datepicker("option", option, date);
-
-
-                }
-            });
-
             //eventos 
             //$('#switch_casetas').change(function () {
             //    if ($("#switch_casetas").prop('checked') == false) {
@@ -371,7 +344,7 @@
                 })
                 // Se ejecuta si todo fue bien.
                     .done(function (result) {
-                        console.log(result);
+                        //console.log(result);
                         if (result.informe != null) {
 
                             // Actualiza el resultado HTML
@@ -448,47 +421,13 @@
               
             }
 
-            
-            function obtenerDias(f1, f2) {
-
-                let importeDiario = $("#txtCuota_diaria").val();
-                let aFecha1 = f1.split('/');
-                let aFecha2 = f2.split('/');
-                let fFecha1 = Date.UTC(aFecha1[2], aFecha1[1] - 1, aFecha1[0]);
-                let fFecha2 = Date.UTC(aFecha2[2], aFecha2[1] - 1, aFecha2[0]);
-                let dif = fFecha2 - fFecha1;
-
-                let dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-
-
-
-
-
-                if (dias >= 0) {
-                    $("#txtDias_duracion").val(dias);
-                    $("#txtImporte_viaticos").val(dias * importeDiario);
-                } else {
-                    $("#txtDias_duracion").val("");
-                    $("#txtImporte_viaticos").val("");
-
-                }
-
-
-            }
+           
 
 
 
     });
 
-    function ValidaVehiculo() {
-        //console.log("entro vehiculo: ", $("#num_casetas").text());
-        alert("entro vehiculo: ", $("#num_casetas").html());
-        if ($("#num_casetas").text() != "" || $("#dotacion_combustible").text() != "" || $("#importe_gastos").text() != "" ) {
-            console.log("mostrar ", $("#num_casetas").html());
-            $("#vehiculo").show;
-        } else {
-            console.log("ocultar ", $("#num_casetas").html());
-            $("#vehiculo").hide;
-        }
-    }
+    
+
+    
 </script>

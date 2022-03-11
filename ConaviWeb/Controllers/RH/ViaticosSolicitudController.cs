@@ -37,7 +37,7 @@ namespace ConaviWeb.Controllers.RH
         public async Task<IActionResult> GuardarSolicitudAsync([FromBody] Viaticos viaticos) {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             viaticos.IdUsuario = user.Id;
-            viaticos.Folio = DateTime.Now.ToString("MMddyyyyHHmmss") + viaticos.IdUsuario;
+            viaticos.Folio = viaticos.IdUsuario + DateTime.Now.ToString("MMddyyyyHHmmss");
             viaticos.Periodo_comision_i = Convert.ToDateTime(viaticos.Periodo_comision_i).ToString("yyyy-MM-dd"); 
             viaticos.Periodo_comision_f = Convert.ToDateTime(viaticos.Periodo_comision_f).ToString("yyyy-MM-dd"); 
             viaticos.Fecha_salida = Convert.ToDateTime(viaticos.Fecha_salida).ToString("yyyy-MM-dd"); 
@@ -47,10 +47,10 @@ namespace ConaviWeb.Controllers.RH
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud de viaticos");
-                return RedirectToAction("Index");
+                return View();
             }
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Su solicitud de viaticos ha registrado con el folio " + viaticos.Folio);
-            return RedirectToAction("Index");
+            return View("../RH/ViaticosSolicitud");
         }
     }
 }

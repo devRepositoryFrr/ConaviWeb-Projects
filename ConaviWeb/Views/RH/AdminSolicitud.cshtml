@@ -80,7 +80,7 @@
             showAlert();
             //var tipo = $("#slctTipo option:selected").val();
             showTable();
-            console.log(dataJSON);
+            //console.log(dataJSON);
 
             /*$('#slctTipo').on('change', function () {
                 console.log(this.value);
@@ -94,7 +94,7 @@
                     json = JSON.parse(json)
 
                     $.each(json, function (id, valor) {
-                        console.log(valor,id)
+                        //console.log(valor,id)
                         //console.log("$('#' ", id+").val("+valor+");");
                         //$("#" + id).attr("value", valor);
                         if (valor != null) {
@@ -107,6 +107,7 @@
 
                     $("#partial").removeClass("hidden");
                     scroll("partial");
+                    ValidaVehiculo();
                 }
 
 
@@ -129,7 +130,7 @@
                     complete: function (data) {
                         $("#spinner").hide();
                         dataJSON = data.responseJSON.data;
-                        console.log(dataJSON);
+                        //console.log(dataJSON);
                     }
                 },
                 "columnDefs": columns,
@@ -195,7 +196,7 @@
                     json = json.replace(/"/g, "'");
 
                     
-                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;" onclick="ValidaVehiculo();"><i class="fa fa-pencil"></i></a>';
+                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -233,6 +234,22 @@
             } catch (e) { console.log(e) }
         }
 
+        function ValidaVehiculo() {
+            //console.log("entro vehiculo: ", $("#num_casetas").text());
+            var casetas = $('#num_casetas').text();
+            var combustible = $('#dotacion_combustible').text();
+            var igastos = $('#importe_gastos').text();
+
+            //alert(casetas);
+            //alert("entro vehiculo: ", $("#num_casetas").html());
+            if (casetas != "" || combustible != "" || igastos != "") {
+                //console.log("mostrar ");
+                $("#vehiculo").removeClass("hidden");
+            } else {
+                //console.log("ocultar ");
+                $("#vehiculo").addClass("hidden");
+            }
+        }
 
     </script>
 }

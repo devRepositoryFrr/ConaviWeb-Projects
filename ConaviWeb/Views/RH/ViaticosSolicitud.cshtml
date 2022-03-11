@@ -402,6 +402,7 @@
             //$("#txtPuesto").val("Desarrollador");
             //$("#txtArea_adscripcion").val("Subdirección de sistemas");
             $("#txtMonto_total").val("1200");
+        });
             //datepickers
             var dateToday = new Date();
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
@@ -491,8 +492,10 @@
                 // Se ejecuta si todo fue bien.
                     .done(function (result) {
                         //showAlert();
-
-                        //console.log(result);
+                        console.log(result);
+                        setInterval(function () {
+                            window.top.location = window.top.location
+                        }, 1000);
                         if (result.informe != null) {
 
                             // Actualiza el resultado HTML
@@ -646,5 +649,5 @@
 
 
 
-        });
+        
 </script>
