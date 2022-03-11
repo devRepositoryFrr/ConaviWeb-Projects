@@ -1,6 +1,6 @@
 ﻿@model ConaviWeb.Model.Sisevive.Etiquetado
 @{
-    Layout = "_Layout";
+   
     ViewBag.Title = "AdminSol";
 }
 
@@ -96,7 +96,13 @@
                     $.each(json, function (id, valor) {
                         console.log(valor,id)
                         //console.log("$('#' ", id+").val("+valor+");");
-                        $("#" + id).val(valor).attr("disabled", true);
+                        //$("#" + id).attr("value", valor);
+                        if (valor != null) {
+                            $("#" + id).text(valor);
+                        } else {
+                            $("#" + id).text("");
+                        }
+                        //$("#" + id).attr("disabled", true);
                     });
 
                     $("#partial").removeClass("hidden");
@@ -187,8 +193,9 @@
                 "render": function (data, type, row, meta) {
                     let json = JSON.stringify(row);
                     json = json.replace(/"/g, "'");
+
                     
-                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
+                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;" onclick="ValidaVehiculo();"><i class="fa fa-pencil"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
