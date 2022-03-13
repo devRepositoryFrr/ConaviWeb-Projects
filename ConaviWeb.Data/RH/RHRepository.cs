@@ -165,5 +165,37 @@ namespace ConaviWeb.Data.RH
 
             return await db.QueryAsync<Viaticos>(sql, new { });
         }
+        public async Task<bool> UpdateViaticos(Viaticos viaticos)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE prod_rh.solicitud_viaticos
+                            SET linea_aerea = @Linea_aerea, 
+                            ruta_i = @Ruta_i, 
+                            vuelo_i = @Vuelo_i, 
+                            sale_i = @Sale_i, 
+                            llega_i = @Llega_i, 
+                            ruta_f = @Ruta_f, 
+                            vuelo_f = @Vuelo_f, 
+                            sale_f = @Sale_f, 
+                            llega_f = @Llega_f
+                        WHERE id = @Id;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                viaticos.Id,
+                viaticos.Linea_aerea,
+                viaticos.Ruta_i,
+                viaticos.Vuelo_i,
+                viaticos.Sale_i,
+                viaticos.Llega_i,
+                viaticos.Ruta_f,
+                viaticos.Vuelo_f,
+                viaticos.Sale_f,
+                viaticos.Llega_f
+            });
+            return result > 0;
+        }
     }
 }

@@ -46,11 +46,11 @@ namespace ConaviWeb.Controllers.RH
             var success = await _rHRepository.InsertViaticos(viaticos);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud de viaticos");
-                return View();
+                var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud de viaticos");
+                return Ok(alertJson);
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Su solicitud de viaticos ha registrado con el folio " + viaticos.Folio);
-            return View("../RH/ViaticosSolicitud");
+            var alert =  AlertService.ShowAlert(Alerts.Success, "Su solicitud de viaticos ha registrado con el folio " + viaticos.Folio);
+            return Ok(alert);
         }
     }
 }

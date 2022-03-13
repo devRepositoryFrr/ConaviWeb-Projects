@@ -4,7 +4,6 @@
         <div class="panel-body">
             <div class="panel-group ficha-collapse" id="Cgeneral">
                 <div class="panel-default" style="padding:10px">
-                    <form id="form_viaticos">
                         <!--General-->
                         <div class="panel-heading border-colapse">
                             <h4 class="panel-title">
@@ -166,116 +165,131 @@
                                     </div>
                                 </div>
                                 <div class="hidden" id="pasajesavion">
-                                    <h4>Solicitud de pasajes aéreos</h4>
-                                    <hr class="red" />
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Fecha de salida:</strong>
-                                                <div class="form-group datepicker-group">
-                                                    <br>
-                                                    <label class="red-text" id="fecha_salida" name="Fecha_salida" style="font-size:14px"></label>
-                                                </div>
-                                            </p>
+                                    <form id="form_avion">
+                                        <h4>Solicitud de pasajes aéreos</h4>
+                                        <hr class="red" />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Fecha de salida:</strong>
+                                                    <div class="form-group datepicker-group">
+                                                        <br>
+                                                        <label class="red-text" id="fecha_salida" name="Fecha_salida" style="font-size:14px"></label>
+                                                    </div>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Fecha de regreso:</strong>
+                                                    <div class="form-group datepicker-group">
+                                                        <br>
+                                                        <label class="red-text" id="fecha_regreso" name="Fecha_regreso" style="font-size:14px"></label>
+                                                    </div>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Fecha de regreso:</strong>
-                                                <div class="form-group datepicker-group">
-                                                    <br>
-                                                    <label class="red-text" id="fecha_regreso" name="Fecha_regreso" style="font-size:14px"></label>
-                                                </div>
-                                            </p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Horario estimado salida:</strong><br />
+                                                    <label class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></label>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Horario estimado regreso:</strong><br />
+                                                    <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Horario estimado salida:</strong><br />
-                                                <labeel class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></labeel>
-                                            </p>
+                                        <br />
+                                        <input class="hidden" id="id" name="Id" />
+                                        <h4>Línea aérea:</h4>
+                                        <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
+                                        <small id="lblLinea_aerea" class="hidden">Campo requerido *</small>
+                                        <br />
+                                        <label>Vuelo Salida</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Ruta:</strong><br>
+                                                    <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
+                                                    <small id="lblRuta_i" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Vuelo:</strong><br>
+                                                    <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
+                                                    <small id="lblVuelo_i" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Horario estimado regreso:</strong><br />
-                                                <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <h4>Línea aérea:</h4><br />
-                                    <label >Vuelo Salida</label>
-                                    <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Ruta:</strong><br>
-                                                <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Vuelo:</strong><br>
-                                                <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
-                                            </p>
-                                        </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Sale:</strong><br>
-                                                <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Sale:</strong><br>
+                                                    <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
+                                                    <small id="lblSale_i" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
 
-                                                <strong>Llega:</strong><br>
-                                                <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
-                                            </p>
+                                                    <strong>Llega:</strong><br>
+                                                    <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
+                                                    <small id="lblLlega_i" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br />
-                                    <label >Vuelo Regreso</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Ruta:</strong><br>
-                                                <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
-                                            </p>
+                                        <br />
+                                        <label>Vuelo Regreso</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Ruta:</strong><br>
+                                                    <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
+                                                    <small id="lblRuta_f" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Vuelo:</strong><br>
+                                                    <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
+                                                    <small id="lblVuelo_f" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Vuelo:</strong><br>
-                                                <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
-                                            </p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Sale:</strong><br>
+                                                    <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
+                                                    <small id="lblSale_f" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <strong>Llega:</strong><br>
+                                                    <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
+                                                    <small id="lblLlega_f" class="hidden">Campo requerido *</small>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Sale:</strong><br>
-                                                <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
-                                            </p>
+                                        <div class="row top-buffer">
+                                            <div class="col-md-4">
+                                                <button class="btn btn-primary" type="button" id="btnUpdate">Guardar</button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Llega:</strong><br>
-                                                <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
-                                            </p>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
-                                <div class="row top-buffer">
-                                    <div class="col-md-4">
-                                        <button class="btn btn-primary" id="btnOficio">Guardar</button>
-                                    </div>
-                                </div>
+
+                                
                             </div>
 
                         </div>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -286,39 +300,34 @@
 
 <script>
     $(document).ready(function () {
-        //campos excluidos según switch
+       
 
+        $('#btnUpdate').click(function () {
+            // Serializar el formulario a JSON
 
+            //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
+            const array = $("#form_avion").serializeArray();
+            const json = {};
+            $.each(array, function () {
+                // set JSON con valor o null
+                json[this.name] = this.value || null;
 
-            //eventos
-            //$('#switch_casetas').change(function () {
-            //    if ($("#switch_casetas").prop('checked') == false) {
-            //        $("#vehiculo").addClass("");
-
-            //    } else {
-            //        $("#vehiculo").removeClass("");
-
-            //    }
-            //});
-
-
-            $('#btnGeneral').click(function () {
-                let obj = $("#form_viaticos").serializeToJSON();
-                validarDatos(obj);
-                //enviarDatos(JSON.stringify(obj));
-
-                var elementos = $(".error-lbl").map(function () {
-                    return this.id;
-                }).get();
-                if (elementos == 0) {
-                    enviarDatos();
-                }
             });
+            //console.log("JSON: ",json);
+            validarDatos(json);
+
+            var elementos = $(".error-lbl").map(function () {
+                return this.id;
+            }).get();
+            if (elementos == 0) {
+                enviarDatos(json);
+            }
+        });
 
             //funciones
             function enviarDatos(obj) {
 
-
+                let viaticos = JSON.stringify(obj);
                 // Mostramos el Ajax Loader
                 //$("#AjaxLoader").show("fast");
 
@@ -330,17 +339,17 @@
 
 
                 $.ajax({
-                    url: "@Url.Action("GuardarSolicitud", "ViaticosSolicitud")", // Url
+                    url: "@Url.Action("UpdateSolicitud", "AdminSolicitud")", // Url
                     contentType: 'application/json',
                     data:
                         // Datos
-                        obj,
+                        viaticos,
                     type: "post"  // Verbo HTTP
                 })
                 // Se ejecuta si todo fue bien.
                     .done(function (result) {
                         //console.log(result);
-                        if (result.informe != null) {
+                        if (result != null) {
 
                             // Actualiza el resultado HTML
                             //$("#PostList").html(result);
@@ -351,7 +360,10 @@
                             $("#divDescripcion .row").slideToggle("fast");
 
                             // Limpia el formulario
-                            //$("#folio").val("");
+                            $('#form_avion').find('input:text, input[type=time]')
+                                .each(function () {
+                                    $(this).val('');
+                                });
 
                             //LLenamos el formiulario
                             $("#informe").val(result.informe).prop("readonly", true);
@@ -371,10 +383,12 @@
 
                             // Mostramos un mensaje de éxito.
                             //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                            $("#alertAjax").append(result);
+                            showAlert();
                         } else {
                             $("#divDescripcion").hide();
                             // Mostramos un mensaje de error.
-                            $("#alertFolio").append(result);
+                            $("#alertAjax").append(result);
 
                             // Habilitamos el botón de Submit
                             $("#btnGenerar").prop("disabled", false);
@@ -400,21 +414,28 @@
                 });
 
             }
-            function validarDatos(obj) {
-                $.each(obj, function (key, val) {
-                    if (val === "") {
-                        $("#lbl" + key).addClass("error-lbl");
-                        $("#lbl" + key).removeClass("");
-                    } else {
-                        $("#lbl" + key).removeClass("error-lbl");
-                        $("#lbl" + key).addClass("");
-                    }
+        function validarDatos(obj) {
+            $.each(obj, function (key, val) {
+                //console.log(key, " : ", val);
+                if (val == null) {
+                    $("#lbl" + key).addClass("error-lbl");
+                    $("#lbl" + key).removeClass("hidden");
+                } else {
+                    $("#lbl" + key).removeClass("error-lbl");
+                    $("#lbl" + key).addClass("hidden");
+                }
 
-                });
+            });
 
 
+            $.each(obj, function (key, val) {
 
-            }
+                if (val === "") {
+                    $("#txt" + key).focus();
+                    return false;
+                }
+            });
+        }
 
 
 

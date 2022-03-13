@@ -3,7 +3,7 @@
     ViewBag.Title = "Administrador";
 }
 <div class="row">
-    <div class="col-md-12">
+    <div id="alertAjax" class="col-md-12">
         @Html.Raw(@ViewBag.Alert)
     </div>
 </div>
@@ -397,7 +397,7 @@
 
 <script>
         $(document).ready(function () {
-            showAlert();
+            //showAlert();
             //$("#txtNombre").val("Luis Manuel Mendoza González");
             //$("#txtPuesto").val("Desarrollador");
             //$("#txtArea_adscripcion").val("Subdirección de sistemas");
@@ -492,12 +492,9 @@
                 // Se ejecuta si todo fue bien.
                     .done(function (result) {
                         //showAlert();
-                        console.log(result);
-                        setInterval(function () {
-                            window.top.location = window.top.location
-                        }, 1000);
-                        if (result.informe != null) {
-
+                        //console.log(result);
+                        if (result != null) {
+                            console.log(result, "success");
                             // Actualiza el resultado HTML
                             //$("#PostList").html(result);
                             $("#divDescripcion").show();
@@ -526,12 +523,14 @@
                             $("#btnGeneral").prop("disabled", false);
 
                             // Mostramos un mensaje de éxito.
+                            $("#alertAjax").append(result);
+                            showAlert();
                             //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
                         } else {
+                            console.log(result, "error");
                             $("#divDescripcion").hide();
                             // Mostramos un mensaje de error.
-                            $("#alertFolio").append(result);
-
+                            $("#alertAjax").append(result);
                             // Habilitamos el botón de Submit
                             $("#btnGeneral").prop("disabled", false);
 
@@ -631,8 +630,8 @@
 
             }
 
-            function showAlert() {
-                
+    function showAlert() {
+        scroll("partialView");
                 setTimeout(function () {
 
                     $("#alerta").fadeOut(1500);
@@ -645,7 +644,14 @@
                     $("#alerta").remove();
                 }, 12000);
 
-            }
+    }
+
+    function scroll(id) {
+        try {
+            let el = document.getElementById(id);
+            el.scrollIntoView(true);
+        } catch (e) { console.log(e) }
+    }
 
 
 
