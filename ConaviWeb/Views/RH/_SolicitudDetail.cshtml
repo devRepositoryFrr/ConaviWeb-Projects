@@ -165,44 +165,113 @@
                                     </div>
                                 </div>
                                 <div class="hidden" id="pasajesavion">
-                                    <form id="form_avion">
-                                        <h4>Solicitud de pasajes aéreos</h4>
-                                        <hr class="red" />
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Fecha de salida:</strong>
-                                                    <div class="form-group datepicker-group">
-                                                        <br>
-                                                        <label class="red-text" id="fecha_salida" name="Fecha_salida" style="font-size:14px"></label>
-                                                    </div>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Fecha de regreso:</strong>
-                                                    <div class="form-group datepicker-group">
-                                                        <br>
-                                                        <label class="red-text" id="fecha_regreso" name="Fecha_regreso" style="font-size:14px"></label>
-                                                    </div>
-                                                </p>
-                                            </div>
+                                    <h4>Solicitud de pasajes aéreos</h4>
+                                    <hr class="red" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Fecha de salida:</strong>
+                                                <div class="form-group datepicker-group">
+                                                    <br>
+                                                    <label class="red-text" id="fecha_salida" name="Fecha_salida" style="font-size:14px"></label>
+                                                </div>
+                                            </p>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Horario estimado salida:</strong><br />
-                                                    <label class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></label>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Horario estimado regreso:</strong><br />
-                                                    <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
-                                                </p>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Fecha de regreso:</strong>
+                                                <div class="form-group datepicker-group">
+                                                    <br>
+                                                    <label class="red-text" id="fecha_regreso" name="Fecha_regreso" style="font-size:14px"></label>
+                                                </div>
+                                            </p>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Horario estimado salida:</strong><br />
+                                                <label class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Horario estimado regreso:</strong><br />
+                                                <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="hidden" id="datosAvion">
+                                    <h4>Línea aérea:</h4>
+                                    <label class="red-text" id="linea_aerea" name="Linea_aerea" style="font-size:14px"></label><br />
+                                    <strong>Vuelo Salida</strong><br /><br />
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Ruta:</strong><br>
+                                                <label class="red-text" id="ruta_i" name="Ruta_i" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Vuelo:</strong><br>
+                                                <label class="red-text" id="vuelo_i" name="Vuelo_i" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Sale:</strong><br>
+                                                <label class="red-text" id="sale_i" name="Sale_i" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+
+                                                <strong>Llega:</strong><br>
+                                                <label class="red-text" id="llega_i" name="Llega_i" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <label>Vuelo Regreso</label>
+                                    <div class="row">
                                         <br />
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Ruta:</strong><br>
+                                                <label class="red-text" id="ruta_f" name="Ruta_f" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Vuelo:</strong><br>
+                                                <label class="red-text" id="vuelo_f" name="Vuelo_f" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Sale:</strong><br>
+                                                <label class="red-text" id="sale_f" name="Sale_f" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>
+                                                <strong>Llega:</strong><br>
+                                                <label class="red-text" id="llega_f" name="Llega_f" style="font-size:14px"></label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden" id="capturaAvion">
+                                    <form id="form_avion">
                                         <input class="hidden" id="id" name="Id" />
                                         <h4>Línea aérea:</h4>
                                         <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
@@ -285,7 +354,7 @@
                                     </form>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>

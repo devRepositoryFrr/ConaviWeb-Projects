@@ -115,7 +115,7 @@
                     scroll("partial");
                     ValidaVehiculo();
                     ValidaAvion();
-                   
+                    ValidaCaptura();
                 }
 
 
@@ -238,6 +238,24 @@
 
 
         //Funciones mostrar/ocultar seccion vehicular o aerea
+
+        function ValidaCaptura() {
+            //console.log("entro Avion: ", $("#fecha salida").text());
+            var linea = $('#linea_aerea').text();
+            //console.log(salida);
+
+            if (linea != "") {
+                 console.log("mostrar ");
+                $("#datosAvion").removeClass("hidden");
+                $("#capturaAvion").addClass("hidden");
+            } else {
+                 console.log("ocultar ");
+                $("#datosAvion").addClass("hidden");
+                $("#capturaAvion").removeClass("hidden");
+            }
+
+
+        }
         function ValidaAvion() {
             //console.log("entro Avion: ", $("#fecha salida").text());
             var salida = $('#fecha_salida').text();
