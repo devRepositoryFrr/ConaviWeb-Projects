@@ -12,6 +12,7 @@ namespace ConaviWeb.Data.RH
         Task<bool> InsertViaticos(Viaticos viaticos);
         Task<IEnumerable<Viaticos>> GetSolicitudes();
         Task<bool> UpdateViaticos(Viaticos viaticos);
+        Task<Viaticos> GetSolicitud(int id);
 
     }
 }

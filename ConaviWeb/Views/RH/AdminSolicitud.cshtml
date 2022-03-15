@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-
+                    @*<a href="@Url.Action("GeneratePDF", "AdminSolicitud",new { id = "25" })"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
                 </div>
             </div>
             @*<div class="row">
@@ -204,7 +204,7 @@
                     json = json.replace(/"/g, "'");
 
                     
-                    return '<a id="' + json +'" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a>';
+                    return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a> | <a href="../AdminSolicitud/GeneratePDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
