@@ -52,6 +52,9 @@
                         NOMBRE
                     </th>
                     <th>
+                        ARCHIVO
+                    </th>
+                    <th>
                         EDITAR
                     </th>
                 </tr>
@@ -203,8 +206,21 @@
                     let json = JSON.stringify(row);
                     json = json.replace(/"/g, "'");
 
+
+                    return '<a href="../AdminSolicitud/GeneratePDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+            {
+                "targets": 5,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    let json = JSON.stringify(row);
+                    json = json.replace(/"/g, "'");
+
                     
-                    return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a> | <a href="../AdminSolicitud/GeneratePDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a> | <a href="../AdminSolicitud/SendFiles/" target="_blank"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'

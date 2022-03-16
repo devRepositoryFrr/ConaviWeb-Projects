@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using static ConaviWeb.Models.AlertsViewModel;
 
@@ -65,6 +68,39 @@ namespace ConaviWeb.Controllers.RH
             }
             var alert = AlertService.ShowAlert(Alerts.Success, "Se registraron los vuelos con exito");
             return Ok(alert);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendFilesAsync()
+        {
+            var path = System.IO.Path.Combine(_environment.WebRootPath,"doc","RH","result.pdf");
+            var path1 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_1.txt");
+            var path2 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_2.txt");
+            var filePaths = new string[] { path, path1, path2 };
+
+            using (var multipartFormContent = new MultipartFormDataContent())
+            {
+                foreach (var filePath in filePaths)
+                {
+                    var fileName = System.IO.Path.GetFileName(filePath);
+
+                    //Load the file and set the file's Content-Type header
+                    var fileStreamContent = new StreamContent(System.IO.File.OpenRead(filePath));
+                    //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+
+                    //Add the file
+                    multipartFormContent.Add(fileStreamContent, name: "formFiles", fileName: fileName);
+                }
+                using (var client = new HttpClient())
+                {
+                    //Send it
+                    var response = await client.PostAsync("http://172.16.250.2:5005/api/ConsultaCFDI", multipartFormContent);
+                    var contents = await response.Content.ReadAsStringAsync();
+                    return Ok(contents);
+                }
+                
+            }
 
         }
 
