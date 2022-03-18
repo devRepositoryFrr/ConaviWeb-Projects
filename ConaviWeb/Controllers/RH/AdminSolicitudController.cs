@@ -72,12 +72,15 @@ namespace ConaviWeb.Controllers.RH
         }
 
         [HttpGet]
-        public async Task<IActionResult> SendFilesAsync()
+        public async Task<IActionResult> SendFilesAsync(int id)
         {
-            var path = System.IO.Path.Combine(_environment.WebRootPath,"doc","RH","result.pdf");
-            var path1 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_1.txt");
-            var path2 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_2.txt");
-            var filePaths = new string[] { path, path1, path2 };
+            var user = 12;
+            var path = await GenerateSavePDFAsync(id);
+            //var path = System.IO.Path.Combine(_environment.WebRootPath,"doc","RH","result.pdf");
+            //var path1 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_1.txt");
+            //var path2 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_2.txt");
+            //var filePaths = new string[] { path, path1, path2 };
+            var filePaths = new string[] { path};
 
             using (var multipartFormContent = new MultipartFormDataContent())
             {
@@ -89,13 +92,15 @@ namespace ConaviWeb.Controllers.RH
                     var fileStreamContent = new StreamContent(System.IO.File.OpenRead(filePath));
                     //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
+                    //Add other fields
+                    multipartFormContent.Add(new StringContent(user.ToString()), name: "idUser");
                     //Add the file
                     multipartFormContent.Add(fileStreamContent, name: "formFiles", fileName: fileName);
                 }
                 using (var client = new HttpClient())
                 {
                     //Send it
-                    var response = await client.PostAsync("http://172.16.250.2:5005/api/ConsultaCFDI", multipartFormContent);
+                    var response = await client.PostAsync("http://172.16.250.2:5005/api/Efirma/UploadPost", multipartFormContent);
                     var contents = await response.Content.ReadAsStringAsync();
                     return Ok(contents);
                 }
@@ -105,7 +110,32 @@ namespace ConaviWeb.Controllers.RH
         }
 
         //[HttpPost]
-        public async Task<IActionResult> GeneratePDFAsync(int id, string type)
+        public async Task<string> GenerateSavePDFAsync(int id)
+        {
+
+            var viaticos = await _rHRepository.GetSolicitud(id);
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var fileName = viaticos.Folio + ".pdf";
+            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", id.ToString());
+            if (!Directory.Exists(pathPdf))
+                ProccessFileTools.CreateDirectory(pathPdf);
+            var file = System.IO.Path.Combine(pathPdf, fileName);
+            var iHeader = System.IO.Path.Combine(_environment.WebRootPath, "img", "headerConavi.png");
+            var iFooter = System.IO.Path.Combine(_environment.WebRootPath, "img", "footerConavi.png");
+            PdfWriter writer = new PdfWriter(file);
+            PdfDocument pdfDoc = new PdfDocument(writer);
+            Document doc = new Document(pdfDoc);
+
+            pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
+            //MARGEN DEL DOCUMENTO
+            doc.SetMargins(70, 50, 70, 50);
+            //LOGICA PDF
+            GetPDF(doc, viaticos);
+            doc.Close();
+            return file;
+        }
+
+        public async Task<IActionResult> GenerateStreamPDFAsync(int id)
         {
 
             var viaticos = await _rHRepository.GetSolicitud(id);
@@ -122,11 +152,27 @@ namespace ConaviWeb.Controllers.RH
             PdfDocument pdfDoc = new PdfDocument(writer);
             Document doc = new Document(pdfDoc);
             writer.SetCloseStream(false);
-            //PdfDocument pdfDoc = new PdfDocument(new PdfWriter(file));
-            //Document doc = new Document(pdfDoc);
+
             pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
             //MARGEN DEL DOCUMENTO
             doc.SetMargins(70, 50, 70, 50);
+            //LOGICA PDF
+            GetPDF(doc, viaticos);
+            doc.Close();
+
+            byte[] byteInfo = ms.ToArray();
+            ms.Write(byteInfo, 0, byteInfo.Length);
+            ms.Position = 0;
+            FileStreamResult fileStreamResult = new FileStreamResult(ms, "application/pdf");
+
+            //Uncomment this to return the file as a download
+            //fileStreamResult.FileDownloadName = "Output.pdf";
+
+            return fileStreamResult;
+        }
+
+        public Document GetPDF(Document doc, Viaticos viaticos)
+        {
             //Solicitud
             LineSeparator ls = new LineSeparator(new SolidLine());
             PdfFont fonte = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
@@ -358,14 +404,14 @@ namespace ConaviWeb.Controllers.RH
                       .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                       .SetWidth(0)
                       .Add(new Paragraph(viaticos.Folio)); //NUMERO DE FOLIO
-             Cell progre = new Cell(1, 1)
-                      .SetTextAlignment(TextAlignment.CENTER)
-                      .SetFont(fonts)
-                      .SetWidth(10)
-                      .SetHeight(12)
-                      .SetBorder(Border.NO_BORDER)
-                      .SetFontSize(8)
-                      .Add(new Paragraph("NÚMERO PROGRESIVO"));
+            Cell progre = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonts)
+                     .SetWidth(10)
+                     .SetHeight(12)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(8)
+                     .Add(new Paragraph("NÚMERO PROGRESIVO"));
             progresivo.AddCell(numero);
             progresivo.AddCell(progre);
             doc.Add(progresivo);
@@ -460,24 +506,24 @@ namespace ConaviWeb.Controllers.RH
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(8)
                   .Add(new Paragraph("INGENIERO")); //FALTA CAMPTURA DEL NIVEL COMISIONADO
-            //SeccionArea
-             Cell Area = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFont(fonts)
-                  .SetWidth(10)
-                  .SetHeight(12)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(8)
-                  .Add(new Paragraph("Área de Adscripción"));
-              Cell txtArea = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFont(fonte)
-                  .SetWidth(10)
-                  .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                  .SetHeight(12)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(6)
-                  .Add(new Paragraph(viaticos.Area_adscripcion)); //AREA DE ADSCRIPCION 
+                                                    //SeccionArea
+            Cell Area = new Cell(1, 1)
+                 .SetTextAlignment(TextAlignment.LEFT)
+                 .SetFont(fonts)
+                 .SetWidth(10)
+                 .SetHeight(12)
+                 .SetBorder(Border.NO_BORDER)
+                 .SetFontSize(8)
+                 .Add(new Paragraph("Área de Adscripción"));
+            Cell txtArea = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetFont(fonte)
+                .SetWidth(10)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(12)
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(6)
+                .Add(new Paragraph(viaticos.Area_adscripcion)); //AREA DE ADSCRIPCION 
             tableOf.AddCell(nombre);
             tableOf.AddCell(txtnombre);
             tableOf.AddCell(rfc);
@@ -501,41 +547,41 @@ namespace ConaviWeb.Controllers.RH
                 .SetFontColor(DeviceGray.BLACK)
                 .SetTextAlignment(TextAlignment.CENTER);
             table1.AddHeaderCell(motivos);
-             Cell objetivo = new Cell(1, 1)
+            Cell objetivo = new Cell(1, 1)
+               .SetTextAlignment(TextAlignment.LEFT)
+               .SetFont(fonts)
+               .SetHeight(12)
+               .SetBorder(Border.NO_BORDER)
+               .SetFontSize(8)
+               .SetWidth(0)
+               .Add(new Paragraph("Objetivo"));
+            Cell txtobjetivos = new Cell(1, 1)
+               .SetTextAlignment(TextAlignment.LEFT)
+               .SetFont(font)
+               .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+               .SetHeight(12)
+               .SetBorder(Border.NO_BORDER)
+               .SetFontSize(9)
+               .Add(new Paragraph(viaticos.Objetivo)); //OBJETIVO DE LA COMISION 
+            Cell observaciones = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetFont(fonts)
                 .SetHeight(12)
                 .SetBorder(Border.NO_BORDER)
-                .SetFontSize(8)
-                .SetWidth(0)
-                .Add(new Paragraph("Objetivo"));
-              Cell txtobjetivos = new Cell(1, 1)
-                 .SetTextAlignment(TextAlignment.LEFT)
-                 .SetFont(font)
-                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                 .SetHeight(12)
-                 .SetBorder(Border.NO_BORDER)
-                 .SetFontSize(9)
-                 .Add(new Paragraph(viaticos.Objetivo)); //OBJETIVO DE LA COMISION 
-              Cell observaciones = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFont(fonts)
-                  .SetHeight(12)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(9)
-                  .Add(new Paragraph("Observaciones"));
-              Cell txtobservaciones = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFont(fonte)
-                  .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                  .SetHeight(12)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(9)
-                  .Add(new Paragraph(viaticos.Observaciones)); //OBSERVACIONES 
-              table1.AddCell(objetivo);
-              table1.AddCell(txtobjetivos);
-              table1.AddCell(observaciones);
-              table1.AddCell(txtobservaciones);
+                .SetFontSize(9)
+                .Add(new Paragraph("Observaciones"));
+            Cell txtobservaciones = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetFont(fonte)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(12)
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(9)
+                .Add(new Paragraph(viaticos.Observaciones)); //OBSERVACIONES 
+            table1.AddCell(objetivo);
+            table1.AddCell(txtobjetivos);
+            table1.AddCell(observaciones);
+            table1.AddCell(txtobservaciones);
             doc.Add(table1);
             float[] columnWidths2 = { 2, 1, 1, 1, 1, 1 };
             Table lugares = new Table(UnitValue.CreatePercentArray(columnWidths2));
@@ -550,7 +596,25 @@ namespace ConaviWeb.Controllers.RH
                 .SetFontSize(7)
                 .SetHeight(25f)
                 .Add(new Paragraph("LUGARES ASIGNADOS EN LA COMISIÓN"));
-             Cell medio = new Cell(1, 1)
+            Cell medio = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(22f)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(7)
+                .Add(new Paragraph("MEDIO DE TRANSPORTE"));
+            Cell periodo = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetHeight(22f)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(7)
+                .Add(new Paragraph("PERIODO DE LA COMISIÓN"));
+            Cell dias = new Cell(1, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
                  .SetFont(fonts)
                  .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
@@ -558,50 +622,32 @@ namespace ConaviWeb.Controllers.RH
                  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
                  .SetBorder(Border.NO_BORDER)
                  .SetFontSize(7)
-                 .Add(new Paragraph("MEDIO DE TRANSPORTE"));
-             Cell periodo = new Cell(1, 1)
+                 .Add(new Paragraph("DÍAS DE DURACIÓN"));
+            Cell cuota = new Cell(1, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
                  .SetFont(fonts)
-                 .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                  .SetHeight(22f)
-                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                  .SetBorder(Border.NO_BORDER)
-                 .SetFontSize(7)
-                 .Add(new Paragraph("PERIODO DE LA COMISIÓN"));
-             Cell dias = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.CENTER)
-                  .SetFont(fonts)
-                  .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                  .SetHeight(22f)
-                  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(7)
-                  .Add(new Paragraph("DÍAS DE DURACIÓN"));
-             Cell cuota = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.CENTER)
-                  .SetFont(fonts)
-                  .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                  .SetHeight(22f)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                  .SetFontSize(7)
-                  .Add(new Paragraph("COUTA DIARIA"));
-             Cell importe = new Cell(1, 1)
-                 .SetTextAlignment(TextAlignment.CENTER)
-                 .SetFont(fonts)
                  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                 .SetBorder(Border.NO_BORDER)
                  .SetFontSize(7)
-                 .Add(new Paragraph("IMPORTE DE VIÁTICOS"));
-             Cell txtlugar = new Cell(1, 1)
-                 .SetTextAlignment(TextAlignment.CENTER)
-                 .SetFont(fonte)
-                 .SetHeight(12)
-                 .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                 .SetBorder(Border.NO_BORDER)
-                 .SetFontSize(7)
-                 .Add(new Paragraph(viaticos.Lugares_asignados_comision)); //LUGARES ASIGANDOS DE LA COMISION
+                 .Add(new Paragraph("COUTA DIARIA"));
+            Cell importe = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(7)
+                .Add(new Paragraph("IMPORTE DE VIÁTICOS"));
+            Cell txtlugar = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonte)
+                .SetHeight(12)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetBorder(Border.NO_BORDER)
+                .SetFontSize(7)
+                .Add(new Paragraph(viaticos.Lugares_asignados_comision)); //LUGARES ASIGANDOS DE LA COMISION
             Cell txtmedio = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonte)
@@ -853,7 +899,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetHeight(12)
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(7)
-                  .Add(new Paragraph("LLEGA")); 
+                  .Add(new Paragraph("LLEGA"));
             Cell txt1 = new Cell(1, 1)
                    .SetTextAlignment(TextAlignment.CENTER)
                    .SetFont(fonte)
@@ -890,24 +936,24 @@ namespace ConaviWeb.Controllers.RH
                      .SetBorder(Border.NO_BORDER)
                      .SetFontSize(7)
                      .Add(new Paragraph(viaticos.Vuelo_i)); //NUMERO DE VUELO FALTA NUMERO DE VUELO
-             Cell txt5 = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonte)
-                     .SetWidth(10)
-                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(7)
-                     .Add(new Paragraph(viaticos.Sale_i)); //FECHA DE SALIDA DEL VUELO 
-             Cell txt6 = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonte)
-                     .SetWidth(10)
-                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(7)
-                     .Add(new Paragraph(viaticos.Llega_i)); //LLEGADA AL DESTINO 
+            Cell txt5 = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Sale_i)); //FECHA DE SALIDA DEL VUELO 
+            Cell txt6 = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Llega_i)); //LLEGADA AL DESTINO 
             //ParteBaja
             Cell rutallegada = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
@@ -918,14 +964,14 @@ namespace ConaviWeb.Controllers.RH
                      .SetFontSize(8)
                      .SetWidth(0)
                      .Add(new Paragraph("RUTA"));
-             Cell fecharegreso = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonts)
-                     .SetWidth(10)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(7)
-                     .Add(new Paragraph("FECHA DE REGRESO"));
+            Cell fecharegreso = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonts)
+                    .SetWidth(10)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph("FECHA DE REGRESO"));
             Cell vueloregreso = new Cell(1, 1)
                      .SetBorder(Border.NO_BORDER)
                      .Add(new Paragraph(" "));
@@ -1014,7 +1060,7 @@ namespace ConaviWeb.Controllers.RH
             vuelos.AddCell(vuelo);
             vuelos.AddCell(sale);
             vuelos.AddCell(llega);
-            vuelos.AddCell(txt1);   
+            vuelos.AddCell(txt1);
             vuelos.AddCell(txt2);
             vuelos.AddCell(txt3);
             vuelos.AddCell(txt4);
@@ -1113,19 +1159,19 @@ namespace ConaviWeb.Controllers.RH
                    .SetFontSize(9)
                    .SetBorder(Border.NO_BORDER)
                    .Add(new Paragraph(viaticos.Puesto)); //NOMBRE DEL PUESTO 
-                    puestosT.AddCell(cell101T);
-                    puestosT.AddCell(cell102T);
-                    puestosT.AddCell(cell103T);
-                    puestosT.AddCell(cell104T);
-                    puestosT.AddCell(cell105T);
-                    puestosT.AddCell(cell106T);
-                    puestosT.AddCell(cell1071T);
-                    puestosT.AddCell(cell107T);
-                    doc.Add(puestosT);
-                    doc.Add(saltoDeLineaT);
-                    doc.Add(saltoDeLineaT);
-                    doc.Add(saltoDeLineaT);
-                    doc.Add(saltoDeLineaT);
+            puestosT.AddCell(cell101T);
+            puestosT.AddCell(cell102T);
+            puestosT.AddCell(cell103T);
+            puestosT.AddCell(cell104T);
+            puestosT.AddCell(cell105T);
+            puestosT.AddCell(cell106T);
+            puestosT.AddCell(cell1071T);
+            puestosT.AddCell(cell107T);
+            doc.Add(puestosT);
+            doc.Add(saltoDeLineaT);
+            doc.Add(saltoDeLineaT);
+            doc.Add(saltoDeLineaT);
+            doc.Add(saltoDeLineaT);
             //COMISION 
             Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionar " + viaticos.Descripcion_comision)
                      .SetTextAlignment(TextAlignment.JUSTIFIED_ALL)
@@ -1137,17 +1183,7 @@ namespace ConaviWeb.Controllers.RH
                    .SetFontColor(DeviceGray.BLACK)
                    .SetFontSize(11);
             doc.Add(segundo);
-            doc.Close();
-            byte[] byteInfo = ms.ToArray();
-            ms.Write(byteInfo, 0, byteInfo.Length);
-            ms.Position = 0;
-            FileStreamResult fileStreamResult = new FileStreamResult(ms, "application/pdf");
-
-            //Uncomment this to return the file as a download
-            //fileStreamResult.FileDownloadName = "Output.pdf";
-
-            return fileStreamResult;
-            //return RedirectToAction("Index");
+            return doc;
         }
 
         private class TextFooterEventHandler : IEventHandler

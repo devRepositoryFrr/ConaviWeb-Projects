@@ -207,7 +207,7 @@
                     json = json.replace(/"/g, "'");
 
 
-                    return '<a href="../AdminSolicitud/GeneratePDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    return '<a href="../AdminSolicitud/GenerateStreamPDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -220,7 +220,7 @@
                     json = json.replace(/"/g, "'");
 
                     
-                    return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a> | <a href="../AdminSolicitud/SendFiles/" target="_blank"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
+                    return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;"><i class="fa fa-pencil"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '" target="_blank"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
