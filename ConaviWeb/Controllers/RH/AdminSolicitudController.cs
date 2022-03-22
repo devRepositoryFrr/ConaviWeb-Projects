@@ -71,44 +71,6 @@ namespace ConaviWeb.Controllers.RH
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SendFilesAsync(int id)
-        {
-            var user = 12;
-            var path = await GenerateSavePDFAsync(id);
-            //var path = System.IO.Path.Combine(_environment.WebRootPath,"doc","RH","result.pdf");
-            //var path1 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_1.txt");
-            //var path2 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_2.txt");
-            //var filePaths = new string[] { path, path1, path2 };
-            var filePaths = new string[] { path};
-
-            using (var multipartFormContent = new MultipartFormDataContent())
-            {
-                foreach (var filePath in filePaths)
-                {
-                    var fileName = System.IO.Path.GetFileName(filePath);
-
-                    //Load the file and set the file's Content-Type header
-                    var fileStreamContent = new StreamContent(System.IO.File.OpenRead(filePath));
-                    //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-
-                    //Add other fields
-                    multipartFormContent.Add(new StringContent(user.ToString()), name: "idUser");
-                    //Add the file
-                    multipartFormContent.Add(fileStreamContent, name: "formFiles", fileName: fileName);
-                }
-                using (var client = new HttpClient())
-                {
-                    //Send it
-                    var response = await client.PostAsync("http://172.16.250.2:5005/api/Efirma/UploadPost", multipartFormContent);
-                    var contents = await response.Content.ReadAsStringAsync();
-                    return Ok(contents);
-                }
-                
-            }
-
-        }
-
         //[HttpPost]
         public async Task<string> GenerateSavePDFAsync(int id)
         {

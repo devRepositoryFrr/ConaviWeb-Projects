@@ -1,4 +1,5 @@
 using ConaviWeb.Data;
+using ConaviWeb.Data.Reporteador;
 using ConaviWeb.Data.Repositories;
 using ConaviWeb.Data.RH;
 using ConaviWeb.Data.Shell;
@@ -73,6 +74,7 @@ namespace ConaviWeb
             services.AddScoped<ISecurityTools, SecurityTools>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRHRepository, RHRepository>();
+            services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
             var appSettingSection = Configuration.GetSection("AppSettings");
             //services.AddSingleton<HttpClient>();  Revisar el uso de esta inyección
             services.AddScoped<IProcessSignRepository, ProcessSignRepository>();

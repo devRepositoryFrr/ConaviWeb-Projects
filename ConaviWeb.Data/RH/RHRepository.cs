@@ -197,6 +197,23 @@ namespace ConaviWeb.Data.RH
             });
             return result > 0;
         }
+        public async Task<bool> UpdateEstatus(int id, int estatus)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE prod_rh.solicitud_viaticos
+                            SET estatus = @Estatus
+                        WHERE id = @Id;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                id,
+                estatus,
+                
+            });
+            return result > 0;
+        }
 
         public async Task<Viaticos> GetSolicitud(int id)
         {
