@@ -1,7 +1,7 @@
 ﻿@model ConaviWeb.Model.Sisevive.Etiquetado
 @{
    
-    ViewBag.Title = "AdminSol";
+    ViewBag.Title = "ContasSol";
 }
 
 <div class="form-row">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>
+                    @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
                 </div>
             </div>
             @*<div class="row">
@@ -133,7 +133,7 @@
                 "proccessing": true,
                 "serverSide": false,
                 "ajax": {
-                    url: "@Url.Action("GetSolicitudes", "AdminSolicitud")",
+                    url: "@Url.Action("GetSolicitudes", "ContasSolicitud")",
                     //url: "/AdminSolicitud/GetSolicitudes",
                     type: 'GET',
                     headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
@@ -203,10 +203,11 @@
                 "targets": 4,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    if (row.estatus >= 3) {
-                        return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Firmado/Recursos_Humanos/' + row.archivo_firma +'" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    }
-                    return '<a href="../AdminSolicitud/GenerateStreamPDF/' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    let json = JSON.stringify(row);
+                    json = json.replace(/"/g, "'");
+
+
+                    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -215,20 +216,11 @@
                 "targets": 5,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    let json = JSON.stringify(row);
-                    json = json.replace(/"/g, "'");
-                    if (row.estatus == 1) {
-
-                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar Solicitud"><i class="fa fa-pencil-square-o"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '" target="_blank"  data-toggle="tooltip" title="Enviar a firma"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
-                    } else if (row.estatus == 2){
-                        return '<small style="font-size:20px;">En proceso de firma</samll>';
-                    //} else if (row.estatus == 3) {
-                    //    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    //    //return '<small style="font-size:20px;"></samll>';
-                    } else if (row.estatus == 4) {
-                        return '<small style="font-size:20px;">VoBo Contas</samll>';
-                    }
-                    return "";
+                    if (row.estatus == 3) {
+                        return '<a href="../ContasSolicitud/VoBoContas/' + row.id + '"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
+                    } else if (row.estatus == 4){
+                        return '<small style="font-size:20px;">En proceso de pago</samll>';
+                    } return "";
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -268,15 +260,15 @@
             var linea = $('#linea_aerea').text();
             //console.log(salida);
 
-            //if (linea != "") {
-            //     console.log("mostrar ");
-            //    $("#datosAvion").removeClass("hidden");
-            //    $("#capturaAvion").addClass("hidden");
-            //} else {
-            //     console.log("ocultar ");
-            //    $("#datosAvion").addClass("hidden");
-            //    $("#capturaAvion").removeClass("hidden");
-            //}
+            if (linea != "") {
+                 console.log("mostrar ");
+                $("#datosAvion").removeClass("hidden");
+                $("#capturaAvion").addClass("hidden");
+            } else {
+                 console.log("ocultar ");
+                $("#datosAvion").addClass("hidden");
+                $("#capturaAvion").removeClass("hidden");
+            }
 
 
         }

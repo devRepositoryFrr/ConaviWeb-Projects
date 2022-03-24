@@ -158,12 +158,67 @@ namespace ConaviWeb.Data.RH
                             ruta_f AS Ruta_f ,
                             vuelo_f AS Vuelo_f ,
                             sale_f AS Sale_f ,
-                            llega_f AS Llega_f 
+                            llega_f AS Llega_f,
+                            estatus AS Estatus,
+                            (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
+							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
+							where ao.nombre_archivo = concat(folio,'.pdf')
+							ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area;";
 
             return await db.QueryAsync<Viaticos>(sql, new { });
+        }
+        public async Task<IEnumerable<Viaticos>> GetSolicitudes(int estatus)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                       SELECT sv.id AS Id,
+                            folio AS Folio,
+                            fecha_registro AS FechaSol,
+                            concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
+                            u.cargo AS Puesto ,
+                            ca.descripcion  AS Area_adscripcion ,
+                            descripcion_comision AS Descripcion_comision ,
+                            objetivo AS Objetivo ,
+                            observaciones AS Observaciones ,
+                            lugares_asignados_comision AS Lugares_asignados_comision ,
+                            medio_transporte AS Medio_transporte ,
+                            periodo_comision_i AS Periodo_comision_i ,
+                            periodo_comision_f AS Periodo_comision_f ,
+                            dias_duracion AS Dias_duracion ,
+                            cuota_diaria AS Cuota_diaria ,
+                            importe_viaticos AS Importe_viaticos ,
+                            num_casetas AS Num_casetas ,
+                            dotacion_combustible AS Dotacion_combustible ,
+                            importe_gastos AS Importe_gastos ,
+                            total_peajes AS Total_peajes ,
+                            fecha_salida AS Fecha_salida ,
+                            fecha_regreso AS Fecha_regreso ,
+                            horario_estimado_s AS Horario_salida ,
+                            horario_estimado_r AS Horario_regreso ,
+                            linea_aerea AS Linea_aerea ,
+                            ruta_i AS Ruta_i ,
+                            vuelo_i AS Vuelo_i ,
+                            sale_i AS Sale_i ,
+                            llega_i AS Llega_i ,
+                            ruta_f AS Ruta_f ,
+                            vuelo_f AS Vuelo_f ,
+                            sale_f AS Sale_f ,
+                            llega_f AS Llega_f,
+                            estatus AS Estatus,
+                            (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
+							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
+							where ao.nombre_archivo = concat(folio,'.pdf')
+							ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
+                        FROM prod_rh.solicitud_viaticos sv
+                        JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
+                        JOIN prod_usuario.c_area ca ON ca.id = u.id_area
+                        WHERE prod_rh.estatus = @Estatus;";
+
+            return await db.QueryAsync<Viaticos>(sql, new { Estatus = estatus });
         }
         public async Task<bool> UpdateViaticos(Viaticos viaticos)
         {
@@ -233,26 +288,26 @@ namespace ConaviWeb.Data.RH
                             medio_transporte AS Medio_transporte ,
                             periodo_comision_i AS Periodo_comision_i ,
                             periodo_comision_f AS Periodo_comision_f ,
-                            dias_duracion AS Dias_duracion ,
-                            cuota_diaria AS Cuota_diaria ,
-                            importe_viaticos AS Importe_viaticos ,
-                            num_casetas AS Num_casetas ,
-                            dotacion_combustible AS Dotacion_combustible ,
-                            importe_gastos AS Importe_gastos ,
-                            total_peajes AS Total_peajes ,
+                            ifnull(dias_duracion,'') AS Dias_duracion ,
+                            ifnull(cuota_diaria,'') AS Cuota_diaria ,
+                            ifnull(importe_viaticos,'') AS Importe_viaticos ,
+                            ifnull(num_casetas,'') AS Num_casetas ,
+                            ifnull(dotacion_combustible,'') AS Dotacion_combustible ,
+							ifnull(importe_gastos,'') AS Importe_gastos ,
+							ifnull(total_peajes,'') AS Total_peajes,
                             fecha_salida AS Fecha_salida ,
                             fecha_regreso AS Fecha_regreso ,
-                            horario_estimado_s AS Horario_salida ,
-                            horario_estimado_r AS Horario_regreso ,
-                            linea_aerea AS Linea_aerea ,
-                            ruta_i AS Ruta_i ,
-                            vuelo_i AS Vuelo_i ,
-                            sale_i AS Sale_i ,
-                            llega_i AS Llega_i ,
-                            ruta_f AS Ruta_f ,
-                            vuelo_f AS Vuelo_f ,
-                            sale_f AS Sale_f ,
-                            llega_f AS Llega_f 
+                            ifnull(horario_estimado_s,'') AS Horario_salida ,
+							ifnull(horario_estimado_r,'') AS Horario_regreso ,
+							ifnull(linea_aerea,'') AS Linea_aerea ,
+							ifnull(ruta_i,'') AS Ruta_i ,
+							ifnull(vuelo_i,'') AS Vuelo_i ,
+							ifnull(sale_i,'') AS Sale_i ,
+							ifnull(llega_i,'') AS Llega_i ,
+							ifnull(ruta_f,'') AS Ruta_f ,
+							ifnull(vuelo_f,'') AS Vuelo_f ,
+							ifnull(sale_f,'') AS Sale_f ,
+							ifnull(llega_f,'') AS Llega_f 
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area

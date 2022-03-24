@@ -42,11 +42,7 @@ namespace ConaviWeb.Model.RH
         public string Llega_f { get; set; }
         public string FechaSol { get; set; }
         public string Folio { get; set; }
-    }
-    public enum Horario
-    {
-        Mañana = 1,
-        Tarde = 2,
-        Noche = 3
+        public string Estatus { get; set; }
+        public string Archivo_firma { get; set; }
     }
 }
