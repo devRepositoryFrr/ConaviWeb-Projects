@@ -40,6 +40,8 @@ namespace ConaviWeb.Controllers.RH
         }
         public IActionResult Index()
         {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/AdminSolicitud");
         }
         [HttpGet]
@@ -60,6 +62,7 @@ namespace ConaviWeb.Controllers.RH
             var user = 12; //id usuario de efirma
             var path = await GenerateSavePDFAsync(id);
             var success = await _rHRepository.UpdateEstatus(id,2);
+            string content;
             //var path = System.IO.Path.Combine(_environment.WebRootPath,"doc","RH","result.pdf");
             //var path1 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_1.txt");
             //var path2 = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "vista padron_2.txt");
@@ -85,12 +88,19 @@ namespace ConaviWeb.Controllers.RH
                 {
                     //Send it
                     var response = await client.PostAsync("http://172.16.250.2:5005/api/Efirma/UploadPost", multipartFormContent);
-                    var contents = await response.Content.ReadAsStringAsync();
-                    return Ok(contents);
+                    content = await response.Content.ReadAsStringAsync();
+
+                    //return Ok(contents);
                 }
 
             }
-
+            if (!content.Contains("success"))
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud a firma");
+                return RedirectToAction("Index");
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Solicitud registrada para firma con exito");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -344,7 +354,7 @@ namespace ConaviWeb.Controllers.RH
                 .SetFont(fonts)
                 .SetFontColor(new DeviceRgb(130, 27, 63))
                 .SetFontSize(8)
-                .Add(new Paragraph(viaticos.Total_peajes)); //MONTO TOTAL 
+                .Add(new Paragraph(viaticos.Importe_viaticos)); //MONTO TOTAL 
             table.AddCell(cell115);
             table.AddCell(cell116);
             table.AddCell(cell117);
@@ -355,6 +365,34 @@ namespace ConaviWeb.Controllers.RH
             table.AddCell(cellmon);
             table.AddCell(celltot);
             doc.Add(table);
+
+
+            Table firma1 = new Table(1, false);
+            firma1.SetBorder(Border.NO_BORDER);
+            firma1.SetRelativePosition(130, 350, 50, 40);
+            Cell servidorpublico = new Cell(1, 1)
+              .SetTextAlignment(TextAlignment.CENTER)
+              .SetFont(fonts)
+              .SetFontSize(7)
+              .SetHeight(10)
+              .SetWidth(200)
+              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            Cell areatxt = new Cell(1, 1)
+              .SetHeight(60); //AreaParaFirma
+            Cell nombreservidor = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetFontSize(7)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(10)
+                .SetWidth(130)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            firma1.AddCell(servidorpublico);
+            firma1.AddCell(areatxt);
+            firma1.AddCell(nombreservidor);
+            doc.Add(firma1);
 
             //**AgregamosNuevoDocumento**//
             //*--*OficioNuevoDocumento*--*
@@ -470,7 +508,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetHeight(12)
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(8)
-                  .Add(new Paragraph("SICE950711318")); //FALTA ESTE CAMPO PARA SOLICITAR EL RFC DEL SOLICITATE
+                  .Add(new Paragraph(viaticos.RFC)); //FALTA ESTE CAMPO PARA SOLICITAR EL RFC DEL SOLICITATE
             //SeccionPuesto
             Cell puestoOf = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.LEFT)
@@ -506,7 +544,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetHeight(12)
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(8)
-                  .Add(new Paragraph("INGENIERO")); //FALTA CAMPTURA DEL NIVEL COMISIONADO
+                  .Add(new Paragraph(viaticos.CvNivel)); //FALTA CAMPTURA DEL NIVEL COMISIONADO
                                                     //SeccionArea
             Cell Area = new Cell(1, 1)
                  .SetTextAlignment(TextAlignment.LEFT)
@@ -662,7 +700,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetVerticalAlignment((VerticalAlignment.MIDDLE))
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(7)
-                  .Add(new Paragraph(viaticos.Periodo_comision_f)); //PERIODO DE LA COMISION 
+                  .Add(new Paragraph(viaticos.Periodo_comision_i + " - " +viaticos.Periodo_comision_f)); //PERIODO DE LA COMISION 
             Cell txtdias = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonte)
@@ -702,7 +740,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetFontSize(7)
                   .SetBorder(Border.NO_BORDER)
-                  .Add(new Paragraph(viaticos.Total_peajes)); //TOTAL DE VIATICOS 
+                  .Add(new Paragraph(viaticos.Importe_viaticos)); //TOTAL DE VIATICOS 
             lugares.AddCell(lugar);
             lugares.AddCell(medio);
             lugares.AddCell(periodo);
@@ -795,16 +833,16 @@ namespace ConaviWeb.Controllers.RH
             numcas.AddCell(txtcas);
             numcas.AddCell(txtprev);
             casetas.Add(numcas);
-            Cell txtdotacion = new Cell(1, 1)
-                 .SetTextAlignment(TextAlignment.CENTER)
-                 .SetFont(fonte)
-                 .SetWidth(10)
-                 .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                 .SetHeight(30)
-                 .SetBorder(Border.NO_BORDER)
-                 .SetFontSize(7)
-                 .Add(new Paragraph(viaticos.Dotacion_combustible)); //DotacionDeCombustible
+            //Cell txtdotacion = new Cell(1, 1)
+            //     .SetTextAlignment(TextAlignment.CENTER)
+            //     .SetFont(fonte)
+            //     .SetWidth(10)
+            //     .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+            //     .SetHeight(30)
+            //     .SetBorder(Border.NO_BORDER)
+            //     .SetFontSize(7)
+            //     .Add(new Paragraph(viaticos.Dotacion_combustible)); //DotacionDeCombustible
             //CreacionDeTablaParaPeajes
             Table peaje = new Table(2, false);
             peaje.SetBorder(Border.NO_BORDER);
@@ -837,7 +875,7 @@ namespace ConaviWeb.Controllers.RH
             pasajes.AddCell(dotacion);
             pasajes.AddCell(combustible);
             pasajes.AddCell(casetas);
-            pasajes.AddCell(txtdotacion);
+            //pasajes.AddCell(txtdotacion);
             pasajes.AddCell(peajes1);
             doc.Add(pasajes);
             float[] columnWidths22 = { 8, 8, 8, 8, 8, 8 };
@@ -1080,7 +1118,34 @@ namespace ConaviWeb.Controllers.RH
             vuelos.AddCell(txt66);
             vuelos.AddCell(txt77);
             doc.Add(vuelos);
+            //SeAgregaCampoParaFirmar
+            Table firma2 = new Table(1, false);
+            firma2.SetBorder(Border.NO_BORDER);
+            firma2.SetRelativePosition(130, 150, 50, 40);
+            Cell servidorpublico2 = new Cell(1, 1)
+               .SetTextAlignment(TextAlignment.CENTER)
+              .SetFont(fonts)
+              .SetFontSize(7)
+              .SetHeight(10)
+              .SetWidth(200)
+              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            Cell areatxt2 = new Cell(1, 1)
+              .SetHeight(60); //AreaParaFirma
+            Cell nombreservido2 = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetFontSize(7)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(10)
+                .SetWidth(130)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            firma2.AddCell(servidorpublico2);
+            firma2.AddCell(areatxt2);
+            firma2.AddCell(nombreservido2);
 
+            doc.Add(firma2);
 
             //**AgregamosNuevoDocumentoTARJETACOMISION**//
             //Agregamos la Tarjeta de comision
@@ -1175,15 +1240,42 @@ namespace ConaviWeb.Controllers.RH
             doc.Add(saltoDeLineaT);
             //COMISION 
             Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionar " + viaticos.Descripcion_comision)
-                     .SetTextAlignment(TextAlignment.JUSTIFIED_ALL)
+                     .SetTextAlignment(TextAlignment.JUSTIFIED)
                      .SetFontColor(DeviceGray.BLACK)
                      .SetFontSize(11);
             doc.Add(primer);
             Paragraph segundo = new Paragraph("Lo anterior con el fin de que lleva cabo las rlque he tenido a bien comisionarlo que he tenido " + viaticos.Objetivo)
-                   .SetTextAlignment(TextAlignment.JUSTIFIED_ALL)
+                   .SetTextAlignment(TextAlignment.JUSTIFIED)
                    .SetFontColor(DeviceGray.BLACK)
                    .SetFontSize(11);
             doc.Add(segundo);
+
+            Table firma3 = new Table(1, false);
+            firma3.SetBorder(Border.NO_BORDER);
+            firma3.SetRelativePosition(130, 350, 50, 40);
+            Cell servidorpublico3 = new Cell(1, 1)
+               .SetTextAlignment(TextAlignment.CENTER)
+              .SetFont(fonts)
+              .SetFontSize(7)
+              .SetHeight(10)
+              .SetWidth(200)
+              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            Cell areatxt3 = new Cell(1, 1)
+              .SetHeight(60); //AreaParaFirma
+            Cell nombreservidor3 = new Cell(1, 1)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFont(fonts)
+                .SetFontSize(7)
+                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                .SetHeight(10)
+                .SetWidth(130)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            firma3.AddCell(servidorpublico3);
+            firma3.AddCell(areatxt3);
+            firma3.AddCell(nombreservidor3);
+            doc.Add(firma3);
             return doc;
         }
 

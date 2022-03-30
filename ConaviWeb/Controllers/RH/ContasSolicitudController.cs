@@ -21,6 +21,8 @@ namespace ConaviWeb.Controllers.RH
         }
         public IActionResult Index()
         {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/ContasSolicitud");
         }
         [HttpGet]
@@ -37,13 +39,12 @@ namespace ConaviWeb.Controllers.RH
         public async Task<IActionResult> VoBoContasAsync(int id)
         {
             var success = await _rHRepository.UpdateEstatus(id,4);
-            string alert = "";
             if (!success)
             {
-                alert = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al actualizar estatus");
+                TempData["Alert"]=AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al actualizar estatus");
                 return RedirectToAction("Index");
             }
-            alert = AlertService.ShowAlert(Alerts.Success, "Se verifico la solicitud con exito");
+            TempData["Alert"]=AlertService.ShowAlert(Alerts.Success, "Se verifico la solicitud con exito");
             return RedirectToAction("Index");
         }
     }

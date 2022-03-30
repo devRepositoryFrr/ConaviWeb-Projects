@@ -24,7 +24,7 @@ namespace ConaviWeb.Model.RH
         public string Cuota_diaria { get; set; }
         public string Importe_viaticos { get; set; }
         public string Num_casetas { get; set; }
-        public string Dotacion_combustible { get; set; }
+        //public string Dotacion_combustible { get; set; }
         public string Importe_gastos { get; set; }
         public string Total_peajes { get; set; }
         public string Fecha_salida { get; set; }
@@ -44,5 +44,8 @@ namespace ConaviWeb.Model.RH
         public string Folio { get; set; }
         public string Estatus { get; set; }
         public string Archivo_firma { get; set; }
+        public string Obs_aereo { get; set; }
+        public string RFC { get; set; }
+        public string CvNivel { get; set; }
     }
 }

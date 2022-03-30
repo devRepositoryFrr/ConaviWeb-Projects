@@ -4,9 +4,7 @@
     ViewBag.Title = "AdminSol";
 }
 
-<div class="form-row">
-    <div class="panel panel-default">
-        <div class="panel-body">
+
             <div class="row">
                 <div class="form-group col-md-4">
                     <div id="spinner" class="spinner-border text-primary" role="status">
@@ -19,21 +17,10 @@
                     </div>
                 </div>
                 <div class="form-group col-md-4">
-                    <a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>
+                    @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
                 </div>
             </div>
-            @*<div class="row">
-                    <div class="form-group  col-md-4">
-                        <label>Tipo</label>
-                        <select id="slctTipo" class="form-control">
-                            <option value="1">Evaluación</option>
-                            <option value="2">Etiquetado</option>
-                        </select>
-                    </div>
-                </div>*@
-        </div>
-    </div>
-</div>
+            
 <div id="divTable" class="form-group" style="display:none;">
     <form id="formTable">
         <table id="table" class="table" style="width: 100%">
@@ -46,7 +33,7 @@
                         FECHA
                     </th>
                     <th>
-                        FOLIO
+                        # COMISIÓN
                     </th>
                     <th>
                         NOMBRE
@@ -79,6 +66,7 @@
     var table;
     var dataJSON;
         $(document).ready(function () {
+            showAlert();
             $("#spinner").hide();
             //showAlert();
             //var tipo = $("#slctTipo option:selected").val();
@@ -181,7 +169,7 @@
         
         var columns = [
 
-            { "name": "Id", "data": "id", "targets": 0},
+            { "name": "Id", "data": "id", "targets": 0, "visible": false},
             { "name": "Fecha", "data": "fechaSol", "targets": 1 },
             { "name": "Folio", "data": "folio", "targets": 2 },
             { "name": "Nombre", "data": "nombre", "targets": 3 },
@@ -219,12 +207,12 @@
                     json = json.replace(/"/g, "'");
                     if (row.estatus == 1) {
 
-                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar Solicitud"><i class="fa fa-pencil-square-o"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '" target="_blank"  data-toggle="tooltip" title="Enviar a firma"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
+                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar Solicitud"><i class="fa fa-pencil-square-o"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '"  data-toggle="tooltip" title="Enviar a firma"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
                     } else if (row.estatus == 2){
                         return '<small style="font-size:20px;">En proceso de firma</samll>';
-                    //} else if (row.estatus == 3) {
-                    //    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    //    //return '<small style="font-size:20px;"></samll>';
+                    } else if (row.estatus == 3) {
+                        //return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                        return '<small style="font-size:20px;">Firmado</samll>';
                     } else if (row.estatus == 4) {
                         return '<small style="font-size:20px;">VoBo Contas</samll>';
                     }

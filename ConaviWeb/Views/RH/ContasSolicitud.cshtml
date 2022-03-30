@@ -4,9 +4,6 @@
     ViewBag.Title = "ContasSol";
 }
 
-<div class="form-row">
-    <div class="panel panel-default">
-        <div class="panel-body">
             <div class="row">
                 <div class="form-group col-md-4">
                     <div id="spinner" class="spinner-border text-primary" role="status">
@@ -22,18 +19,7 @@
                     @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
                 </div>
             </div>
-            @*<div class="row">
-                    <div class="form-group  col-md-4">
-                        <label>Tipo</label>
-                        <select id="slctTipo" class="form-control">
-                            <option value="1">Evaluación</option>
-                            <option value="2">Etiquetado</option>
-                        </select>
-                    </div>
-                </div>*@
-        </div>
-    </div>
-</div>
+           
 <div id="divTable" class="form-group" style="display:none;">
     <form id="formTable">
         <table id="table" class="table" style="width: 100%">
@@ -55,7 +41,7 @@
                         ARCHIVO
                     </th>
                     <th>
-                        EDITAR
+                        VALIDAR
                     </th>
                 </tr>
             </thead>
@@ -79,6 +65,7 @@
     var table;
     var dataJSON;
         $(document).ready(function () {
+            showAlert();
             $("#spinner").hide();
             //showAlert();
             //var tipo = $("#slctTipo option:selected").val();
@@ -217,7 +204,7 @@
                 "data": null,
                 "render": function (data, type, row, meta) {
                     if (row.estatus == 3) {
-                        return '<a href="../ContasSolicitud/VoBoContas/' + row.id + '"><i class="fa fa-check gold" style="font-size:25px;"></i></a>';
+                        return '<a href="../ContasSolicitud/VoBoContas/' + row.id + '" data-toggle="tooltip" title="Visto Bueno"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
                     } else if (row.estatus == 4){
                         return '<small style="font-size:20px;">En proceso de pago</samll>';
                     } return "";

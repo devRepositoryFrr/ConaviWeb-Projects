@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -127,7 +128,6 @@ namespace ConaviWeb.Controllers.Shell
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Error al procesar el archivo");
             return RedirectToAction("Index");
         }
-
         [Route("ShellValidate/{file?}/{path?}/{ed?}")]
         public async Task<IActionResult> ShellValidateAsync(string file, string path, string ed)
         {
@@ -146,6 +146,43 @@ namespace ConaviWeb.Controllers.Shell
                 return RedirectToAction("Index");
             }
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Archivo validado correctamente");
+            return RedirectToAction("Index");
+        }
+        
+        [Route("DownloadFile/{file?}/{path?}")]
+        public IActionResult DownloadFile(string file, string path)
+        {
+            path = path.Replace('-', '/');
+            string host = @"192.168.10.213";
+            string username = "root";
+            string password = @"hola123..";
+            var index = file.IndexOf(".txt");
+            file = file.Substring(0, index + 4);
+            // Path to file on SFTP server
+            string pathRemoteFile = path + "inbox/" + file;
+            // Path where the file should be saved once downloaded (locally)
+            //string pathLocalFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "download_sftp_file.txt");
+
+            using (SftpClient sftp = new SftpClient(host, username, password))
+            {
+                try
+                {
+                    sftp.Connect();
+
+                    Console.WriteLine("Downloading {0}", pathRemoteFile);
+
+                    var ms = new MemoryStream();
+                    sftp.DownloadFile(pathRemoteFile,ms);
+                    ms.Position = 0;
+                    sftp.Disconnect();
+                    return File(ms, "application/octet-stream", file);
+                }
+                catch (Exception er)
+                {
+                    Console.WriteLine("An exception has been caught " + er.ToString());
+                }
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "El archivo no existe o esta dañado");
             return RedirectToAction("Index");
         }
 

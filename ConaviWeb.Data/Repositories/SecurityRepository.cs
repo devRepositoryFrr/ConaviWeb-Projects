@@ -33,7 +33,7 @@ namespace ConaviWeb.Data.Repositories
                         SELECT u.id AS Id, concat(nombre,' ',primer_apellido,' ',segundo_apellido) Name, usuario AS SUser, id_rol AS Rol, id_sistema AS Sistema,
                         (select descripcion from c_controlador where id = (
                         select id_controlador from sistema_rol_controlador where id_sistema = u.id_sistema and id_rol = u.id_rol)) Controller,
-                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area
+                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel
                         FROM usuario u 
                         LEFT JOIN c_area ca ON ca.id = u.id_area
                         WHERE usuario = @SUser AND password = @Password AND activo = 1";

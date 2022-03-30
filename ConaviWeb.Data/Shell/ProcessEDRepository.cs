@@ -51,7 +51,7 @@ namespace ConaviWeb.Data.Shell
             var sql = @"
                          select id ID, nombre_archivo FileName, ruta_archivo FilePath, 
                                 fecha_vobo1 DateVoBo1, fecha_vobo2 DateVoBo2, fecha_procesado DateED, if(tipo_proceso = 'Encriptado', 'encrypt','decrypt') ProcessType 
-                        from proceso_ed where ruta_archivo = @Process and tipo_proceso = @Type ";
+                        from proceso_ed where ruta_archivo = @Process and tipo_proceso = @Type order by id desc";
 
             return await db.QueryAsync<ProcessED>(sql, new { Type = type, Process = process });
         }

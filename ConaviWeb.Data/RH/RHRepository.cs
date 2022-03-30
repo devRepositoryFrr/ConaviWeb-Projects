@@ -40,7 +40,7 @@ namespace ConaviWeb.Data.RH
                                 cuota_diaria,
                                 importe_viaticos,
                                 num_casetas,
-                                dotacion_combustible,
+                                obs_aereo,
                                 importe_gastos,
                                 total_peajes,
                                 fecha_salida,
@@ -69,7 +69,7 @@ namespace ConaviWeb.Data.RH
                                 @Cuota_diaria,
                                 @Importe_viaticos,
                                 @Num_casetas,
-                                @Dotacion_combustible,
+                                @Obs_aereo,
                                 @Importe_gastos,
                                 @Total_peajes,
                                 @Fecha_salida,
@@ -101,7 +101,7 @@ namespace ConaviWeb.Data.RH
                 viaticos.Cuota_diaria,
                 viaticos.Importe_viaticos,
                 viaticos.Num_casetas,
-                viaticos.Dotacion_combustible,
+                viaticos.Obs_aereo,
                 viaticos.Importe_gastos,
                 viaticos.Total_peajes,
                 viaticos.Fecha_salida,
@@ -216,7 +216,7 @@ namespace ConaviWeb.Data.RH
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area
-                        WHERE prod_rh.estatus = @Estatus;";
+                        WHERE sv.estatus = @Estatus;";
 
             return await db.QueryAsync<Viaticos>(sql, new { Estatus = estatus });
         }
@@ -280,6 +280,8 @@ namespace ConaviWeb.Data.RH
                             fecha_registro AS FechaSol,
                             concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
                             u.cargo AS Puesto ,
+                            ifnull(u.rfc,'') AS RFC,
+                            ifnull(u.clave_nivel,'') AS CvNivel,
                             ca.descripcion  AS Area_adscripcion ,
                             descripcion_comision AS Descripcion_comision ,
                             objetivo AS Objetivo ,
@@ -307,7 +309,7 @@ namespace ConaviWeb.Data.RH
 							ifnull(ruta_f,'') AS Ruta_f ,
 							ifnull(vuelo_f,'') AS Vuelo_f ,
 							ifnull(sale_f,'') AS Sale_f ,
-							ifnull(llega_f,'') AS Llega_f 
+							ifnull(llega_f,'') AS Llega_f
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area

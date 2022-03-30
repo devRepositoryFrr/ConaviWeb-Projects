@@ -132,9 +132,18 @@
                                         </p>
                                     </div>
                                     <div class="col-md-6">
+                                        @*<p>
+            <small>Medio de transporte</small>
+            <input placeholder="Especifique medio de transporte" class="form-control" id="txtMedio_transporte" name="Medio_transporte" />
+            <small id="lblMedio_transporte" class="hidden">Campo requerido *</small>
+        </p>*@
                                         <p>
                                             <small>Medio de transporte</small>
-                                            <input placeholder="Especifique medio de transporte" class="form-control" id="txtMedio_transporte" name="Medio_transporte" />
+                                            <select class="form-control" id="slctMedio_transporte" name="Medio_transporte">
+                                                <option value="">--- Seleccionar ---</option>
+                                                <option value="1">Aéreo</option>
+                                                <option value="2">Terrestre</option>
+                                            </select>
                                             <small id="lblMedio_transporte" class="hidden">Campo requerido *</small>
                                         </p>
                                     </div>
@@ -175,7 +184,7 @@
                                     <div class="col-md-4">
                                         <p>
                                             <small>Cuota diaria</small>
-                                            <input disabled class="form-control" id="txtCuota_diaria" name="Cuota_diaria" value="1200" />
+                                            <input disabled class="form-control" id="txtCuota_diaria" name="Cuota_diaria" value="1250" />
                                             <small id="lblCuota_diaria" class="hidden">Campo requerido *</small>
                                         </p>
                                     </div>
@@ -202,21 +211,21 @@
                                 </div>
                                 <div id="vehiculo" class="hidden">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-md-6">
                                             <p>
                                                 <small>No. de casetas</small>
                                                 <input placeholder="Especifique no. de casetas" class="form-control" id="txtNum_casetas" name="Num_casetas" />
                                                 <small id="lblNum_casetas" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
-                                        <div class="col-md-5">
-                                            <p>
+                                        <!--<div class="col-md-5">-->
+                                            @*<p>
                                                 <small>Dotación de combustible según formula <i class="fas fa-info-circle gold" title="(kilometraje del recorrido total entre cinco por el precio del litro de gasolina magna)"></i></small>
                                                 <input placeholder="Especifique dotación de combustible según formula (kilometraje del recorrido total entre cinco por el precio del litro de gasolina magna" class="form-control" id="txtDotacion_combustible" name="Dotacion_combustible" />
                                                 <small id="lblDotacion_combustible" class="hidden">Campo requerido *</small>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-5">
+                                            </p>*@
+                                        <!--</div>-->
+                                        <div class="col-md-6">
                                             <p>
                                                 <small>Importe de gastos con cargo a pasajes</small>
                                                 <input placeholder="Especifique importe de gastos con cargo a pasajes" class="form-control" id="txtImporte_gastos" name="Importe_gastos" />
@@ -297,6 +306,15 @@
                                                     <option value="3">Noche</option>
                                                 </select>
                                                 <small id="lblHorario_regreso" class="hidden">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>
+                                                <small>Observaciones</small>
+                                                <textarea class="form-control" id="txtObs_aereo" name="Obs_aereo" rows="5"></textarea>
+                                                <small id="lblObs_aereo" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
                                     </div>
@@ -401,7 +419,9 @@
             //$("#txtNombre").val("Luis Manuel Mendoza González");
             //$("#txtPuesto").val("Desarrollador");
             //$("#txtArea_adscripcion").val("Subdirección de sistemas");
-            $("#txtMonto_total").val("1200");
+            //$("#txtMonto_total").val("1250");
+
+            //console.log("NIVEL: ",cve_nivel);
         });
             //datepickers
             var dateToday = new Date();
@@ -451,9 +471,11 @@
             });
             $('#btnGeneral').click(function () {
                 // Serializar el formulario a JSON
-
+                var disabled = $("#form_viaticos").find(':input:disabled').removeAttr('disabled')
                 //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
                 const array = $("#form_viaticos").serializeArray();
+                disabled.attr('disabled', 'disabled');
+                //console.log(array);
                 const json = {};
                 $.each(array, function () {
                     // set JSON con valor o null
@@ -468,12 +490,13 @@
                 }).get();
                 if (elementos == 0) {
                     enviarDatos(json);
+                    //console.log(json);
                 }
             });
 
             //funciones
-            function enviarDatos(obj) {
-
+    function enviarDatos(obj) {
+        //console.log(obj);
                 // Deshabilitamos el botón de Submit
                 $("#btnGeneral").prop("disabled", true);
 
@@ -613,22 +636,44 @@
                 let dif = fFecha2 - fFecha1;
 
                 let dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-
+                let cve_nivel =  '@Html.Raw(@ViewBag.CvNivel)';
 
 
 
 
                 if (dias >= 0) {
-                    $("#txtDias_duracion").val(dias);
-                    $("#txtImporte_viaticos").val(dias * importeDiario);
+                    
+                    let nivel = cve_nivel.substring(0, 1);
+                    let dias_nivel = nivel == 'M' ? dias : dias + .5;
+                    $("#txtDias_duracion").val(dias_nivel);
+                    //console.log(nivel);
+                    $("#txtImporte_viaticos").val(dias_nivel * importeDiario);
                 } else {
                     $("#txtDias_duracion").val("");
                     $("#txtImporte_viaticos").val("");
 
                 }
-
-
-            }
+    }
+    function getTotalCasetas() {
+        let nuCasetas = $("#txtNum_casetas").val();
+        let importeCasetas = $("#txtImporte_gastos").val();
+        let total = nuCasetas * importeCasetas;
+        $("#txtTotal_peajes").val(total);
+    }
+    $("#txtImporte_gastos").change(function () {
+        let nuCasetas = $("#txtNum_casetas").val();
+        nuCasetas = nuCasetas == "" ? 0 : nuCasetas;
+        let importeCasetas = $("#txtImporte_gastos").val();
+        let total = nuCasetas * importeCasetas;
+        $("#txtTotal_peajes").val(total);
+    });
+    $("#txtNum_casetas").change(function () {
+        let nuCasetas = $("#txtNum_casetas").val();
+        let importeCasetas = $("#txtImporte_gastos").val();
+        importeCasetas = importeCasetas == "" ? 0 : importeCasetas;
+        let total = nuCasetas * importeCasetas;
+        $("#txtTotal_peajes").val(total);
+    });
 
     function showAlert() {
         scroll("partialView");
@@ -655,5 +700,5 @@
 
 
 
-        
+
 </script>

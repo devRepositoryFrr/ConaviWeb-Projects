@@ -28,13 +28,16 @@ namespace ConaviWeb.Controllers.RH
             ViewBag.Cargo = TempData["puesto"];
             TempData["area"] = user.Area;
             ViewBag.Area = TempData["area"];
+            TempData["cvNivel"] = user.CvNivel;
+            ViewBag.CvNivel = TempData["cvNivel"];
 
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/ViaticosSolicitud");
         }
         [HttpPost]
-        public async Task<IActionResult> GuardarSolicitudAsync([FromBody] Viaticos viaticos) {
+        public async Task<IActionResult> GuardarSolicitudAsync([FromBody] Viaticos viaticos)
+        {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             viaticos.IdUsuario = user.Id;
             viaticos.Folio = viaticos.IdUsuario + DateTime.Now.ToString("MMddyyyyHHmmss");
@@ -49,7 +52,7 @@ namespace ConaviWeb.Controllers.RH
                 var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud de viaticos");
                 return Ok(alertJson);
             }
-            var alert =  AlertService.ShowAlert(Alerts.Success, "Su solicitud de viaticos ha registrado con el folio " + viaticos.Folio);
+            var alert =  AlertService.ShowAlert(Alerts.Success, "Su solicitud de viaticos ha registrado con el Número de Comisión: " + viaticos.Folio);
             return Ok(alert);
         }
     }
