@@ -55,7 +55,8 @@ namespace ConaviWeb.Data.RH
                                 ruta_f,
                                 vuelo_f,
                                 sale_f,
-                                llega_f)
+                                llega_f,
+                                total_viaticos)
                         VALUES (@IdUsuario,
                                 @Folio,
                                 @Descripcion_comision,
@@ -84,7 +85,8 @@ namespace ConaviWeb.Data.RH
                                 @Ruta_f,
                                 @Vuelo_f,
                                 @Sale_f,
-                                @Llega_f)";
+                                @Llega_f,
+                                @TotalViaticos)";
 
             var result = await db.ExecuteAsync(sql, new
             {
@@ -116,7 +118,8 @@ namespace ConaviWeb.Data.RH
                 viaticos.Ruta_f,
                 viaticos.Vuelo_f,
                 viaticos.Sale_f,
-                viaticos.Llega_f
+                viaticos.Llega_f,
+                viaticos.TotalViaticos
             });
             return result > 0;
         }
@@ -309,7 +312,8 @@ namespace ConaviWeb.Data.RH
 							ifnull(ruta_f,'') AS Ruta_f ,
 							ifnull(vuelo_f,'') AS Vuelo_f ,
 							ifnull(sale_f,'') AS Sale_f ,
-							ifnull(llega_f,'') AS Llega_f
+							ifnull(llega_f,'') AS Llega_f,
+                            total_viaticos AS TotalViaticos
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area

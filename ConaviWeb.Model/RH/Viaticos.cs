@@ -47,5 +47,6 @@ namespace ConaviWeb.Model.RH
         public string Obs_aereo { get; set; }
         public string RFC { get; set; }
         public string CvNivel { get; set; }
+        public string TotalViaticos { get; set; }
     }
 }

@@ -212,43 +212,44 @@ namespace ConaviWeb.Controllers.RH
                 .SetFont(fonts)
                 .SetFontColor(DeviceGray.BLACK);
             doc.Add(fecha);
-            Paragraph fechadato = new Paragraph(viaticos.FechaSol.ToString()) //FECHA DE SOLICITUD 
+            Paragraph fechadato = new Paragraph(viaticos.FechaSol.Substring(1, 10)) //FECHA DE SOLICITUD 
               .SetFontColor(new DeviceRgb(130, 27, 63))
               .SetCharacterSpacing(1)
               .SetFont(fonts)
-              .SetRelativePosition(100, -47, 8, 40)
+              .SetRelativePosition(100, -47, 50, 40)
               .SetTextAlignment(TextAlignment.CENTER)
               .SetFontSize(9);
             doc.Add(fechadato);
             Paragraph datos = new Paragraph("DATOS DEL SOLICITANTE")
-                .SetRelativePosition(1, -50, 50, 40)
+                .SetRelativePosition(1, -50, 250, 40)
                 ///.SetTextAlignment(TextAlignment.LEFT)
                 .SetFontSize(9)
                 .SetFont(fonts)
                 .SetFontColor(DeviceGray.BLACK);
             doc.Add(datos);
             PdfFont font = PdfFontFactory.CreateFont(StandardFonts.TIMES_ROMAN);
+
             Table puestos = new Table(2, false);
             puestos.SetBorder(Border.NO_BORDER);
-            puestos.SetRelativePosition(1, -45, 50, 40);
+            puestos.SetRelativePosition(1, -10, 50, 40);
             Cell cell101 = new Cell(1, 1)
               .SetTextAlignment(TextAlignment.LEFT)
               .SetFont(fonts)
-              .SetFontSize(9)
-              .SetWidth(0)
+              .SetFontSize(10)
+              .SetWidth(45)
               .SetBorder(Border.NO_BORDER)
               .Add(new Paragraph("NOMBRE"));
             Cell cell02 = new Cell(1, 1)
                .SetTextAlignment(TextAlignment.LEFT)
-               .SetFontSize(8)
+               .SetFontSize(10)
                .SetBorder(Border.NO_BORDER)
-               .SetWidth(500)
+               .SetHeight(30)
                .SetFont(fonts)
                .SetFontColor(new DeviceRgb(130, 27, 63))
                .Add(new Paragraph(viaticos.Nombre)); //NOMBRE DEL SOLICITANTE 
             Cell cell103 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(9)
+                .SetFontSize(10)
                 .SetBorder(Border.NO_BORDER)
                 .SetFont(fonts)
                 .Add(new Paragraph("PUESTO"));
@@ -264,12 +265,13 @@ namespace ConaviWeb.Controllers.RH
             puestos.AddCell(cell103);
             puestos.AddCell(cell104);
             doc.Add(puestos);
+
             Table puesto = new Table(2, false);
             puesto.SetBorder(Border.NO_BORDER);
-            puesto.SetRelativePosition(1, -45, 5, 40);
+            puesto.SetRelativePosition(1, 10, 5, 40);
             Cell cell105 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(9)
+                .SetFontSize(10)
                 .SetFont(fonts)
                 .SetBorder(Border.NO_BORDER)
                 .Add(new Paragraph("ÁREA DE ADSCRIPCIÓN"));
@@ -285,10 +287,10 @@ namespace ConaviWeb.Controllers.RH
             doc.Add(puesto);
             Table requerido = new Table(2, false);
             requerido.SetBorder(Border.NO_BORDER);
-            requerido.SetRelativePosition(1, -45, 5, 40);
+            requerido.SetRelativePosition(1, 25, 5, 40);
             Cell req = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(9)
+                .SetFontSize(10)
                 .SetFont(fonts)
                 .SetBorder(Border.NO_BORDER)
                 .Add(new Paragraph("SERVICIO REQUERIDO: "));
@@ -297,47 +299,51 @@ namespace ConaviWeb.Controllers.RH
                 .SetFont(fonts)
                 .SetFontColor(new DeviceRgb(130, 27, 63))
                 .SetBorder(Border.NO_BORDER)
-                .SetFontSize(9)
+                .SetFontSize(10)
                 .Add(new Paragraph("SOLICITUD DE VIÁTICOS ANTICIPADOS")); //RERVICIO REQUERIDO
             requerido.AddCell(req);
             requerido.AddCell(sol);
             doc.Add(requerido);
             //CREA TABLA DESCRIPCION DE LA COMISION 
-            float[] columnWidths = { 3, 1, 2 };
+            float[] columnWidths = { 25f, 25f, 25f };
             Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
             PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
-            table.SetRelativePosition(1, -20, 5, 40);
+            table.SetRelativePosition(1, 75, 50, 40);
             Cell cell115 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(8)
+                .SetFontSize(10)
+                .SetWidth(500) 
                 .SetFont(fonts)
                 .Add(new Paragraph("DESCRIPCIÓN DE LA COMISIÓN"));
             Cell celltext = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(8)
+                .SetFontSize(10)
                 .SetFont(fonte)
                 .Add(new Paragraph(viaticos.Descripcion_comision));  //DESCRIPCION DE LA COMISION 
             Cell cell116 = new Cell(1, 1)
-                .SetTextAlignment(TextAlignment.CENTER)
                 .SetFont(fonts)
-                .SetFontSize(8)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFontSize(10)
                 .Add(new Paragraph("UNIDAD"));
             Cell celltext2 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFont(fonte)
-                .SetFontSize(8)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetFontSize(10)
                 .Add(new Paragraph(viaticos.Dias_duracion)); //UNIDAD 
             Cell cell117 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFont(fonts)
-                .SetFontSize(8)
+                .SetFontSize(10)
                 .Add(new Paragraph("CANTIDAD"));
             Cell celltext3 = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFont(fonte)
-                .SetFontSize(8)
+                .SetHeight(85)
+                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+                .SetFontSize(10)
                 //CANTIDAD 
-                .Add(new Paragraph(viaticos.Cuota_diaria));
+                .Add(new Paragraph("$"+viaticos.Cuota_diaria));
             Cell cellsint = new Cell(1, 1)
                .SetTextAlignment(TextAlignment.CENTER)
                .SetFont(fonte)
@@ -347,14 +353,14 @@ namespace ConaviWeb.Controllers.RH
             Cell cellmon = new Cell(1, 1)
                .SetTextAlignment(TextAlignment.CENTER)
                .SetFont(fonts)
-               .SetFontSize(8)
+               .SetFontSize(10)
                .Add(new Paragraph("MONTO TOTAL"));
             Cell celltot = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetFont(fonts)
+                .SetFont(fonts)                
                 .SetFontColor(new DeviceRgb(130, 27, 63))
-                .SetFontSize(8)
-                .Add(new Paragraph(viaticos.Importe_viaticos)); //MONTO TOTAL 
+                .SetFontSize(11)
+                .Add(new Paragraph("$ "+viaticos.TotalViaticos)); //MONTO TOTAL 
             table.AddCell(cell115);
             table.AddCell(cell116);
             table.AddCell(cell117);
@@ -365,11 +371,9 @@ namespace ConaviWeb.Controllers.RH
             table.AddCell(cellmon);
             table.AddCell(celltot);
             doc.Add(table);
-
-
             Table firma1 = new Table(1, false);
             firma1.SetBorder(Border.NO_BORDER);
-            firma1.SetRelativePosition(130, 350, 50, 40);
+            firma1.SetRelativePosition(130, 280, 50, 40);
             Cell servidorpublico = new Cell(1, 1)
               .SetTextAlignment(TextAlignment.CENTER)
               .SetFont(fonts)
@@ -417,7 +421,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                   .SetWidth(0)
-                  .Add(new Paragraph(viaticos.FechaSol)); //FECHA DE ELABORACION
+                  .Add(new Paragraph(viaticos.FechaSol.Substring(1, 10))); //FECHA DE ELABORACION
             Cell cell102 = new Cell(1, 1)
                       .SetTextAlignment(TextAlignment.CENTER)
                       .SetFont(fonts)
@@ -700,7 +704,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetVerticalAlignment((VerticalAlignment.MIDDLE))
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(7)
-                  .Add(new Paragraph(viaticos.Periodo_comision_i + " - " +viaticos.Periodo_comision_f)); //PERIODO DE LA COMISION 
+                  .Add(new Paragraph(viaticos.Periodo_comision_i.Substring(1, 10) + " - " +viaticos.Periodo_comision_f.Substring(1, 10))); //PERIODO DE LA COMISION 
             Cell txtdias = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonte)
@@ -740,7 +744,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetFontSize(7)
                   .SetBorder(Border.NO_BORDER)
-                  .Add(new Paragraph(viaticos.Importe_viaticos)); //TOTAL DE VIATICOS 
+                  .Add(new Paragraph("$"+viaticos.TotalViaticos)); //TOTAL DE VIATICOS 
             lugares.AddCell(lugar);
             lugares.AddCell(medio);
             lugares.AddCell(periodo);
@@ -956,7 +960,7 @@ namespace ConaviWeb.Controllers.RH
                    .SetHeight(12)
                    .SetBorder(Border.NO_BORDER)
                    .SetFontSize(7)
-                   .Add(new Paragraph(viaticos.Fecha_salida)); //FECHA DE SALIDA    
+                   .Add(new Paragraph(viaticos.Fecha_salida.Substring(1,10))); //FECHA DE SALIDA    
             Cell txt3 = new Cell(1, 1)
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetFont(fonte)
@@ -1056,7 +1060,7 @@ namespace ConaviWeb.Controllers.RH
                     .SetHeight(12)
                     .SetBorder(Border.NO_BORDER)
                     .SetFontSize(7)
-                    .Add(new Paragraph(viaticos.Fecha_regreso)); //FECHA DE REGRESO 
+                    .Add(new Paragraph(viaticos.Fecha_regreso.Substring(1,10))); //FECHA DE REGRESO 
             Cell txt44 = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fonte)
@@ -1121,7 +1125,7 @@ namespace ConaviWeb.Controllers.RH
             //SeAgregaCampoParaFirmar
             Table firma2 = new Table(1, false);
             firma2.SetBorder(Border.NO_BORDER);
-            firma2.SetRelativePosition(130, 150, 50, 40);
+            firma2.SetRelativePosition(130, 165, 50, 40);
             Cell servidorpublico2 = new Cell(1, 1)
                .SetTextAlignment(TextAlignment.CENTER)
               .SetFont(fonts)
@@ -1159,7 +1163,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(DeviceGray.BLACK)
                   .SetFontSize(12);
             doc.Add(subheader);
-            Paragraph fechaT = new Paragraph("Ciudad De México a " + viaticos.FechaSol) //FECHA DE ELABORACION
+            Paragraph fechaT = new Paragraph("Ciudad De México a " + viaticos.FechaSol.Substring(1, 10)) //FECHA DE ELABORACION
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetCharacterSpacing(1)
@@ -1252,7 +1256,7 @@ namespace ConaviWeb.Controllers.RH
 
             Table firma3 = new Table(1, false);
             firma3.SetBorder(Border.NO_BORDER);
-            firma3.SetRelativePosition(130, 350, 50, 40);
+            firma3.SetRelativePosition(130, 380, 50, 40);
             Cell servidorpublico3 = new Cell(1, 1)
                .SetTextAlignment(TextAlignment.CENTER)
               .SetFont(fonts)
