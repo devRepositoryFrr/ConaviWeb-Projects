@@ -212,7 +212,7 @@ namespace ConaviWeb.Controllers.RH
                 .SetFont(fonts)
                 .SetFontColor(DeviceGray.BLACK);
             doc.Add(fecha);
-            Paragraph fechadato = new Paragraph(viaticos.FechaSol.Substring(1, 10)) //FECHA DE SOLICITUD 
+            Paragraph fechadato = new Paragraph(viaticos.FechaSol.Substring(0, 10)) //FECHA DE SOLICITUD 
               .SetFontColor(new DeviceRgb(130, 27, 63))
               .SetCharacterSpacing(1)
               .SetFont(fonts)
@@ -371,32 +371,32 @@ namespace ConaviWeb.Controllers.RH
             table.AddCell(cellmon);
             table.AddCell(celltot);
             doc.Add(table);
-            Table firma1 = new Table(1, false);
-            firma1.SetBorder(Border.NO_BORDER);
-            firma1.SetRelativePosition(130, 280, 50, 40);
-            Cell servidorpublico = new Cell(1, 1)
-              .SetTextAlignment(TextAlignment.CENTER)
-              .SetFont(fonts)
-              .SetFontSize(7)
-              .SetHeight(10)
-              .SetWidth(200)
-              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
-            Cell areatxt = new Cell(1, 1)
-              .SetHeight(60); //AreaParaFirma
-            Cell nombreservidor = new Cell(1, 1)
-                .SetTextAlignment(TextAlignment.CENTER)
-                .SetFont(fonts)
-                .SetFontSize(7)
-                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                .SetHeight(10)
-                .SetWidth(130)
-                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
-            firma1.AddCell(servidorpublico);
-            firma1.AddCell(areatxt);
-            firma1.AddCell(nombreservidor);
-            doc.Add(firma1);
+            //Table firma1 = new Table(1, false);
+            //firma1.SetBorder(Border.NO_BORDER);
+            //firma1.SetRelativePosition(130, 280, 50, 40);
+            //Cell servidorpublico = new Cell(1, 1)
+            //  .SetTextAlignment(TextAlignment.CENTER)
+            //  .SetFont(fonts)
+            //  .SetFontSize(7)
+            //  .SetHeight(10)
+            //  .SetWidth(200)
+            //  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //  .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            //Cell areatxt = new Cell(1, 1)
+            //  .SetHeight(60); //AreaParaFirma
+            //Cell nombreservidor = new Cell(1, 1)
+            //    .SetTextAlignment(TextAlignment.CENTER)
+            //    .SetFont(fonts)
+            //    .SetFontSize(7)
+            //    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+            //    .SetHeight(10)
+            //    .SetWidth(130)
+            //    .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //    .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            //firma1.AddCell(servidorpublico);
+            //firma1.AddCell(areatxt);
+            //firma1.AddCell(nombreservidor);
+            //doc.Add(firma1);
 
             //**AgregamosNuevoDocumento**//
             //*--*OficioNuevoDocumento*--*
@@ -421,7 +421,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                   .SetWidth(0)
-                  .Add(new Paragraph(viaticos.FechaSol.Substring(1, 10))); //FECHA DE ELABORACION
+                  .Add(new Paragraph(viaticos.FechaSol.Substring(0, 10))); //FECHA DE ELABORACION
             Cell cell102 = new Cell(1, 1)
                       .SetTextAlignment(TextAlignment.CENTER)
                       .SetFont(fonts)
@@ -704,7 +704,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetVerticalAlignment((VerticalAlignment.MIDDLE))
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(7)
-                  .Add(new Paragraph(viaticos.Periodo_comision_i.Substring(1, 10) + " - " +viaticos.Periodo_comision_f.Substring(1, 10))); //PERIODO DE LA COMISION 
+                  .Add(new Paragraph(viaticos.Periodo_comision_i.Substring(0, 10) + " - " +viaticos.Periodo_comision_f.Substring(0, 10))); //PERIODO DE LA COMISION 
             Cell txtdias = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonte)
@@ -960,7 +960,7 @@ namespace ConaviWeb.Controllers.RH
                    .SetHeight(12)
                    .SetBorder(Border.NO_BORDER)
                    .SetFontSize(7)
-                   .Add(new Paragraph(viaticos.Fecha_salida.Substring(1,10))); //FECHA DE SALIDA    
+                   .Add(new Paragraph(viaticos.Fecha_salida.Substring(0,10))); //FECHA DE SALIDA    
             Cell txt3 = new Cell(1, 1)
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetFont(fonte)
@@ -1060,7 +1060,7 @@ namespace ConaviWeb.Controllers.RH
                     .SetHeight(12)
                     .SetBorder(Border.NO_BORDER)
                     .SetFontSize(7)
-                    .Add(new Paragraph(viaticos.Fecha_regreso.Substring(1,10))); //FECHA DE REGRESO 
+                    .Add(new Paragraph(viaticos.Fecha_regreso.Substring(0,10))); //FECHA DE REGRESO 
             Cell txt44 = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fonte)
@@ -1123,33 +1123,33 @@ namespace ConaviWeb.Controllers.RH
             vuelos.AddCell(txt77);
             doc.Add(vuelos);
             //SeAgregaCampoParaFirmar
-            Table firma2 = new Table(1, false);
-            firma2.SetBorder(Border.NO_BORDER);
-            firma2.SetRelativePosition(130, 165, 50, 40);
-            Cell servidorpublico2 = new Cell(1, 1)
-               .SetTextAlignment(TextAlignment.CENTER)
-              .SetFont(fonts)
-              .SetFontSize(7)
-              .SetHeight(10)
-              .SetWidth(200)
-              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
-            Cell areatxt2 = new Cell(1, 1)
-              .SetHeight(60); //AreaParaFirma
-            Cell nombreservido2 = new Cell(1, 1)
-                .SetTextAlignment(TextAlignment.CENTER)
-                .SetFont(fonts)
-                .SetFontSize(7)
-                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                .SetHeight(10)
-                .SetWidth(130)
-                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
-            firma2.AddCell(servidorpublico2);
-            firma2.AddCell(areatxt2);
-            firma2.AddCell(nombreservido2);
+            //Table firma2 = new Table(1, false);
+            //firma2.SetBorder(Border.NO_BORDER);
+            //firma2.SetRelativePosition(130, 165, 50, 40);
+            //Cell servidorpublico2 = new Cell(1, 1)
+            //   .SetTextAlignment(TextAlignment.CENTER)
+            //  .SetFont(fonts)
+            //  .SetFontSize(7)
+            //  .SetHeight(10)
+            //  .SetWidth(200)
+            //  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //  .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            //Cell areatxt2 = new Cell(1, 1)
+            //  .SetHeight(60); //AreaParaFirma
+            //Cell nombreservido2 = new Cell(1, 1)
+            //    .SetTextAlignment(TextAlignment.CENTER)
+            //    .SetFont(fonts)
+            //    .SetFontSize(7)
+            //    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+            //    .SetHeight(10)
+            //    .SetWidth(130)
+            //    .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //    .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            //firma2.AddCell(servidorpublico2);
+            //firma2.AddCell(areatxt2);
+            //firma2.AddCell(nombreservido2);
 
-            doc.Add(firma2);
+            //doc.Add(firma2);
 
             //**AgregamosNuevoDocumentoTARJETACOMISION**//
             //Agregamos la Tarjeta de comision
@@ -1163,7 +1163,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetFontColor(DeviceGray.BLACK)
                   .SetFontSize(12);
             doc.Add(subheader);
-            Paragraph fechaT = new Paragraph("Ciudad De México a " + viaticos.FechaSol.Substring(1, 10)) //FECHA DE ELABORACION
+            Paragraph fechaT = new Paragraph("Ciudad De México a " + viaticos.FechaSol.Substring(0, 10)) //FECHA DE ELABORACION
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFontColor(new DeviceRgb(130, 27, 63))
                   .SetCharacterSpacing(1)
@@ -1254,32 +1254,32 @@ namespace ConaviWeb.Controllers.RH
                    .SetFontSize(11);
             doc.Add(segundo);
 
-            Table firma3 = new Table(1, false);
-            firma3.SetBorder(Border.NO_BORDER);
-            firma3.SetRelativePosition(130, 380, 50, 40);
-            Cell servidorpublico3 = new Cell(1, 1)
-               .SetTextAlignment(TextAlignment.CENTER)
-              .SetFont(fonts)
-              .SetFontSize(7)
-              .SetHeight(10)
-              .SetWidth(200)
-              .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-              .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
-            Cell areatxt3 = new Cell(1, 1)
-              .SetHeight(60); //AreaParaFirma
-            Cell nombreservidor3 = new Cell(1, 1)
-                .SetTextAlignment(TextAlignment.CENTER)
-                .SetFont(fonts)
-                .SetFontSize(7)
-                .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
-                .SetHeight(10)
-                .SetWidth(130)
-                .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
-            firma3.AddCell(servidorpublico3);
-            firma3.AddCell(areatxt3);
-            firma3.AddCell(nombreservidor3);
-            doc.Add(firma3);
+            //Table firma3 = new Table(1, false);
+            //firma3.SetBorder(Border.NO_BORDER);
+            //firma3.SetRelativePosition(130, 380, 50, 40);
+            //Cell servidorpublico3 = new Cell(1, 1)
+            //   .SetTextAlignment(TextAlignment.CENTER)
+            //  .SetFont(fonts)
+            //  .SetFontSize(7)
+            //  .SetHeight(10)
+            //  .SetWidth(200)
+            //  .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //  .Add(new Paragraph("SERVIDOR PUBLICO COMISIONADO"));
+            //Cell areatxt3 = new Cell(1, 1)
+            //  .SetHeight(60); //AreaParaFirma
+            //Cell nombreservidor3 = new Cell(1, 1)
+            //    .SetTextAlignment(TextAlignment.CENTER)
+            //    .SetFont(fonts)
+            //    .SetFontSize(7)
+            //    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+            //    .SetHeight(10)
+            //    .SetWidth(130)
+            //    .SetVerticalAlignment((VerticalAlignment.MIDDLE))
+            //    .Add(new Paragraph(viaticos.Nombre)); //NombreServidorPublico
+            //firma3.AddCell(servidorpublico3);
+            //firma3.AddCell(areatxt3);
+            //firma3.AddCell(nombreservidor3);
+            //doc.Add(firma3);
             return doc;
         }
 

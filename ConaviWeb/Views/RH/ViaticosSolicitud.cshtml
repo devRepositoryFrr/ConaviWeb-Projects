@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ConaviWeb.Model.Catalogo
+@{
     ViewBag.Title = "Administrador";
 }
 <div class="row">
@@ -16,7 +17,7 @@
                         <div class="panel-heading border-colapse">
                             <h4 class="panel-title">
                                 <a data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral" aria-expanded="true" aria-controls="Pgeneral">
-                                    <i class="fas fa-suitcase"></i> Solicitud de  viáticos anticipados
+                                    <i class="fa fa-suitcase"></i> Solicitud de  viáticos anticipados
                                 </a>
                             </h4>
                             <button type="button" class="collpase-button collapse" data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral"></button>
@@ -97,7 +98,7 @@
                         <div class="panel-heading border-colapse top-buffer">
                             <h4 class="panel-title">
                                 <a data-parent="#Coficio" data-toggle="collapse" href="#Poficio" aria-expanded="true" aria-controls="Poficio">
-                                    <i class="fas fa-file-invoice"></i> Oficio de  viáticos anticipados
+                                    <i class="fa fa-file-text"></i> Oficio de  viáticos anticipados
                                 </a>
                             </h4>
                             <button type="button" class="collpase-button collapse" data-parent="#Coficio" data-toggle="collapse" href="#Poficio"></button>
@@ -123,14 +124,30 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    @*<div class="col-md-4">
                                         <p>
-                                            <small>Lugares asignados en la comisión</small>
-                                            <input placeholder="Especifique lugares asignados en la comisión" class="form-control" id="txtLugares_asignados_comision" name="Lugares_asignados_comision" />
+                                            <small>Entidad asignada en la comisión</small>
+                                            <select class="form-control" id="txtLugares_asignados_comision" name="Descripcion" />
+                                            <option value="">--- Seleccionar ---</option>
+                                            </select>
                                             <small id="lblLugares_asignados_comision" class="hidden">Campo requerido *</small>
                                         </p>
+                                    </div>*@
+                                    <div class="form-group col-md-4">
+                                        <p>
+                                            <small>Entidad asignada en la comisión</small>
+                                            <select id="slctClave_estado" name="Clave_estado" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Entidades"], "Clave" , "Descripcion" ))"></select>
+                                            <small id="lblClave_estado" class="hidden">Campo requerido *</small>
+                                        </p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <p>
+                                            <small>Municipio asignado en la comisión</small>
+                                            <input placeholder="Especifique el municipio asignado en la comisión" class="form-control" id="txtMunicipio" name="Municipio"/>
+                                            @*<small id="lblMunicipio_comision" class="hidden">Campo requerido *</small>*@
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
                                         @*<p>
                                             <small>Medio de transporte</small>
                                             <input placeholder="Especifique medio de transporte" class="form-control" id="txtMedio_transporte" name="Medio_transporte" />
@@ -203,7 +220,7 @@
                                         </p>
                                         <label class="switch">
                                             <input id="switch_casetas" type="checkbox">
-                                            <span  class="slider round"></span>
+                                            <span class="slider round"></span>
                                         </label>
 
                                     </div>
@@ -213,7 +230,7 @@
                                         <div class="col-md-6">
                                             <p>
                                                 <small>No. de casetas</small>
-                                                <input placeholder="Especifique no. de casetas" class="form-control" id="txtNum_casetas" name="Num_casetas" />
+                                                <input placeholder="Especifique no. de casetas" class="form-control" id="txtNum_casetas" name="Num_casetas" data-decimal="2" data-decimal-auto="2" />
                                                 <small id="lblNum_casetas" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
@@ -227,7 +244,7 @@
                                         <div class="col-md-6">
                                             <p>
                                                 <small>Importe de gastos con cargo a pasajes</small>
-                                                <input placeholder="Especifique importe de gastos con cargo a pasajes" class="form-control" id="txtImporte_gastos" name="Importe_gastos" data-decimal="2" data-decimal-auto="2" />
+                                                <input placeholder="Especifique importe de gastos con cargo a pasajes" class="form-control" id="txtImporte_gastos" name="Importe_gastos" />
                                                 <small id="lblImporte_gastos" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
@@ -428,10 +445,15 @@
             //console.log("NIVEL: ",cve_nivel);
              $("#switch_aereo").prop("disabled", true);
              $("#switch_casetas").prop("disabled", true);
-            
+
+
              $('#txtImporte_gastos').on('input', function () {
-        this.value = this.value.match(/^\d+\.?\d{0,2}/);
-    });
+              this.value = this.value.match(/\d+\.?\d{0,2}/);
+             });
+             $('#txtNum_casetas').on('input', function () {
+              this.value = this.value.match(/\d+/);
+             });
+
         });
             //datepickers
             var dateToday = new Date();
@@ -519,6 +541,32 @@
                 }
             });
 
+
+                //$("#txtNum_casetas").keyup(function(e){
+                //    if(!/^[0-9]*$/.test(this.value)){
+                //    this.value = this.value.split(/[^0-9.]/).join("");
+                //    }
+                //     if($(this).val().length >= 7) {
+                //     $(this).val($(this).val().slice(0, 7));
+                //        return false;
+                //        }
+                //});
+                
+                //$("#txtImporte_gastos").keypress(function(e){
+                //    if(!/^[0-9]*$/.test(this.value)){
+                //    this.value = this.value.split(/[^0-9.]/).join("");
+                //    }
+                //     if($(this).val().length >= 7) {
+                //     $(this).val($(this).val().slice(0, 7));
+                //        return false;
+                //        }
+                //});
+                         
+               
+
+
+
+
             $('#btnGeneral').click(function () {
                 // Serializar el formulario a JSON
                 var disabled = $("#form_viaticos").find(':input:disabled').removeAttr('disabled')
@@ -532,8 +580,9 @@
                     json[this.name] = this.value || null;
 
                 });
+                console.log(json);
                 //console.log("JSON: ",json);
-                validarDatos(json);
+                //validarDatos(json);
 
                 var elementos = $(".error-lbl").map(function () {
                     return this.id;

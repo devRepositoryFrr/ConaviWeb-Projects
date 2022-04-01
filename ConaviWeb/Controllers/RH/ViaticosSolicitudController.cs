@@ -6,8 +6,6 @@ using ConaviWeb.Model.RH;
 using ConaviWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using static ConaviWeb.Models.AlertsViewModel;
 
@@ -22,8 +20,9 @@ namespace ConaviWeb.Controllers.RH
             _rHRepository = rHRepository;
             _mailService = mailService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
+            var entidades = await _rHRepository.GetEntidades();
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             TempData["nombre"] = user.Name;
             ViewBag.Nombre = TempData["nombre"];
@@ -33,7 +32,7 @@ namespace ConaviWeb.Controllers.RH
             ViewBag.Area = TempData["area"];
             TempData["cvNivel"] = user.CvNivel;
             ViewBag.CvNivel = TempData["cvNivel"];
-
+            ViewData["Entidades"] = entidades;
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/ViaticosSolicitud");
@@ -66,7 +65,7 @@ namespace ConaviWeb.Controllers.RH
             mail.Append("<tr><td style='text-align:center;'>Gracias por su interés en el programa.</td></tr></table>");
             mail.Append("<p><b>NO RESPONDA ESTE CORREO, ES UN ENVÍO AUTOMATIZADO.</b></p></body></html>");
             MailRequest mailRequest = new();
-            mailRequest.ToEmail = "gauribe@conavi.gob.mx";
+            mailRequest.ToEmail = "frojas@conavi.gob.mx";
             mailRequest.Subject = "Trámite finalizado";
             mailRequest.Body = mail.ToString();
             bool send = await SendMail(mailRequest);

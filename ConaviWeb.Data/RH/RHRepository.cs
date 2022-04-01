@@ -1,4 +1,5 @@
-﻿using ConaviWeb.Model.RH;
+﻿using ConaviWeb.Model;
+using ConaviWeb.Model.RH;
 using Dapper;
 using MySql.Data.MySqlClient;
 using System;
@@ -32,7 +33,8 @@ namespace ConaviWeb.Data.RH
                                 descripcion_comision,
                                 objetivo,
                                 observaciones,
-                                lugares_asignados_comision,
+                                clave_estado,
+                                municipio,
                                 medio_transporte,
                                 periodo_comision_i,
                                 periodo_comision_f,
@@ -62,7 +64,8 @@ namespace ConaviWeb.Data.RH
                                 @Descripcion_comision,
                                 @Objetivo,
                                 @Observaciones,
-                                @Lugares_asignados_comision,
+                                @Clave_estado,
+                                @Municipio,
                                 @Medio_transporte,
                                 @Periodo_comision_i,
                                 @Periodo_comision_f,
@@ -95,7 +98,8 @@ namespace ConaviWeb.Data.RH
                 viaticos.Descripcion_comision,
                 viaticos.Objetivo,
                 viaticos.Observaciones,
-                viaticos.Lugares_asignados_comision,
+                viaticos.Clave_estado,
+                viaticos.Municipio,
                 viaticos.Medio_transporte,
                 viaticos.Periodo_comision_i,
                 viaticos.Periodo_comision_f,
@@ -138,7 +142,7 @@ namespace ConaviWeb.Data.RH
                             descripcion_comision AS Descripcion_comision ,
                             objetivo AS Objetivo ,
                             observaciones AS Observaciones ,
-                            lugares_asignados_comision AS Lugares_asignados_comision ,
+                            concat(cef.descripcion,' - ',municipio) AS Lugares_asignados_comision,
                             medio_transporte AS Medio_transporte ,
                             periodo_comision_i AS Periodo_comision_i ,
                             periodo_comision_f AS Periodo_comision_f ,
@@ -164,12 +168,14 @@ namespace ConaviWeb.Data.RH
                             llega_f AS Llega_f,
                             estatus AS Estatus,
                             (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
-							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
-							where ao.nombre_archivo = concat(folio,'.pdf')
-							ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
+                            join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
+                            where ao.nombre_archivo = concat(folio, '.pdf')
+
+                            ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
-                        JOIN prod_usuario.c_area ca ON ca.id = u.id_area;";
+                        JOIN prod_usuario.c_area ca ON ca.id = u.id_area
+                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado; ";
 
             return await db.QueryAsync<Viaticos>(sql, new { });
         }
@@ -187,7 +193,7 @@ namespace ConaviWeb.Data.RH
                             descripcion_comision AS Descripcion_comision ,
                             objetivo AS Objetivo ,
                             observaciones AS Observaciones ,
-                            lugares_asignados_comision AS Lugares_asignados_comision ,
+                            concat(cef.descripcion,' - ',municipio) AS Lugares_asignados_comision,
                             medio_transporte AS Medio_transporte ,
                             periodo_comision_i AS Periodo_comision_i ,
                             periodo_comision_f AS Periodo_comision_f ,
@@ -219,6 +225,7 @@ namespace ConaviWeb.Data.RH
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area
+                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado
                         WHERE sv.estatus = @Estatus;";
 
             return await db.QueryAsync<Viaticos>(sql, new { Estatus = estatus });
@@ -289,7 +296,7 @@ namespace ConaviWeb.Data.RH
                             descripcion_comision AS Descripcion_comision ,
                             objetivo AS Objetivo ,
                             observaciones AS Observaciones ,
-                            lugares_asignados_comision AS Lugares_asignados_comision ,
+                            concat(cef.descripcion,' - ',municipio) AS Lugares_asignados_comision,
                             medio_transporte AS Medio_transporte ,
                             periodo_comision_i AS Periodo_comision_i ,
                             periodo_comision_f AS Periodo_comision_f ,
@@ -317,9 +324,24 @@ namespace ConaviWeb.Data.RH
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN prod_usuario.usuario u ON u.id = sv.id_usuario
                         JOIN prod_usuario.c_area ca ON ca.id = u.id_area
+                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado
                         WHERE sv.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Viaticos>(sql, new { Id = id });
+        }
+
+        public async Task<IEnumerable<Catalogo>> GetEntidades()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                clave AS Clave , 
+                                descripcion AS Descripcion 
+                            FROM prod_catalogos.c_entidad_federativa;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql, new { });
         }
     }
 }

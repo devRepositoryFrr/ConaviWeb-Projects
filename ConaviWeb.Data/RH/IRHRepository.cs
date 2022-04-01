@@ -1,4 +1,5 @@
-﻿using ConaviWeb.Model.RH;
+﻿using ConaviWeb.Model;
+using ConaviWeb.Model.RH;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace ConaviWeb.Data.RH
         Task<bool> UpdateViaticos(Viaticos viaticos);
         Task<bool> UpdateEstatus(int id, int estatus);
         Task<Viaticos> GetSolicitud(int id);
+        Task<IEnumerable<Catalogo>> GetEntidades();
 
     }
 }

@@ -17,6 +17,8 @@ namespace ConaviWeb.Model.RH
         public string Objetivo { get; set; }
         public string Observaciones { get; set; }
         public string Lugares_asignados_comision { get; set; }
+        public string Clave_estado { get; set; }
+        public string Municipio { get; set; }
         public string Medio_transporte { get; set; }
         public string Periodo_comision_i { get; set; }
         public string Periodo_comision_f { get; set; }
