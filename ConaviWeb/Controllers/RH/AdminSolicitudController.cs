@@ -960,7 +960,7 @@ namespace ConaviWeb.Controllers.RH
                    .SetHeight(12)
                    .SetBorder(Border.NO_BORDER)
                    .SetFontSize(7)
-                   .Add(new Paragraph(viaticos.Fecha_salida.Substring(0,10))); //FECHA DE SALIDA    
+                   .Add(new Paragraph(viaticos.Fecha_salida.Substring(0,10) == "01/01/0001" ? "": viaticos.Fecha_salida.Substring(0, 10))); //FECHA DE SALIDA    
             Cell txt3 = new Cell(1, 1)
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetFont(fonte)
@@ -1060,7 +1060,7 @@ namespace ConaviWeb.Controllers.RH
                     .SetHeight(12)
                     .SetBorder(Border.NO_BORDER)
                     .SetFontSize(7)
-                    .Add(new Paragraph(viaticos.Fecha_regreso.Substring(0,10))); //FECHA DE REGRESO 
+                    .Add(new Paragraph(viaticos.Fecha_regreso.Substring(0,10) == "01/01/0001" ? "" : viaticos.Fecha_salida.Substring(0, 10))); //FECHA DE REGRESO 
             Cell txt44 = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fonte)
@@ -1243,12 +1243,12 @@ namespace ConaviWeb.Controllers.RH
             doc.Add(saltoDeLineaT);
             doc.Add(saltoDeLineaT);
             //COMISION 
-            Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionar " + viaticos.Descripcion_comision)
+            Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionarlo. " + viaticos.Descripcion_comision)
                      .SetTextAlignment(TextAlignment.JUSTIFIED)
                      .SetFontColor(DeviceGray.BLACK)
                      .SetFontSize(11);
             doc.Add(primer);
-            Paragraph segundo = new Paragraph("Lo anterior con el fin de que lleva cabo las rlque he tenido a bien comisionarlo que he tenido " + viaticos.Objetivo)
+            Paragraph segundo = new Paragraph("Lo anterior con el fin de que lleva cabo las medidas pertinentes para el cumplimiento de la encomienda. " + viaticos.Objetivo)
                    .SetTextAlignment(TextAlignment.JUSTIFIED)
                    .SetFontColor(DeviceGray.BLACK)
                    .SetFontSize(11);
