@@ -58,7 +58,7 @@ namespace ConaviWeb.Data.Sisevive
                         FROM evaluacion_vivienda ev
                         LEFT JOIN c_informe ci ON ci.id = ev.id_informe
                         LEFT JOIN c_calificacion cc ON cc.id = ev.id_calificacion
-                        JOIN prod_usuario.usuario u ON u.id = ev.id_usuario_carga
+                        JOIN qa_adms_conavi.usuario u ON u.id = ev.id_usuario_carga
                         WHERE ev.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Evaluacion>(sql, new { Id = id });
@@ -74,7 +74,7 @@ namespace ConaviWeb.Data.Sisevive
                         FROM evaluacion_vivienda ev
                         LEFT JOIN c_informe ci ON ci.id = ev.id_informe
                         LEFT JOIN c_calificacion cc ON cc.id = ev.id_calificacion
-                        JOIN prod_usuario.usuario u ON u.id = ev.id_usuario_carga";
+                        JOIN qa_adms_conavi.usuario u ON u.id = ev.id_usuario_carga";
 
             return await db.QueryAsync<Evaluacion>(sql, new { });
         }
@@ -151,7 +151,7 @@ namespace ConaviWeb.Data.Sisevive
                         id_usuario_carga IdUserCarga, archivo_informe NombreArchInforme
                         FROM etiquetado_vivienda et
                         JOIN c_informe ci ON ci.id = et.id_informe
-                        JOIN prod_usuario.usuario u ON u.id = et.id_usuario_carga;";
+                        JOIN qa_adms_conavi.usuario u ON u.id = et.id_usuario_carga;";
 
             return await db.QueryAsync<Etiquetado>(sql, new { });
         }
@@ -165,7 +165,7 @@ namespace ConaviWeb.Data.Sisevive
                         id_usuario_carga IdUserCarga, u.email as EmailPES, archivo_informe NombreArchInforme
                         FROM etiquetado_vivienda et
                         JOIN c_informe ci ON ci.id = et.id_informe
-                        JOIN prod_usuario.usuario u ON u.id = et.id_usuario_carga
+                        JOIN qa_adms_conavi.usuario u ON u.id = et.id_usuario_carga
                         WHERE et.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Etiquetado>(sql, new { Id = id });

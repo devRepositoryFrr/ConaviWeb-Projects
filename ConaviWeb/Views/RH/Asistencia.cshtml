@@ -22,11 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group  col-md-4">
-                        <label>Periodo</label>
-                        <select id="slctTipo" class="form-control">
-                            <option value="1">Quincenal</option>
-                            <option value="2">Mensual</option>
-                        </select>
+                        
                     </div>
                     <div class="form-group  col-md-4">
                         <label>Año</label>
@@ -59,35 +55,7 @@
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group  col-md-4">
-                        <label>Nombre del Jefe:</label>
-                        <select id="slctJefe" class="form-control">
-                            <option value="1">Dra. Edna Elena Vega Rangel</option>
-                            <option value="2">Mtro. Alonso Cacho Silva</option>
-                            <option value="3">Mtro. Alejandro Lenin Sierra Urtaza</option>
-                            <option value="4">Mtro. Armando Sergio Bustamante Fuentes</option>
-                            <option value="6">Lic. Francisco Javier Gordillo Paniagua</option>
-                            <option value="8">César Rodolfo Vélez Reyes</option>
-                            <option value="9">Lic. Livia Zaragoza García</option>
-                            <option value="10">Lic. David May Flores</option>
-                            <option value="11">Lic. Silvia Circe Díaz Duarte</option>
-                            <option value="12">Arq. Juan Javier Granados Barrón</option>
-                            <option value="13">Ing. Enrique Santos Santos</option>
-                            <option value="14">Lic. Oscar Godínez Martínez</option>
-                            <option value="15">Arq. Ruth Angélica Álvarez Alonso</option>
-                            <option value="16">Arq. Humberto Rello Gómez</option>
-                            <option value="17">Ing. Luis Felipe García García</option>
-                            <option value="18">Mtro. Jorge Ángel Marcos Vega</option>
-                            <option value="19">Lic. José Luis Maciel Hernández</option>
-                            <option value="20">Lic. Nadia Padilla Magaña</option>
-                        </select>
-                    </div>
-                    <div class="form-group  col-md-4">
-                        <label>Puesto del jefe:</label>
-                        <input class="form-control" id="puestoJefe" type="text">
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-right">
@@ -113,7 +81,8 @@
                     year = date.getFullYear();
                 alert(day + '-' + month + '-' + year);
             }
-});
+        });
+
 
         $('#slctPeriodo').on('change', function () {
             let year = $("#slctAnio option:selected").text();

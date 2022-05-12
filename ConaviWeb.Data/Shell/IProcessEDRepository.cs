@@ -1,4 +1,5 @@
-﻿using ConaviWeb.Model.Shell;
+﻿using ConaviWeb.Model;
+using ConaviWeb.Model.Shell;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ConaviWeb.Data.Shell
         Task<bool> UpdateVoBo(string fileName, string path, DateTime dateProcess, int idUser, string ed);
         Task<IEnumerable<ProcessED>> SelectVoBo(string type, string process);
         Task<bool> InsertED(string fileName, string path, DateTime dateProcess, int idUser, string ed);
-
+        Task<IEnumerable<Catalogo>> GetProcesos(int idRol);
 
     }
 }

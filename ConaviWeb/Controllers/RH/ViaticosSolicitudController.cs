@@ -4,8 +4,14 @@ using ConaviWeb.Model.Request;
 using ConaviWeb.Model.Response;
 using ConaviWeb.Model.RH;
 using ConaviWeb.Services;
+using ConaviWeb.Tools;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using static ConaviWeb.Models.AlertsViewModel;
 
@@ -15,10 +21,12 @@ namespace ConaviWeb.Controllers.RH
     {
         private readonly IRHRepository _rHRepository;
         private readonly IMailService _mailService;
-        public ViaticosSolicitudController(IRHRepository rHRepository,IMailService mailService)
+        private readonly IWebHostEnvironment _environment;
+        public ViaticosSolicitudController(IRHRepository rHRepository,IMailService mailService, IWebHostEnvironment environment)
         {
             _rHRepository = rHRepository;
             _mailService = mailService;
+            _environment = environment;
         }
         public async Task<IActionResult> IndexAsync()
         {
@@ -38,16 +46,22 @@ namespace ConaviWeb.Controllers.RH
             return View("../RH/ViaticosSolicitud");
         }
         [HttpPost]
-        public async Task<IActionResult> GuardarSolicitudAsync([FromBody] Viaticos viaticos)
+        public async Task<IActionResult> GuardarSolicitudAsync(string json, IFormFile file)
         {
+            Viaticos viaticos = JsonConvert.DeserializeObject<Viaticos>(json);
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             viaticos.IdUsuario = user.Id;
-            viaticos.Folio = viaticos.IdUsuario + DateTime.Now.ToString("MMddyyyyHHmmss");
-            viaticos.Periodo_comision_i = Convert.ToDateTime(viaticos.Periodo_comision_i).ToString("yyyy-MM-dd");
-            viaticos.Periodo_comision_f = Convert.ToDateTime(viaticos.Periodo_comision_f).ToString("yyyy-MM-dd");
-            viaticos.Fecha_salida = Convert.ToDateTime(viaticos.Fecha_salida).ToString("yyyy-MM-dd");
-            viaticos.Fecha_regreso = Convert.ToDateTime(viaticos.Fecha_regreso).ToString("yyyy-MM-dd");
-
+            viaticos.Folio = user.NuEmpleado + DateTime.Now.ToString("_MMddyyyy");
+            if (file != null)
+            {
+                var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "SolicitudViaticos", user.NuEmpleado);
+                if (!Directory.Exists(pathPdf))
+                    ProccessFileTools.CreateDirectory(pathPdf);
+                viaticos.Traza_ruta = viaticos.Folio + "_tr.jpg";
+                var path = System.IO.Path.Combine(pathPdf, viaticos.Traza_ruta);
+                await ProccessFileTools.SaveFileAsync(file, path);
+            }
+            
             var success = await _rHRepository.InsertViaticos(viaticos);
             if (!success)
             {

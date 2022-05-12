@@ -16,12 +16,12 @@ namespace ConaviWeb.Controllers
         {
             _securityRepository = securityRepository;
         }
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var user = User as ClaimsPrincipal;
-            //var Rol = Int32.Parse(user.FindFirstValue(ClaimTypes.Role));
-            IEnumerable<Module> modules = (List<Module>)await _securityRepository.GetModules(Convert.ToInt32("2"), 1);
-            return View("../NavigationBar", modules);
-        }
+        //public async Task<IViewComponentResult> InvokeAsync()
+        //{
+        //    var user = User as ClaimsPrincipal;
+        //    //var Rol = Int32.Parse(user.FindFirstValue(ClaimTypes.Role));
+        //    IEnumerable<Module> modules = (List<Module>)await _securityRepository.GetModules(Convert.ToInt32("2"), 1);
+        //    return View("../NavigationBar", modules);
+        //}
     }
 }

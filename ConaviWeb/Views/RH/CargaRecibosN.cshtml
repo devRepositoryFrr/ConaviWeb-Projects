@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Carga";
+}
+<div class="form-row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <div id="spinner" class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <div class="form-group" id="alert">
+                        @Html.Raw(@ViewBag.Alert)
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <button class="btn btn-primary pull-right" id="upload" type="button" onclick="Upload()"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Cargar</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Año</label>
+                    <select id="slctAnio" class="form-control" name="anio">
+                    </select>
+                    
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Periodo Mes</label>
+                    <select id="slctPeriodo" class="form-control" name="periodo">
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Archivos</label>
+                    <input type="file" class="form-control-file" name="file" webkitdirectory>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var files = [];
+    $(document).ready(function () {
+        getAnio();
+        getQuincena();
+        $('input').change(function () {
+            files = this.files;
+        })
+        $('#spinner').hide();
+    });
+
+    function Upload() {
+        debugger
+        let ganio = $("#slctAnio option:selected").text();
+        let gperiodo = $("#slctPeriodo option:selected").text();
+        let obj = {
+            anio: ganio,
+            periodo: gperiodo,
+        };
+        let json = JSON.stringify(obj);
+        $('#spinner').show();
+        var data = new FormData();
+        data.append("json", json);
+        
+        for (var i = 0; i < files.length; i++) {
+            data.append('file', files[i]);
+        }
+        var path = files[0].webkitRelativePath;
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("Upload", "CargaRecibosN")", // Url
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                $('#spinner').hide();
+                $("#alert").html(data.message).fadeIn("slow");
+                showAlert();
+            }
+        })
+    }
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 3000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 6000);
+
+    }
+
+    function getAnio() {
+        var optionString = '';
+        var data = [];
+        // Return today's date and time
+        var currentTime = new Date()
+
+        // returns the nimus year (four digits)
+        var before = currentTime.getFullYear() - 1;
+
+        // returns the year (four digits)
+        var year = currentTime.getFullYear();
+
+        // returns the max year (four digits)
+        var after = currentTime.getFullYear() + 1;
+
+        data.push(before, year, after);
+
+        data.forEach(function (dataItem, index) {
+            optionString += '<option value="' + dataItem + '">' + dataItem + '</option>';
+        });
+
+        $('#slctAnio').append(optionString);
+    }
+
+    function getQuincena() {
+        var optionString = '';
+        var data =
+            ["Enero-01",
+                "Enero-02",
+                "Febrero-01",
+                "Febrero-02",
+                "Marzo-01",
+                "Marzo-02",
+                "Abril-01",
+                "Abril-02",
+                "Mayo-01",
+                "Mayo-02",
+                "Junio-01",
+                "Junio-02",
+                "Julio-01",
+                "Julio-02",
+                "Agosto-01",
+                "Agosto-02",
+                "Septiembre-01",
+                "Septiembre-02",
+                "Octubre-01",
+                "Octubre-02",
+                "Noviembre-01",
+                "Noviembre-02",
+                "Diciembre-01",
+                "Diciembre-02"];
+
+        data.forEach(function (dataItem, index) {
+            optionString += '<option value="' + dataItem + '">' + dataItem + '</option>';
+        });
+
+        $('#slctPeriodo').append(optionString);
+    }
+</script>

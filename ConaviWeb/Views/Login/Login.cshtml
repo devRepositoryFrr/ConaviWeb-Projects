@@ -15,7 +15,12 @@
             {*@
                 <form method="post" asp-action="Auth">
                     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
-
+                    <div class="form-group">
+                            <label asp-for="IdSistema"></label>
+                            <select id="slctIdSistema" class="form-control" asp-for="IdSistema" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sistemas"], "Id" , "Descripcion" ))"></select>
+                        <h4 id="nameSystem" style="text-align:center"></h4>
+                            <span asp-validation-for="IdSistema" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="SUser"></label>
                         <input class="form-control" asp-for="SUser" />
@@ -27,6 +32,7 @@
                         <input class="form-control" asp-for="Password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
+
                     <br />
 
                     <button class="btn btn-primary pull-right" type="submit"><span class="fa fa-sign-in"></span>&ensp;Iniciar Sesión</button>
@@ -38,12 +44,12 @@
             }*@
             </div>
             
-            @*<div class="panel-footer">
+            <div class="panel-footer" id="footerSisevive" hidden>
                 <span>
                     ¿No estás registrado?
                 </span>
-                <a href="@Url.Action("Index", "User")">Crear nuevo usuario</a>
-            </div>*@
+                <a href="@Url.Action("Index", "UserSisevive")">Crear nuevo usuario</a>
+            </div>
         </div>
     </div>
 
@@ -51,6 +57,25 @@
     <script>
         $(document).ready(function () {
             showAlert();
+            $("#slctIdSistema").hide();
+            $("#footerSisevive").hide();
+            let option = $("#slctIdSistema").val();
+            $("#nameSystem").html($("#slctIdSistema option:selected").text());
+            if (option == 4) {
+                window.location.href = "https://firmaelectronica.conavi.gob.mx:9090/";
+            } else if (option == 1) {
+                $("#footerSisevive").show('slow');
+            }
+            //$('#slctIdSistema').on('change', function () {
+            //    let option = this.value;
+            //    $("#footerSisevive").hide();
+            //    console.log(option);
+            //    if (option == 4) {
+            //        window.location.href = "https://firmaelectronica.conavi.gob.mx:9090/";
+            //    } else if (option == 1) {
+            //        $("#footerSisevive").show('slow');
+            //    }
+            //});
         });
         $(window).on('beforeunload', function () {
             console.log("before");

@@ -1,4 +1,5 @@
-﻿using ConaviWeb.Model.Shell;
+﻿using ConaviWeb.Model;
+using ConaviWeb.Model.Shell;
 using Dapper;
 using MySql.Data.MySqlClient;
 using System;
@@ -65,6 +66,20 @@ namespace ConaviWeb.Data.Shell
 
             var result = await db.ExecuteAsync(sql, new { fileName, path, dateProcess, idUser, ed });
             return result > 0;
+        }
+        public async Task<IEnumerable<Catalogo>> GetProcesos(int idRol)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                ruta Clave, 
+                                descripcion AS Descripcion 
+                            FROM qa_proceso_ed.c_proceso 
+                            WHERE FIND_IN_SET(id,(SELECT proceso FROM qa_proceso_ed.rol_proceso WHERE rol = @IdRol));
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql, new { IdRol = idRol });
         }
     }
 }

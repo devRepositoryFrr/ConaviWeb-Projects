@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\css\cssConavi\" />
-    <Folder Include="wwwroot\doc\RH\" />
+    <Folder Include="wwwroot\doc\RH\070068\" />
     <Folder Include="wwwroot\doc\Shell\" />
     <Folder Include="wwwroot\doc\Sisevive\2\0401221201361009\" />
     <Folder Include="wwwroot\img\" />

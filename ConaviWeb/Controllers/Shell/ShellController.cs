@@ -31,10 +31,12 @@ namespace ConaviWeb.Controllers.Shell
             _environment = environment;
             _processEDRepository = processEDRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             TempData["rol"] = Convert.ToInt32(user.Rol);
+            var procesos = await _processEDRepository.GetProcesos(Convert.ToInt32(user.Rol));
+            ViewData["Procesos"] = procesos;
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Shell/Index");

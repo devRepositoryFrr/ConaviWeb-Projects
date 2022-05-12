@@ -1,26 +1,26 @@
 ﻿@model ConaviWeb.Model.Sisevive.Etiquetado
 @{
-   
-    ViewBag.Title = "AdminSol";
+
+    ViewBag.Title = "Lista Solicitudes";
 }
 
 
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <div id="spinner" class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div id="alertAjax" class="form-group">
-                        @Html.Raw(@ViewBag.Alert)
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
-                </div>
-            </div>
-            
+<div class="row">
+    <div class="form-group col-md-4">
+        <div id="spinner" class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        <div id="alertAjax" class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
+    </div>
+</div>
+
 <div id="divTable" class="form-group" style="display:none;">
     <form id="formTable">
         <table id="table" class="table" style="width: 100%">
@@ -36,13 +36,13 @@
                         # COMISIÓN
                     </th>
                     <th>
-                        NOMBRE
+                        ESTATUS
                     </th>
                     <th>
                         ARCHIVO
                     </th>
                     <th>
-                        EDITAR
+                        FIRMAR
                     </th>
                 </tr>
             </thead>
@@ -50,11 +50,6 @@
             </tbody>
         </table>
     </form>
-</div>
-<div id="partial" class="row col-md-12 hidden">
-    @{
-        @await Html.PartialAsync("../RH/_SolicitudDetail")
-    }
 </div>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -64,7 +59,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
     var table;
-    var dataJSON;
+    //var dataJSON;
         $(document).ready(function () {
             showAlert();
             $("#spinner").hide();
@@ -78,47 +73,6 @@
                 showTable(this.value);
             });*/
 
-            $('body').on('click', 'a', function (e) {
-
-                if (this.className === "gold btn-action") {
-                    let json = this.id.replace(/'/g, '"');
-                    json = JSON.parse(json)
-                    var idUser;
-                    $.each(json, function (id, valor) {
-                        //console.log(valor,id)
-                        //console.log("$('#' ", id+").val("+valor+");");
-                        //$("#" + id).attr("value", valor);
-                        
-                        if (valor != null) {
-                            //console.log(id, ":", valor);
-                            if (id == "id") {
-                                $("#" + id).val(valor);
-                            } else if (id == "idUsuario") {
-                                idUser = valor;
-                                //console.log("usuario: ", idUser);
-                            } else if (id == "traza_ruta") {
-                                //console.log("usuario: ", idUser);
-                                let foo = valor.indexOf("_")
-                                $("#" + id).attr("src", "/doc/RH/SolicitudViaticos/" + valor.substring(0, foo) +"/"+ valor);
-                            } else {
-                                $("#" + id).text(valor);
-                            }
-                            
-                        } else {
-                            $("#" + id).text("");
-                        }
-                        //$("#" + id).attr("disabled", true);
-                    });
-
-                    $("#partial").removeClass("hidden");
-                    scroll("partial");
-                    ValidaVehiculo();
-                    ValidaAvion();
-                    ValidaCaptura();
-                }
-
-
-            });
         });
 
         function showTable() {
@@ -129,15 +83,15 @@
                 "proccessing": true,
                 "serverSide": false,
                 "ajax": {
-                    url: "@Url.Action("GetSolicitudes", "AdminSolicitud")",
+                    url: "@Url.Action("GetSolicitudes", "Lista")",
                     //url: "/AdminSolicitud/GetSolicitudes",
                     type: 'GET',
                     headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
                     //success: function (data) { console.log(data) },
-                    complete: function (data) {
+                    complete: function () {
                         $("#spinner").hide();
-                        dataJSON = data.responseJSON.data;
-                        //console.log(dataJSON);
+                        //dataJSON = data.responseJSON.data;
+                        //console.log(data);
                     }
                 },
                 "columnDefs": columns,
@@ -174,27 +128,13 @@
                 }
             });
         }
-        
+
         var columns = [
 
             { "name": "Id", "data": "id", "targets": 0, "visible": false},
             { "name": "Fecha", "data": "fechaSol", "targets": 1 },
             { "name": "Folio", "data": "folio", "targets": 2 },
-            { "name": "Nombre", "data": "nombre", "targets": 3 },
-            //{ "name": "Editar", "data": "id", "targets": 4 }, ///Agregue este campo
-
-            /*{
-                "targets": 8,
-                "data": null,
-                "render": function (data, type, row, meta) {
-                    if (row.nombreArchInforme != null) {
-                        return '<a href="../doc/Sisevive/' + row.idUserCarga + "/" + row.folio + "/" + row.nombreArchInforme + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    }
-                    return null;
-                },
-                "sortable": false,
-                "className": 'text-center'
-            },*/
+            { "name": "Estatus", "data": "estatus", "targets": 3 },
             {
                 "targets": 4,
                 "data": null,
@@ -206,33 +146,21 @@
                 },
                 "sortable": false,
                 "className": 'text-center'
-            },
-            {
+            }, {
                 "targets": 5,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    let json = JSON.stringify(row);
-                    json = json.replace(/"/g, "'");
-                    if (row.estatus == 1) {
-
-                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar Solicitud"><i class="fa fa-pencil-square-o"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '"  data-toggle="tooltip" title="Enviar a firma"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
-                    } else if (row.estatus == 2){
-                        return '<small style="font-size:20px;">En proceso de firma</samll>';
-                    } else if (row.estatus == 3) {
-                        //return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                        return '<small style="font-size:20px;">Firmado</samll>';
-                    } else if (row.estatus == 4) {
-                        return '<small style="font-size:20px;">VoBo Contas</samll>';
-                    } else if (row.estatus == 7) {
-                        return '<small style="font-size:20px;">Firma solicitante</samll>';
+                    if (row.estatus == 7) {
+                        return '<a href="https://firmaelectronica.conavi.gob.mx:9090/" target="_blank"><i class="fa fa-pencil-square-o gold" style="font-size:25px;"></i></a>';
                     } else if (row.estatus == 8) {
-                        return '<small style="font-size:20px;">Firma Directivo</samll>';
+                        return '<small style="font-size:20px;">Firmado</small>';
                     }
                     return "";
                 },
                 "sortable": false,
                 "className": 'text-center'
-            }
+            },
+            
         ];
 
         function showAlert() {
@@ -268,16 +196,15 @@
             var linea = $('#linea_aerea').text();
             //console.log(salida);
 
-            if (linea != "") {
-                 console.log("mostrar captura");
-                $("#datosAvion").removeClass("hidden");
-                $("#capturaAvion").removeClass("hidden");
-            } else {
-                 console.log("ocultar captura");
-                $("#datosAvion").addClass("hidden");
-                $("#capturaAvion").addClass("hidden");
-                $("#pasajesavion").addClass("hidden");
-            }
+            //if (linea != "") {
+            //     console.log("mostrar ");
+            //    $("#datosAvion").removeClass("hidden");
+            //    $("#capturaAvion").addClass("hidden");
+            //} else {
+            //     console.log("ocultar ");
+            //    $("#datosAvion").addClass("hidden");
+            //    $("#capturaAvion").removeClass("hidden");
+            //}
 
 
         }
@@ -309,12 +236,11 @@
             //alert(casetas);
             //alert("entro vehiculo: ", $("#num_casetas").html());
             if (casetas != "" || combustible != "" || igastos != "") {
-                console.log("mostrar vehiculo");
+                //console.log("mostrar ");
                 $("#vehiculo").removeClass("hidden");
             } else {
-                console.log("ocultar vehiculo");
+                //console.log("ocultar ");
                 $("#vehiculo").addClass("hidden");
-
             }
         }
 

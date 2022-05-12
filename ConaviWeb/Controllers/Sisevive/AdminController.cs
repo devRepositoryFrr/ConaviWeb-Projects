@@ -21,7 +21,7 @@ using static ConaviWeb.Models.AlertsViewModel;
 namespace ConaviWeb.Controllers.Sisevive
 {
 
-    [Authorize(Roles = "Administrador")]
+    [Authorize] //(Roles = "Administrador")
     public class AdminController : Controller
     {
         private readonly IWebHostEnvironment _environment;

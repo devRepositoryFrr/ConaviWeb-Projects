@@ -13,7 +13,8 @@ namespace ConaviWeb.Data.Repositories
     {
         Task<UserResponse> GetLoginByCredentials(UserRequest login);
         Task<UserResponse> GetLoginByUserId(int userId);
-        Task<IEnumerable<Module>> GetModules(int idRol, int idSistema);
+        Task<IEnumerable<Module>> GetModules(int idRol, int idUser, int idSistema);
+        Task<IEnumerable<Catalogo>> GetSistema(string nameSystem, int idSystem);
         Task<IEnumerable<Partition>> GetPartitions(int idSystem);
         Task<Partition> GetPartition(int idPartition);
         Task<bool> CreateUserSisevive(UserRequest userRequest);

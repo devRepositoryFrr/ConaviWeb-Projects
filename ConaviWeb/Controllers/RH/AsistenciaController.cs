@@ -175,7 +175,7 @@ namespace ConaviWeb.Controllers.RH
                 {
                     table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph(asistencia.Fechas[counter].ToString())));
                     table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph(user.Name)));
-                    table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph(user.NuEmpleado.ToString())));
+                    table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph(user.NuEmpleado)));
                     table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph("09:00 AM")));
                     table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph("07:00 PM")));
                     table.AddCell(new Cell().SetBorder(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetFontSize(8).Add(new Paragraph()));

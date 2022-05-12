@@ -23,7 +23,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Proceso</label>
-                <select id="slcProcs" class="form-control">
+                <select id="slcProcs" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Procesos"], "Clave" , "Descripcion" ))"><option value="">--- Seleccionar ---</option></select>
+                @*<select id="slcProcs" class="form-control">
                     <option value="0">--Select--</option>
                     @{
                         if (@TempData["rol"].ToString() == "3")
@@ -51,7 +52,7 @@
                             <option value="/H2H/conavi/reportes/">Reportes</option>
                         }
                     }
-                </select>
+                </select>*@
             </div>
         </div>
         <div class="col-md-6">

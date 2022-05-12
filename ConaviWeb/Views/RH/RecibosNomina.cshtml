@@ -1,0 +1,156 @@
+﻿@{
+    ViewData["Title"] = "Recibos";
+}
+
+    <form method="post" enctype="multipart/form-data" asp-controller="RecibosNomina" asp-action="DownloadZipRN">
+        <div class="form-row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            </div>
+                        
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                @Html.Raw(@ViewBag.Alert)
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button class="btn btn-primary pull-right" id="download" type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i> Descargar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group  col-md-4">
+                            <label>Año</label>
+                            <select id="slctAnio" class="form-control" name="anio">
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <label>Periodo Mes</label>
+                            <select id="slctPeriodo" class="form-control" name="periodo">
+                            </select>
+                        </div>
+                        <div class="form-group  col-md-4">
+                            <div class="pull-right">
+                                @*<a class="btn btn-primary pull-right" id="btnAddProcedure" asp-controller="RecibosNomina" asp-action="DownloadZipFile"><span class="fa fa-cloud-download"></span>&ensp;Descargar</a>*@
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="results"></div>
+    </form>
+    <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+    <script>
+  var between = [];
+    $(document).ready(function () {
+        getAnio();
+        getQuincena();
+        $('.calendar').datepicker({dateFormat: 'dd-mm-yy',
+            inline: true,
+            onSelect: function (dateText, inst) {
+                var date = $(this).datepicker('getDate'),
+                    day = date.getDate(),
+                    month = date.getMonth() + 1,
+                    year = date.getFullYear();
+                alert(day + '-' + month + '-' + year);
+            }
+        });
+    });
+       
+    function Download() {
+
+        let ganio = $("#slctAnio option:selected").text();
+        let gperiodo = $("#slctPeriodo option:selected").text();
+        $('#spinner').show();
+        var data = {
+            anio: ganio,
+            periodo: gperiodo,
+        };
+        data = JSON.stringify(data);
+        $.ajax({
+                    url: "@Url.Action("DownloadZipRN", "RecibosNomina")", // Url
+                    contentType: 'application/json',
+                    data: data, // Datos
+                    type: "post",  // Verbo HTTP
+
+                })
+
+    }
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 3000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 6000);
+
+    }
+
+    function getAnio() {
+        var optionString = '';
+        var data = [];
+        // Return today's date and time
+        var currentTime = new Date()
+
+        // returns the nimus year (four digits)
+        var before = currentTime.getFullYear() - 1;
+
+        // returns the year (four digits)
+        var year = currentTime.getFullYear();
+
+        // returns the max year (four digits)
+        var after = currentTime.getFullYear() + 1;
+
+        data.push(before, year, after);
+
+        data.forEach(function (dataItem, index) {
+            optionString += '<option value="' + dataItem + '">' + dataItem + '</option>';
+        });
+
+        $('#slctAnio').append(optionString);
+    }
+
+    function getQuincena() {
+        var optionString = '';
+        var data =
+            ["Enero-01",
+                "Enero-02",
+                "Febrero-01",
+                "Febrero-02",
+                "Marzo-01",
+                "Marzo-02",
+                "Abril-01",
+                "Abril-02",
+                "Mayo-01",
+                "Mayo-02",
+                "Junio-01",
+                "Junio-02",
+                "Julio-01",
+                "Julio-02",
+                "Agosto-01",
+                "Agosto-02",
+                "Septiembre-01",
+                "Septiembre-02",
+                "Octubre-01",
+                "Octubre-02",
+                "Noviembre-01",
+                "Noviembre-02",
+                "Diciembre-01",
+                "Diciembre-02"];
+
+        data.forEach(function (dataItem, index) {
+            optionString += '<option value="' + dataItem + '">' + dataItem + '</option>';
+        });
+
+        $('#slctPeriodo').append(optionString);
+    }
+    </script>

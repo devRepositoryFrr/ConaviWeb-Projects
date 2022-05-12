@@ -30,7 +30,7 @@ namespace ConaviWeb.Controllers.Sisevive
         }
         public IActionResult Index()
         {
-            return View("../Sisevive/Login");
+            return View("../Sisevive/Index");
         }
         [AllowAnonymous]
         [HttpPost]
@@ -44,7 +44,7 @@ namespace ConaviWeb.Controllers.Sisevive
             if (userResponse != null)
             {
                 userResponse.AccessToken = await _securityTools.GetToken(userResponse);
-                userResponse.Modules = await _securityRepository.GetModules(Convert.ToInt32(userResponse.Rol), userResponse.Sistema);
+                userResponse.Modules = await _securityRepository.GetModules(Convert.ToInt32(userResponse.Rol), userResponse.Id, userResponse.Sistema);
                 if (userResponse.AccessToken != null)
                 {
                     HttpContext.Session.SetObject("ComplexObject", userResponse);

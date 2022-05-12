@@ -28,9 +28,14 @@ namespace ConaviWeb.Controllers
             _securityRepository = securityRepository;
             _securityTools = securityTools;
         }
-        public IActionResult Index()
+        //[Route("Inicio/{nameSystem?}")]
+        public async Task<IActionResult> IndexAsync(string nameSystem, int idSystem)
         {
-                return View("../Login/Login");   
+            var sistema = await _securityRepository.GetSistema(nameSystem, idSystem);
+            ViewData["Sistemas"] = sistema;
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
+            return View("../Login/Login");   
         }
 
         [AllowAnonymous]
@@ -41,27 +46,30 @@ namespace ConaviWeb.Controllers
             string spassword = _securityTools.GetSHA256(userRequest.Password);
             userRequest.Password = spassword;
             var userResponse = await _securityRepository.GetLoginByCredentials(userRequest);
-            List<Module> modules = new();
             if (userResponse != null)
             {
                 userResponse.AccessToken = await _securityTools.GetToken(userResponse);
-                userResponse.Modules = await _securityRepository.GetModules(Convert.ToInt32(userResponse.Rol), userResponse.Sistema);
-                if (userResponse.AccessToken != null)
+                userResponse.Modules = await _securityRepository.GetModules(Convert.ToInt32(userResponse.Rol), userResponse.Id, userRequest.IdSistema);
+                
+                if (userResponse.AccessToken != null && userResponse.Modules.Count() !=0)
                 {
+                    //var module = userResponse.Modules.SingleOrDefault(s => s.Orden == 1);
+                    //var controller = module.Url.Substring(3);
                     HttpContext.Session.SetObject("ComplexObject", userResponse);
                     HttpContext.Session.SetString("Token", userResponse.AccessToken);
-                    return (RedirectToAction("Index", userResponse.Controller));
+                    return (RedirectToAction("Index", "Home"));
                 }
                 else
                 {
-                    return (RedirectToAction("Error"));
+                    TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error, favor de ponerse en contacto con el administrador del sistema");
+                    return RedirectToAction("Index", new { idSystem = userRequest.IdSistema });
                 }
                 
             }
             else
             {
-                ViewBag.Alert = AlertService.ShowAlert(Alerts.Danger, "Usuario y/o Contraseña incorrectos.");
-                return View("../Login/Login");
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Usuario y/o Contraseña incorrectos");
+                return RedirectToAction("Index", new { idSystem = userRequest.IdSistema });
             }
             
         }

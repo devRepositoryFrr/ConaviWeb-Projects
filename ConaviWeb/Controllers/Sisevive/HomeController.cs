@@ -13,7 +13,7 @@ namespace ConaviWeb.Controllers.Sisevive
     {
         public IActionResult Index()
         {
-            return View("../Sisevive/Index");
+            return View("../Sisevive/Home");
         }
     }
 }

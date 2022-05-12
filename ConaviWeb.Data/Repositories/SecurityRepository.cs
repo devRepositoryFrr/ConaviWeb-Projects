@@ -31,11 +31,11 @@ namespace ConaviWeb.Data.Repositories
 
             var sql = @"
                         SELECT u.id AS Id, concat(nombre,' ',primer_apellido,' ',segundo_apellido) Name, usuario AS SUser, id_rol AS Rol, id_sistema AS Sistema,
-                        (select descripcion from c_controlador where id = (
-                        select id_controlador from sistema_rol_controlador where id_sistema = u.id_sistema and id_rol = u.id_rol)) Controller,
+                        controlador Controller,
                         u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel
-                        FROM usuario u 
-                        LEFT JOIN c_area ca ON ca.id = u.id_area
+                        FROM qa_adms_conavi.usuario u 
+                        LEFT JOIN qa_adms_conavi.c_area ca ON ca.id = u.id_area
+                        LEFT JOIN qa_adms_conavi.c_sistema cs ON cs.id = u.id_sistema
                         WHERE usuario = @SUser AND password = @Password AND activo = 1";
 
             return await db.QueryFirstOrDefaultAsync<UserResponse>(sql, new { login.SUser, login.Password });
@@ -56,17 +56,16 @@ namespace ConaviWeb.Data.Repositories
 
             return await db.QueryFirstOrDefaultAsync<UserResponse>(sql, new { UserId = userId });
         }
-        public async Task<IEnumerable<Module>> GetModules(int idRol, int idSistema)
+        public async Task<IEnumerable<Module>> GetModules(int idRol, int idUser, int idSistema)
         {
             var db = DbConnection();
 
             var sql = @"
-                        SELECT id Id, descripcion Text, url Url, ico Ico
-                        FROM sistema_rol_modulo rm
-                        JOIN c_modulo cm ON rm.id_modulo = cm.id
-                        WHERE id_sistema = @IdSistema AND rm.id_rol = @IdRol";
+                        SELECT id Id, descripcion Text, url Url, ico Ico, orden Orden
+                        FROM  qa_adms_conavi.c_modulo cm 
+                        WHERE id_sistema = @IdSistema AND (FIND_IN_SET(@IdUser,usuarios) OR id_rol = @IdRol)";
 
-            return await db.QueryAsync<Module>(sql, new { IdSistema = idSistema ,IdRol = idRol });
+            return await db.QueryAsync<Module>(sql, new { IdRol = idRol, IdSistema = idSistema ,IdUser = idUser });
         }
 
         public async Task<IEnumerable<Partition>> GetPartitions(int idSystem)
@@ -98,11 +97,28 @@ namespace ConaviWeb.Data.Repositories
             var db = DbConnection();
 
             var sql = @"
-                        CALL sp_create_user_sisevive(@Name, @LName, @SLName, @SUser, @Password, @Email);";
+                        CALL qa_adms_conavi.sp_create_user_sisevive(@Name, @LName, @SLName, @SUser, @Password, @Email);";
 
             var result = await db.ExecuteAsync(sql, new { 
                 userRequest.SUser, userRequest.Name, userRequest.LName, userRequest.SLName, userRequest.Password, userRequest.Email });
             return result > 0;
+        }
+
+        public async Task<IEnumerable<Catalogo>> GetSistema(string nameSystem, int idSystem)
+        {
+            var db = DbConnection();
+            var sql = "";
+            if (idSystem != 0)
+            {
+                sql = @"
+                        SELECT id Id, descripcion Descripcion FROM qa_adms_conavi.c_sistema where id = @IdSystem;";
+            }
+            else
+            {
+                sql = @"
+                        SELECT id Id, descripcion Descripcion FROM qa_adms_conavi.c_sistema where descripcion = @NameSytem;";
+            }
+            return await db.QueryAsync<Catalogo>(sql, new { NameSytem = nameSystem , IdSystem = idSystem });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,5 +51,6 @@ namespace ConaviWeb.Model.RH
         public string RFC { get; set; }
         public string CvNivel { get; set; }
         public string TotalViaticos { get; set; }
+        public string Traza_ruta { get; set; }
     }
 }

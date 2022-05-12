@@ -28,6 +28,9 @@ namespace ConaviWeb.Model.Request
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [Display(Name = "Correo Electrónico")]
         public string Email { get; set; }
+        [RegularExpression("([0-9]+)", ErrorMessage = "El campo {0} es requerido")]
+        [Display(Name = "Sistema")]
+        public int IdSistema { get; set; }
 
 
     }

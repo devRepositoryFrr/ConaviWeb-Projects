@@ -539,3 +539,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     color: rgb(255 0 0) !important;
     font-weight: 600;
 }
+
+.agrandar:hover {
+    transform: scale(2.0);
+}
