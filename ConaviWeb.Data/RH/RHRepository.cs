@@ -137,6 +137,7 @@ namespace ConaviWeb.Data.RH
 
             var sql = @"
                        SELECT sv.id AS Id,
+                                sv.id_usuario AS IdUsuario,
                             folio AS Folio,
                             fecha_registro AS FechaSol,
                             concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
@@ -172,6 +173,8 @@ namespace ConaviWeb.Data.RH
                             sale_f AS Sale_f ,
                             llega_f AS Llega_f,
                             estatus AS Estatus,
+                            obs_cancela AS ObsCan,
+                            archivo_pago AS Archivo_pago,
                             (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
                             join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
                             where ao.nombre_archivo = concat(folio, '.pdf')
@@ -190,6 +193,7 @@ namespace ConaviWeb.Data.RH
 
             var sql = @"
                        SELECT sv.id AS Id,
+                            sv.id_usuario AS IdUsuario,
                             folio AS Folio,
                             fecha_registro AS FechaSol,
                             concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
@@ -223,6 +227,7 @@ namespace ConaviWeb.Data.RH
                             sale_f AS Sale_f ,
                             llega_f AS Llega_f,
                             estatus AS Estatus,
+                            archivo_pago AS Archivo_pago,
                             (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
 							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
 							where ao.nombre_archivo = concat(folio,'.pdf')
@@ -368,6 +373,42 @@ namespace ConaviWeb.Data.RH
             return await db.QueryAsync<Catalogo>(sql, new { });
         }
 
-        
+        public async Task<bool> UpdateEstatus(int id, int estatus, string obs)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE prod_rh.solicitud_viaticos
+                            SET estatus = @Estatus,
+                                obs_cancela = @Obs
+                        WHERE id = @Id;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                id,
+                estatus,
+                obs
+            });
+            return result > 0;
+        }
+        public async Task<bool> UpdateEstatus(int id, string path, int estatus)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE prod_rh.solicitud_viaticos
+                            SET estatus = @Estatus,
+                                archivo_pago = @Path
+                        WHERE id = @Id;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                id,
+                estatus,
+                path
+            });
+            return result > 0;
+        }
+
     }
 }

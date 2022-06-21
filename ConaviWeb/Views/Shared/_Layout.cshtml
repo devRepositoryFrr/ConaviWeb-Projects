@@ -72,6 +72,19 @@
     <link href="~/css/cssConavi/scroll.css" rel="stylesheet" type="text/css" />
     @*SpinnerConavi*@
     <link href="~/css/cssConavi/spinnerCnvi.css" rel="stylesheet" type="text/css" />
+    <style>
+        .gal-strech {
+            background-size: cover !important;
+            background-position-x: center !important;
+        }
+        .gal_1 {
+            background-image: url(/img/sio.png);
+            height: 345px;
+            width: 100%;
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+    </style>
     @RenderSection("Scripts", required: false)
 </head>
 <body>
@@ -83,7 +96,7 @@
     @*@await Component.InvokeAsync(nameof(ConaviWeb.Controllers.NavigationComponent))*@
 
     @*}*@
-    
+
 
 
 
@@ -115,10 +128,9 @@
             </div>
         </div>
     </div>
+    <div class="mySlides slider gal_1 gal-strech" style="opacity: 1; z-index: 1; border-bottom-style: solid; border-bottom-color: #215d51; border-bottom-width: 10px;"></div>
     <div class="container">
-        <br />
-        <br />
-        <br />
+        
         @RenderBody()
     </div>
 

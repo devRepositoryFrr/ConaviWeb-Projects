@@ -1,0 +1,164 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+<div class="row">
+    <div id="alertAjax" class="col-md-6 col-md-offset-3">
+        <div class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+    <p>Usuario:&nbsp;@User.Identity.Name</p>
+</div>
+
+<div id="partialView"></div>
+
+<!-- Modal Observación-->
+<form method="post" enctype="multipart/form-data" asp-controller="Login" asp-action="UpdatePassword">
+    <div class="modal fade fade-" style="z-index:1041" id="showModalPassw" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class='modal-header'>
+                    <h4 id='titulo-modal' style="font-weight: 300">Actualizar Contraseña</h4>
+                </div>
+                <div class='modal-body' style="height: 250px; overflow-x: hidden; overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <p>
+                                    <label>Nueva Contraseña:</label>
+                                    <input type="password" class="form-control" name="Password" id="password">
+                                    <small id="lblPassword" class="hidden">Campo requerido *</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnUpdate" class="btn btn-primary" disabled>Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@*<button type="button" id="btnModal" class="btn btn-info btn-lg" data-toggle="modal" data-target="#showModalPassw">Open Modal</button>*@
+
+<script>
+
+    $(document).ready(function () {
+        if ('@ViewData["UpdatePass"]' == 1) {
+            $(".modal").css("display", "block")
+            $(".modal").addClass("in")
+            $(".modal-backdrop").addClass("in")
+            $(".modal-dialog").css("margin-top", "274.5px");
+
+
+        }
+        //Cargar NavMenu
+            $("#partialView").load('@Url.Content("../NavBar/Index")');
+        $("#btnModal").click(function () {
+            console.log("element was clicked"); // or alert("click");
+        });
+        var minLength = 8;
+        var maxLength = 16;
+
+        $("#password").on("keydown keyup change", function () {
+            var value = $(this).val();
+            if (value.length < minLength) {
+                $("#lblPassword").text("Mínimo 8 caracteres*").removeClass("hidden").attr('style', 'color:#9D2449');
+                $("#btnUpdate").attr("disabled",true);
+            }
+            else if (value.length > maxLength) {
+                $("#lblPassword").text("Máximo 16 caracteres*").removeClass("hidden").attr('style', 'color:#9D2449');
+                $("#btnUpdate").attr("disabled", true);
+            }
+            else {
+                $("#lblPassword").text("Contraseña valida").removeClass("hidden").attr('style', 'color:#215D51');
+                $("#btnUpdate").removeAttr("disabled");
+            }
+        });
+
+        var StopLoadingAnimation = function () {
+            $('#modal').on('show.bs.modal', function (e) {
+                console.log("trigger show");
+                $("#btnCloseModal").trigger("click");
+            });
+            $('#modal').on('shown.bs.modal', function (e) {
+                console.log("trigger");
+                $("#btnCloseModal").trigger("click");
+            });
+            $('#modal').on('hidden.bs.modal', function (e) {
+                console.log("event");
+                $(e.currentTarget).off('shown');
+                $(e.currentTarget).off('show');
+            });
+            $("#btnCloseModal").trigger("click");
+        }
+
+
+        $("#btnUpdate").on("click", function () {
+
+
+                $.ajax({
+                    url: "@Url.Action("UpdatePassword", "Login")", // Url
+                    type: "post",  // Verbo HTTP
+                    data:
+                    // Datos
+                    {
+                        // Datos / Parámetros
+                        Password: $("#password").val()
+                    },
+
+                })
+                    // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        //console.log(result);
+                        if (result != null) {
+                            $("#alertAjax").append(result);
+                            $("#showModalPassw").append(result);
+                            $("#showModalPassw").removeClass("in");
+                            $(".modal-backdrop").remove();
+                            $("#showModalPassw").hide();
+                            showAlert();
+                        } else {
+                            // Mostramos un mensaje de error.
+
+                            showAlert();
+                        }
+
+                    })
+                    // Se ejecuta si se produjo un error.
+                    .fail(function (xhr, status, error) {
+                        // Mostramos un mensaje de error.
+                        //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                        // Escondemos el Ajax Loader
+                        //$("#AjaxLoader").hide("slow");
+
+                        // Habilitamos el botón de Submit
+                        //$("#SubmitBtn").prop("disabled", false);
+                    })
+                    // Hacer algo siempre, haya sido exitosa o no.
+                    .always(function () {
+
+                    });
+        });
+
+        function showAlert() {
+
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+
+            }, 6000);
+
+
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 12000);
+
+        }
+    });
+</script>

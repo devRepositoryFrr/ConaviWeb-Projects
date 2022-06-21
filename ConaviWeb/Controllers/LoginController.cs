@@ -141,5 +141,18 @@ namespace ConaviWeb.Controllers
             response.Data = null;
             return BadRequest(response);
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdatePasswordAsync([FromForm] string Password)
+        {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var success = await _securityRepository.UpdatePassword(user.Id, Password);
+            if (success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Contraseña actualizada correctamente");
+                return RedirectToAction("Index","Home", new { pass = 2 });
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al actualizar la contraseña, favor de intentarlo nuevamente.");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

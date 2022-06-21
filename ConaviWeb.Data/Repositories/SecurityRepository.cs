@@ -32,7 +32,7 @@ namespace ConaviWeb.Data.Repositories
             var sql = @"
                         SELECT u.id AS Id, concat(nombre,' ',primer_apellido,' ',segundo_apellido) Name, usuario AS SUser, id_rol AS Rol, id_sistema AS Sistema,
                         controlador Controller,
-                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel
+                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel, update_pass UpdatePass
                         FROM qa_adms_conavi.usuario u 
                         LEFT JOIN qa_adms_conavi.c_area ca ON ca.id = u.id_area
                         LEFT JOIN qa_adms_conavi.c_sistema cs ON cs.id = u.id_sistema
@@ -119,6 +119,35 @@ namespace ConaviWeb.Data.Repositories
                         SELECT id Id, descripcion Descripcion FROM qa_adms_conavi.c_sistema where descripcion = @NameSytem;";
             }
             return await db.QueryAsync<Catalogo>(sql, new { NameSytem = nameSystem , IdSystem = idSystem });
+        }
+
+        public async Task<bool> UpdatePassword(int idUser, string password)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE qa_adms_conavi.usuario
+                            SET password = sha2(@password,256),
+                                update_pass = 0
+                        WHERE id = @idUser;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                idUser,
+                password,
+
+            });
+            return result > 0;
+        }
+        public async Task<IEnumerable<Catalogo>> GetSistemas()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        SELECT id Id, descripcion Descripcion, ico Ico
+                        FROM qa_adms_conavi.c_sistema";
+
+            return await db.QueryAsync<Catalogo>(sql, new { });
         }
     }
 }

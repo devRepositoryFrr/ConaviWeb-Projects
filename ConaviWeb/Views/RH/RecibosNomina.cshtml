@@ -3,39 +3,38 @@
 }
 
     <form method="post" enctype="multipart/form-data" asp-controller="RecibosNomina" asp-action="DownloadZipRN">
-        <div class="form-row">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            </div>
-                        
-                        <div class="form-group col-md-4">
-                            <div class="form-group">
-                                @Html.Raw(@ViewBag.Alert)
-                            </div>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <button class="btn btn-primary pull-right" id="download" type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i> Descargar</button>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <div class="form-group" id="alert">
+                            @Html.Raw(@ViewBag.Alert)
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="form-group col-md-4">
+                        <button class="btn btn-primary pull-right" id="download" type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i> Descargar</button>
+                    </div>
+                </div>
+                <div class="row">
 
-                        <div class="form-group  col-md-4">
-                            <label>Año</label>
-                            <select id="slctAnio" class="form-control" name="anio">
-                            </select>
-                        </div>
-                        <div class="form-group  col-md-4">
-                            <label>Periodo Mes</label>
-                            <select id="slctPeriodo" class="form-control" name="periodo">
-                            </select>
-                        </div>
-                        <div class="form-group  col-md-4">
-                            <div class="pull-right">
-                                @*<a class="btn btn-primary pull-right" id="btnAddProcedure" asp-controller="RecibosNomina" asp-action="DownloadZipFile"><span class="fa fa-cloud-download"></span>&ensp;Descargar</a>*@
-                                
-                            </div>
+                    <div class="form-group  col-md-4">
+                        <label>Año</label>
+                        <select id="slctAnio" class="form-control" name="anio">
+                        </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <label>Periodo Mes</label>
+                        <select id="slctPeriodo" class="form-control" name="periodo">
+                        </select>
+                    </div>
+                    <div class="form-group  col-md-4">
+                        <div class="pull-right">
+                            @*<a class="btn btn-primary pull-right" id="btnAddProcedure" asp-controller="RecibosNomina" asp-action="DownloadZipFile"><span class="fa fa-cloud-download"></span>&ensp;Descargar</a>*@
+
                         </div>
                     </div>
                 </div>
@@ -43,8 +42,9 @@
         </div>
         <div id="results"></div>
     </form>
-    <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
-    <script>
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script>
   var between = [];
     $(document).ready(function () {
         getAnio();
@@ -60,7 +60,7 @@
             }
         });
     });
-       
+
     function Download() {
 
         let ganio = $("#slctAnio option:selected").text();
@@ -76,7 +76,11 @@
                     contentType: 'application/json',
                     data: data, // Datos
                     type: "post",  // Verbo HTTP
-
+                    success: function (data) {
+                        $('#spinner').hide();
+                        $("#alert").html(data.message).fadeIn("slow");
+                        showAlert();
+                    }
                 })
 
     }
@@ -153,4 +157,4 @@
 
         $('#slctPeriodo').append(optionString);
     }
-    </script>
+</script>

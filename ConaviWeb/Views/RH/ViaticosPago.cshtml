@@ -1,9 +1,8 @@
-﻿@model ConaviWeb.Model.Sisevive.Etiquetado
+﻿
 @{
 
-    ViewBag.Title = "AdminSol";
+    ViewBag.Title = "Pago";
 }
-
 
 <div class="row">
     <div class="form-group col-md-4">
@@ -33,7 +32,7 @@
                         FECHA
                     </th>
                     <th>
-                        # COMISIÓN
+                        FOLIO
                     </th>
                     <th>
                         NOMBRE
@@ -42,7 +41,7 @@
                         ARCHIVO
                     </th>
                     <th>
-                        EDITAR
+                        VALIDAR
                     </th>
                 </tr>
             </thead>
@@ -51,15 +50,10 @@
         </table>
     </form>
 </div>
-<div id="partial" class="row col-md-12 hidden">
-    @{
-        @await Html.PartialAsync("../RH/_SolicitudDetail")
-    }
-</div>
 
 <!-- Modal Observación-->
-
-    <div class="modal fade fade-" style="z-index:1041" id="showModalObsCan" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<form method="post" enctype="multipart/form-data" asp-controller="ViaticosPago" asp-action="TicketPago">
+    <div class="modal fade fade-" style="z-index:1041" id="showModalPago" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class='modal-header'>
@@ -70,25 +64,30 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <p>
-                                    <span id="obsCancela"></span>
+                                    <small>Comprobante de Pago</small>
+                                    <input type="file" class="form-control-file" id="Ticket" name="TicketPago" accept=".pdf">
+                                    <small id="lblTraza_ruta" class="hidden">Campo requerido *</small>
                                 </p>
+                                <input id="textObserv" name="IdReg" hidden/>
+                                <input id="textFolio" name="Folio" hidden/>
+                                <input id="textUser" name="IdUser" hidden/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" id="btnCancel" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
-
+</form>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+
+<script>
     var table;
     var dataJSON;
         $(document).ready(function () {
@@ -104,35 +103,29 @@
                 showTable(this.value);
             });*/
 
-            $('#showModalObsCan').on('show.bs.modal', function (e) {
+            $('#showModalPago').on('show.bs.modal', function (e) {
                 var bookId = $(e.relatedTarget).data('book-id');
-                console.log("Observación: " + bookId);
-                $(e.currentTarget).find('#obsCancela').text(bookId);
+                var bookFolio = $(e.relatedTarget).data('book-folio');
+                var bookUser = $(e.relatedTarget).data('book-user');
+                $(e.currentTarget).find('#textObserv').val(bookId);
+                $(e.currentTarget).find('#textFolio').val(bookFolio);
+                $(e.currentTarget).find('#textUser').val(bookUser);
             });
-
 
             $('body').on('click', 'a', function (e) {
 
                 if (this.className === "gold btn-action") {
                     let json = this.id.replace(/'/g, '"');
                     json = JSON.parse(json)
-                    var idUser;
+
                     $.each(json, function (id, valor) {
                         //console.log(valor,id)
                         //console.log("$('#' ", id+").val("+valor+");");
                         //$("#" + id).attr("value", valor);
-
                         if (valor != null) {
-                            //console.log(id, ":", valor);
+                            console.log(id, ":", valor);
                             if (id == "id") {
                                 $("#" + id).val(valor);
-                            } else if (id == "idUsuario") {
-                                idUser = valor;
-                                //console.log("usuario: ", idUser);
-                            } else if (id == "traza_ruta") {
-                                //console.log("usuario: ", idUser);
-                                let foo = valor.indexOf("_")
-                                $("#" + id).attr("src", "/doc/RH/SolicitudViaticos/" + valor.substring(0, foo) +"/"+ valor);
                             } else {
                                 $("#" + id).text(valor);
                             }
@@ -152,7 +145,94 @@
 
 
             });
+
+            $('#btnSubmitCancel').on('click', function (e) {
+
+                // Deshabilitamos el botón de Submit
+                $("#btnSubmitCancel").prop("disabled", true);
+                console.log("ID CANCELA: ",$("#textObserv").val());
+                //Limpiar formulario
+                //$("#informe").val("");
+
+                $.ajax({
+                    url: "@Url.Action("CancelarSolicitud", "ContasSolicitud")", // Url
+                    type: 'post',
+                    data: {
+                        // Datos / Parámetros
+                        Obs: $("#txtCancela_sol").val(),
+                        Id: $("#textObserv").val()
+                    },
+                })
+                    // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        //showAlert();
+                        //console.log(result);
+                        if (result != null) {
+                            console.log(result, "success");
+                            // Actualiza el resultado HTML
+                            //$("#PostList").html(result);
+                            $("#divDescripcion").show();
+
+                            // Un pequeño esfecto especial ;)
+                            $("#divDescripcion .row").hide();
+                            $("#divDescripcion .row").slideToggle("fast");
+
+                            // Limpia el formulario
+                            //$("#folio").val("");
+
+                            //LLenamos el formiulario
+                            $("#informe").val(result.informe).prop("readonly", true);
+                            $("#observacion").val(result.observacion).prop("readonly", true);
+                            var styleElem = document.head.appendChild(document.createElement("style"));
+                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            $(".escala-" + result.letra).css("background", result.color);
+                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            //console.log(rutaInforme);
+                            $('#btnDownInfo').attr('href', rutaInforme);
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            $("#btnGeneral").prop("disabled", false);
+
+                            // Mostramos un mensaje de éxito.
+                            $("#alertAjax").append(result);
+                            showAlert();
+                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            console.log(result, "error");
+                            $("#divDescripcion").hide();
+                            // Mostramos un mensaje de error.
+                            $("#alertAjax").append(result);
+                            // Habilitamos el botón de Submit
+                            $("#btnGeneral").prop("disabled", false);
+
+                            showAlert();
+                        }
+
+                    })
+                    // Se ejecuta si se produjo un error.
+                    .fail(function (xhr, status, error) {
+                        // Mostramos un mensaje de error.
+                        //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                        // Escondemos el Ajax Loader
+                        //$("#AjaxLoader").hide("slow");
+
+                        // Habilitamos el botón de Submit
+                        //$("#SubmitBtn").prop("disabled", false);
+                    })
+                    // Hacer algo siempre, haya sido exitosa o no.
+                    .always(function () {
+                        //showAlert();
+                    });
+
+    });
+
+
         });
+
 
         function showTable() {
 
@@ -162,7 +242,7 @@
                 "proccessing": true,
                 "serverSide": false,
                 "ajax": {
-                    url: "@Url.Action("GetSolicitudes", "AdminSolicitud")",
+                    url: "@Url.Action("GetSolicitudes", "ViaticosPago")",
                     //url: "/AdminSolicitud/GetSolicitudes",
                     type: 'GET',
                     headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
@@ -210,7 +290,7 @@
 
         var columns = [
 
-            { "name": "Id", "data": "id", "targets": 0, "visible": false},
+            { "name": "Id", "data": "id", "targets": 0},
             { "name": "Fecha", "data": "fechaSol", "targets": 1 },
             { "name": "Folio", "data": "folio", "targets": 2 },
             { "name": "Nombre", "data": "nombre", "targets": 3 },
@@ -232,10 +312,10 @@
                 "targets": 4,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    if (row.estatus >= 3) {
-                        return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Firmado/Recursos_Humanos/' + row.archivo_firma +'" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    }
-                    return '<a href="../AdminSolicitud/GenerateStreamPDF?id=' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    let json = JSON.stringify(row);
+                    json = json.replace(/"/g, "'");
+
+                    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Firmado/Recursos_Humanos/' + row.archivo_firma +'" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -244,29 +324,9 @@
                 "targets": 5,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    let json = JSON.stringify(row);
-                    json = json.replace(/"/g, "'");
-                    if (row.estatus == 1) {
-
-                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar Solicitud"><i class="fa fa-pencil-square-o"></i></a> | <a href="../AdminSolicitud/SendFiles/' + row.id + '"  data-toggle="tooltip" title="Enviar a firma"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
-                    } else if (row.estatus == 2){
-                        return '<small style="font-size:20px;">En proceso de firma</samll>';
-                    } else if (row.estatus == 3) {
-                        //return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                        return '<small style="font-size:20px;">Firmado</samll>';
-                    } else if (row.estatus == 4) {
-                        return '<small style="font-size:20px;">VoBo Contas</samll>';
-                    } else if (row.estatus == 5) {
-                        return '<a href="../' + row.archivo_pago + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
-                    } else if (row.estatus == 7) {
-                        return '<small style="font-size:20px;">Firma solicitante</samll>';
-                    } else if (row.estatus == 8) {
-                        return '<small style="font-size:20px;">Firma Directivo</samll>';
-                    }
-                    else if (row.estatus == 9) {
-                        return '<a data-book-id="' + row.obsCan + '" class="gold" data-toggle="modal" data-target="#showModalObsCan"><i class="fa fa-search gold" style="font-size:25px;"></i></a>';
-                    }
-                    return "";
+                    if (row.estatus == 4) {
+                        return '<a data-book-id="' + row.id + '" data-book-folio="' + row.folio + '" data-book-user="' + row.idUsuario +'" class="gold" data-toggle="modal" data-target="#showModalPago"><i class="fa fa-upload gold" style="font-size:25px;"></i></a>';
+                    } return "";
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -303,22 +363,17 @@
 
         function ValidaCaptura() {
             //console.log("entro Avion: ", $("#fecha salida").text());
-            var linea = $('#fecha_salida').text();
-            var datosavion = $("#linea_aerea").text()
-            console.log("fecha_salida: ", datosavion);
+            var linea = $('#linea_aerea').text();
+            //console.log(salida);
 
             if (linea != "") {
-                console.log("mostrar captura");
-                if (datosavion != "") {
-                    $("#datosAvion").removeClass("hidden");
-                }
-
-                $("#capturaAvion").removeClass("hidden");
-            } else {
-                 console.log("ocultar captura");
-                $("#datosAvion").addClass("hidden");
+                 console.log("mostrar ");
+                $("#datosAvion").removeClass("hidden");
                 $("#capturaAvion").addClass("hidden");
-                $("#pasajesavion").addClass("hidden");
+            } else {
+                 console.log("ocultar ");
+                $("#datosAvion").addClass("hidden");
+                $("#capturaAvion").removeClass("hidden");
             }
 
 
@@ -331,11 +386,11 @@
             var regresoav = $('#horario_regresoav').text();
             //console.log(salida);
 
-            if (salida != "" || regreso != "" || salidaav != "" || regresoav != "") {
-                //console.log("mostrar ");
+            if (salida != "01/01/0001 00:00:00" || regreso != "01/01/0001 00:00:00" || salidaav != "" || regresoav != "") {
+               // console.log("mostrar ");
                 $("#pasajesavion").removeClass("hidden");
             } else {
-                //console.log("ocultar ");
+              // console.log("ocultar ");
                 $("#pasajesavion").addClass("hidden");
             }
 
@@ -351,14 +406,12 @@
             //alert(casetas);
             //alert("entro vehiculo: ", $("#num_casetas").html());
             if (casetas != "" || combustible != "" || igastos != "") {
-                console.log("mostrar vehiculo");
+                //console.log("mostrar ");
                 $("#vehiculo").removeClass("hidden");
             } else {
-                console.log("ocultar vehiculo");
+                //console.log("ocultar ");
                 $("#vehiculo").addClass("hidden");
-
             }
         }
 
-    </script>
-}
+</script>

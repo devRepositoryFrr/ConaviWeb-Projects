@@ -6,20 +6,20 @@
 
     <div class="col-sm-6 col-sm-offset-3">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="form-signin-heading">Datos de acceso</h2>
-            </div>
+            
             <div class="panel-body">
+                <div class="row" style="text-align:center">
+                    <a href="https://www.gob.mx/conavi" style="margin-left: 0px;margin-top: -15px;"><i class="icon-cnv red-ic" style="font-size: 100px;"></i></a>
+                </div>
                 @Html.Raw(@ViewBag.Alert)
                 @*@if (!_signInManager.IsSignedIn(User))
-            {*@
+        {*@
                 <form method="post" asp-action="Auth">
                     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
                     <div class="form-group">
-                            <label asp-for="IdSistema"></label>
-                            <select id="slctIdSistema" class="form-control" asp-for="IdSistema" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sistemas"], "Id" , "Descripcion" ))"></select>
-                        <h4 id="nameSystem" style="text-align:center"></h4>
-                            <span asp-validation-for="IdSistema" class="text-danger"></span>
+                        <select id="slctIdSistema" class="form-control" asp-for="IdSistema" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sistemas"], "Id" , "Descripcion" ))"></select>
+                        <h4 id="nameSystem" style="text-align: center; margin-bottom: 25px;"></h4>
+                        <span asp-validation-for="IdSistema" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SUser"></label>
@@ -38,10 +38,10 @@
                     <button class="btn btn-primary pull-right" type="submit"><span class="fa fa-sign-in"></span>&ensp;Iniciar Sesión</button>
                 </form>
                 @*}
-            else
-            {
-                Context.Response.Redirect("/inicio/Acerca_de");
-            }*@
+        else
+        {
+            Context.Response.Redirect("/inicio/Acerca_de");
+        }*@
             </div>
             
             <div class="panel-footer" id="footerSisevive" hidden>
@@ -60,6 +60,7 @@
             $("#slctIdSistema").hide();
             $("#footerSisevive").hide();
             let option = $("#slctIdSistema").val();
+            console.log(option);
             $("#nameSystem").html($("#slctIdSistema option:selected").text());
             if (option == 4) {
                 window.location.href = "https://firmaelectronica.conavi.gob.mx:9090/";

@@ -41,8 +41,8 @@
                 $(".submenu").collapse('hide');
             });
 
-            //Cargar NavMenu
-            $("#partialView").load('@Url.Content("../NavBar/Index")');
+            @*//Cargar NavMenu
+            $("#partialView").load('@Url.Content("../NavBar/Index")');*@
 
         });
 
@@ -81,7 +81,7 @@
 </head>
 <body>
     <!-- Menú desplegable en vista parcial-->
-    <header id="partialView"></header>
+    @*<header id="partialView"></header>*@
 
     
 
@@ -114,24 +114,23 @@
                 </div>
         </div>
     </div>
-    <div class="container">
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <div class="pull-right red">
+    <div class="container cnvi-body">
+        <div class="red" style="text-align: right;">
+
             @if (User.Identity.IsAuthenticated)
             {
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i> <span>@User.Identity.Name</span>
 
-            <i class="fa fa-user-circle-o" aria-hidden="true"></i>   <span>@User.Identity.Name</span>
+                <a href="../LogOut">
+                    <p style="font-size:20px;text-align:end; color:gray" class="ic-modulos enlace red-text"><i class="fa fa-sign-out"></i>Salir</p>
+                </a>
 
             }
-            </div><br>
-        <br />
-        <br />
-
-
+        </div>
+        <ol class="breadcrumb">
+            <li><a href="/Home"><i class="fa fa-home"> Inicio</i></a></li>
+            <li class="active"><a id="breadcrumb_active" href=""></a></li>
+        </ol>
         @RenderBody()
     </div>
 

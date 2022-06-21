@@ -16,6 +16,8 @@ namespace ConaviWeb.Data.RH
         Task<IEnumerable<Viaticos>> GetSolicitudesUser(int idUser);
         Task<bool> UpdateViaticos(Viaticos viaticos);
         Task<bool> UpdateEstatus(int id, int estatus);
+        Task<bool> UpdateEstatus(int id, int estatus, string obs);
+        Task<bool> UpdateEstatus(int id, string path, int estatus);
         Task<Viaticos> GetSolicitud(int id);
         Task<IEnumerable<Catalogo>> GetEntidades();
 

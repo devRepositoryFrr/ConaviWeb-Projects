@@ -1,25 +1,25 @@
 ﻿@model ConaviWeb.Model.Sisevive.Etiquetado
 @{
-   
+
     ViewBag.Title = "ContasSol";
 }
 
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <div id="spinner" class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <div id="alertAjax" class="form-group">
-                        @Html.Raw(@ViewBag.Alert)
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
-                </div>
-            </div>
-           
+<div class="row">
+    <div class="form-group col-md-4">
+        <div id="spinner" class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        <div id="alertAjax" class="form-group">
+            @Html.Raw(@ViewBag.Alert)
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
+    </div>
+</div>
+
 <div id="divTable" class="form-group" style="display:none;">
     <form id="formTable">
         <table id="table" class="table" style="width: 100%">
@@ -55,13 +55,41 @@
         @await Html.PartialAsync("../RH/_SolicitudDetail")
     }
 </div>
-
+<!-- Modal Observación-->
+<form  method="post" enctype="multipart/form-data" asp-controller="ContasSolicitud" asp-action="CancelarSolicitud">
+    <div class="modal fade fade-" style="z-index:1041" id="showModalCancela" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class='modal-header'>
+                    <h4 id='titulo-modal' style="font-weight: 300">Observaciones</h4>
+                </div>
+                <div class='modal-body' style="height: 250px; overflow-x: hidden; overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <p>
+                                    <textarea placeholder="Especifique motivo " class="form-control" id="txtCancela_sol" name="Obs" style="resize:none" rows="4 "></textarea>
+                                    <small id="lblCancela_sol" class="hidden">Campo requerido *</small>
+                                </p>
+                                <input id="textObserv" name="IdReg" hidden/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnCancel" class="btn btn-primary">Enviar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
     var table;
     var dataJSON;
         $(document).ready(function () {
@@ -76,6 +104,12 @@
                 console.log(this.value);
                 showTable(this.value);
             });*/
+
+            $('#showModalCancela').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                console.log("Observación: " + bookId);
+                $(e.currentTarget).find('#textObserv').val(bookId);
+            });
 
             $('body').on('click', 'a', function (e) {
 
@@ -94,7 +128,7 @@
                             } else {
                                 $("#" + id).text(valor);
                             }
-                            
+
                         } else {
                             $("#" + id).text("");
                         }
@@ -110,8 +144,95 @@
 
 
             });
+
+            $('#btnSubmitCancel').on('click', function (e) {
+                
+                // Deshabilitamos el botón de Submit
+                $("#btnSubmitCancel").prop("disabled", true);
+                console.log("ID CANCELA: ",$("#textObserv").val());
+                //Limpiar formulario
+                //$("#informe").val("");
+                
+                $.ajax({
+                    url: "@Url.Action("CancelarSolicitud", "ContasSolicitud")", // Url
+                    type: 'post',
+                    data: {
+                        // Datos / Parámetros
+                        Obs: $("#txtCancela_sol").val(),
+                        Id: $("#textObserv").val()
+                    },
+                })
+                    // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        //showAlert();
+                        //console.log(result);
+                        if (result != null) {
+                            console.log(result, "success");
+                            // Actualiza el resultado HTML
+                            //$("#PostList").html(result);
+                            $("#divDescripcion").show();
+
+                            // Un pequeño esfecto especial ;)
+                            $("#divDescripcion .row").hide();
+                            $("#divDescripcion .row").slideToggle("fast");
+
+                            // Limpia el formulario
+                            //$("#folio").val("");
+
+                            //LLenamos el formiulario
+                            $("#informe").val(result.informe).prop("readonly", true);
+                            $("#observacion").val(result.observacion).prop("readonly", true);
+                            var styleElem = document.head.appendChild(document.createElement("style"));
+                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            $(".escala-" + result.letra).css("background", result.color);
+                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            //console.log(rutaInforme);
+                            $('#btnDownInfo').attr('href', rutaInforme);
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            $("#btnGeneral").prop("disabled", false);
+
+                            // Mostramos un mensaje de éxito.
+                            $("#alertAjax").append(result);
+                            showAlert();
+                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            console.log(result, "error");
+                            $("#divDescripcion").hide();
+                            // Mostramos un mensaje de error.
+                            $("#alertAjax").append(result);
+                            // Habilitamos el botón de Submit
+                            $("#btnGeneral").prop("disabled", false);
+
+                            showAlert();
+                        }
+
+                    })
+                    // Se ejecuta si se produjo un error.
+                    .fail(function (xhr, status, error) {
+                        // Mostramos un mensaje de error.
+                        //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                        // Escondemos el Ajax Loader
+                        //$("#AjaxLoader").hide("slow");
+
+                        // Habilitamos el botón de Submit
+                        //$("#SubmitBtn").prop("disabled", false);
+                    })
+                    // Hacer algo siempre, haya sido exitosa o no.
+                    .always(function () {
+                        //showAlert();
+                    });
+
+    });
+
+
         });
 
+    
         function showTable() {
 
             $("#spinner").show();
@@ -165,7 +286,7 @@
                 }
             });
         }
-        
+
         var columns = [
 
             { "name": "Id", "data": "id", "targets": 0},
@@ -193,8 +314,7 @@
                     let json = JSON.stringify(row);
                     json = json.replace(/"/g, "'");
 
-
-                    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Original/Recursos_Humanos/2403142022092115.pdf" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Firmado/Recursos_Humanos/' + row.archivo_firma +'" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
                 },
                 "sortable": false,
                 "className": 'text-center'
@@ -204,7 +324,7 @@
                 "data": null,
                 "render": function (data, type, row, meta) {
                     if (row.estatus == 3) {
-                        return '<a href="../ContasSolicitud/VoBoContas/' + row.id + '" data-toggle="tooltip" title="Visto Bueno"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a>';
+                        return '<a href="../ContasSolicitud/VoBoContas/' + row.id + '" data-toggle="tooltip" title="Visto Bueno"><i class="fa fa-check-square-o gold" style="font-size:25px;"></i></a> | <a data-book-id="' + row.id + '" class="gold" data-toggle="modal" data-target="#showModalCancela"><i class="fa fa-window-close-o gold" style="font-size:25px;"></i></a>';
                     } else if (row.estatus == 4){
                         return '<small style="font-size:20px;">En proceso de pago</samll>';
                     } return "";
@@ -295,5 +415,5 @@
             }
         }
 
-    </script>
+</script>
 }

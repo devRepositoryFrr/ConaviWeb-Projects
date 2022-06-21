@@ -22,5 +22,6 @@ namespace ConaviWeb.Model.Response
         public string RefreshToken { get; set; }
         public string Controller { get; set; }
         public string CvNivel { get; set; }
+        public int UpdatePass { get; set; }
     }
 }

@@ -47,5 +47,18 @@ namespace ConaviWeb.Controllers.RH
             TempData["Alert"]=AlertService.ShowAlert(Alerts.Success, "Se verifico la solicitud con exito");
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> CancelarSolicitudAsync(string obs, int idReg)
+        {
+            
+            var success = await _rHRepository.UpdateEstatus(idReg, 9, obs);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al actualizar estatus");
+                return RedirectToAction("Index");
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se actualizo la solicitud con exito");
+            return RedirectToAction("Index");
+        }
     }
 }

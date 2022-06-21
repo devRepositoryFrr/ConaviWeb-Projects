@@ -11,6 +11,7 @@ namespace ConaviWeb.Model
         public int Id { get; set; }
         public string Clave { get; set; }
         public string Descripcion { get; set; }
+        public string Ico { get; set; }
 
     }
 }

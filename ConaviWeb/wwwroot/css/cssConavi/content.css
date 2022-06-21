@@ -32,9 +32,10 @@ button:disabled {
     background-image: url('../img/pleca.png') !important;
     background-size: cover !important;
 }
-
+.cnvi-body{
+    margin-top:70px;
+}
 /*conavi icon*/
-
 @font-face {
     font-family: 'icomoon';
     src: url('../../fonts/icomoon.eot?1gzlwq');
@@ -242,7 +243,7 @@ a:focus {
 }
 
 .red {
-    margin-bottom: 20px !important;
+    margin-bottom: 50px !important;
     color: #661e2c !important;
 }
 
@@ -471,7 +472,7 @@ border-bottom-left-radius: 4px;
 
 /* The slider */
 .slider {
-    position: absolute;
+    /*position: absolute;*/
     cursor: pointer;
     top: 0;
     left: 0;

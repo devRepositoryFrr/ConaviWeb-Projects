@@ -47,10 +47,12 @@ namespace ConaviWeb.Model.RH
         public string Folio { get; set; }
         public string Estatus { get; set; }
         public string Archivo_firma { get; set; }
+        public string Archivo_pago { get; set; }
         public string Obs_aereo { get; set; }
         public string RFC { get; set; }
         public string CvNivel { get; set; }
         public string TotalViaticos { get; set; }
         public string Traza_ruta { get; set; }
+        public string ObsCan { get; set; }
     }
 }
