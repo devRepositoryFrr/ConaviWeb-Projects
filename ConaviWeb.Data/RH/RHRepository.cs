@@ -259,6 +259,60 @@ namespace ConaviWeb.Data.RH
 
             return await db.QueryAsync<Viaticos>(sql, new { IdUser = idUser });
         }
+        public async Task<IEnumerable<Viaticos>> GetSolicitudesUser(int idUser, int idEstatus)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        SELECT sv.id AS Id,
+                            sv.id_usuario AS IdUsuario,
+                            folio AS Folio,
+                            fecha_registro AS FechaSol,
+                            concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
+                            u.cargo AS Puesto ,
+                            ca.descripcion  AS Area_adscripcion ,
+                            descripcion_comision AS Descripcion_comision ,
+                            objetivo AS Objetivo ,
+                            observaciones AS Observaciones ,
+                            concat(cef.descripcion,' - ',municipio) AS Lugares_asignados_comision,
+                            medio_transporte AS Medio_transporte ,
+                            periodo_comision_i AS Periodo_comision_i ,
+                            periodo_comision_f AS Periodo_comision_f ,
+                            dias_duracion AS Dias_duracion ,
+                            cuota_diaria AS Cuota_diaria ,
+                            importe_viaticos AS Importe_viaticos ,
+                            num_casetas AS Num_casetas ,
+                            dotacion_combustible AS Dotacion_combustible ,
+                            importe_gastos AS Importe_gastos ,
+                            total_peajes AS Total_peajes ,
+                            fecha_salida AS Fecha_salida ,
+                            fecha_regreso AS Fecha_regreso ,
+                            horario_estimado_s AS Horario_salida ,
+                            horario_estimado_r AS Horario_regreso ,
+                            linea_aerea AS Linea_aerea ,
+                            ruta_i AS Ruta_i ,
+                            vuelo_i AS Vuelo_i ,
+                            sale_i AS Sale_i ,
+                            llega_i AS Llega_i ,
+                            ruta_f AS Ruta_f ,
+                            vuelo_f AS Vuelo_f ,
+                            sale_f AS Sale_f ,
+                            llega_f AS Llega_f,
+                            estatus AS Estatus,
+                            archivo_pago AS Archivo_pago,
+                            (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
+							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
+							where ao.nombre_archivo = concat(folio,'.pdf')
+							ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
+                        FROM prod_rh.solicitud_viaticos sv
+                        JOIN qa_adms_conavi.usuario u ON u.id = sv.id_usuario
+                        JOIN qa_adms_conavi.c_area ca ON ca.id = u.id_area
+                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado
+                        WHERE sv.estatus = @Estatus
+                        AND sv.id_usuario = @IdUser;";
+
+            return await db.QueryAsync<Viaticos>(sql, new {Estatus = idEstatus, IdUser = idUser });
+        }
         public async Task<bool> UpdateViaticos(Viaticos viaticos)
         {
             var db = DbConnection();
@@ -410,5 +464,70 @@ namespace ConaviWeb.Data.RH
             return result > 0;
         }
 
+
+        public async Task<bool> InsertComprobacion(CFDI cfdi)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        INSERT INTO prod_rh.comprobacion_viaticos
+                                (rfc_emisor,
+                                rfc_receptor,
+                                total,
+                                uuid,
+                                codigo_estatus,
+                                es_cancelable,
+                                estado,
+                                estatus_canceladion,
+                                validacion_efos,
+                                folio)
+                        VALUES (@RFCEmisor,
+                                @RFCReceptor,
+                                @TOTAL,
+                                @UUID,
+                                @codigoEstatus,
+                                @esCancelable,
+                                @estado,
+                                @estatusCancelacion,
+                                @validacionEFOS,
+                                @FOLIO)";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                cfdi.RFCEmisor,
+                cfdi.RFCReceptor,
+                cfdi.TOTAL,
+                cfdi.UUID,
+                cfdi.codigoEstatus,
+                cfdi.esCancelable,
+                cfdi.estado,
+                cfdi.estatusCancelacion,
+                cfdi.validacionEFOS,
+                cfdi.FOLIO
+            });
+            return result > 0;
+        }
+        public async Task<IEnumerable<CFDI>> GetComprobaciones(string folio)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT id AS Id,
+                                    rfc_emisor AS RFCEmisor,
+                                    rfc_receptor AS RFCReceptor,
+                                    total AS TOTAL,
+                                    uuid AS UUID,
+                                    codigo_estatus AS codigoEstatus,
+                                    es_cancelable AS esCancelable,
+                                    estado,
+                                    estatus_cancelacion AS esCancelable,
+                                    validacion_efos AS validacionEFOS,
+                                    folio AS FOLIO
+                                FROM prod_rh.comprobacion_viaticos
+                                WHERE folio = @Folio;
+                         ";
+
+            return await db.QueryAsync<CFDI>(sql, new { folio });
+        }
     }
 }

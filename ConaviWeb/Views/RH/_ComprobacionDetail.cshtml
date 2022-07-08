@@ -1,0 +1,422 @@
+﻿
+@{
+    ViewBag.Title = "Comprobación";
+}
+
+<div class="form-row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="panel-group ficha-collapse" id="Cgeneral">
+                <div class="panel-default" style="padding:10px">
+                    <!--General-->
+                    <div class="panel-heading border-colapse">
+                        <h4 class="panel-title">
+                            <a data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral" aria-expanded="true" aria-controls="Pgeneral">
+                                <i class="fa fa-suitcase"></i> Descripción de la comisión
+                            </a>
+                        </h4>
+                        <button type="button" class="collpase-button collapse" data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral"></button>
+                    </div>
+                    <div class="panel-collapse collapse in border-colapse" id="Pgeneral">
+                        <div class="panel-body">
+                            <h4>Información del solicitante</h4>
+                            <hr class="red" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Nombre:</strong><br>
+                                        <label class="red-text" id="nombre" name="Nombre" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Puesto:</strong><br>
+                                        <label class="red-text" id="puesto" name="Puesto" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <strong>Área de adscripción:</strong><br>
+                                        <label class="red-text" id="area_adscripcion" name="Area_adscripcion" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                            </div>
+                            <h4>Detalle de la comisión</h4>
+                            <hr class="red" />
+                            <div class="row" style=" margin-bottom: 10px;">
+                                <div class="col-md-12">
+                                    <p>
+                                        <strong>Descripción de la comisión:</strong><br>
+                                        <label class="red-text" id="descripcion_comision" name="Descripcion_comision" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>
+                                        <strong>Días de duración:</strong><br>
+                                        <label class="red-text" id="dias_duracion" name="Dias_duracion" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>
+                                        <strong>Cuota diaria:</strong><br>
+                                        <label class="red-text" id="cuota_diaria" name="Cuota_diaria" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p>
+                                        <strong>Importe de viáticos:</strong><br>
+                                        <label class="red-text" id="importe_viaticos" name="Importe_viaticos" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="divTableC" class="form-group" style="display:none;">
+                                        <strong>Comprobaciones:</strong>
+                                        <table id="tableC" class="table" style="width: 100%;">
+                                            <thead style="font-size:15px;">
+                                                <tr>
+                                                    <th>ARCHIVO</th>
+                                                    <th>DETALLE</th>
+                                                    <th>EDITAR</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p>
+                                        <strong>Total Comprobado:</strong><br>
+                                        <label class="red-text" id="total_comprobado" name="Total_comprobado" style="font-size:14px"></label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                            <!--Oficio-->
+                            <div class="panel-heading border-colapse top-buffer">
+                                <h4 class="panel-title">
+                                    <a data-parent="#Coficio" data-toggle="collapse" href="#Poficio" aria-expanded="true" aria-controls="Poficio">
+                                        <i class="fa fa-file"></i> Carga de documentos de comprobación
+                                    </a>
+                                </h4>
+                                <button type="button" class="collpase-button collapse" data-parent="#Coficio" data-toggle="collapse" href="#Poficio"></button>
+                            </div>
+                            <div class="panel-collapse collapse in border-colapse" id="Poficio">
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <h4>Carga de facturas XML</h4>
+                                        <hr class="red" />
+
+                                        <i id="add_doc" class="fa fa-plus-circle gold bottom-buffer-x15" style="font-size:30px"></i>
+                                        <div id="files_container" class="row">
+                                            <form method="post" id="form_1">
+                                                <div id="file_1" class="file-1 files">
+                                                    <div class="col-md-10 col-xs-10">
+                                                        <input type="file" id="file1" class="form-control" accept="text/xml" />
+                                                    </div>
+                                                    <div class="col-md-1 col-xs-1 enlace" style="font-size:30px">
+                                                        <i data-toggle="modal" data-target="#foo" id="view_1" class="fa fa-info-circle info gold-" style="font-size:30px"></i>
+                                                    </div>
+                                                    <div class="col-md-1 col-xs-1 red-text enlace" style="font-size:30px">
+
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        @*<h4>Carga de tickets</h4>
+                    <hr class="red" />
+
+                    <i id="add_doc" class="fa fa-plus-circle gold bottom-buffer-x15" style="font-size:30px"></i>
+                    <div id="files_container" class="row">
+
+                        <div id="file_1" class="file-1 files">
+                            <div class="col-md-10 col-xs-10">
+                                <input type="file" class="form-control" accept="text/xml" />
+                            </div>
+                            <div class="col-md-1 col-xs-1 enlace" style="font-size:30px">
+                                <i data-toggle="modal" data-target="#foo" id="view_1" class="fa fa-info-circle info gold-" style="font-size:30px"></i>
+                            </div>
+                            <div class="col-md-1 col-xs-1 red-text enlace" style="font-size:30px">
+
+                            </div>
+                        </div>
+
+
+                    </div>*@
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="results"></div>
+<div class="modal fade" id="foo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Detalle de la factura</h4>
+            </div>
+            <div class="modal-body">
+                <h4>General</h4>
+                <hr class="red" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><label>Folio fiscal:</label> <strong>2506747-56</strong></p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p><label>Fecha de emisión:</label> <strong>20/05/2022</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><label>Emisor:</label> <strong>La vaca blanca s.a. de c.v.</strong></p>
+                    </div>
+                </div>
+
+
+
+                <h4 class="top-buffer">Detalle</h4>
+                <hr class="red" />
+                <div class="row"><div class="col-md-12"><p><label>Clase:</label> <strong>Alimentos</strong></p></div></div>
+                <div class="row">
+                    <div class="col-md-6"><p><label>Cantidad:</label> <strong>2.00</strong></p></div>
+                    <div class="col-md-6"><p><label>Unidad:</label> <strong>Pz</strong></p></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6"><p><label>Precio unitario:</label> <strong>$50.00</strong></p></div>
+                    <div class="col-md-6"><p><label>Importe total:</label> <strong>$100.00</strong></p></div>
+                </div>
+
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+
+<script>
+    $(document).ready(function () {
+        
+        ////add document
+        //$("#add_doc").click(function () {
+        //    let iterator = $('.files').length + 1;
+        //    let quit = iterator - 1;
+        //    $("#files_container").append(
+        //        '<div id="file_' + iterator + '" class="file-' + iterator + ' files">' +
+        //        '<div class="col-md-10 col-xs-10">' +
+        //        '<input type="file" name="file_' + iterator + '" class="form-control" accept="text/xml" />' +
+        //        '</div>' +
+        //        '' +
+        //        '<div class="col-md-1 col-xs-1 enlace"style="font-size:30px" >' +
+        //        '<i id="info_' + iterator + '" class="fa fa-info-circle info gold-" style="font-size:30px"></i>' +
+        //        '</div>' +
+        //        '<div class="col-md-1 col-xs-1 red-text enlace" style="font-size:30px">' +
+        //        '<i id="quit_' + iterator + '" class="fa fa-times-circle quit" ></i>' +
+        //        '</div>' +
+        //        '</div>'
+        //    );
+
+
+        //    $("#quit_" + quit).addClass("hidden");
+        //});
+        ////remove document
+        //$('body').on('click', 'i', function (e) {
+        //    let valor = this.id.split("_");
+
+        //    if (valor[0] === "quit") {
+        //        let quit = valor[1] - 1
+        //        $(".file-" + valor[1]).remove();
+        //        $("#quit_" + quit).removeClass("hidden");
+        //    }
+        //});
+        $("#file1").on('change', function () {
+            var formData = new FormData();
+            let file = $("#file1").get(0).files[0];
+            let data = $("#folio").text();
+            formData.append("file", file);
+            formData.append("folio", data);
+            enviarDatos(formData);
+        });
+    });
+
+    function enviarDatos(formData) {
+                // Deshabilitamos el botón de Submit
+
+            //Limpiar formulario
+
+
+        //
+        //console.log(formData);
+                $.ajax({
+                    url: "@Url.Action("ValidaCFDI", "ViaticosComprobacion")", // Url
+                    type: 'post',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                })
+                // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        //showAlert();
+                        //console.log(result);
+                        if (result != null) {
+                            console.log(result, "success");
+                            // Actualiza el resultado HTML
+                            ////$("#PostList").html(result);
+                            //$("#divDescripcion").show();
+
+                            //// Un pequeño esfecto especial ;)
+                            //$("#divDescripcion .row").hide();
+                            //$("#divDescripcion .row").slideToggle("fast");
+
+                            //// Limpia el formulario
+                            ////$("#folio").val("");
+
+                            ////LLenamos el formiulario
+                            //$("#informe").val(result.informe).prop("readonly", true);
+                            //$("#observacion").val(result.observacion).prop("readonly", true);
+                            //var styleElem = document.head.appendChild(document.createElement("style"));
+                            //styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                            //$(".escala-" + result.letra).css("background", result.color);
+                            //var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                            ////console.log(rutaInforme);
+                            //$('#btnDownInfo').attr('href', rutaInforme);
+
+                            //// Escondemos el Ajax Loader
+                            ////$("#AjaxLoader").hide("slow");
+
+                            //// Habilitamos el botón de Submit
+                            //$("#btnGeneral").prop("disabled", false);
+
+                            //// Mostramos un mensaje de éxito.
+                            //$("#alertAjax").append(result);
+                            //showAlert();
+                            ////$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                        } else {
+                            console.log(result, "error");
+                            //$("#divDescripcion").hide();
+                            //// Mostramos un mensaje de error.
+                            //$("#alertAjax").append(result);
+                            //// Habilitamos el botón de Submit
+                            //$("#btnGeneral").prop("disabled", false);
+
+                            //showAlert();
+                        }
+
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+                    //showAlert();
+                });
+
+    }
+
+
+    function getComprobaciones(folio) {
+        //console.log(folio);
+            $("#spinner").show();
+        $("#divTableC").show();
+            tableC = $('#tableC').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "@Url.Action("GetComprobaciones", "ViaticosComprobacion")",
+                    //url: "/AdminSolicitud/GetSolicitudes",
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    data: { "folio": folio },
+                    //success: function (data) { console.log(data) },
+                    complete: function (result) {
+                        $("#total_comprobado").val();
+                        $("#spinner").hide();
+                        dataJSON = result.responseJSON.data;
+                        total_c = parseFloat(dataJSON[1].total) + parseFloat(dataJSON[1].total) + parseFloat(dataJSON[1].total);
+                        $("#total_comprobado").text(total_c.toFixed(2));
+                    }
+                },
+                "columnDefs": columnsC,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+
+        var columnsC = [
+
+            
+            { "name": "Folio", "data": "folio", "targets": 0 },
+            { "name": "Estatus", "data": "codigoEstatus", "targets": 1 },
+            { "name": "Total", "data": "total", "targets": 2 },
+            
+
+        ];
+
+</script>

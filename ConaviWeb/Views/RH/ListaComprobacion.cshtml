@@ -42,7 +42,7 @@
                         ARCHIVO
                     </th>
                     <th>
-                        FIRMAR
+                        EDITAR
                     </th>
                 </tr>
             </thead>
@@ -51,13 +51,18 @@
         </table>
     </form>
 </div>
+<div id="partial" class="row col-md-12 hidden">
+    @{
+        @await Html.PartialAsync("../RH/_ComprobacionDetail")
+    }
+</div>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
     var table;
     //var dataJSON;
         $(document).ready(function () {
@@ -72,7 +77,46 @@
                 console.log(this.value);
                 showTable(this.value);
             });*/
+            $('body').on('click', 'a', function (e) {
+                //showTableC();
+                if (this.className === "gold btn-action") {
+                    let json = this.id.replace(/'/g, '"');
+                    json = JSON.parse(json);
+                    getComprobaciones(json.folio);
+                    var idUser;
+                    //console.log(json);
+                    $.each(json, function (id, valor) {
+                        //console.log(valor,id)
+                        //console.log("$('#' ", id+").val("+valor+");");
+                        //$("#" + id).attr("value", valor);
 
+                        if (valor != null) {
+                            //console.log(id, ":", valor);
+                            if (id == "id") {
+                                $("#" + id).val(valor);
+                            } else if (id == "idUsuario") {
+                                idUser = valor;
+                                //console.log("usuario: ", idUser);
+                            } else if (id == "traza_ruta") {
+                                //console.log("usuario: ", idUser);
+                                let foo = valor.indexOf("_")
+                                $("#" + id).attr("src", "/doc/RH/SolicitudViaticos/" + valor.substring(0, foo) + "/" + valor);
+                            } else {
+                                $("#" + id).text(valor);
+                            }
+
+                        } else {
+                            $("#" + id).text("");
+                        }
+                        //$("#" + id).attr("disabled", true);
+                    });
+
+                    $("#partial").removeClass("hidden");
+                    scroll("partial");
+                }
+
+
+            });
         });
 
         function showTable() {
@@ -150,17 +194,19 @@
                 "targets": 5,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    if (row.estatus == 7) {
-                        return '<a href="https://firmaelectronica.conavi.gob.mx:9090/" target="_blank"><i class="fa fa-pencil-square-o gold" style="font-size:25px;"></i></a>';
-                    } else if (row.estatus == 8) {
-                        return '<small style="font-size:20px;">Firmado</small>';
+                    let json = JSON.stringify(row);
+                    //console.log(json.folio);
+                    json = json.replace(/"/g, "'");
+                    if (row.estatus == 4) {
+
+                        return '<a id="' + json + '" class="gold btn-action" elemento="" type="button" style="font-size:25px;" data-toggle="tooltip" title="Editar"><i class="fa fa-pencil-square-o"></i></a>';
                     }
                     return "";
                 },
                 "sortable": false,
                 "className": 'text-center'
             },
-            
+
         ];
 
         function showAlert() {
@@ -186,63 +232,8 @@
             } catch (e) { console.log(e) }
         }
 
+        
 
 
-
-        //Funciones mostrar/ocultar seccion vehicular o aerea
-
-        function ValidaCaptura() {
-            //console.log("entro Avion: ", $("#fecha salida").text());
-            var linea = $('#linea_aerea').text();
-            //console.log(salida);
-
-            //if (linea != "") {
-            //     console.log("mostrar ");
-            //    $("#datosAvion").removeClass("hidden");
-            //    $("#capturaAvion").addClass("hidden");
-            //} else {
-            //     console.log("ocultar ");
-            //    $("#datosAvion").addClass("hidden");
-            //    $("#capturaAvion").removeClass("hidden");
-            //}
-
-
-        }
-        function ValidaAvion() {
-            //console.log("entro Avion: ", $("#fecha salida").text());
-            var salida = $('#fecha_salida').text();
-            var regreso = $('#fecha_regreso').text();
-            var salidaav = $('#horario_salidaav').text();
-            var regresoav = $('#horario_regresoav').text();
-            //console.log(salida);
-
-            if (salida != "01/01/0001 00:00:00" || regreso != "01/01/0001 00:00:00" || salidaav != "" || regresoav != "") {
-               // console.log("mostrar ");
-                $("#pasajesavion").removeClass("hidden");
-            } else {
-              // console.log("ocultar ");
-                $("#pasajesavion").addClass("hidden");
-            }
-
-
-        }
-
-        function ValidaVehiculo() {
-            //console.log("entro vehiculo: ", $("#num_casetas").text());
-            var casetas = $('#num_casetas').text();
-            var combustible = $('#dotacion_combustible').text();
-            var igastos = $('#importe_gastos').text();
-
-            //alert(casetas);
-            //alert("entro vehiculo: ", $("#num_casetas").html());
-            if (casetas != "" || combustible != "" || igastos != "") {
-                //console.log("mostrar ");
-                $("#vehiculo").removeClass("hidden");
-            } else {
-                //console.log("ocultar ");
-                $("#vehiculo").addClass("hidden");
-            }
-        }
-
-    </script>
+</script>
 }

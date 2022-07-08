@@ -23,7 +23,7 @@ namespace ConaviWeb.Controllers.RH
         public async Task<IActionResult> GetSolicitudesAsync()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var solicitudes = await _rHRepository.GetSolicitudes(4);
+            var solicitudes = await _rHRepository.GetSolicitudesUser(user.Id,4);
             return Json(new { data = solicitudes });
         }
     }
