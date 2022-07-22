@@ -3,6 +3,7 @@ using iText.IO.Image;
 using iText.Kernel.Colors;
 using iText.Kernel.Events;
 using iText.Kernel.Font;
+using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
@@ -38,23 +39,23 @@ namespace ConaviWeb.Controllers.Reporteador
         {
             var iHeader = System.IO.Path.Combine(_environment.WebRootPath, "img", "headerConavi.png");
             var iFooter = System.IO.Path.Combine(_environment.WebRootPath, "img", "footerConavi.png");
-            var nuFirma = 1;
+            var nuFirma = 4;
             var nufirma2 = nuFirma - 1;
             PdfFont font_title = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
             PdfFont font_content = PdfFontFactory.CreateFont(StandardFonts.COURIER);
             //Crear documento
 
-            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(pathTest));
-            Document doc = new Document(pdfDoc);
-            pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
+            //PdfDocument pdfDoc = new PdfDocument(new PdfWriter(pathTest));
+            //Document doc = new Document(pdfDoc);
+            //pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
 
 
             //Editar documento
 
-            //PdfReader reader = new PdfReader(Path.Combine(_environment.WebRootPath, "doc", "test" + nufirma2 + ".pdf"));
-            //PdfDocument pdfDoc = new PdfDocument(reader, new PdfWriter(Path.Combine(_environment.WebRootPath, "doc", "test"+ nuFirma + ".pdf")));
-            //Document doc = new Document(pdfDoc);
-            //pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
+            PdfReader reader = new PdfReader(Path.Combine(_environment.WebRootPath, "doc", "test" + nufirma2 + ".pdf"));
+            PdfDocument pdfDoc = new PdfDocument(reader, new PdfWriter(Path.Combine(_environment.WebRootPath, "doc", "test" + nuFirma + ".pdf")));
+            Document doc = new Document(pdfDoc);
+            pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc, iHeader, iFooter));
 
 
 
@@ -70,7 +71,7 @@ namespace ConaviWeb.Controllers.Reporteador
                 Table encabezado = new Table(UnitValue.CreatePercentArray(columnWidths));
                 encabezado.SetWidth(500);
                 encabezado.SetMarginRight(0);
-                encabezado.SetRelativePosition(0, 1, 0, 40);
+                encabezado.SetFixedPosition(1, 50, 754, 500);
                 Cell comite = new Cell(1, 4)
                 .Add(new Paragraph("COMITÉ DE FINANCIAMIENTO DE LA COMISIÓN NACIONAL DE VIVIENDA"))
                 .SetFontSize(9)
@@ -87,7 +88,7 @@ namespace ConaviWeb.Controllers.Reporteador
             Table directora = new Table(UnitValue.CreatePercentArray(columnWidths));
             directora.SetMaxWidth(500);
             directora.SetMarginRight(0);
-            directora.SetFixedPosition(1, 40, 595, 500);
+            directora.SetFixedPosition(1, 40, 585, 500);
             Cell conavi = new Cell(1, 4)
             .Add(new Paragraph("CONAVI"))
             .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
@@ -124,76 +125,7 @@ namespace ConaviWeb.Controllers.Reporteador
             directora.AddCell(program);
             directora.AddCell(cFirma);
                 doc.Add(directora);
-                //Firma -----------------------------------------------|-----------
-                Table firma = new Table(4, true);
-                firma.SetBorder(Border.NO_BORDER);
-                firma.SetMaxWidth(480);
-                firma.SetFixedPosition(1, 55, 600, 440);
-
-                Cell hCadenaOriginal = new Cell(1, 4)
-                      .SetTextAlignment(TextAlignment.LEFT)
-                      .SetFont(font_title)
-                      .SetFontSize(7)
-                      .SetHeight(10)
-                      .SetWidth(10)
-                      //.SetBorder(Border.NO_BORDER)
-                      .SetBorderLeft(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                      .SetBorderTop(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                      .SetBorderRight(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                      .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                      .Add(new Paragraph("Cadena Original"));
-                Cell cadenaOriginal = new Cell(1, 3)
-                    //.SetBorderLeft(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                    //.SetBorderRight(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                    .SetBorder(Border.NO_BORDER)
-                    .Add(new Paragraph("||Firma|Firma Electrónica|2305221852058343|FInterno PFI SFI||RORF8910042A5|0|CONAVI|2022-05-23T18:55:53-05:00|44-1F-52-6F-1D-8C-A0-02-2E-C2-6A-63-38-21-2F-33-4D-56-C3-4C-B4-B8-60-0F-51-2D-89-38-21-63-C3-08-75-D9-99-09-1C-BB-E6-0F-82-87-08-AB-93-CC-48-12-59-98-8C-8F-62-5D-1B-5C-3F-89-9E-20-F5-9A-2E-19|00001000000500619765||"))//cadena original
-                    .SetFont(font_content)
-                    .SetFontSize(6)
-                    .SetTextAlignment(TextAlignment.JUSTIFIED)
-                    .SetHeight(40)
-                    .SetWidth(20);
-
-                Cell hFirmaEConavi = new Cell(1, 4)
-                 .SetTextAlignment(TextAlignment.LEFT)
-                 .SetFont(font_title)
-                 .SetFontSize(7)
-                 //.SetBorder(Border.NO_BORDER)
-                 .SetBorderLeft(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                 .SetBorderRight(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                 .SetHeight(10)
-                 .SetWidth(10)
-                 .SetVerticalAlignment((VerticalAlignment.MIDDLE))
-                 .Add(new Paragraph("Firma electrónica "));
-                Cell firmaEConavi = new Cell(1, 3)
-                    .SetBorderLeft(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                    .SetBorderRight(new SolidBorder(ColorConstants.BLACK, 0.1f))
-                    //.SetBorder(Border.NO_BORDER)
-                    .Add(new Paragraph("hZmqI0im6zzfK/ek6caUZx+gFT0UfqAcpQXfUDN8pFIpRmLXrP2vXGYUeC1UlNl2uRdTFLQWGFDg/sCLfu0/wxlLXm8ODZ7wS+aTWLzR0YkmjJITd9yaZm8r8cGAn4KsfU/b4xA8trP+K4BUgaBTQAO+8Ba/Se7vKE0EmTLuJ8huw3c9D1cdejVpqTGNNrQeY01Un+sF8Nj8az4WLRU1xISxPhoBVfZ3uNbG92Kc8sSqRIwoCtC9AgbR99e5U0dRNhyNMmce4NSrB7XqvCzh/Au7S7rvBuV2QxxdwR69ov6Adf+Lim4OLylnqVijgGkZKb3JPHGp1hp5zmaX2MZMcA=="))//Sello
-                    .SetFont(font_content)
-                    .SetFontSize(6)
-                    .SetTextAlignment(TextAlignment.JUSTIFIED)
-                    .SetHeight(40);
-                // Upload image
-                ImageData imageData = ImageDataFactory.Create(Path.Combine(_environment.WebRootPath, "img", "QR.jpg"));
-                iText.Layout.Element.Image image = new iText.Layout.Element.Image(imageData).ScaleAbsolute(40, 40);
-                Cell imagenqr = new Cell(1, 1)
-                .SetTextAlignment(TextAlignment.RIGHT)
-                .SetVerticalAlignment(VerticalAlignment.MIDDLE)
-               //.SetBorder(Border.NO_BORDER)
-               .SetMarginLeft(40)
-               .SetBorderLeft(new SolidBorder(ColorConstants.BLACK, 0.1f))
-              .SetBorderRight(new SolidBorder(ColorConstants.BLACK, 0.1f))
-               .SetBorderBottom(new SolidBorder(ColorConstants.BLACK, 0.1f))
-               .SetHeight(40)
-               .Add(image);
-
-                firma.AddCell(hCadenaOriginal);
-                firma.AddCell(cadenaOriginal);
-                firma.AddCell(new Cell(1, 4).SetBorder(Border.NO_BORDER));
-                firma.AddCell(hFirmaEConavi);
-                firma.AddCell(firmaEConavi);
-                firma.AddCell(imagenqr);
-                doc.Add(firma);
+                
 
             
 
@@ -207,8 +139,18 @@ namespace ConaviWeb.Controllers.Reporteador
             Table subDirector = new Table(UnitValue.CreatePercentArray(columnWidths));
             subDirector.SetWidth(500);
             subDirector.SetMarginRight(0);
-            subDirector.SetFixedPosition(1, 40, 443, 500);
-            Cell sub = new Cell(1, 1)
+            subDirector.SetFixedPosition(1, 40, 416, 500);
+                Cell conavi = new Cell(1, 4)
+            .Add(new Paragraph("CONAVI"))
+            .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+            .SetFontSize(9)
+            .SetFont(cursiva)
+            .SetHeight(12)
+            //.SetBorder(Border.NO_BORDER)
+            .SetFontColor(DeviceGray.BLACK)
+            .SetTextAlignment(TextAlignment.CENTER);
+                subDirector.AddCell(conavi);
+                Cell sub = new Cell(1, 1)
             .SetTextAlignment(TextAlignment.CENTER)
             .SetFont(cursiva)
             .SetHeight(15)
@@ -242,7 +184,7 @@ namespace ConaviWeb.Controllers.Reporteador
                 Table sedatu = new Table(UnitValue.CreatePercentArray(columnWidths));
                 sedatu.SetWidth(500);
                 sedatu.SetMarginRight(0);
-                sedatu.SetFixedPosition(1, 40, 291, 500);
+                sedatu.SetFixedPosition(1, 40, 249, 500);
                 Cell SEDATU = new Cell(1, 4)
                 .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                 .Add(new Paragraph("SEDATU"))
@@ -288,7 +230,7 @@ namespace ConaviWeb.Controllers.Reporteador
                 Table secrecp = new Table(UnitValue.CreatePercentArray(columnWidths));
                 secrecp.SetWidth(500);
                 secrecp.SetMarginRight(0);
-                secrecp.SetFixedPosition(1, 40, 139, 500);
+                secrecp.SetFixedPosition(1, 40, 80, 500);
                 Cell SHCP = new Cell(1, 4)
                      .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
                      .Add(new Paragraph("SHCP"))
