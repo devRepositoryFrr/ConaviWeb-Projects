@@ -960,7 +960,7 @@ namespace ConaviWeb.Controllers.RH
                    .SetHeight(12)
                    .SetBorder(Border.NO_BORDER)
                    .SetFontSize(7)
-                   .Add(new Paragraph(viaticos.Fecha_salida)); //FECHA DE SALIDA    
+                   .Add(new Paragraph(viaticos.Fecha_1)); //FECHA DE SALIDA    
             Cell txt3 = new Cell(1, 1)
                     .SetTextAlignment(TextAlignment.CENTER)
                     .SetFont(fonte)
@@ -1060,7 +1060,7 @@ namespace ConaviWeb.Controllers.RH
                     .SetHeight(12)
                     .SetBorder(Border.NO_BORDER)
                     .SetFontSize(7)
-                    .Add(new Paragraph(viaticos.Fecha_regreso)); //FECHA DE REGRESO 
+                    .Add(new Paragraph(viaticos.Fecha_2)); //FECHA DE REGRESO 
             Cell txt44 = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fonte)

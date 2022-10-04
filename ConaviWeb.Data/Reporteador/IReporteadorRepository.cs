@@ -11,5 +11,7 @@ namespace ConaviWeb.Data.Reporteador
     {
         Task<IEnumerable<PevC2sr>> GetBeneficiarios();
         Task<PevC2sr> GetBeneficiario(string curp);
+        Task<IEnumerable<PevCartaBB>> GetCartasBB(int id);
+        Task<IEnumerable<PevCartaBA>> GetCartasBA(int id);
     }
 }

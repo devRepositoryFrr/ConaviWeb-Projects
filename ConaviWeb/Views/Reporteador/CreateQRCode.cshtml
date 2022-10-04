@@ -1,0 +1,28 @@
+﻿@model ConaviWeb.Model.Reporteador.QRCoderModel
+
+@{
+    ViewData["Title"] = "QR-CONAVI";
+}
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateQRCode">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QRCodeText" class="control-label"></label>
+                <input asp-for="QRCodeText" class="form-control" />
+                <span asp-validation-for="QRCodeText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Generate QR Code" class="btn btn-primary text-center" />
+            </div>
+            <div class="form-group">
+
+                <img src="@ViewBag.QrCodeUri" class="img-thumbnail" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,4 +1,6 @@
-﻿using iText.Barcodes;
+﻿using ConaviWeb.Data.Reporteador;
+using ConaviWeb.Model.Reporteador;
+using iText.Barcodes;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
@@ -14,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Document = iText.Layout.Document;
 using PdfDocument = iText.Kernel.Pdf.PdfDocument;
 using PdfFont = iText.Kernel.Font.PdfFont;
@@ -24,23 +27,35 @@ namespace ConaviWeb.Controllers.Reporteador
 {
     public class CartaBBPDFController : Controller
     {
+        private readonly IReporteadorRepository _reporteadorRepository;
         private readonly IWebHostEnvironment _environment;
-        public CartaBBPDFController(IWebHostEnvironment environment)
+        public CartaBBPDFController(IWebHostEnvironment environment, IReporteadorRepository reporteadorRepository)
         {
+            _reporteadorRepository = reporteadorRepository;
             _environment = environment;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            ManipulatePdf();
+            var benefs = await _reporteadorRepository.GetCartasBB(5);
+            foreach (var benef in benefs)
+            {
+                ManipulatePdf(benef);
+            }
+            
             return Ok();
             
         }
 
-        public void ManipulatePdf()
+        public void ManipulatePdf(PevCartaBB benef)
         {
             var _header = System.IO.Path.Combine(_environment.WebRootPath, "img", "magon.png");
             var _footer = System.IO.Path.Combine(_environment.WebRootPath, "img", "footerConavi.png");
-            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(Path.Combine(_environment.WebRootPath, "doc", "cartaBB.pdf")));
+            var pathCarta = Path.Combine(_environment.WebRootPath, "doc","CartasPEV", benef.Path_carta, benef.Estado, benef.Municipio);
+            if (!Directory.Exists(pathCarta))
+            {
+                Directory.CreateDirectory(pathCarta);
+            }
+            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(Path.Combine(pathCarta, benef.Id_unico+".pdf")));
             Document doc = new Document(pdfDoc);
             pdfDoc.AddEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(doc,_header,_footer));
 
@@ -58,7 +73,7 @@ namespace ConaviWeb.Controllers.Reporteador
             Paragraph saltoDeLineaa = new Paragraph("");
             doc.Add(saltoDeLineaa);
 
-            Paragraph entidadCarta = new Paragraph("OAXACA SAN PEDRO COMITANCILLO 392")
+            Paragraph entidadCarta = new Paragraph(benef.Edompo)
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFontColor(new DeviceRgb(152, 56, 39))
                 .SetFont(Bold)
@@ -78,38 +93,45 @@ namespace ConaviWeb.Controllers.Reporteador
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFontSize(8)
                 .SetBorder(Border.NO_BORDER)
-                .Add(new Paragraph("DATOS CURP"));
+                .Add(new Paragraph("Datos CURP"));
             Cell datoCURP = new Cell(1, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
                 .SetFontSize(8)
                 .SetBorder(Border.NO_BORDER)
-                .Add(new Paragraph("DATOS INE"));
+                .Add(new Paragraph("Datos INE"));
             Cell cell101 = new Cell(2, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetFontSize(8)
                 .SetWidth(20)
                 .SetHeight(17)
                 .SetBorder(Border.NO_BORDER)
-                .Add(new Paragraph("TITULAR:"));
+                .Add(new Paragraph("Titular:"));
+            int fuente = 8;
+            if (benef.Nombre_curp.Length > 30)
+            {
+                fuente = 6;
+            }
+            Paragraph pCurp = new Paragraph(benef.Nombre_curp);
+            Paragraph pIne = new Paragraph(benef.Nombre_ine);
             Cell cellNombre = new Cell(2, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
-                .SetFontSize(8)
+                .SetFontSize(fuente)
                 .SetBorder(Border.NO_BORDER)
                 .SetCharacterSpacing(2)
                 .SetPaddingLeft(10)
                 .SetHeight(17)
-                .SetFontColor(new DeviceRgb(0, 191, 255))
+                //.SetFontColor(new DeviceRgb(0, 191, 255))
                 .SetFont(Bold)
-                .Add(new Paragraph("DAVID GARCIA DE LA CRUZ 1")); //NOMBRESOLICITANTE
+                .Add(pCurp); //NOMBRESOLICITANTE
             Cell cellNombre2 = new Cell(2, 1)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetFontSize(8)
+                .SetFontSize(fuente)
                 .SetBorder(Border.NO_BORDER)
                 .SetCharacterSpacing(2)
                 .SetHeight(17)
-                .SetFontColor(new DeviceRgb(0, 191, 255))
+                //.SetFontColor(new DeviceRgb(0, 191, 255))
                 .SetFont(Bold)
-                .Add(new Paragraph("DAVID GARCIA DE LA CRUZ 2")); //NOMBRESOLICITANTE
+                .Add(pIne); //NOMBRESOLICITANTE
             Cell cell103 = new Cell(3, 1)
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetFontSize(8)
@@ -117,7 +139,7 @@ namespace ConaviWeb.Controllers.Reporteador
                 .SetHeight(17)
                 .Add(new Paragraph("CURP:"));
             Cell cell104 = new Cell(3, 1)
-                 .SetFontColor(new DeviceRgb(0, 191, 255))
+                 //.SetFontColor(new DeviceRgb(0, 191, 255))
                  .SetTextAlignment(TextAlignment.LEFT)
                  .SetBorder(Border.NO_BORDER)
                  .SetFont(Bold)
@@ -125,7 +147,7 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetPaddingLeft(10)
                  .SetCharacterSpacing(2)
                  .SetFontSize(8)
-                 .Add(new Paragraph("SICE950711318"));
+                 .Add(new Paragraph(benef.Curp));
             puestos.AddCell(datoVoid);
             puestos.AddCell(datoINE);
             puestos.AddCell(datoCURP);
@@ -138,34 +160,34 @@ namespace ConaviWeb.Controllers.Reporteador
 
             Paragraph fecha = new Paragraph("Fecha:")
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetFixedPosition(1, 250, 700, 150)
+                .SetFixedPosition(1, 180, 680, 150)
                 .SetCharacterSpacing(1)
                 .SetFontColor(DeviceGray.BLACK)
                 .SetFontSize(8);
             doc.Add(fecha);
 
-            Paragraph dataFecha = new Paragraph("31 Octubre, 2022")
+            Paragraph dataFecha = new Paragraph(benef.Fecha)
                 .SetTextAlignment(TextAlignment.CENTER)
-                .SetFixedPosition(1, 320, 700, 150)
+                .SetFixedPosition(1, 270, 680, 150)
                 .SetCharacterSpacing(1)
                 .SetBold()
                 .SetFontColor(DeviceGray.BLACK)
                 .SetFontSize(8);
             doc.Add(dataFecha);
 
-            String code = "1125318984";
+            String code = benef.Id_unico;
             Barcode128 code128 = new Barcode128(pdfDoc);
             code128.SetFont(null);
             code128.SetCode(code);
             code128.SetCodeType(Barcode128.CODE128);
-            Image code128Image = new Image(code128.CreateFormXObject(pdfDoc)).ScaleToFit(40, 20).SetFixedPosition(1, 470, 720, 150);
+            Image code128Image = new Image(code128.CreateFormXObject(pdfDoc)).ScaleToFit(40, 20).SetFixedPosition(1, 450, 690, 150);
 
             
             doc.Add(code128Image);
 
-            Paragraph folio = new Paragraph("1125318984")
+            Paragraph folio = new Paragraph(benef.Id_unico)
                .SetTextAlignment(TextAlignment.LEFT)
-               .SetFixedPosition(1, 475, 700, 150)
+               .SetFixedPosition(1, 455, 670, 150)
                .SetCharacterSpacing(1)
                .SetFont(Bold)
                .SetFontColor(DeviceGray.BLACK)
@@ -175,7 +197,7 @@ namespace ConaviWeb.Controllers.Reporteador
 
             Paragraph textomedio = new Paragraph("Este programa tiene como propósito proteger al pueblo y ayudarnos a superar el reto económico que enfrentamos. Con estas acciones vamos a impulsar la industria de la construcción, que genera en corto tiempo muchos empleos y contribuye a reactivar la economía de las ciudades, pueblos y comunidades. Y al mismo tiempo vamos a dar atención a una de las principales necesidades de vivienda de las familias de más bajos ingresos y que carecen de seguridad social. Rescatando primero a los que menos tienen, estamos seguros de que las cosas van a salir bien, pero necesitamos la participación de todos, haciendo cada quien lo que le corresponde y en la medida de sus posibilidades, ayudar a los demás. Los recursos para estos apoyos provienen del presupuesto público, de lo que todos aportamos, y son para ayudar a quienes más lo necesitan, sin ningún pago.Por eso te pedimos que lo utilices de manera responsable, para que tú y tu familia tengan una mejor vivienda, más segura, más cómoda y más bonita.")
             .SetTextAlignment(TextAlignment.JUSTIFIED)
-            //.SetFixedPosition(1, 400, 730, 500)
+            .SetFixedPosition(1, 43, 550, 500)
             .SetCharacterSpacing(1)
             .SetFont(cursiva)
             .SetFontColor(DeviceGray.BLACK)
@@ -184,7 +206,7 @@ namespace ConaviWeb.Controllers.Reporteador
 
             Paragraph gMexico = new Paragraph("GOBIERNO DE MÉXICO")
            .SetTextAlignment(TextAlignment.CENTER)
-           .SetFixedPosition(1, 170, 550, 250)
+           .SetFixedPosition(1, 170, 525, 250)
            .SetCharacterSpacing(1)
            .SetFont(Bold)
            .SetFontColor(DeviceGray.BLACK)
@@ -244,7 +266,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-             .Add(new Paragraph("Es necesario que la persona titular de la cuenta se presente al banco con esta carta, su credencial de elector original vigente, teléfono celular y su comprobante de domicilio vigente (no mayor a 3 meses).")); //RFC DEL COMISIONADO 
+             .Add(new Paragraph("Es necesario que la persona titular de la cuenta se presente al banco con esta carta, su credencial de elector original vigente y su comprobante de domicilio vigente (no mayor a 3 meses).")); //RFC DEL COMISIONADO 
 
             Cell puesto = new Cell(4, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
@@ -262,7 +284,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-              .Add(new Paragraph("Una vez que haya abierto su cuenta, en los 5 días posteriores se depositará el monto del subsidio autorizado y podrá disponer del mismo.")); //PUESTO DEL COMISIONADO 
+              .Add(new Paragraph("Una vez que haya abierto su cuenta, podrá ver el monto del subsidio autorizado y disponer del mismo.")); //PUESTO DEL COMISIONADO 
 
             Cell nivel = new Cell(5, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
@@ -310,7 +332,7 @@ namespace ConaviWeb.Controllers.Reporteador
             float[] abajo = { 1, 3, 2, 3 };
             Table table1 = new Table(UnitValue.CreatePercentArray(abajo));
             table1.SetWidth(450);
-            table1.SetFixedPosition(1, 80, 225, 450);
+            table1.SetFixedPosition(1, 80, 218, 450);
 
 
             Cell nombre1 = new Cell(1, 2)
@@ -344,8 +366,8 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetFont(Bold)
                  .SetFontSize(7)
                  .SetBorder(Border.NO_BORDER)
-                  .SetFontColor(new DeviceRgb(0, 191, 255))
-                 .Add(new Paragraph("54644545546"));
+                  //.SetFontColor(new DeviceRgb(0, 191, 255))
+                 .Add(new Paragraph(benef.Nu_cuenta));
 
             Cell sucursal = new Cell(2, 1)
               .SetTextAlignment(TextAlignment.LEFT)
@@ -364,7 +386,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFont(Bold)
               .SetPaddingRight(25)
               .SetBorder(Border.NO_BORDER)
-             .Add(new Paragraph("257 IGUALA DE LA INDEPENDENCIA"));
+             .Add(new Paragraph(benef.Sucursal));
 
             Cell emisora = new Cell(3, 2)
               .SetTextAlignment(TextAlignment.LEFT)
@@ -379,12 +401,12 @@ namespace ConaviWeb.Controllers.Reporteador
             Cell dirSucursal = new Cell(3, 2)
               .SetTextAlignment(TextAlignment.LEFT)
               .SetFont(fonte)
-              .SetFontSize(7)
+              .SetFontSize(6)
               .SetPaddingLeft(10)
               .SetFont(Bold)
-              .SetFontColor(new DeviceRgb(0, 191, 255))
+              //.SetFontColor(new DeviceRgb(0, 191, 255))
               .SetBorder(Border.NO_BORDER)
-             .Add(new Paragraph("AV 16 DE SEPTIEMBRE 125, colonia CENTRO, CIUDAD IXTEPEC OAXACA"));
+             .Add(new Paragraph(benef.Colonia_sucursal));
 
             Cell lineA = new Cell(4, 1)
                  .SetTextAlignment(TextAlignment.LEFT)
@@ -402,8 +424,8 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetFont(Bold)
                  .SetFontSize(7)
                  .SetBorder(Border.NO_BORDER)
-                 .SetFontColor(new DeviceRgb(0, 191, 255))
-                 .Add(new Paragraph("Ampliación"));
+                 //.SetFontColor(new DeviceRgb(0, 191, 255))
+                 .Add(new Paragraph(benef.Tipo_apoyo));
 
             Cell monto = new Cell(5, 1)
                  .SetTextAlignment(TextAlignment.LEFT)
@@ -423,8 +445,8 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetFont(Bold)
                  .SetBorder(Border.NO_BORDER)
                  .SetFontSize(7)
-                 .SetFontColor(new DeviceRgb(0, 191, 255))
-                 .Add(new Paragraph("$ 90,000"));
+                 //.SetFontColor(new DeviceRgb(0, 191, 255))
+                 .Add(new Paragraph("$ "+benef.Monto));
 
                                        //
             Cell dir= new Cell(6, 1)
@@ -445,8 +467,8 @@ namespace ConaviWeb.Controllers.Reporteador
            .SetFont(Bold)
            .SetBorder(Border.NO_BORDER)
            .SetFontSize(7)
-           .SetFontColor(new DeviceRgb(0, 191, 255))
-           .Add(new Paragraph("16 DE SEPTIEMBRE, 11 , PERPETUO SOCORRO, IGUALA DE LA INDEPENDENCIA, GUERRERO"));
+           //.SetFontColor(new DeviceRgb(0, 191, 255))
+           .Add(new Paragraph(benef.Direccion));
 
             Cell telefono = new Cell(7, 1)
             .SetTextAlignment(TextAlignment.LEFT)
@@ -464,8 +486,8 @@ namespace ConaviWeb.Controllers.Reporteador
             .SetBorder(Border.NO_BORDER)
             .SetFontSize(7)
             .SetFont(Bold)
-            .SetFontColor(new DeviceRgb(0, 191, 255))
-            .Add(new Paragraph("5547154434")); //PUESTO DEL COMISIONADO 
+            //.SetFontColor(new DeviceRgb(0, 191, 255))
+            .Add(new Paragraph(benef.Telefonos)); //PUESTO DEL COMISIONADO 
 
             Cell horaatencion = new Cell(7, 1)
                  .SetTextAlignment(TextAlignment.LEFT)
@@ -485,8 +507,8 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetFont(Bold)
                  .SetBorder(Border.NO_BORDER)
                  .SetFontSize(7)
-                 .SetFontColor(new DeviceRgb(0, 191, 255))
-                 .Add(new Paragraph("11/11/2020 de 09:00 a 09:30 hrs"));
+                 //.SetFontColor(new DeviceRgb(0, 191, 255))
+                 .Add(new Paragraph(benef.Fecha_atencion+" de "+benef.Hora_atencion_inicio+" a "+benef.Hora_atencion_fin));
 
             
 
@@ -534,8 +556,8 @@ namespace ConaviWeb.Controllers.Reporteador
                  .SetCharacterSpacing(9)
                  .SetPaddingRight(40)
                  .SetBorder(Border.NO_BORDER)
-                 .SetFontColor(new DeviceRgb(0, 191, 255))
-                 .Add(new Paragraph("5536621499").SetUnderline(1.5f, -4));
+                 //.SetFontColor(new DeviceRgb(0, 191, 255))
+                 .Add(new Paragraph(benef.Telefono).SetUnderline(1.5f, -4));
 
 
             tableTel.AddCell(asociado);

@@ -285,51 +285,101 @@
                                     <h4>Solicitud de pasajes aéreos</h4>
                                     <hr class="red" />
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <small>Numero de vuelos</small>
+                                            <select class="form-control" id="slctNVuelo" name="NVuelo">
+                                                <option value="">---Seleccione---</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row hidden" id="vuelo_1">
+                                        <div class="col-md-6" id="fecha_v1">
                                             <p>
-                                                <small>Fecha de salida</small>
+                                                <small>Fecha de vuelo #1</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_salida" name="Fecha_salida" type="text" />
+                                                    <input class="form-control calendar" id="txtFecha_1" name="Fecha_1" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
-                                                <small id="lblFecha_salida" class="hidden">Campo requerido *</small>
+                                                <small id="lblFecha_1" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" id="horario_v1">
                                             <p>
-                                                <small>Fecha de regreso</small>
+                                                <small>Horario estimado de vuelo #1</small>
+                                                <div class="form-group">
+                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_1" name="Horario_1" />
+                                                    <small id="lblHorario_1" class="hidden">Campo requerido *</small>
+                                                </div>
+                                            </p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row hidden" id="vuelo_2" >
+                                        <div class="col-md-6" id="fecha_v2">
+                                            <p>
+                                                <small>Fecha de vuelo #2</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_regreso" name="Fecha_regreso" type="text" />
+                                                    <input class="form-control calendar" id="txtFecha_2" name="Fecha_2" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
 
-                                                <small id="lblFecha_regreso" class="hidden">Campo requerido *</small>
+                                                <small id="lblFecha_2" class="hidden">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6" id="horario_v2">
+                                            <p>
+                                                <small>Horario estimado de vuelo #2</small>
+                                                <div class="form-group">
+                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_2" name="Horario_2" />
+                                                    <small id="lblHorario_2" class="hidden">Campo requerido *</small>
+                                                </div>
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                    <div class="row hidden" id="vuelo_3" >
+                                        <div class="col-md-6" id="fecha_v3">
                                             <p>
-                                                <small>Horario estimado salida</small>
-                                                <select class="form-control" id="slctHorario_salida" name="Horario_salida">
-                                                    <option value="">--- Seleccionar ---</option>
-                                                    <option value="1">Mañana</option>
-                                                    <option value="2">Tarde</option>
-                                                    <option value="3">Noche</option>
-                                                </select>
-                                                <small id="lblHorario_salida" class="hidden">Campo requerido *</small>
+                                                <small>Fecha de vuelo #3</small>
+                                                <div class="form-group datepicker-group">
+                                                    <input class="form-control calendar" id="txtFecha_3" name="Fecha_3" type="text" />
+                                                    <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
+                                                </div>
+                                                <small id="lblFecha_3" class="hidden">Campo requerido *</small>
                                             </p>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6" id="horario_v3">
                                             <p>
-                                                <small>Horario estimado regreso</small>
-                                                <select class="form-control" id="slctHorario_regreso" name="Horario_regreso">
-                                                    <option value="">--- Seleccionar ---</option>
-                                                    <option value="1">Mañana</option>
-                                                    <option value="2">Tarde</option>
-                                                    <option value="3">Noche</option>
-                                                </select>
-                                                <small id="lblHorario_regreso" class="hidden">Campo requerido *</small>
+                                                <small>Horario estimado de vuelo #3</small>
+                                                <div class="form-group">
+                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_3" name="Horario_3" />
+                                                    <small id="lblHorario_3" class="hidden">Campo requerido *</small>
+                                                </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row hidden" id="vuelo_4" >
+                                        <div class="col-md-6" id="fecha_v4">
+                                            <p>
+                                                <small>Fecha de vuelo #4</small>
+                                                <div class="form-group datepicker-group">
+                                                    <input class="form-control calendar" id="txtFecha_4" name="Fecha_4" type="text" />
+                                                    <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
+                                                </div>
+
+                                                <small id="lblFecha_4" class="hidden">Campo requerido *</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6" id="horario_v4">
+                                            <p>
+                                                <small>Horario estimado de vuelo #4</small>
+                                                <div class="form-group">
+                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_4" name="Horario_4" />
+                                                    <small id="lblHorario_4" class="hidden">Campo requerido *</small>
+                                                </div>
                                             </p>
                                         </div>
                                     </div>
@@ -343,82 +393,82 @@
                                         </div>
                                     </div>
                                     @*<div class="row">
-                                        <div class="col-md-6">
-                                        <p>
-                                        <small>Línea aérea</small>
-                                        <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
-                                        <small id="lblLinea_aerea" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        </div>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                        <p>
-                                        <small>Ruta</small>
-                                        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
-                                        <small id="lblRuta_i" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
+        <div class="col-md-6">
+        <p>
+        <small>Línea aérea</small>
+        <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
+        <small id="lblLinea_aerea" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-4">
+        <p>
+        <small>Ruta</small>
+        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
+        <small id="lblRuta_i" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
 
 
-                                        <div class="col-md-2">
-                                        <p>
-                                        <small>Vuelo</small>
-                                        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
-                                        <small id="lblVuelo_i" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-2">
-                                        <p>
-                                        <small>Sale</small>
-                                        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
-                                        <small id="lblSale_i" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <p>
+        <div class="col-md-2">
+        <p>
+        <small>Vuelo</small>
+        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
+        <small id="lblVuelo_i" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2">
+        <p>
+        <small>Sale</small>
+        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
+        <small id="lblSale_i" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        <div class="col-md-2">
+        <p>
 
-                                        <small>Llega</small>
-                                        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
-                                        <small id="lblLlega_i" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        </div>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                        <p>
-                                        <small>Ruta</small>
-                                        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
-                                        <small id="lblRuta_f" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <p>
-                                        <small>Vuelo</small>
-                                        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
-                                        <small id="lblVuelo_f" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-2">
-                                        <p>
-                                        <small>Sale</small>
-                                        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
-                                        <small id="lblSale_f" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        <div class="col-md-2">
-                                        <p>
-                                        <small>Llega</small>
-                                        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
-                                        <small id="lblLlega_f" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>
-                                        </div>
-                                        </div>*@
+        <small>Llega</small>
+        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
+        <small id="lblLlega_i" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-4">
+        <p>
+        <small>Ruta</small>
+        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
+        <small id="lblRuta_f" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        <div class="col-md-2">
+        <p>
+        <small>Vuelo</small>
+        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
+        <small id="lblVuelo_f" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-2">
+        <p>
+        <small>Sale</small>
+        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
+        <small id="lblSale_f" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        <div class="col-md-2">
+        <p>
+        <small>Llega</small>
+        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
+        <small id="lblLlega_f" class="hidden">Campo requerido *</small>
+        </p>
+        </div>
+        </div>
+        </div>*@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4" style="float:right">
@@ -446,7 +496,7 @@
 
 <script>
         $(document).ready(function () {
-            //showAlert();
+            showAlert();
             //$("#txtNombre").val("Luis Manuel Mendoza González");
             //$("#txtPuesto").val("Desarrollador");
             //$("#txtArea_adscripcion").val("Subdirección de sistemas");
@@ -468,7 +518,6 @@
             //datepickers
             var dateToday = new Date();
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
-                //defaultDate: "+1w",
                 minDate: dateToday,
                 onSelect: function (selectedDate) {
                     var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
@@ -479,9 +528,8 @@
                     obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
                 }
             });
-            var aereo = $("#txtFecha_salida, #txtFecha_regreso").datepicker({
-                //defaultDate: "+1w",
-                minDate: dateToday,
+    var aereo = $("#txtFecha_1, #txtFecha_2, #txtFecha_3, #txtFecha_4").datepicker({
+                minDate: "+2d",
                 onSelect: function (selectedDate) {
                     var option = this.id == "txtFecha_salida" ? "minDate" : "maxDate",
                         instance = $(this).data("datepicker"),
@@ -515,7 +563,61 @@
 
                 }
             });
-
+    $('#slctNVuelo').on('change', function () {
+        let option = this.value;
+        switch (option) {
+            case '1':
+                $('#vuelo_1').removeClass('hidden');
+                $('#vuelo_2').addClass('hidden');
+                $('#vuelo_3').addClass('hidden');
+                $('#vuelo_4').addClass('hidden');
+                $('#txtFecha_2').val('');
+                $('#slctHorario_2').val('');
+                $('#txtFecha_3').val('');
+                $('#slctHorario_3').val('');
+                $('#txtFecha_4').val('');
+                $('#slctHorario_4').val('');
+                break;
+            case '2':
+                $('#vuelo_1').removeClass('hidden');
+                $('#vuelo_2').removeClass('hidden');
+                $('#vuelo_3').addClass('hidden');
+                $('#vuelo_4').addClass('hidden');
+                $('#txtFecha_3').val('');
+                $('#slctHorario_3').val('');
+                $('#txtFecha_4').val('');
+                $('#slctHorario_4').val('');
+                break;
+            case '3':
+                $('#vuelo_1').removeClass('hidden');
+                $('#vuelo_2').removeClass('hidden');
+                $('#vuelo_3').removeClass('hidden');
+                $('#vuelo_4').addClass('hidden');
+                $('#txtFecha_4').val('');
+                $('#slctHorario_4').val('');
+                break;
+            
+            case '4':
+                $('#vuelo_1').removeClass('hidden');
+                $('#vuelo_2').removeClass('hidden');
+                $('#vuelo_3').removeClass('hidden');
+                $('#vuelo_4').removeClass('hidden');
+                break;
+            default:
+                $('#vuelo_1').addClass('hidden');
+                $('#vuelo_2').addClass('hidden');
+                $('#vuelo_3').addClass('hidden');
+                $('#vuelo_4').addClass('hidden');
+                $('#txtFecha_1').val('');
+                $('#slctHorario_1').val('');
+                $('#txtFecha_2').val('');
+                $('#slctHorario_2').val('');
+                $('#txtFecha_3').val('');
+                $('#slctHorario_3').val('');
+                $('#txtFecha_4').val('');
+                $('#slctHorario_4').val('');
+        }
+    });
             $('#slctMedio_transporte').on('change', function () {
                 let option = this.value;
                 console.log(option);
@@ -690,6 +792,10 @@
                 // Hacer algo siempre, haya sido exitosa o no.
                 .always(function () {
                     //showAlert();
+                    $('body,html').animate({
+                        scrollTop: 0
+                    }, 600);
+                    setInterval('location.reload()', 4000);
                 });
 
             }
@@ -811,7 +917,7 @@
 
 
     function showAlert() {
-        scroll("partialView");
+        //scroll("partialView");
                 setTimeout(function () {
 
                     $("#alerta").fadeOut(1500);
