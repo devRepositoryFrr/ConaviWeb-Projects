@@ -126,13 +126,13 @@
                                 <div class="row">
                                     @*<div class="col-md-4">
                                         <p>
-                                            <small>Entidad asignada en la comisión</small>
-                                            <select class="form-control" id="txtLugares_asignados_comision" name="Descripcion" />
-                                            <option value="">--- Seleccionar ---</option>
-                                            </select>
-                                            <small id="lblLugares_asignados_comision" class="hidden">Campo requerido *</small>
+                                        <small>Entidad asignada en la comisión</small>
+                                        <select class="form-control" id="txtLugares_asignados_comision" name="Descripcion" />
+                                        <option value="">--- Seleccionar ---</option>
+                                        </select>
+                                        <small id="lblLugares_asignados_comision" class="hidden">Campo requerido *</small>
                                         </p>
-                                    </div>*@
+                                        </div>*@
                                     <div class="form-group col-md-4">
                                         <p>
                                             <small>Entidad asignada en la comisión</small>
@@ -143,7 +143,7 @@
                                     <div class="col-md-4">
                                         <p>
                                             <small>Municipio asignado en la comisión</small>
-                                            <input placeholder="Especifique el municipio asignado en la comisión" class="form-control" id="txtMunicipio" name="Municipio"/>
+                                            <input placeholder="Especifique el municipio asignado en la comisión" class="form-control" id="txtMunicipio" name="Municipio" />
                                             @*<small id="lblMunicipio_comision" class="hidden">Campo requerido *</small>*@
                                         </p>
                                     </div>
@@ -169,7 +169,7 @@
                                         <p>
                                             <small>Periodo de la comisión desde</small>
                                             <div class="form-group datepicker-group">
-                                                <input class="form-control calendar" id="txtPeriodo_comision_i" name="Periodo_comision_i" type="text">
+                                                <input class="form-control calendar" autocomplete="off" id="txtPeriodo_comision_i" name="Periodo_comision_i" type="text">
                                                 <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                             </div>
                                             <small id="lblPeriodo_comision_i" class="hidden">Campo requerido *</small>
@@ -180,7 +180,7 @@
                                         <p>
                                             <small>Periodo de la comisión hasta</small>
                                             <div class="form-group datepicker-group">
-                                                <input class="form-control calendar" id="txtPeriodo_comision_f" name="Periodo_comision_f" type="text">
+                                                <input class="form-control calendar" autocomplete="off" id="txtPeriodo_comision_f" name="Periodo_comision_f" type="text">
                                                 <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                             </div>
                                             <small id="lblPeriodo_comision_f" class="hidden">Campo requerido *</small>
@@ -258,7 +258,6 @@
                                             </p>
                                         </div>
                                         <div class="col-md-4">
-                                            
                                         </div>
                                         <div class="col-md-4">
                                             <p>
@@ -285,104 +284,130 @@
                                     <h4>Solicitud de pasajes aéreos</h4>
                                     <hr class="red" />
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <small>Numero de vuelos</small>
-                                            <select class="form-control" id="slctNVuelo" name="NVuelo">
-                                                <option value="">---Seleccione---</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select>
+                                        <div id="alertV" class="col-md-12">
+                                            <div class='alertaOp alert alert-danger' id='alertVuelos' style="display:none">Los campos Fecha y Horario son requeridos.</div>
                                         </div>
                                     </div>
-                                    <div class="row hidden" id="vuelo_1">
+                                    <!--<div class="row">
+        <div class="col-md-4">
+            <small>Numero de vuelos</small>
+            <select class="form-control" id="slctNVuelo" name="NVuelo">
+                <option value="">---Seleccione---</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+    </div>-->
+                                    <div class="row" id="vuelo_1">
                                         <div class="col-md-6" id="fecha_v1">
                                             <p>
                                                 <small>Fecha de vuelo #1</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_1" name="Fecha_1" type="text" />
+                                                    <input class="form-control calendar" autocomplete="off" id="txtFecha_1" name="Fecha_1" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
                                                 <small id="lblFecha_1" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo1" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
                                             </p>
                                         </div>
                                         <div class="col-md-6" id="horario_v1">
                                             <p>
                                                 <small>Horario estimado de vuelo #1</small>
                                                 <div class="form-group">
-                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_1" name="Horario_1" />
+                                                    <input type="time" autocomplete="off" placeholder="Especifique horario" class="form-control" id="slctHorario_1" name="Horario_1" />
                                                     <small id="lblHorario_1" class="hidden">Campo requerido *</small>
                                                 </div>
                                             </p>
                                         </div>
-                                        
+
                                     </div>
-                                    <div class="row hidden" id="vuelo_2" >
+                                    <div class="row hidden" id="vuelo_2">
                                         <div class="col-md-6" id="fecha_v2">
                                             <p>
                                                 <small>Fecha de vuelo #2</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_2" name="Fecha_2" type="text" />
+                                                    <input class="form-control calendar" autocomplete="off" id="txtFecha_2" name="Fecha_2" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
 
                                                 <small id="lblFecha_2" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo2" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela1" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                                             </p>
                                         </div>
                                         <div class="col-md-6" id="horario_v2">
                                             <p>
                                                 <small>Horario estimado de vuelo #2</small>
                                                 <div class="form-group">
-                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_2" name="Horario_2" />
+                                                    <input type="time" autocomplete="off" placeholder="Especifique horario" class="form-control" id="slctHorario_2" name="Horario_2" />
                                                     <small id="lblHorario_2" class="hidden">Campo requerido *</small>
                                                 </div>
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="row hidden" id="vuelo_3" >
+                                    <div class="row hidden" id="vuelo_3">
                                         <div class="col-md-6" id="fecha_v3">
                                             <p>
                                                 <small>Fecha de vuelo #3</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_3" name="Fecha_3" type="text" />
+                                                    <input class="form-control calendar" autocomplete="off" id="txtFecha_3" name="Fecha_3" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
                                                 <small id="lblFecha_3" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo3" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela2" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                                             </p>
                                         </div>
                                         <div class="col-md-6" id="horario_v3">
                                             <p>
                                                 <small>Horario estimado de vuelo #3</small>
                                                 <div class="form-group">
-                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_3" name="Horario_3" />
+                                                    <input type="time" autocomplete="off" placeholder="Especifique horario" class="form-control" id="slctHorario_3" name="Horario_3" />
                                                     <small id="lblHorario_3" class="hidden">Campo requerido *</small>
                                                 </div>
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="row hidden" id="vuelo_4" >
+                                    <div class="row hidden" id="vuelo_4">
                                         <div class="col-md-6" id="fecha_v4">
                                             <p>
                                                 <small>Fecha de vuelo #4</small>
                                                 <div class="form-group datepicker-group">
-                                                    <input class="form-control calendar" id="txtFecha_4" name="Fecha_4" type="text" />
+                                                    <input class="form-control calendar" autocomplete="off" id="txtFecha_4" name="Fecha_4" type="text" />
                                                     <span class="glyphicon glyphicon-calendar picker-red" aria-hidden="true"></span>
                                                 </div>
-
                                                 <small id="lblFecha_4" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela3" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
                                             </p>
                                         </div>
                                         <div class="col-md-6" id="horario_v4">
                                             <p>
                                                 <small>Horario estimado de vuelo #4</small>
                                                 <div class="form-group">
-                                                    <input type="time" placeholder="Especifique horario" class="form-control" id="slctHorario_4" name="Horario_4" />
+                                                    <input type="time" autocomplete="off" placeholder="Especifique horario" class="form-control" id="slctHorario_4" name="Horario_4" />
                                                     <small id="lblHorario_4" class="hidden">Campo requerido *</small>
                                                 </div>
                                             </p>
                                         </div>
                                     </div>
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button class="btn btn-primary pull-right" type="button" id="guardar_vuelos">Guardar Vuelos</button>
+                                        <button class="btn btn-primary pull-right hidden" type="button" id="guardar_vuelos1">Guardar Vuelos</button>
+                                        <button class="btn btn-primary pull-right hidden" type="button" id="guardar_vuelos2">Guardar Vuelos</button>
+                                        <button class="btn btn-primary pull-right hidden" type="button" id="guardar_vuelos3">Guardar Vuelos</button>
+                                        <button class="btn btn-primary pull-right hidden" type="button" id="editar_vuelos">Editar Vuelos</button>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <p>
@@ -480,7 +505,7 @@
                                 </div>
                                 <div class="row top-buffer">
                                     <div class="col-md-4">
-                                        <button type="button" class="btn btn-primary" id="btnGeneral">Guardar</button>
+                                        <button type="button" class="btn btn-primary hidden" id="btnGeneral">Guardar</button>
                                     </div>
                                 </div>
                             </div>
@@ -495,74 +520,118 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 
 <script>
-        $(document).ready(function () {
-            showAlert();
-            //$("#txtNombre").val("Luis Manuel Mendoza González");
-            //$("#txtPuesto").val("Desarrollador");
-            //$("#txtArea_adscripcion").val("Subdirección de sistemas");
-            //$("#txtMonto_total").val("1250");
+    $(document).ready(function () {
+        showAlert();
+        //$("#txtNombre").val("Luis Manuel Mendoza González");
+        //$("#txtPuesto").val("Desarrollador");
+        //$("#txtArea_adscripcion").val("Subdirección de sistemas");
+        //$("#txtMonto_total").val("1250");
 
-            //console.log("NIVEL: ",cve_nivel);
-             $("#switch_aereo").prop("disabled", true);
-             $("#switch_casetas").prop("disabled", true);
+        //console.log("NIVEL: ",cve_nivel);
+        $("#switch_aereo").prop("disabled", true);
+        $("#switch_casetas").prop("disabled", true);
 
 
-             $('#txtImporte_gastos').on('input', function () {
-              this.value = this.value.match(/\d+\.?\d{0,2}/);
-             });
-             $('#txtNum_casetas').on('input', function () {
-              this.value = this.value.match(/\d+/);
-             });
-
+        $('#txtImporte_gastos').on('input', function () {
+            this.value = this.value.match(/\d+\.?\d{0,2}/);
         });
-            //datepickers
-            var dateToday = new Date();
+        $('#txtNum_casetas').on('input', function () {
+            this.value = this.value.match(/\d+/);
+        });
+
+    });
+    /*//datepickers
+    var dateToday = new Date();
+    var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
+        minDate: dateToday,
+        onSelect: function (selectedDate) {
+            var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
+                instance = $(this).data("datepicker"),
+                date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+            periodo.not(this).datepicker("option", option, date);
+
+            obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
+        }
+    });*/
+
+    var aereo = $("#txtFecha_1, #txtFecha_2, #txtFecha_3, #txtFecha_4").datepicker({
+        minDate: "+2d",
+        onSelect: function (selectedDate) {
+            var option = this.id == "txtFecha_salida" ? "minDate" : "maxDate",
+                instance = $(this).data("datepicker"),
+                date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+            aereo.not(this).datepicker("option", option, date);
+
+
+        }
+    });
+    var min, max;
+
+    $('#slctMedio_transporte').change(function () {
+        if ($("#slctMedio_transporte").val() == 1) {
+            $('#txtPeriodo_comision_i').datepicker('destroy');
+            $('#txtPeriodo_comision_f').datepicker('destroy');
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
-                minDate: dateToday,
+                minDate: "+2d",
+                showWeek: true,
                 onSelect: function (selectedDate) {
                     var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
                         instance = $(this).data("datepicker"),
                         date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
                     periodo.not(this).datepicker("option", option, date);
-
                     obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
+                    min = $("#txtPeriodo_comision_i").val();
+                    max = $("#txtPeriodo_comision_f").val();
+                    $("#txtFecha_1").datepicker('option', 'minDate', min);
+                    $("#txtFecha_1").datepicker('option', 'maxDate', max);
                 }
             });
-    var aereo = $("#txtFecha_1, #txtFecha_2, #txtFecha_3, #txtFecha_4").datepicker({
-                minDate: "+2d",
+
+        } else {
+            $('#txtPeriodo_comision_i').datepicker('destroy');
+            $('#txtPeriodo_comision_f').datepicker('destroy');
+            var dateToday = new Date();
+            var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
+                minDate: dateToday,
+                showWeek: true,
                 onSelect: function (selectedDate) {
-                    var option = this.id == "txtFecha_salida" ? "minDate" : "maxDate",
+                    var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
                         instance = $(this).data("datepicker"),
                         date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-                    aereo.not(this).datepicker("option", option, date);
-
-
-                }
-            });
-
-            //eventos
-            $('#switch_casetas').change(function () {
-                if ($("#switch_casetas").prop('checked') == false) {
-                    $("#vehiculo").addClass("hidden");
-                    $("#txtNum_casetas").val("");
-                    $("#txtImporte_gastos").val("");
-                    $("#txtTotal_peajes").val("");
-                    grantotal();
-
-                } else {
-                    $("#vehiculo").removeClass("hidden");
+                    periodo.not(this).datepicker("option", option, date);
+                    obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
 
                 }
             });
-            $('#switch_aereo').change(function () {
-                if ($("#switch_aereo").prop('checked') == false) {
-                    $("#aereo").addClass("hidden");
+            console.log("entra la funcion normal del calendario")
 
-                } else {
-                    $("#aereo").removeClass("hidden");
+        }
+    });
 
-                }
-            });
+    //eventos
+    $('#switch_casetas').change(function () {
+        if ($("#switch_casetas").prop('checked') == false) {
+            $("#vehiculo").addClass("hidden");
+            $("#txtNum_casetas").val("");
+            $("#txtImporte_gastos").val("");
+            $("#txtTotal_peajes").val("");
+            grantotal();
+
+        } else {
+            $("#vehiculo").removeClass("hidden");
+
+        }
+    });
+    $('#switch_aereo').change(function () {
+        if ($("#switch_aereo").prop('checked') == false) {
+            $("#aereo").addClass("hidden");
+
+        } else {
+            $("#aereo").removeClass("hidden");
+
+        }
+    });
+
     $('#slctNVuelo').on('change', function () {
         let option = this.value;
         switch (option) {
@@ -596,7 +665,7 @@
                 $('#txtFecha_4').val('');
                 $('#slctHorario_4').val('');
                 break;
-            
+
             case '4':
                 $('#vuelo_1').removeClass('hidden');
                 $('#vuelo_2').removeClass('hidden');
@@ -618,187 +687,426 @@
                 $('#slctHorario_4').val('');
         }
     });
-            $('#slctMedio_transporte').on('change', function () {
-                let option = this.value;
-                console.log(option);
-                if(option == 1){
-                $("#switch_casetas").prop("disabled", true);
-                $("#switch_aereo").prop("disabled", false);
-                $("#switch_aereo").prop("checked", true);
-                $("#aereo").removeClass("hidden");
-                $("#switch_casetas").prop("checked", false);
-                $("#vehiculo").addClass("hidden");
-                $("#txtNum_casetas").val("");
-                $("#txtImporte_gastos").val("");
-                $("#txtTotal_peajes").val("");
-                $("#Traza_ruta").val("");
-                grantotal();
-                }else if(option == 2){
-                $("#switch_aereo").prop("disabled", true);
-                $("#switch_casetas").prop("disabled", false);
-                $("#switch_casetas").prop("checked", true);
-                $("#vehiculo").removeClass("hidden");
-                $("#switch_aereo").prop("checked", false);
-                $("#aereo").addClass("hidden");
-                }else{
-                $("#switch_aereo").prop("disabled", true);
-                $("#switch_aereo").prop("checked", false);
-                $("#aereo").addClass("hidden");
-                $("#switch_casetas").prop("disabled", true);
-                $("#switch_casetas").prop("checked", false);
-                $("#vehiculo").addClass("hidden");
-                $("#txtNum_casetas").val("");
-                $("#txtImporte_gastos").val("");
-                $("#txtTotal_peajes").val("");
-                $("#Traza_ruta").val("");
-                grantotal();
-                }
-            });
-
-
-                //$("#txtNum_casetas").keyup(function(e){
-                //    if(!/^[0-9]*$/.test(this.value)){
-                //    this.value = this.value.split(/[^0-9.]/).join("");
-                //    }
-                //     if($(this).val().length >= 7) {
-                //     $(this).val($(this).val().slice(0, 7));
-                //        return false;
-                //        }
-                //});
-                
-                //$("#txtImporte_gastos").keypress(function(e){
-                //    if(!/^[0-9]*$/.test(this.value)){
-                //    this.value = this.value.split(/[^0-9.]/).join("");
-                //    }
-                //     if($(this).val().length >= 7) {
-                //     $(this).val($(this).val().slice(0, 7));
-                //        return false;
-                //        }
-                //});
-                         
-               
 
 
 
+    var v1, v2, v3;
 
-            $('#btnGeneral').click(function () {
-                // Serializar el formulario a JSON
-                var disabled = $("#form_viaticos").find(':input:disabled').removeAttr('disabled')
-                //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
-                const array = $("#form_viaticos").serializeArray();
-                disabled.attr('disabled', 'disabled');
-                //console.log(array);
-                const json = {};
-                $.each(array, function () {
-                    // set JSON con valor o null
-                    json[this.name] = this.value || null;
+    $('#btn_vuelo1').click(function () {
+        var fecha_vuelo_1 = $('#txtFecha_1').val();
+        var hora_vuelo_1 = $('#slctHorario_1').val();
+        if (fecha_vuelo_1 == "" || hora_vuelo_1 == "") {
+            showAlertVuelos();
+        }
+        else {
+            const $in1 = document.querySelector("#txtFecha_1")
+            const $in2 = document.querySelector("#slctHorario_1")
+            $('#vuelo_2').removeClass('hidden');
+            $('#vuelo_3').addClass('hidden');
+            $('#vuelo_4').addClass('hidden');
+            $('#txtFecha_3').val('');
+            $('#slctHorario_3').val('');
+            $('#txtFecha_4').val('');
+            $('#slctHorario_4').val('');
+            $("#btn_vuelo1").addClass("hidden");
+            $("#guardar_vuelos").addClass("hidden");
+            $("#guardar_vuelos1").removeClass("hidden");
+            $in1.setAttribute("disabled", 1);
+            $in2.setAttribute("disabled", 1);
+            v1 = fecha_vuelo_1;
+            $("#txtFecha_2").datepicker('option', 'minDate', v1);
+            $("#txtFecha_2").datepicker('option', 'maxDate', max);
+        }
+    });
 
-                });
-                
-                //console.log("JSON: ",json);
-                validarDatos(json);
+    $('#btn_cancela1').click(function () {
+        $('#vuelo_2').addClass('hidden');
+        $("#btn_vuelo1").removeClass("hidden");
+        const $in1 = document.querySelector("#txtFecha_1")
+        const $in2 = document.querySelector("#slctHorario_1")
+        $in1.removeAttribute("disabled", 1);
+        $in2.removeAttribute("disabled", 1);
+        $("#guardar_vuelos").removeClass("hidden");
+        $("#guardar_vuelos1").addClass("hidden");
+    })
 
-                var elementos = $(".error-lbl").map(function () {
-                    return this.id;
-                }).get();
-                if (elementos == 0) {
-                    enviarDatos(json);
-                    //console.log(json);
-                }
-            });
+    $('#btn_vuelo2').click(function () {
+        var fecha_vuelo_2 = $('#txtFecha_2').val();
+        var hora_vuelo_2 = $('#slctHorario_2').val();
+        if (fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
+        showAlertVuelos();
+        }
+        else {
+            const $in1 = document.querySelector("#txtFecha_2")
+            const $in2 = document.querySelector("#slctHorario_2")
+            $('#vuelo_1').removeClass('hidden');
+            $('#vuelo_2').removeClass('hidden');
+            $('#vuelo_3').removeClass('hidden');
+            $('#vuelo_4').addClass('hidden');
+            $('#txtFecha_4').val('');
+            $('#slctHorario_4').val('');
+            $("#btn_vuelo2").addClass("hidden");
+            $('#btn_cancela1').addClass("hidden");
+            $("#guardar_vuelos1").addClass("hidden");
+            $("#guardar_vuelos2").removeClass("hidden");
+            $in1.setAttribute("disabled", 1);
+            $in2.setAttribute("disabled", 1);
+            v2 = fecha_vuelo_2;
+            $("#txtFecha_3").datepicker('option', 'minDate', v2);
+            $("#txtFecha_3").datepicker('option', 'maxDate', max);
+        }
+    });
 
-            //funciones
+
+    $('#btn_cancela2').click(function () {
+        $('#vuelo_3').addClass('hidden');
+        $("#btn_vuelo2").removeClass("hidden");
+        $("#btn_cancela1").removeClass("hidden");
+        const $in1 = document.querySelector("#txtFecha_2")
+        const $in2 = document.querySelector("#slctHorario_2")
+        $in1.removeAttribute("disabled", 1);
+        $in2.removeAttribute("disabled", 1);
+        $("#guardar_vuelos1").removeClass("hidden");
+        $("#guardar_vuelos2").addClass("hidden");
+    })
+
+    $('#btn_vuelo3').click(function () {
+        var fecha_vuelo_3 = $('#txtFecha_3').val();
+        var hora_vuelo_3 = $('#slctHorario_3').val();
+        if (fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
+            showAlertVuelos();
+        }
+        else {
+            const $in1 = document.querySelector("#txtFecha_3")
+            const $in2 = document.querySelector("#slctHorario_3")
+            $('#vuelo_1').removeClass('hidden');
+            $('#vuelo_2').removeClass('hidden');
+            $('#vuelo_3').removeClass('hidden');
+            $('#vuelo_4').removeClass('hidden');
+            $("#btn_vuelo3").addClass("hidden");
+            $('#btn_cancela2').addClass("hidden");
+            $("#guardar_vuelos2").addClass("hidden");
+            $("#guardar_vuelos3").removeClass("hidden");
+            $in1.setAttribute("disabled", 1);
+            $in2.setAttribute("disabled", 1);
+            v3 = fecha_vuelo_3;
+            $("#txtFecha_4").datepicker('option', 'minDate', v3);
+            $("#txtFecha_4").datepicker('option', 'maxDate', max);
+
+        }
+    });
+
+
+    $('#btn_cancela3').click(function () {
+        $('#vuelo_4').addClass('hidden');
+        $("#btn_vuelo3").removeClass("hidden");
+        $("#btn_cancela2").removeClass("hidden");
+        const $in1 = document.querySelector("#txtFecha_3")
+        const $in2 = document.querySelector("#slctHorario_3")
+        $in1.removeAttribute("disabled", 1);
+        $in2.removeAttribute("disabled", 1);
+        $("#guardar_vuelos2").removeClass("hidden");
+        $("#guardar_vuelos3").addClass("hidden");
+    })
+
+    $('#guardar_vuelos').click(function (){
+        var fecha_vuelo_1 = $('#txtFecha_1').val();
+        var hora_vuelo_1 = $('#slctHorario_1').val();
+        const $vuelo1f = document.querySelector("#txtFecha_1")
+        const $vuelo1h = document.querySelector("#slctHorario_1")
+        if (fecha_vuelo_1 == "" || hora_vuelo_1 == ""){
+            showAlertVuelos();
+        }else{
+                $vuelo1f.setAttribute("disabled",1);
+                $vuelo1h.setAttribute("disabled",1);
+                $("#btn_vuelo1").addClass("hidden");
+                $("#guardar_vuelos").addClass("hidden");
+                $("#editar_vuelos").removeClass("hidden");
+                $("#btnGeneral").removeClass("hidden");
+            }
+    })
+
+        $('#guardar_vuelos1').click(function (){
+        var fecha_vuelo_2 = $('#txtFecha_2').val();
+        var hora_vuelo_2 = $('#slctHorario_2').val();
+        const $vuelo2f = document.querySelector("#txtFecha_2")
+        const $vuelo2h = document.querySelector("#slctHorario_2")
+            if (fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
+                showAlertVuelos();
+        }else{
+                $vuelo2f.setAttribute("disabled",1);
+                $vuelo2h.setAttribute("disabled",1);
+                $("#btn_vuelo2").addClass("hidden");
+                $("#btn_cancela1").addClass("hidden");
+                $("#guardar_vuelos1").addClass("hidden");
+                $("#editar_vuelos").removeClass("hidden");
+                $("#btnGeneral").removeClass("hidden");
+            }
+    })
+
+        $('#guardar_vuelos2').click(function (){
+        var fecha_vuelo_3 = $('#txtFecha_3').val();
+        var hora_vuelo_3 = $('#slctHorario_3').val();
+        const $vuelo3f = document.querySelector("#txtFecha_3")
+        const $vuelo3h = document.querySelector("#slctHorario_3")
+            if (fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
+                showAlertVuelos();
+        }else{
+                $vuelo3f.setAttribute("disabled",1);
+                $vuelo3h.setAttribute("disabled",1);
+                $("#btn_vuelo3").addClass("hidden");
+                $("#btn_cancela2").addClass("hidden");
+                $("#guardar_vuelos2").addClass("hidden");
+                $("#editar_vuelos").removeClass("hidden");
+                $("#btnGeneral").removeClass("hidden");
+            }
+    })
+
+        $('#guardar_vuelos3').click(function (){
+        var fecha_vuelo_4 = $('#txtFecha_4').val();
+        var hora_vuelo_4 = $('#slctHorario_4').val();
+        const $vuelo4f = document.querySelector("#txtFecha_4")
+        const $vuelo4h = document.querySelector("#slctHorario_4")
+        if (fecha_vuelo_4 == ""){
+            showAlertVuelos();
+        } else {
+                $vuelo4f.setAttribute("disabled",1);
+                $vuelo4h.setAttribute("disabled",1);
+                $("#btn_cancela3").addClass("hidden");
+                $("#guardar_vuelos3").addClass("hidden");
+                $("#editar_vuelos").removeClass("hidden");
+                $("#btnGeneral").removeClass("hidden");
+            }
+    })
+
+
+
+    $("#editar_vuelos").click(function (){
+        const $vuelo1f = document.querySelector("#txtFecha_1")
+        const $vuelo1h = document.querySelector("#slctHorario_1")
+        const $vuelo2f = document.querySelector("#txtFecha_2")
+        const $vuelo2h = document.querySelector("#slctHorario_2")
+        const $vuelo3f = document.querySelector("#txtFecha_3")
+        const $vuelo3h = document.querySelector("#slctHorario_3")
+        const $vuelo4f = document.querySelector("#txtFecha_4")
+        const $vuelo4h = document.querySelector("#slctHorario_4")
+        $vuelo1f.removeAttribute("disabled",1);
+        $vuelo1h.removeAttribute("disabled",1);
+        $vuelo2f.removeAttribute("disabled",1);
+        $vuelo2h.removeAttribute("disabled",1);
+        $vuelo3f.removeAttribute("disabled",1);
+        $vuelo3h.removeAttribute("disabled",1);
+        $vuelo4f.removeAttribute("disabled",1);
+        $vuelo4h.removeAttribute("disabled",1);
+        $("#guardar_vuelos").removeClass("hidden");
+        $("#guardar_vuelos1").addClass("hidden");
+        $("#guardar_vuelos2").addClass("hidden");
+         $("#guardar_vuelos3").addClass("hidden");
+        $("#editar_vuelos").addClass("hidden");
+        $("#btn_vuelo1").removeClass("hidden");
+        $("#btn_vuelo2").removeClass("hidden");
+        $("#btn_vuelo3").removeClass("hidden");
+        $("#btn_cancela1").removeClass("hidden");
+        $("#btn_cancela2").removeClass("hidden");
+        $("#btn_cancela3").removeClass("hidden");
+        $("#btnGeneral").addClass("hidden");
+        $("#txtFecha_1").val("");
+        $("#slctHorario_1").val("");
+        $("#txtFecha_2").val("");
+        $("#slctHorario_2").val("");
+        $("#txtFecha_3").val("");
+        $("#slctHorario_3").val("");
+        $("#txtFecha_4").val("");
+        $("#slctHorario_4").val("");
+        $('#vuelo_2').addClass('hidden');
+        $('#vuelo_3').addClass('hidden');
+        $('#vuelo_4').addClass('hidden');
+    })
+
+
+    $('#slctMedio_transporte').on('change', function () {
+        let option = this.value;
+        console.log(option);
+        if (option == 1) {
+            $("#switch_casetas").prop("disabled", true);
+            $("#switch_aereo").prop("disabled", false);
+            $("#switch_aereo").prop("checked", true);
+            $("#aereo").removeClass("hidden");
+            $("#switch_casetas").prop("checked", false);
+            $("#vehiculo").addClass("hidden");
+            $("#txtNum_casetas").val("");
+            $("#txtImporte_gastos").val("");
+            $("#txtTotal_peajes").val("");
+            $("#Traza_ruta").val("");
+            $("#btnGeneral").addClass("hidden");
+            grantotal();
+        } else if (option == 2) {
+            $("#switch_aereo").prop("disabled", true);
+            $("#switch_casetas").prop("disabled", false);
+            $("#switch_casetas").prop("checked", true);
+            $("#vehiculo").removeClass("hidden");
+            $("#switch_aereo").prop("checked", false);
+            $("#aereo").addClass("hidden");
+            $("#btnGeneral").removeClass("hidden");
+        } else {
+            $("#switch_aereo").prop("disabled", true);
+            $("#switch_aereo").prop("checked", false);
+            $("#aereo").addClass("hidden");
+            $("#switch_casetas").prop("disabled", true);
+            $("#switch_casetas").prop("checked", false);
+            $("#vehiculo").addClass("hidden");
+            $("#txtNum_casetas").val("");
+            $("#txtImporte_gastos").val("");
+            $("#txtTotal_peajes").val("");
+            $("#Traza_ruta").val("");
+            grantotal();
+        }
+    });
+
+
+    //$("#txtNum_casetas").keyup(function(e){
+    //    if(!/^[0-9]*$/.test(this.value)){
+    //    this.value = this.value.split(/[^0-9.]/).join("");
+    //    }
+    //     if($(this).val().length >= 7) {
+    //     $(this).val($(this).val().slice(0, 7));
+    //        return false;
+    //        }
+    //});
+
+    //$("#txtImporte_gastos").keypress(function(e){
+    //    if(!/^[0-9]*$/.test(this.value)){
+    //    this.value = this.value.split(/[^0-9.]/).join("");
+    //    }
+    //     if($(this).val().length >= 7) {
+    //     $(this).val($(this).val().slice(0, 7));
+    //        return false;
+    //        }
+    //});
+
+
+
+
+
+
+    $('#btnGeneral').click(function () {
+        // Serializar el formulario a JSON
+        var disabled = $("#form_viaticos").find(':input:disabled').removeAttr('disabled')
+        //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
+        const array = $("#form_viaticos").serializeArray();
+        disabled.attr('disabled', 'disabled');
+        //console.log(array);
+        const json = {};
+        $.each(array, function () {
+            // set JSON con valor o null
+            json[this.name] = this.value || null;
+
+        });
+
+        //console.log("JSON: ",json);
+        validarDatos(json);
+
+        var elementos = $(".error-lbl").map(function () {
+            return this.id;
+        }).get();
+        if (elementos == 0) {
+            enviarDatos(json);
+            //console.log(json);
+        }
+    });
+
+    //funciones
     function enviarDatos(obj) {
         //console.log(obj);
-                // Deshabilitamos el botón de Submit
-                $("#btnGeneral").prop("disabled", true);
+        // Deshabilitamos el botón de Submit
+        $("#btnGeneral").prop("disabled", true);
 
-            //Limpiar formulario
-           //$("#informe").val("");
+        //Limpiar formulario
+        //$("#informe").val("");
         let viaticos = JSON.stringify(obj);
         var formData = new FormData();
         let file = $("#Traza_ruta").get(0).files[0];
         formData.append("json", viaticos);
         formData.append("file", file);
         console.log(formData);
-                $.ajax({
-                    url: "@Url.Action("GuardarSolicitud", "ViaticosSolicitud")", // Url
-                    type: 'post',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    data: formData,
-                })
-                // Se ejecuta si todo fue bien.
-                    .done(function (result) {
-                        //showAlert();
-                        //console.log(result);
-                        if (result != null) {
-                            console.log(result, "success");
-                            // Actualiza el resultado HTML
-                            //$("#PostList").html(result);
-                            $("#divDescripcion").show();
+        $.ajax({
+            url: "@Url.Action("GuardarSolicitud", "ViaticosSolicitud")", // Url
+            type: 'post',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+        })
+            // Se ejecuta si todo fue bien.
+            .done(function (result) {
+                //showAlert();
+                //console.log(result);
+                if (result != null) {
+                    console.log(result, "success");
+                    // Actualiza el resultado HTML
+                    //$("#PostList").html(result);
+                    $("#divDescripcion").show();
 
-                            // Un pequeño esfecto especial ;)
-                            $("#divDescripcion .row").hide();
-                            $("#divDescripcion .row").slideToggle("fast");
+                    // Un pequeño esfecto especial ;)
+                    $("#divDescripcion .row").hide();
+                    $("#divDescripcion .row").slideToggle("fast");
 
-                            // Limpia el formulario
-                            //$("#folio").val("");
+                    // Limpia el formulario
+                    //$("#folio").val("");
 
-                            //LLenamos el formiulario
-                            $("#informe").val(result.informe).prop("readonly", true);
-                            $("#observacion").val(result.observacion).prop("readonly", true);
-                            var styleElem = document.head.appendChild(document.createElement("style"));
-                            styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
-                            $(".escala-" + result.letra).css("background", result.color);
-                            var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
-                            //console.log(rutaInforme);
-                            $('#btnDownInfo').attr('href', rutaInforme);
-
-                            // Escondemos el Ajax Loader
-                            //$("#AjaxLoader").hide("slow");
-
-                            // Habilitamos el botón de Submit
-                            $("#btnGeneral").prop("disabled", false);
-
-                            // Mostramos un mensaje de éxito.
-                            $("#alertAjax").append(result);
-                            showAlert();
-                            //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
-                        } else {
-                            console.log(result, "error");
-                            $("#divDescripcion").hide();
-                            // Mostramos un mensaje de error.
-                            $("#alertAjax").append(result);
-                            // Habilitamos el botón de Submit
-                            $("#btnGeneral").prop("disabled", false);
-
-                            showAlert();
-                        }
-
-                })
-                // Se ejecuta si se produjo un error.
-                .fail(function (xhr, status, error) {
-                    // Mostramos un mensaje de error.
-                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+                    //LLenamos el formiulario
+                    $("#informe").val(result.informe).prop("readonly", true);
+                    $("#observacion").val(result.observacion).prop("readonly", true);
+                    var styleElem = document.head.appendChild(document.createElement("style"));
+                    styleElem.innerHTML = ".escala-" + result.letra + ":after {background: " + result.color + ";}";
+                    $(".escala-" + result.letra).css("background", result.color);
+                    var rutaInforme = '../doc/Sisevive/' + result.idUserCarga + '/' + result.folio + '/' + result.nombreArchInforme;
+                    //console.log(rutaInforme);
+                    $('#btnDownInfo').attr('href', rutaInforme);
 
                     // Escondemos el Ajax Loader
                     //$("#AjaxLoader").hide("slow");
 
                     // Habilitamos el botón de Submit
-                    //$("#SubmitBtn").prop("disabled", false);
-                })
-                // Hacer algo siempre, haya sido exitosa o no.
-                .always(function () {
-                    //showAlert();
-                    $('body,html').animate({
-                        scrollTop: 0
-                    }, 600);
-                    setInterval('location.reload()', 4000);
-                });
+                    $("#btnGeneral").prop("disabled", false);
 
-            }
+                    // Mostramos un mensaje de éxito.
+                    $("#alertAjax").append(result);
+                    showAlert();
+                    //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
+                } else {
+                    console.log(result, "error");
+                    $("#divDescripcion").hide();
+                    // Mostramos un mensaje de error.
+                    $("#alertAjax").append(result);
+                    // Habilitamos el botón de Submit
+                    $("#btnGeneral").prop("disabled", false);
+
+                    showAlert();
+                }
+
+            })
+            // Se ejecuta si se produjo un error.
+            .fail(function (xhr, status, error) {
+                // Mostramos un mensaje de error.
+                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                // Escondemos el Ajax Loader
+                //$("#AjaxLoader").hide("slow");
+
+                // Habilitamos el botón de Submit
+                //$("#SubmitBtn").prop("disabled", false);
+            })
+            // Hacer algo siempre, haya sido exitosa o no.
+            .always(function () {
+                //showAlert();
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 600);
+                setInterval('location.reload()', 4000);
+            });
+
+    }
     function validarDatos(obj) {
         let file = $('#Traza_ruta').val();
         console.log("file nulo: ", file);
@@ -809,81 +1117,92 @@
             $('#lblTraza_ruta').removeClass("error-lbl");
             $('#lblTraza_ruta').addClass("hidden");
         }
-                $.each(obj, function (key, val) {
-                    //console.log("error-",key, " : ", val);
-                    if (val == null) {
-                        $("#lbl" + key).addClass("error-lbl");
-                        $("#lbl" + key).removeClass("hidden");
-                    } else {
-                        $("#lbl" + key).removeClass("error-lbl");
-                        $("#lbl" + key).addClass("hidden");
-                    }
-
-                });
-
-                //campos excluidos según switch
-                let exclude;
-                if ($("#switch_casetas").prop('checked') == false) {
-                    exclude = ["lblNum_casetas", "lblDotacion_combustible", "lblImporte_gastos", "lblTotal_peajes","lblTraza_ruta"];
-                } else {
-                    exclude = [];
-                }
-
-                for (let i = 0; i < exclude.length; i++) {
-                    $("#" + exclude[i]).removeClass("error-lbl");
-                    $("#" + exclude[i]).addClass("hidden");
-                    //console.log("#" + exclude[i])
-                }
-
-                let exclude2;
-                if ($("#switch_aereo").prop('checked') == false) {
-                    exclude2 = ["lblFecha_salida", "lblFecha_regreso", "lblHorario_salida", "lblHorario_regreso","lblObs_aereo"];
-                } else {
-                    exclude2 = [];
-                }
-
-                for (let i = 0; i < exclude2.length; i++) {
-                    $("#" + exclude2[i]).removeClass("error-lbl");
-                    $("#" + exclude2[i]).addClass("hidden");
-                    //console.log("#" + exclude2[i])
-                }
-
-                $.each(obj, function (key, val) {
-
-                    if (val === "") {
-                        $("#txt" + key).focus();
-                        return false;
-                    }
-                });
+        $.each(obj, function (key, val) {
+            console.log("error-", key, " : ", val);
+            if (val == null) {
+                $("#lbl" + key).addClass("error-lbl");
+                $("#lbl" + key).removeClass("hidden");
+            } else {
+                $("#lbl" + key).removeClass("error-lbl");
+                $("#lbl" + key).addClass("hidden");
+                $("#lblFecha_2").removeClass("error-lbl");
+                $("#lblHorario_2").removeClass("error-lbl");
+                $("#lblFecha_3").removeClass("error-lbl");
+                $("#lblHorario_3").removeClass("error-lbl");
+                $("#lblFecha_4").removeClass("error-lbl");
+                $("#lblHorario_4").removeClass("error-lbl");
+                $("#lblFecha_2").addClass("hidden");
+                $("#lblHorario_2").addClass("hidden");
+                $("#lblFecha_3").addClass("hidden");
+                $("#lblHorario_3").addClass("hidden");
+                $("#lblFecha_4").addClass("hidden");
+                $("#lblHorario_4").addClass("hidden");
             }
-            function obtenerDias(f1, f2) {
 
-                let importeDiario = $("#txtCuota_diaria").val();
-                let aFecha1 = f1.split('/');
-                let aFecha2 = f2.split('/');
-                let fFecha1 = Date.UTC(aFecha1[2], aFecha1[1] - 1, aFecha1[0]);
-                let fFecha2 = Date.UTC(aFecha2[2], aFecha2[1] - 1, aFecha2[0]);
-                let dif = fFecha2 - fFecha1;
+        });
 
-                let dias = Math.floor(dif / (1000 * 60 * 60 * 24));
-                let cve_nivel =  '@Html.Raw(@ViewBag.CvNivel)';
+        //campos excluidos según switch
+        let exclude;
+        if ($("#switch_casetas").prop('checked') == false) {
+            exclude = ["lblNum_casetas", "lblDotacion_combustible", "lblImporte_gastos", "lblTotal_peajes", "lblTraza_ruta"];
+        } else {
+            exclude = [];
+        }
+
+        for (let i = 0; i < exclude.length; i++) {
+            $("#" + exclude[i]).removeClass("error-lbl");
+            $("#" + exclude[i]).addClass("hidden");
+            //console.log("#" + exclude[i])
+        }
+
+        let exclude2;
+        if ($("#switch_aereo").prop('checked') == false) {
+            exclude2 = ["lblFecha_salida", "lblFecha_regreso", "lblHorario_salida", "lblHorario_regreso", "lblObs_aereo", "lblFecha_1", "lblHorario_1", "lblFecha_2", "lblHorario_2", "lblFecha_3", "lblHorario_3", "lblFecha_4", "lblHorario_4"];
+        } else {
+            exclude2 = [];
+        }
+
+        for (let i = 0; i < exclude2.length; i++) {
+            $("#" + exclude2[i]).removeClass("error-lbl");
+            $("#" + exclude2[i]).addClass("hidden");
+            //console.log("#" + exclude2[i])
+        }
+
+        $.each(obj, function (key, val) {
+            if (val === "") {
+                $("#txt" + key).focus();
+                return false;
+            }
+        });
+    }
+    function obtenerDias(f1, f2) {
+
+        let importeDiario = $("#txtCuota_diaria").val();
+        let aFecha1 = f1.split('/');
+        let aFecha2 = f2.split('/');
+        let fFecha1 = Date.UTC(aFecha1[2], aFecha1[1] - 1, aFecha1[0]);
+        let fFecha2 = Date.UTC(aFecha2[2], aFecha2[1] - 1, aFecha2[0]);
+        let dif = fFecha2 - fFecha1;
+
+        let dias = Math.floor(dif / (1000 * 60 * 60 * 24));
+        let cve_nivel = '@Html.Raw(@ViewBag.CvNivel)';
 
 
 
 
-                if (dias >= 0) {
+        if (dias >= 0) {
 
-                    let nivel = cve_nivel.substring(0, 1);
-                    let dias_nivel = nivel == 'M' ? dias : dias + .5;
-                    $("#txtDias_duracion").val(dias_nivel);
-                    //console.log(nivel);
-                    $("#txtImporte_viaticos").val(dias_nivel * importeDiario);
-                    grantotal();
-                } else {
-                    $("#txtDias_duracion").val("");
-                    $("#txtImporte_viaticos").val("");
+            let nivel = cve_nivel.substring(0, 1);
+            let dias_nivel = nivel == 'M' ? dias : dias + .5;
+            $("#txtDias_duracion").val(dias_nivel);
+            //console.log(nivel);
+            $("#txtImporte_viaticos").val(dias_nivel * importeDiario);
+            grantotal();
+        } else {
+            $("#txtDias_duracion").val("");
+            $("#txtImporte_viaticos").val("");
 
-                }
+        }
     }
 
     $("#txtImporte_gastos").change(function () {
@@ -904,12 +1223,12 @@
 
 
 
-    function grantotal(){
+    function grantotal() {
         let totImporte = $("#txtImporte_viaticos").val();
         let totPeajes = $("#txtTotal_peajes").val();
         totImporte = totImporte == "" ? 0 : totImporte;
         totPeajes = totPeajes == "" ? 0 : totPeajes;
-        console.log("Viaticos: " ,totImporte," Peajes: ",totPeajes)
+        console.log("Viaticos: ", totImporte, " Peajes: ", totPeajes)
         let granTotal = parseFloat(totImporte) + parseFloat(totPeajes);
         $("#txtGran_total").val(parseFloat(granTotal).toFixed(2));
     }
@@ -918,17 +1237,33 @@
 
     function showAlert() {
         //scroll("partialView");
-                setTimeout(function () {
+        setTimeout(function () {
 
-                    $("#alerta").fadeOut(1500);
+            $("#alerta").fadeOut(1500);
 
-                }, 6000);
+        }, 6000);
 
 
-                setTimeout(function () {
+        setTimeout(function () {
 
-                    $("#alerta").remove();
-                }, 12000);
+            $("#alerta").remove();
+        }, 12000);
+
+    }
+
+    function showAlertVuelos() {
+        //scroll("partialView");
+        setTimeout(function () {
+
+            $("#alertVuelos").show("slow");
+
+        }, 200);
+
+
+        setTimeout(function () {
+
+            $("#alertVuelos").hide("slow");
+        }, 2000);
 
     }
 

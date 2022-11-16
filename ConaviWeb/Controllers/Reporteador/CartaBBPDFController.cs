@@ -50,7 +50,7 @@ namespace ConaviWeb.Controllers.Reporteador
         {
             var _header = System.IO.Path.Combine(_environment.WebRootPath, "img", "magon.png");
             var _footer = System.IO.Path.Combine(_environment.WebRootPath, "img", "footerConavi.png");
-            var pathCarta = Path.Combine(_environment.WebRootPath, "doc","CartasPEV", benef.Path_carta, benef.Estado, benef.Municipio);
+            var pathCarta = Path.Combine(_environment.WebRootPath, "doc","CartasPEV_1", benef.Path_carta, benef.Estado, benef.Municipio);
             if (!Directory.Exists(pathCarta))
             {
                 Directory.CreateDirectory(pathCarta);
