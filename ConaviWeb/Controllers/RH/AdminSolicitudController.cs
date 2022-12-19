@@ -909,7 +909,7 @@ namespace ConaviWeb.Controllers.RH
                   .SetHeight(12)
                   .SetBorder(Border.NO_BORDER)
                   .SetFontSize(7)
-                  .Add(new Paragraph("FECHA DE SALIDA"));
+                  .Add(new Paragraph("FECHA"));
             Cell linea = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonts)
@@ -998,51 +998,51 @@ namespace ConaviWeb.Controllers.RH
                     .SetFontSize(7)
                     .Add(new Paragraph(viaticos.Llega_i)); //LLEGADA AL DESTINO 
             //ParteBaja
-            Cell rutallegada = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonts)
-                     .SetWidth(10)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(8)
-                     .SetWidth(0)
-                     .Add(new Paragraph("RUTA"));
-            Cell fecharegreso = new Cell(1, 1)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFont(fonts)
-                    .SetWidth(10)
-                    .SetHeight(12)
-                    .SetBorder(Border.NO_BORDER)
-                    .SetFontSize(7)
-                    .Add(new Paragraph("FECHA DE REGRESO"));
-            Cell vueloregreso = new Cell(1, 1)
-                     .SetBorder(Border.NO_BORDER)
-                     .Add(new Paragraph(" "));
-            Cell saleregreso = new Cell(1, 1)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetFont(fonts)
-                    .SetWidth(10)
-                    .SetHeight(12)
-                    .SetBorder(Border.NO_BORDER)
-                    .SetFontSize(7)
-                    .SetWidth(0)
-                    .Add(new Paragraph("VUELO:"));
-            Cell llegaregreso = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonts)
-                     .SetWidth(10)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(7)
-                     .Add(new Paragraph("SALE"));
-            Cell txt11 = new Cell(1, 1)
-                     .SetTextAlignment(TextAlignment.CENTER)
-                     .SetFont(fonts)
-                     .SetWidth(10)
-                     .SetHeight(12)
-                     .SetBorder(Border.NO_BORDER)
-                     .SetFontSize(7)
-                     .Add(new Paragraph("LLEGA"));
+            //Cell rutallegada = new Cell(1, 1)
+            //         .SetTextAlignment(TextAlignment.CENTER)
+            //         .SetFont(fonts)
+            //         .SetWidth(10)
+            //         .SetHeight(12)
+            //         .SetBorder(Border.NO_BORDER)
+            //         .SetFontSize(8)
+            //         .SetWidth(0)
+            //         .Add(new Paragraph("RUTA"));
+            //Cell fecharegreso = new Cell(1, 1)
+            //        .SetTextAlignment(TextAlignment.CENTER)
+            //        .SetFont(fonts)
+            //        .SetWidth(10)
+            //        .SetHeight(12)
+            //        .SetBorder(Border.NO_BORDER)
+            //        .SetFontSize(7)
+            //        .Add(new Paragraph("FECHA"));
+            //Cell vueloregreso = new Cell(1, 1)
+            //         .SetBorder(Border.NO_BORDER)
+            //         .Add(new Paragraph(" "));
+            //Cell saleregreso = new Cell(1, 1)
+            //        .SetTextAlignment(TextAlignment.CENTER)
+            //        .SetFont(fonts)
+            //        .SetWidth(10)
+            //        .SetHeight(12)
+            //        .SetBorder(Border.NO_BORDER)
+            //        .SetFontSize(7)
+            //        .SetWidth(0)
+            //        .Add(new Paragraph("VUELO:"));
+            //Cell llegaregreso = new Cell(1, 1)
+            //         .SetTextAlignment(TextAlignment.CENTER)
+            //         .SetFont(fonts)
+            //         .SetWidth(10)
+            //         .SetHeight(12)
+            //         .SetBorder(Border.NO_BORDER)
+            //         .SetFontSize(7)
+            //         .Add(new Paragraph("SALE"));
+            //Cell txt11 = new Cell(1, 1)
+            //         .SetTextAlignment(TextAlignment.CENTER)
+            //         .SetFont(fonts)
+            //         .SetWidth(10)
+            //         .SetHeight(12)
+            //         .SetBorder(Border.NO_BORDER)
+            //         .SetFontSize(7)
+            //         .Add(new Paragraph("LLEGA"));
             Cell txt22 = new Cell(1, 1)
                      .SetTextAlignment(TextAlignment.CENTER)
                      .SetFont(fonte)
@@ -1097,6 +1097,117 @@ namespace ConaviWeb.Controllers.RH
                     .SetBorder(Border.NO_BORDER)
                     .SetFontSize(7)
                     .Add(new Paragraph(viaticos.Llega_f)); //FECHA DE LLEGAD 
+
+            Cell txtRutaJ = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetHeight(12)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(viaticos.Ruta_j)); //VUELO DE REGRESO
+            Cell fecha3 = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Fecha_3)); //FECHA DE REGRESO 
+            Cell txtLJ = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetHeight(12)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(" "));
+            Cell txtVueloJ = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetHeight(12)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(viaticos.Vuelo_j)); //NUMERO DE VUELO FALTA NUMERO DE VUELO DE SALIDA
+            Cell txtSaleJ = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Sale_j)); //FECHA DE SALIDA
+            Cell txtLLegaJ = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Llega_j));
+
+            Cell txtRutaK = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetHeight(12)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(viaticos.Ruta_k)); //VUELO DE REGRESO
+            Cell fecha4 = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Fecha_4)); //FECHA DE REGRESO 
+            Cell txtLK = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetHeight(12)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(" "));
+            Cell txtVueloK = new Cell(1, 1)
+                     .SetTextAlignment(TextAlignment.CENTER)
+                     .SetFont(fonte)
+                     .SetWidth(10)
+                     .SetHeight(12)
+                     .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                     .SetBorder(Border.NO_BORDER)
+                     .SetFontSize(7)
+                     .Add(new Paragraph(viaticos.Vuelo_k)); //NUMERO DE VUELO FALTA NUMERO DE VUELO DE SALIDA
+            Cell txtSaleK = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Sale_j)); //FECHA DE SALIDA
+            Cell txtLLegaK = new Cell(1, 1)
+                    .SetTextAlignment(TextAlignment.CENTER)
+                    .SetFont(fonte)
+                    .SetWidth(10)
+                    .SetBackgroundColor(new DeviceRgb(16, 24, 11), 0.1f)
+                    .SetHeight(12)
+                    .SetBorder(Border.NO_BORDER)
+                    .SetFontSize(7)
+                    .Add(new Paragraph(viaticos.Llega_k));
+
             vuelos.AddCell(ruta);
             vuelos.AddCell(fechasalida);
             vuelos.AddCell(linea);
@@ -1109,18 +1220,30 @@ namespace ConaviWeb.Controllers.RH
             vuelos.AddCell(txt4);
             vuelos.AddCell(txt5);
             vuelos.AddCell(txt6);
-            vuelos.AddCell(rutallegada);
-            vuelos.AddCell(fecharegreso);
-            vuelos.AddCell(vueloregreso);
-            vuelos.AddCell(saleregreso);
-            vuelos.AddCell(llegaregreso);
-            vuelos.AddCell(txt11);
+            //vuelos.AddCell(rutallegada);
+            //vuelos.AddCell(fecharegreso);
+            //vuelos.AddCell(vueloregreso);
+            //vuelos.AddCell(saleregreso);
+            //vuelos.AddCell(llegaregreso);
+            //vuelos.AddCell(txt11);
             vuelos.AddCell(txt22);
             vuelos.AddCell(txt33);
             vuelos.AddCell(txt44);
             vuelos.AddCell(txt55);
             vuelos.AddCell(txt66);
             vuelos.AddCell(txt77);
+            vuelos.AddCell(txtRutaJ);
+            vuelos.AddCell(fecha3);
+            vuelos.AddCell(txtLJ);
+            vuelos.AddCell(txtVueloJ);
+            vuelos.AddCell(txtSaleJ);
+            vuelos.AddCell(txtLLegaJ);
+            vuelos.AddCell(txtRutaK);
+            vuelos.AddCell(fecha4);
+            vuelos.AddCell(txtLK);
+            vuelos.AddCell(txtVueloK);
+            vuelos.AddCell(txtSaleK);
+            vuelos.AddCell(txtLLegaK);
             doc.Add(vuelos);
             //SeAgregaCampoParaFirmar
             //Table firma2 = new Table(1, false);

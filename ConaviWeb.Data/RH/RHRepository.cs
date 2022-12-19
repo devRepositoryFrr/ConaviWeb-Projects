@@ -46,12 +46,16 @@ namespace ConaviWeb.Data.RH
                                 importe_gastos,
                                 total_peajes,
                                 img_traza_ruta,
+                                destino_1,
                                 fecha_1,
                                 horario_estimado_1,
+                                destino_2,
                                 fecha_2,
                                 horario_estimado_2,
+                                destino_3,
                                 fecha_3,
                                 horario_estimado_3,
+                                destino_4,
                                 fecha_4,
                                 horario_estimado_4,
                                 linea_aerea,
@@ -82,12 +86,16 @@ namespace ConaviWeb.Data.RH
                                 @Importe_gastos,
                                 @Total_peajes,
                                 @Traza_ruta,
+                                @Destino_1,
                                 @Fecha_1,
                                 @Horario_1,
+                                @Destino_2,                                
                                 @Fecha_2,
                                 @Horario_2,
+                                @Destino_3,
                                 @Fecha_3,
                                 @Horario_3,
+                                @Destino_4,
                                 @Fecha_4,
                                 @Horario_4,
                                 @Linea_aerea,
@@ -121,12 +129,16 @@ namespace ConaviWeb.Data.RH
                 viaticos.Importe_gastos,
                 viaticos.Total_peajes,
                 viaticos.Traza_ruta,
+                viaticos.Destino_1,
                 viaticos.Fecha_1,
                 viaticos.Horario_1,
+                viaticos.Destino_2,
                 viaticos.Fecha_2,
                 viaticos.Horario_2,
+                viaticos.Destino_3,
                 viaticos.Fecha_3,
                 viaticos.Horario_3,
+                viaticos.Destino_4,
                 viaticos.Fecha_4,
                 viaticos.Horario_4,
                 viaticos.Linea_aerea,
@@ -151,7 +163,7 @@ namespace ConaviWeb.Data.RH
                        SELECT sv.id AS Id,
                                 sv.id_usuario AS IdUsuario,
                             folio AS Folio,
-                            fecha_registro AS FechaSol,
+                            date_format(fecha_registro, '%d/%m/%Y') AS FechaSol,
                             concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
                             u.cargo AS Puesto ,
                             u.id AS IdUsuario,
@@ -171,10 +183,18 @@ namespace ConaviWeb.Data.RH
                             importe_gastos AS Importe_gastos ,
                             total_peajes AS Total_peajes ,
                             img_traza_ruta AS Traza_ruta ,
-                            fecha_salida AS Fecha_salida ,
-                            fecha_regreso AS Fecha_regreso ,
-                            horario_estimado_s AS Horario_salida ,
-                            horario_estimado_r AS Horario_regreso ,
+                            destino_1 AS Destino_1,
+                            fecha_1 AS Fecha_1,
+                            horario_estimado_1 AS Horario_1,
+                            destino_2 AS Destino_2,
+                            fecha_2 AS Fecha_2,
+                            horario_estimado_2 AS Horario_2,
+                            destino_3 AS Destino_3,
+                            fecha_3 AS Fecha_3,
+                            horario_estimado_3 AS Horario_3,
+                            destino_4 AS Destino_4,
+                            fecha_4 AS Fecha_4,
+                            horario_estimado_4 AS Horario_4,
                             linea_aerea AS Linea_aerea ,
                             ruta_i AS Ruta_i ,
                             vuelo_i AS Vuelo_i ,
@@ -184,6 +204,14 @@ namespace ConaviWeb.Data.RH
                             vuelo_f AS Vuelo_f ,
                             sale_f AS Sale_f ,
                             llega_f AS Llega_f,
+                            ruta_j AS Ruta_j ,
+                            vuelo_j AS Vuelo_j ,
+                            sale_j AS Sale_j ,
+                            llega_j AS Llega_j,
+                            ruta_k AS Ruta_k ,
+                            vuelo_k AS Vuelo_k ,
+                            sale_k AS Sale_k ,
+                            llega_k AS Llega_k,
                             estatus AS Estatus,
                             obs_cancela AS ObsCan,
                             archivo_pago AS Archivo_pago,
@@ -195,7 +223,7 @@ namespace ConaviWeb.Data.RH
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN qa_adms_conavi.usuario u ON u.id = sv.id_usuario
                         JOIN qa_adms_conavi.c_area ca ON ca.id = u.id_area
-                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado; ";
+                        JOIN prod_catalogos.c_entidad_federativa cef on cef.clave = sv.clave_estado order by sv.id desc; ";
 
             return await db.QueryAsync<Viaticos>(sql, new { });
         }
@@ -259,7 +287,8 @@ namespace ConaviWeb.Data.RH
             var sql = @"
                         SELECT sv.id AS Id,
                             folio AS Folio,
-                            fecha_registro AS FechaSol,
+                            date_format(fecha_registro, '%d/%m/%Y') AS FechaSol,
+                            concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido)  AS Nombre,
                             estatus AS Estatus,
                             (select af.nombre_archivo_firma from prod_web_efirma.archivo_origen ao
 							join prod_web_efirma.archivo_firma af on af.id_archivo_padre = ao.id
@@ -267,7 +296,7 @@ namespace ConaviWeb.Data.RH
 							ORDER BY af.id DESC LIMIT 1) AS Archivo_firma
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN qa_adms_conavi.usuario u ON u.id = sv.id_usuario
-                        WHERE sv.id_usuario = @IdUser;";
+                        WHERE sv.id_usuario = @IdUser ORDER BY sv.id desc;";
 
             return await db.QueryAsync<Viaticos>(sql, new { IdUser = idUser });
         }
@@ -339,7 +368,15 @@ namespace ConaviWeb.Data.RH
                             ruta_f = @Ruta_f, 
                             vuelo_f = @Vuelo_f, 
                             sale_f = @Sale_f, 
-                            llega_f = @Llega_f
+                            llega_f = @Llega_f,
+                            ruta_j = @Ruta_j, 
+                            vuelo_j = @Vuelo_j, 
+                            sale_j = @Sale_j, 
+                            llega_j = @Llega_j, 
+                            ruta_k = @Ruta_k, 
+                            vuelo_k = @Vuelo_k, 
+                            sale_k = @Sale_k, 
+                            llega_k = @Llega_k
                         WHERE id = @Id;";
 
             var result = await db.ExecuteAsync(sql, new
@@ -353,7 +390,15 @@ namespace ConaviWeb.Data.RH
                 viaticos.Ruta_f,
                 viaticos.Vuelo_f,
                 viaticos.Sale_f,
-                viaticos.Llega_f
+                viaticos.Llega_f,
+                viaticos.Ruta_j,
+                viaticos.Vuelo_j,
+                viaticos.Sale_j,
+                viaticos.Llega_j,
+                viaticos.Ruta_k,
+                viaticos.Vuelo_k,
+                viaticos.Sale_k,
+                viaticos.Llega_k
             });
             return result > 0;
         }
@@ -402,10 +447,14 @@ namespace ConaviWeb.Data.RH
                             ifnull(dotacion_combustible,'') AS Dotacion_combustible ,
 							ifnull(importe_gastos,'') AS Importe_gastos ,
 							ifnull(total_peajes,'') AS Total_peajes,
-                            ifnull(fecha_salida,'') AS Fecha_salida ,
-                            ifnull(fecha_regreso,'') AS Fecha_regreso ,
-                            ifnull(horario_estimado_s,'') AS Horario_salida ,
-							ifnull(horario_estimado_r,'') AS Horario_regreso ,
+                            ifnull(fecha_1,'') AS Fecha_1,
+							ifnull(horario_estimado_1,'') AS Horario_1,
+							ifnull(fecha_2,'') AS Fecha_2,
+							ifnull(horario_estimado_2,'') AS Horario_2,
+							ifnull(fecha_3,'') AS Fecha_3,
+							ifnull(horario_estimado_3,'') AS Horario_3,
+							ifnull(fecha_4,'') AS Fecha_4,
+							ifnull(horario_estimado_4,'') AS Horario_4,
 							ifnull(linea_aerea,'') AS Linea_aerea ,
 							ifnull(ruta_i,'') AS Ruta_i ,
 							ifnull(vuelo_i,'') AS Vuelo_i ,
@@ -415,6 +464,14 @@ namespace ConaviWeb.Data.RH
 							ifnull(vuelo_f,'') AS Vuelo_f ,
 							ifnull(sale_f,'') AS Sale_f ,
 							ifnull(llega_f,'') AS Llega_f,
+                            ifnull(ruta_j,'') AS Ruta_j ,
+							ifnull(vuelo_j,'') AS Vuelo_j ,
+							ifnull(sale_j,'') AS Sale_j ,
+							ifnull(llega_j,'') AS Llega_j,
+                            ifnull(ruta_k,'') AS Ruta_k ,
+							ifnull(vuelo_k,'') AS Vuelo_k ,
+							ifnull(sale_k,'') AS Sale_k ,
+							ifnull(llega_k,'') AS Llega_k,
                             total_viaticos AS TotalViaticos
                         FROM prod_rh.solicitud_viaticos sv
                         JOIN qa_adms_conavi.usuario u ON u.id = sv.id_usuario

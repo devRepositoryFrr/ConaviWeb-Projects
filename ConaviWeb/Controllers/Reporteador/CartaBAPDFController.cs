@@ -36,7 +36,7 @@ namespace ConaviWeb.Controllers.Reporteador
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var benefs = await _reporteadorRepository.GetCartasBA(6);
+            var benefs = await _reporteadorRepository.GetCartasBA(8);
             foreach (var benef in benefs)
             {
                 ManipulatePdf(benef);

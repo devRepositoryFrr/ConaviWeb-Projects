@@ -12,9 +12,7 @@
         </div>
     </div>
     <div class="form-group col-md-4">
-        <div id="alertAjax" class="form-group">
-            @Html.Raw(@ViewBag.Alert)
-        </div>
+        
     </div>
     <div class="form-group col-md-4">
         @*<a href="@Url.Action("GetAllBenef", "PevC2sr")"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>*@
@@ -133,17 +131,101 @@
                                 //console.log("usuario: ", idUser);
                                 let foo = valor.indexOf("_")
                                 $("#" + id).attr("src", "/doc/RH/SolicitudViaticos/" + valor.substring(0, foo) +"/"+ valor);
-                            } else {
+                            } else if (id == "linea_aerea") {
+                                $("#txtLinea_aerea").val(valor);
+                            } 
+                            else if (id == "ruta_i") {
+                                $("#txtRuta_i").val(valor);
+                            } else if (id == "vuelo_i") {
+                                $("#txtVuelo_i").val(valor);
+                            } else if (id == "sale_i") {
+                                $("#txtSale_i").val(valor);
+                            } else if (id == "llega_i") {
+                                $("#txtLlega_i").val(valor);
+                            }
+                            else if (id == "ruta_f") {
+                                $("#txtRuta_f").val(valor);
+                            } else if (id == "vuelo_f") {
+                                $("#txtVuelo_f").val(valor);
+                            } else if (id == "sale_f") {
+                                $("#txtSale_f").val(valor);
+                            } else if (id == "llega_f") {
+                                $("#txtLlega_f").val(valor);
+                            }
+                            else if (id == "ruta_j") {
+                                $("#txtRuta_j").val(valor);
+                            } else if (id == "vuelo_j") {
+                                $("#txtVuelo_j").val(valor);
+                            } else if (id == "sale_j") {
+                                $("#txtSale_j").val(valor);
+                            } else if (id == "llega_j") {
+                                $("#txtLlega_j").val(valor);
+                            }
+                            else if (id == "ruta_k") {
+                                $("#txtRuta_k").val(valor);
+                            } else if (id == "vuelo_k") {
+                                $("#txtVuelo_k").val(valor);
+                            } else if (id == "sale_k") {
+                                $("#txtSale_k").val(valor);
+                            } else if (id == "llega_k") {
+                                $("#txtLlega_k").val(valor);
+                            }
+                            else {
                                 $("#" + id).text(valor);
                             }
 
                         } else {
                             $("#" + id).text("");
+                            if (id == "ruta_i") {
+                                $("#txtRuta_i").val("");
+                            } else if (id == "vuelo_i") {
+                                $("#txtVuelo_i").val("");
+                            } else if (id == "sale_i") {
+                                $("#txtSale_i").val("");
+                            } else if (id == "llega_i") {
+                                $("#txtLlega_i").val("");
+                            }
+                            else if (id == "ruta_f") {
+                                $("#txtRuta_f").val("");
+                            } else if (id == "vuelo_f") {
+                                $("#txtVuelo_f").val("");
+                            } else if (id == "sale_f") {
+                                $("#txtSale_f").val("");
+                            } else if (id == "llega_f") {
+                                $("#txtLlega_f").val("");
+                            }
+                            else if (id == "ruta_j") {
+                                $("#txtRuta_j").val("");
+                            } else if (id == "vuelo_j") {
+                                $("#txtVuelo_j").val("");
+                            } else if (id == "sale_j") {
+                                $("#txtSale_j").val("");
+                            } else if (id == "llega_j") {
+                                $("#txtLlega_j").val("");
+                            }
+                            else if (id == "ruta_k") {
+                                $("#txtRuta_k").val("");
+                            } else if (id == "vuelo_k") {
+                                $("#txtVuelo_k").val("");
+                            } else if (id == "sale_k") {
+                                $("#txtSale_k").val("");
+                            } else if (id == "llega_k") {
+                                $("#txtLlega_k").val("");
+                            }
+
+                            else if (id == "linea_aerea") {
+                                $("#txtLinea_aerea").val("");
+                            }
                         }
                         //$("#" + id).attr("disabled", true);
                     });
 
                     $("#partial").removeClass("hidden");
+                    $("#tr_vuelos_2").addClass("hidden");
+                    $("#tr_vuelos_3").addClass("hidden");
+                    $("#tr_vuelos_4").addClass("hidden");
+                    $(".input-sm").attr("disabled", 'disabled');
+                    $(".validate").addClass("hidden");
                     scroll("partial");
                     ValidaVehiculo();
                     ValidaAvion();
@@ -303,12 +385,24 @@
 
         function ValidaCaptura() {
             //console.log("entro Avion: ", $("#fecha salida").text());
-            var linea = $('#fecha_salida').text();
+            var linea = $('#fecha_1').text();
+            var linea2 = $('#fecha_2').text();
+            var linea3 = $('#fecha_3').text();
+            var linea4 = $('#fecha_4').text();
             var datosavion = $("#linea_aerea").text()
             console.log("fecha_salida: ", datosavion);
 
             if (linea != "") {
                 console.log("mostrar captura");
+                if (linea2 != "") {
+                    $("#tr_vuelos_2").removeClass("hidden");
+                }
+                if (linea3 != "") {
+                    $("#tr_vuelos_3").removeClass("hidden");
+                }
+                if (linea4 != "") {
+                    $("#tr_vuelos_4").removeClass("hidden");
+                }
                 if (datosavion != "") {
                     $("#datosAvion").removeClass("hidden");
                 }
@@ -325,10 +419,10 @@
         }
         function ValidaAvion() {
             //console.log("entro Avion: ", $("#fecha salida").text());
-            var salida = $('#fecha_salida').text();
-            var regreso = $('#fecha_regreso').text();
-            var salidaav = $('#horario_salidaav').text();
-            var regresoav = $('#horario_regresoav').text();
+            var salida = $('#fecha_1').text();
+            var regreso = $('#fecha_2').text();
+            var salidaav = $('#horario_1').text();
+            var regresoav = $('#horario_2').text();
             //console.log(salida);
 
             if (salida != "" || regreso != "" || salidaav != "" || regresoav != "") {

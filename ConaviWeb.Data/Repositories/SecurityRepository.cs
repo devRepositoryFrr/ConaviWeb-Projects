@@ -32,7 +32,7 @@ namespace ConaviWeb.Data.Repositories
             var sql = @"
                         SELECT u.id AS Id, concat(nombre,' ',primer_apellido,' ',segundo_apellido) Name, usuario AS SUser, id_rol AS Rol, id_sistema AS Sistema,
                         controlador Controller,
-                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel, update_pass UpdatePass
+                        u.cargo Cargo, u.numero_empleado NuEmpleado, ca.descripcion Area, clave_nivel CvNivel, update_pass UpdatePass, email Email
                         FROM qa_adms_conavi.usuario u 
                         LEFT JOIN qa_adms_conavi.c_area ca ON ca.id = u.id_area
                         LEFT JOIN qa_adms_conavi.c_sistema cs ON cs.id = u.id_sistema

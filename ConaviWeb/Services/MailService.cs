@@ -21,9 +21,16 @@ namespace ConaviWeb.Services
         }
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
+            InternetAddressList list = new InternetAddressList();
+            string[] ToMuliId = mailRequest.ToEmail.Split(',');
+            foreach (string ToEMailId in ToMuliId)
+            {
+                list.Add(InternetAddress.Parse(ToEMailId));
+            }
             var email = new MimeMessage();
             email.Sender = MailboxAddress.Parse(_mailSetting.Mail);
-            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            //email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            email.To.AddRange(list);
             email.Subject = mailRequest.Subject;
             var builder = new BodyBuilder();
             if (mailRequest.Attachments != null)

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static ConaviWeb.Models.AlertsViewModel;
 
@@ -51,7 +52,7 @@ namespace ConaviWeb.Controllers.RH
             Viaticos viaticos = JsonConvert.DeserializeObject<Viaticos>(json);
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             viaticos.IdUsuario = user.Id;
-            viaticos.Folio = user.NuEmpleado + DateTime.Now.ToString("_MMddyyyy");
+            viaticos.Folio = user.NuEmpleado + DateTime.Now.ToString("_MMddyHHmmss");
             if (file != null)
             {
                 var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", "SolicitudViaticos", user.NuEmpleado);
@@ -75,7 +76,7 @@ namespace ConaviWeb.Controllers.RH
                 mail.Append("https://sistemaintegraloperativo.conavi.gob.mx:9090</td></tr></table>");
                 mail.Append("<p><b>NO RESPONDA ESTE CORREO, ES UN ENVÍO AUTOMATIZADO.</b></p></body></html>");
                 MailRequest mailRequest = new();
-                mailRequest.ToEmail = "frojas@conavi.gob.mx";
+                mailRequest.ToEmail = user.Email+",frojas@conavi.gob.mx"; //"paparicio@conavi.gob.mx";
                 mailRequest.Subject = "Solicitud de viáticos.";
                 mailRequest.Body = mail.ToString();
                 bool send = await SendMail(mailRequest);
@@ -89,6 +90,19 @@ namespace ConaviWeb.Controllers.RH
             //}
             //return BadRequest();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSolicitudesAsync()
+        {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var success = await _rHRepository.GetSolicitudesUser(user.Id);
+            if (!success.Any())
+            {
+                return BadRequest();
+            }
+            return Json(new { data = success });
+        }
+
         public async Task<bool> SendMail(MailRequest request)
         {
             try

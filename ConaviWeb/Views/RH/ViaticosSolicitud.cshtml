@@ -12,6 +12,48 @@
         <div class="panel-body">
             <div class="panel-group ficha-collapse" id="Cgeneral">
                 <div class="panel-default" style="padding:10px">
+                    <div class="panel-heading border-colapse">
+                        <h4 class="panel-title">
+                            <a data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral" aria-expanded="true" aria-controls="Pgeneral">
+                                <i class="fa fa-suitcase"></i> Lista de solicitudes de  viáticos anticipados
+                            </a>
+                        </h4>
+                        <button type="button" class="collpase-button collapse" data-parent="#Cgeneral" data-toggle="collapse" href="#Pgeneral"></button>
+                    </div>
+                    <div class="panel-collapse collapse in border-colapse" id="Pgeneral">
+                        <div class="panel-body">
+                            <div id="divTable" class="form-group">
+                                <form id="formTable">
+                                    <table id="table" class="table" style="width: 100%">
+                                        <thead>
+                                            <tr style="font-size:15px;">
+                                                <th>
+                                                    ID
+                                                </th>
+                                                <th>
+                                                    FECHA
+                                                </th>
+                                                <th>
+                                                    # COMISIÓN
+                                                </th>
+                                                <th>
+                                                    NOMBRE
+                                                </th>
+                                                <th>
+                                                    ARCHIVO
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
                     <form id="form_viaticos">
                         <!--General-->
                         <div class="panel-heading border-colapse">
@@ -119,7 +161,7 @@
                                         <p>
                                             <small>Observaciones</small>
                                             <textarea placeholder="Especifique observaciones" class="form-control" id="txtObservaciones" name="Observaciones" style="resize:none"></textarea>
-                                            <small id="lblObservaciones" class="hidden">Campo requerido *</small>
+                                            @*<small id="lblObservaciones" class="hidden">Campo requerido *</small>*@
                                         </p>
                                     </div>
                                 </div>
@@ -285,23 +327,35 @@
                                     <hr class="red" />
                                     <div class="row">
                                         <div id="alertV" class="col-md-12">
-                                            <div class='alertaOp alert alert-danger' id='alertVuelos' style="display:none">Los campos Fecha y Horario son requeridos.</div>
+                                            <div class='alertaOp alert alert-danger' id='alertVuelos' style="display:none">Los campos Destino, Fecha y Horario son requeridos.</div>
                                         </div>
                                     </div>
                                     <!--<div class="row">
-        <div class="col-md-4">
-            <small>Numero de vuelos</small>
-            <select class="form-control" id="slctNVuelo" name="NVuelo">
-                <option value="">---Seleccione---</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-        </div>
-    </div>-->
+                                        <div class="col-md-4">
+                                            <small>Numero de vuelos</small>
+                                            <select class="form-control" id="slctNVuelo" name="NVuelo">
+                                                <option value="">---Seleccione---</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
                                     <div class="row" id="vuelo_1">
-                                        <div class="col-md-6" id="fecha_v1">
+                                        <div class="col-md-4" id="destino_v1">
+                                            <p>
+                                                <small>Destino de vuelo #1</small>
+                                                <div class="form-group">
+                                                    <input class="form-control calendar" autocomplete="off" id="txtDestino_1" name="Destino_1" type="text" />
+                                                </div>
+                                                <small id="lblDestino_1" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo1" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4" id="fecha_v1">
                                             <p>
                                                 <small>Fecha de vuelo #1</small>
                                                 <div class="form-group datepicker-group">
@@ -310,11 +364,8 @@
                                                 </div>
                                                 <small id="lblFecha_1" class="hidden">Campo requerido *</small>
                                             </p>
-                                            <p>
-                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo1" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
-                                            </p>
                                         </div>
-                                        <div class="col-md-6" id="horario_v1">
+                                        <div class="col-md-4" id="horario_v1">
                                             <p>
                                                 <small>Horario estimado de vuelo #1</small>
                                                 <div class="form-group">
@@ -326,7 +377,20 @@
 
                                     </div>
                                     <div class="row hidden" id="vuelo_2">
-                                        <div class="col-md-6" id="fecha_v2">
+                                        <div class="col-md-4" id="destino_v2">
+                                            <p>
+                                                <small>Destino de vuelo #2</small>
+                                                <div class="form-group">
+                                                    <input class="form-control calendar" autocomplete="off" id="txtDestino_2" name="Destino_2" type="text" />
+                                                </div>
+                                                <small id="lblDestino_2" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo2" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela1" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4" id="fecha_v2">
                                             <p>
                                                 <small>Fecha de vuelo #2</small>
                                                 <div class="form-group datepicker-group">
@@ -336,12 +400,8 @@
 
                                                 <small id="lblFecha_2" class="hidden">Campo requerido *</small>
                                             </p>
-                                            <p>
-                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo2" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela1" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                                            </p>
                                         </div>
-                                        <div class="col-md-6" id="horario_v2">
+                                        <div class="col-md-4" id="horario_v2">
                                             <p>
                                                 <small>Horario estimado de vuelo #2</small>
                                                 <div class="form-group">
@@ -352,7 +412,20 @@
                                         </div>
                                     </div>
                                     <div class="row hidden" id="vuelo_3">
-                                        <div class="col-md-6" id="fecha_v3">
+                                        <div class="col-md-4" id="destino_v3">
+                                            <p>
+                                                <small>Destino de vuelo #3</small>
+                                                <div class="form-group">
+                                                    <input class="form-control calendar" autocomplete="off" id="txtDestino_3" name="Destino_3" type="text" />
+                                                </div>
+                                                <small id="lblDestino_3" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo3" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela2" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4" id="fecha_v3">
                                             <p>
                                                 <small>Fecha de vuelo #3</small>
                                                 <div class="form-group datepicker-group">
@@ -361,12 +434,8 @@
                                                 </div>
                                                 <small id="lblFecha_3" class="hidden">Campo requerido *</small>
                                             </p>
-                                            <p>
-                                                <button class="btn btn-primary btn-xs" title="Agregar vuelo" id="btn_vuelo3" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela2" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                                            </p>
                                         </div>
-                                        <div class="col-md-6" id="horario_v3">
+                                        <div class="col-md-4" id="horario_v3">
                                             <p>
                                                 <small>Horario estimado de vuelo #3</small>
                                                 <div class="form-group">
@@ -377,7 +446,19 @@
                                         </div>
                                     </div>
                                     <div class="row hidden" id="vuelo_4">
-                                        <div class="col-md-6" id="fecha_v4">
+                                        <div class="col-md-4" id="destino_v4">
+                                            <p>
+                                                <small>Destino de vuelo #4</small>
+                                                <div class="form-group">
+                                                    <input class="form-control calendar" autocomplete="off" id="txtDestino_4" name="Destino_4" type="text" />
+                                                </div>
+                                                <small id="lblDestino_4" class="hidden">Campo requerido *</small>
+                                            </p>
+                                            <p>
+                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela3" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-4" id="fecha_v4">
                                             <p>
                                                 <small>Fecha de vuelo #4</small>
                                                 <div class="form-group datepicker-group">
@@ -386,11 +467,8 @@
                                                 </div>
                                                 <small id="lblFecha_4" class="hidden">Campo requerido *</small>
                                             </p>
-                                            <p>
-                                                <button class="btn btn-primary btn-xs" title="Eliminar vuelo" id="btn_cancela3" type="button"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-                                            </p>
                                         </div>
-                                        <div class="col-md-6" id="horario_v4">
+                                        <div class="col-md-4" id="horario_v4">
                                             <p>
                                                 <small>Horario estimado de vuelo #4</small>
                                                 <div class="form-group">
@@ -413,87 +491,10 @@
                                             <p>
                                                 <small>Observaciones</small>
                                                 <textarea class="form-control" id="txtObs_aereo" name="Obs_aereo" rows="5"></textarea>
-                                                <small id="lblObs_aereo" class="hidden">Campo requerido *</small>
+                                                @*<small id="lblObs_aereo" class="hidden">Campo requerido *</small>*@
                                             </p>
                                         </div>
                                     </div>
-                                    @*<div class="row">
-        <div class="col-md-6">
-        <p>
-        <small>Línea aérea</small>
-        <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
-        <small id="lblLinea_aerea" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        </div>
-        <div class="row">
-        <div class="col-md-4">
-        <p>
-        <small>Ruta</small>
-        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
-        <small id="lblRuta_i" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-
-
-        <div class="col-md-2">
-        <p>
-        <small>Vuelo</small>
-        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
-        <small id="lblVuelo_i" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
-        <p>
-        <small>Sale</small>
-        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
-        <small id="lblSale_i" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        <div class="col-md-2">
-        <p>
-
-        <small>Llega</small>
-        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
-        <small id="lblLlega_i" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        </div>
-        <div class="row">
-        <div class="col-md-4">
-        <p>
-        <small>Ruta</small>
-        <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
-        <small id="lblRuta_f" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        <div class="col-md-2">
-        <p>
-        <small>Vuelo</small>
-        <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
-        <small id="lblVuelo_f" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
-        <p>
-        <small>Sale</small>
-        <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
-        <small id="lblSale_f" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        <div class="col-md-2">
-        <p>
-        <small>Llega</small>
-        <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
-        <small id="lblLlega_f" class="hidden">Campo requerido *</small>
-        </p>
-        </div>
-        </div>
-        </div>*@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4" style="float:right">
@@ -517,11 +518,17 @@
     </div>
 </div>
 <div id="results"></div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 
 <script>
+    var table;
+    var dataJSON;
     $(document).ready(function () {
         showAlert();
+        $("#spinner").hide();
+        showTable();
         //$("#txtNombre").val("Luis Manuel Mendoza González");
         //$("#txtPuesto").val("Desarrollador");
         //$("#txtArea_adscripcion").val("Subdirección de sistemas");
@@ -540,19 +547,6 @@
         });
 
     });
-    /*//datepickers
-    var dateToday = new Date();
-    var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
-        minDate: dateToday,
-        onSelect: function (selectedDate) {
-            var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
-                instance = $(this).data("datepicker"),
-                date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-            periodo.not(this).datepicker("option", option, date);
-
-            obtenerDias($('#txtPeriodo_comision_i').val(), $('#txtPeriodo_comision_f').val());
-        }
-    });*/
 
     var aereo = $("#txtFecha_1, #txtFecha_2, #txtFecha_3, #txtFecha_4").datepicker({
         minDate: "+2d",
@@ -573,6 +567,7 @@
             $('#txtPeriodo_comision_f').datepicker('destroy');
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
                 minDate: "+2d",
+                maxDate: "+9d",
                 showWeek: true,
                 onSelect: function (selectedDate) {
                     var option = this.id == "txtPeriodo_comision_i" ? "minDate" : "maxDate",
@@ -693,12 +688,14 @@
     var v1, v2, v3;
 
     $('#btn_vuelo1').click(function () {
+        var destino_vuelo_1 = $('#txtDestino_1').val();
         var fecha_vuelo_1 = $('#txtFecha_1').val();
         var hora_vuelo_1 = $('#slctHorario_1').val();
-        if (fecha_vuelo_1 == "" || hora_vuelo_1 == "") {
+        if (destino_vuelo_1 == "" || fecha_vuelo_1 == "" || hora_vuelo_1 == "") {
             showAlertVuelos();
         }
         else {
+            const $de1 = document.querySelector("#txtDestino_1")
             const $in1 = document.querySelector("#txtFecha_1")
             const $in2 = document.querySelector("#slctHorario_1")
             $('#vuelo_2').removeClass('hidden');
@@ -713,6 +710,7 @@
             $("#guardar_vuelos1").removeClass("hidden");
             $in1.setAttribute("disabled", 1);
             $in2.setAttribute("disabled", 1);
+            $de1.setAttribute("disabled", 1);
             v1 = fecha_vuelo_1;
             $("#txtFecha_2").datepicker('option', 'minDate', v1);
             $("#txtFecha_2").datepicker('option', 'maxDate', max);
@@ -722,21 +720,28 @@
     $('#btn_cancela1').click(function () {
         $('#vuelo_2').addClass('hidden');
         $("#btn_vuelo1").removeClass("hidden");
+        const $des1 = document.querySelector("#txtDestino_1")
         const $in1 = document.querySelector("#txtFecha_1")
         const $in2 = document.querySelector("#slctHorario_1")
+        $des1.removeAttribute("disabled", 1);
         $in1.removeAttribute("disabled", 1);
         $in2.removeAttribute("disabled", 1);
+        $("#txtDestino_2").val("");
+        $("#txtFecha_2").val("");
+        $("#slctHorario_2").val("");
         $("#guardar_vuelos").removeClass("hidden");
         $("#guardar_vuelos1").addClass("hidden");
     })
 
     $('#btn_vuelo2').click(function () {
+        var destino_vuelo_2 = $('#txtDestino_2').val();
         var fecha_vuelo_2 = $('#txtFecha_2').val();
         var hora_vuelo_2 = $('#slctHorario_2').val();
-        if (fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
+        if (destino_vuelo_2 == "" || fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
         showAlertVuelos();
         }
         else {
+            const $des1 = document.querySelector("#txtDestino_2")
             const $in1 = document.querySelector("#txtFecha_2")
             const $in2 = document.querySelector("#slctHorario_2")
             $('#vuelo_1').removeClass('hidden');
@@ -751,6 +756,7 @@
             $("#guardar_vuelos2").removeClass("hidden");
             $in1.setAttribute("disabled", 1);
             $in2.setAttribute("disabled", 1);
+            $des1.setAttribute("disabled", 1);
             v2 = fecha_vuelo_2;
             $("#txtFecha_3").datepicker('option', 'minDate', v2);
             $("#txtFecha_3").datepicker('option', 'maxDate', max);
@@ -762,21 +768,28 @@
         $('#vuelo_3').addClass('hidden');
         $("#btn_vuelo2").removeClass("hidden");
         $("#btn_cancela1").removeClass("hidden");
+        const $de1 = document.querySelector("#txtDestino_2")
         const $in1 = document.querySelector("#txtFecha_2")
         const $in2 = document.querySelector("#slctHorario_2")
+        $de1.removeAttribute("disabled", 1);
         $in1.removeAttribute("disabled", 1);
         $in2.removeAttribute("disabled", 1);
+        $("#txtDestino_3").val("");
+        $("#txtFecha_3").val("");
+        $("#slctHorario_3").val("");
         $("#guardar_vuelos1").removeClass("hidden");
         $("#guardar_vuelos2").addClass("hidden");
     })
 
     $('#btn_vuelo3').click(function () {
+        var destino_vuelo_3 = $('#txtDestino_3').val();
         var fecha_vuelo_3 = $('#txtFecha_3').val();
         var hora_vuelo_3 = $('#slctHorario_3').val();
-        if (fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
+        if (destino_vuelo_3 == "" || fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
             showAlertVuelos();
         }
         else {
+            const $de1 = document.querySelector("#txtDestino_3")
             const $in1 = document.querySelector("#txtFecha_3")
             const $in2 = document.querySelector("#slctHorario_3")
             $('#vuelo_1').removeClass('hidden');
@@ -787,6 +800,7 @@
             $('#btn_cancela2').addClass("hidden");
             $("#guardar_vuelos2").addClass("hidden");
             $("#guardar_vuelos3").removeClass("hidden");
+            $de1.setAttribute("disabled", 1);
             $in1.setAttribute("disabled", 1);
             $in2.setAttribute("disabled", 1);
             v3 = fecha_vuelo_3;
@@ -801,22 +815,31 @@
         $('#vuelo_4').addClass('hidden');
         $("#btn_vuelo3").removeClass("hidden");
         $("#btn_cancela2").removeClass("hidden");
+        const $de1 = document.querySelector("#txtDestino_3")
         const $in1 = document.querySelector("#txtFecha_3")
         const $in2 = document.querySelector("#slctHorario_3")
+        $de1.removeAttribute("disabled", 1);
         $in1.removeAttribute("disabled", 1);
         $in2.removeAttribute("disabled", 1);
+
+        $("#txtDestino_4").val("");
+        $("#txtFecha_4").val("");
+        $("#slctHorario_4").val("");
         $("#guardar_vuelos2").removeClass("hidden");
         $("#guardar_vuelos3").addClass("hidden");
     })
 
-    $('#guardar_vuelos').click(function (){
+    $('#guardar_vuelos').click(function () {
+        var destino_vuelo_1 = $('#txtDestino_1').val();
         var fecha_vuelo_1 = $('#txtFecha_1').val();
         var hora_vuelo_1 = $('#slctHorario_1').val();
+        const $vuelo1d = document.querySelector("#txtDestino_1")
         const $vuelo1f = document.querySelector("#txtFecha_1")
         const $vuelo1h = document.querySelector("#slctHorario_1")
-        if (fecha_vuelo_1 == "" || hora_vuelo_1 == ""){
+        if (destino_vuelo_1 == "" || fecha_vuelo_1 == "" || hora_vuelo_1 == ""){
             showAlertVuelos();
         }else{
+                $vuelo1d.setAttribute("disabled",1);
                 $vuelo1f.setAttribute("disabled",1);
                 $vuelo1h.setAttribute("disabled",1);
                 $("#btn_vuelo1").addClass("hidden");
@@ -826,14 +849,17 @@
             }
     })
 
-        $('#guardar_vuelos1').click(function (){
+    $('#guardar_vuelos1').click(function () {
+        var destino_vuelo_2 = $('#txtDestino_2').val();
         var fecha_vuelo_2 = $('#txtFecha_2').val();
         var hora_vuelo_2 = $('#slctHorario_2').val();
+        const $vuelo2d = document.querySelector("#txtDestino_2")
         const $vuelo2f = document.querySelector("#txtFecha_2")
         const $vuelo2h = document.querySelector("#slctHorario_2")
-            if (fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
+        if (destino_vuelo_2 == "" || fecha_vuelo_2 == "" || hora_vuelo_2 == "") {
                 showAlertVuelos();
         }else{
+                $vuelo2d.setAttribute("disabled",1);
                 $vuelo2f.setAttribute("disabled",1);
                 $vuelo2h.setAttribute("disabled",1);
                 $("#btn_vuelo2").addClass("hidden");
@@ -845,13 +871,16 @@
     })
 
         $('#guardar_vuelos2').click(function (){
+            var destino_vuelo_3 = $('#txtDestino_3').val();
         var fecha_vuelo_3 = $('#txtFecha_3').val();
         var hora_vuelo_3 = $('#slctHorario_3').val();
+            const $vuelo3d = document.querySelector("#txtDestino_3")
         const $vuelo3f = document.querySelector("#txtFecha_3")
         const $vuelo3h = document.querySelector("#slctHorario_3")
-            if (fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
+            if (destino_vuelo_3=="" || fecha_vuelo_3 == "" || hora_vuelo_3 == "") {
                 showAlertVuelos();
         }else{
+                $vuelo3d.setAttribute("disabled",1);
                 $vuelo3f.setAttribute("disabled",1);
                 $vuelo3h.setAttribute("disabled",1);
                 $("#btn_vuelo3").addClass("hidden");
@@ -863,13 +892,16 @@
     })
 
         $('#guardar_vuelos3').click(function (){
+            var destino_vuelo_4 = $('#txtDestino_4').val();
         var fecha_vuelo_4 = $('#txtFecha_4').val();
         var hora_vuelo_4 = $('#slctHorario_4').val();
+            const $vuelo4d = document.querySelector("#txtDestino_4")
         const $vuelo4f = document.querySelector("#txtFecha_4")
         const $vuelo4h = document.querySelector("#slctHorario_4")
-        if (fecha_vuelo_4 == ""){
+            if (destino_vuelo_4 == "" || fecha_vuelo_4 == "" || hora_vuelo_4 == ""){
             showAlertVuelos();
         } else {
+                $vuelo4d.setAttribute("disabled",1);
                 $vuelo4f.setAttribute("disabled",1);
                 $vuelo4h.setAttribute("disabled",1);
                 $("#btn_cancela3").addClass("hidden");
@@ -881,21 +913,29 @@
 
 
 
-    $("#editar_vuelos").click(function (){
+    $("#editar_vuelos").click(function () {
+        const $vuelo1d = document.querySelector("#txtDestino_1")
         const $vuelo1f = document.querySelector("#txtFecha_1")
         const $vuelo1h = document.querySelector("#slctHorario_1")
+        const $vuelo2d = document.querySelector("#txtDestino_2")
         const $vuelo2f = document.querySelector("#txtFecha_2")
         const $vuelo2h = document.querySelector("#slctHorario_2")
+        const $vuelo3d = document.querySelector("#txtDestino_3")
         const $vuelo3f = document.querySelector("#txtFecha_3")
         const $vuelo3h = document.querySelector("#slctHorario_3")
+        const $vuelo4d = document.querySelector("#txtDestino_4")
         const $vuelo4f = document.querySelector("#txtFecha_4")
         const $vuelo4h = document.querySelector("#slctHorario_4")
+        $vuelo1d.removeAttribute("disabled",1);
         $vuelo1f.removeAttribute("disabled",1);
         $vuelo1h.removeAttribute("disabled",1);
+        $vuelo2d.removeAttribute("disabled",1);
         $vuelo2f.removeAttribute("disabled",1);
         $vuelo2h.removeAttribute("disabled",1);
+        $vuelo3d.removeAttribute("disabled",1);
         $vuelo3f.removeAttribute("disabled",1);
         $vuelo3h.removeAttribute("disabled",1);
+        $vuelo4d.removeAttribute("disabled",1);
         $vuelo4f.removeAttribute("disabled",1);
         $vuelo4h.removeAttribute("disabled",1);
         $("#guardar_vuelos").removeClass("hidden");
@@ -910,12 +950,16 @@
         $("#btn_cancela2").removeClass("hidden");
         $("#btn_cancela3").removeClass("hidden");
         $("#btnGeneral").addClass("hidden");
+        $("#txtDestino_1").val("");
         $("#txtFecha_1").val("");
         $("#slctHorario_1").val("");
+        $("#txtDestino_2").val("");
         $("#txtFecha_2").val("");
         $("#slctHorario_2").val("");
+        $("#txtDestino_3").val("");
         $("#txtFecha_3").val("");
         $("#slctHorario_3").val("");
+        $("#txtDestino_4").val("");
         $("#txtFecha_4").val("");
         $("#slctHorario_4").val("");
         $('#vuelo_2').addClass('hidden');
@@ -964,30 +1008,6 @@
     });
 
 
-    //$("#txtNum_casetas").keyup(function(e){
-    //    if(!/^[0-9]*$/.test(this.value)){
-    //    this.value = this.value.split(/[^0-9.]/).join("");
-    //    }
-    //     if($(this).val().length >= 7) {
-    //     $(this).val($(this).val().slice(0, 7));
-    //        return false;
-    //        }
-    //});
-
-    //$("#txtImporte_gastos").keypress(function(e){
-    //    if(!/^[0-9]*$/.test(this.value)){
-    //    this.value = this.value.split(/[^0-9.]/).join("");
-    //    }
-    //     if($(this).val().length >= 7) {
-    //     $(this).val($(this).val().slice(0, 7));
-    //        return false;
-    //        }
-    //});
-
-
-
-
-
 
     $('#btnGeneral').click(function () {
         // Serializar el formulario a JSON
@@ -1013,6 +1033,7 @@
             enviarDatos(json);
             //console.log(json);
         }
+        console.log("fallo ", elementos)
     });
 
     //funciones
@@ -1118,23 +1139,29 @@
             $('#lblTraza_ruta').addClass("hidden");
         }
         $.each(obj, function (key, val) {
-            console.log("error-", key, " : ", val);
+            //console.log("error-", key, " : ", val);
             if (val == null) {
                 $("#lbl" + key).addClass("error-lbl");
                 $("#lbl" + key).removeClass("hidden");
             } else {
                 $("#lbl" + key).removeClass("error-lbl");
                 $("#lbl" + key).addClass("hidden");
+                $("#lblDestino_2").removeClass("error-lbl");
                 $("#lblFecha_2").removeClass("error-lbl");
                 $("#lblHorario_2").removeClass("error-lbl");
+                $("#lblDestino_3").removeClass("error-lbl");
                 $("#lblFecha_3").removeClass("error-lbl");
                 $("#lblHorario_3").removeClass("error-lbl");
+                $("#lblDestino_4").removeClass("error-lbl");
                 $("#lblFecha_4").removeClass("error-lbl");
                 $("#lblHorario_4").removeClass("error-lbl");
+                $("#lblDestino_2").addClass("hidden");
                 $("#lblFecha_2").addClass("hidden");
                 $("#lblHorario_2").addClass("hidden");
+                $("#lblDestino_3").addClass("hidden");
                 $("#lblFecha_3").addClass("hidden");
                 $("#lblHorario_3").addClass("hidden");
+                $("#lblDestino_4").addClass("hidden");
                 $("#lblFecha_4").addClass("hidden");
                 $("#lblHorario_4").addClass("hidden");
             }
@@ -1157,7 +1184,7 @@
 
         let exclude2;
         if ($("#switch_aereo").prop('checked') == false) {
-            exclude2 = ["lblFecha_salida", "lblFecha_regreso", "lblHorario_salida", "lblHorario_regreso", "lblObs_aereo", "lblFecha_1", "lblHorario_1", "lblFecha_2", "lblHorario_2", "lblFecha_3", "lblHorario_3", "lblFecha_4", "lblHorario_4"];
+            exclude2 = ["lblFecha_salida", "lblFecha_regreso", "lblHorario_salida", "lblHorario_regreso", "lblObs_aereo", "lblDestino_1", "lblFecha_1", "lblHorario_1", "lblDestino_2", "lblFecha_2", "lblHorario_2", "lblDestino_3", "lblFecha_3", "lblDestino_4", "lblHorario_3", "lblFecha_4", "lblHorario_4","lblObs_aereo"];
         } else {
             exclude2 = [];
         }
@@ -1274,7 +1301,80 @@
         } catch (e) { console.log(e) }
     }
 
+    function showTable() {
 
+            $("#spinner").show();
+            $("#divTable").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: "@Url.Action("GetSolicitudes", "ViaticosSolicitud")",
+                    //url: "/AdminSolicitud/GetSolicitudes",
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    //success: function (data) { console.log(data) },
+                    complete: function (data) {
+                        $("#spinner").hide();
+                        dataJSON = data.responseJSON.data;
+                        console.log(dataJSON);
+                    }
+                },
+                "lengthMenu": [2, 5, 10, 20, 50, 100, 200, 500],
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+    }
+
+    var columns = [
+
+        { "name": "Id", "data": "id", "targets": 0, "visible": false },
+        { "name": "Fecha", "data": "fechaSol", "targets": 1 },
+        { "name": "Folio", "data": "folio", "targets": 2 },
+        { "name": "Nombre", "data": "nombre", "targets": 3 },
+        {
+            "targets": 4,
+            "data": null,
+            "render": function (data, type, row, meta) {
+                if (row.estatus >= 3) {
+                    return '<a href="https://firmaelectronica.conavi.gob.mx:9090/doc/EFirma/Firmado/Recursos_Humanos/' + row.archivo_firma + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+                }
+                return '<a href="../AdminSolicitud/GenerateStreamPDF?id=' + row.id + '" target="_blank"><i class="fa fa-file-pdf-o gold" style="font-size:25px;"></i></a>';
+            },
+            "sortable": false,
+            "className": 'text-center'
+        }
+    ];
 
 
 </script>

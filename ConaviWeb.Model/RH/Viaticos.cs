@@ -30,12 +30,16 @@ namespace ConaviWeb.Model.RH
         //public string Dotacion_combustible { get; set; }
         public string Importe_gastos { get; set; }
         public string Total_peajes { get; set; }
+        public string Destino_1 { get; set; }
         public string Fecha_1 { get; set; }
         public string Horario_1 { get; set; }
+        public string Destino_2 { get; set; }
         public string Fecha_2 { get; set; }
         public string Horario_2 { get; set; }
+        public string Destino_3 { get; set; }
         public string Fecha_3 { get; set; }
         public string Horario_3 { get; set; }
+        public string Destino_4 { get; set; }
         public string Fecha_4 { get; set; }
         public string Horario_4 { get; set; }
         public string Linea_aerea { get; set; }
@@ -47,6 +51,14 @@ namespace ConaviWeb.Model.RH
         public string Vuelo_f { get; set; }
         public string Sale_f { get; set; }
         public string Llega_f { get; set; }
+        public string Ruta_j { get; set; }
+        public string Vuelo_j { get; set; }
+        public string Sale_j { get; set; }
+        public string Llega_j { get; set; }
+        public string Ruta_k { get; set; }
+        public string Vuelo_k { get; set; }
+        public string Sale_k { get; set; }
+        public string Llega_k { get; set; }
         public string FechaSol { get; set; }
         public string Folio { get; set; }
         public string Estatus { get; set; }

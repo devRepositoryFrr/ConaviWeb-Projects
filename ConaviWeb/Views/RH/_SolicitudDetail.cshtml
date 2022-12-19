@@ -176,194 +176,154 @@
                                 <div class="hidden" id="pasajesavion">
                                     <h4>Solicitud de pasajes aéreos</h4>
                                     <hr class="red" />
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Fecha de salida:</strong>
-                                                <div class="form-group datepicker-group">
-                                                    <br>
-                                                    <label class="red-text" id="fecha_salida" name="Fecha_salida" style="font-size:14px"></label>
-                                                </div>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Fecha de regreso:</strong>
-                                                <div class="form-group datepicker-group">
-                                                    <br>
-                                                    <label class="red-text" id="fecha_regreso" name="Fecha_regreso" style="font-size:14px"></label>
-                                                </div>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Horario estimado salida:</strong><br />
-                                                <label class="red-text" id="horario_salida" name="Horario_salida" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Horario estimado regreso:</strong><br />
-                                                <label class="red-text" style="font-size:14px" id="horario_regreso" name="Horario_regreso"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="hidden" id="datosAvion">
-                                    <h4>Línea aérea:</h4>
-                                    <label class="red-text" id="linea_aerea" name="Linea_aerea" style="font-size:14px"></label><br />
-                                    <strong>Vuelo Salida</strong><br /><br />
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Ruta:</strong><br>
-                                                <label class="red-text" id="ruta_i" name="Ruta_i" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Vuelo:</strong><br>
-                                                <label class="red-text" id="vuelo_i" name="Vuelo_i" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Sale:</strong><br>
-                                                <label class="red-text" id="sale_i" name="Sale_i" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-
-                                                <strong>Llega:</strong><br>
-                                                <label class="red-text" id="llega_i" name="Llega_i" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <label>Vuelo Regreso</label>
-                                    <div class="row">
-                                        <br />
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Ruta:</strong><br>
-                                                <label class="red-text" id="ruta_f" name="Ruta_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Vuelo:</strong><br>
-                                                <label class="red-text" id="vuelo_f" name="Vuelo_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Sale:</strong><br>
-                                                <label class="red-text" id="sale_f" name="Sale_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                <strong>Llega:</strong><br>
-                                                <label class="red-text" id="llega_f" name="Llega_f" style="font-size:14px"></label>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="capturaAvion">
+                                    @*<div id="alertAjax" class="form-group">
+                                        @Html.Raw(@ViewBag.Alert)
+                                    </div>*@
                                     <form id="form_avion">
                                         <input class="hidden" id="id" name="Id" />
-                                        <h4>Línea aérea:</h4>
-                                        <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
-                                        <small id="lblLinea_aerea" class="hidden">Campo requerido *</small>
-                                        <br />
-                                        <label>Vuelo Salida</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Ruta:</strong><br>
-                                                    <input placeholder="Especifique ruta" class="form-control" id="txtRuta_i" name="Ruta_i" />
-                                                    <small id="lblRuta_i" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Vuelo:</strong><br>
-                                                    <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_i" name="Vuelo_i" />
-                                                    <small id="lblVuelo_i" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
+                                        <div class="row col-md-4">
+                                            <label>Línea aérea:</label>
+                                            <input placeholder="Especifique línea aérea" class="form-control" id="txtLinea_aerea" name="Linea_aerea" />
+                                            <small id="lblLinea_aerea" class="hidden validate">Campo requerido *</small>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <table id="table" class="table" style="width: 100%">
+                                                <thead>
+                                                    <tr style="font-size:15px;">
+                                                        <th>
+                                                            DESTINO
+                                                        </th>
+                                                        <th>
+                                                            FECHA VUELO
+                                                        </th>
+                                                        <th>
+                                                            HORARIO
+                                                        </th>
+                                                        <th>
+                                                            RUTA
+                                                        </th>
+                                                        <th>
+                                                            VUELO
+                                                        </th>
+                                                        <th>
+                                                            SALE
+                                                        </th>
+                                                        <th>
+                                                            LLEGA
+                                                        </th>
+                                                        <th>
+                                                            EDITAR
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="tr_vuelos_1">
+                                                        <td id="destino_1" name="Destino_1"></td>
+                                                        <td id="fecha_1" name="Fecha_1"></td>
+                                                        <td id="horario_1" name="Horario_1"></td>
+                                                        <td>
+                                                            <input placeholder="Especifique ruta" class="input-sm form-control inp_i" id="txtRuta_i" name="Ruta_i" disabled />
+                                                            <small id="lblRuta_i" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input placeholder="Especifique vuelo" class="input-sm form-control inp_i" id="txtVuelo_i" name="Vuelo_i" disabled />
+                                                            <small id="lblVuelo_i" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique sale" class="input-sm form-control inp_i" id="txtSale_i" name="Sale_i" disabled />
+                                                            <small id="lblSale_i" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique llega" class="input-sm form-control inp_i" id="txtLlega_i" name="Llega_i" disabled />
+                                                            <small id="lblLlega_i" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td id="btn_vuelo_i" style="text-align: center">
+                                                            <a class="select_a" id="btn_1" data-toggle="tooltip" title="Agregar vuelo"><i class="fa fa-pencil gold" style="font-size:25px;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_vuelos_2" class="hidden">
+                                                        <td id="destino_2" name="Destino_2"></td>
+                                                        <td id="fecha_2" name="Fecha_2"></td>
+                                                        <td id="horario_2" name="Horario_2"></td>
+                                                        <td>
+                                                            <input placeholder="Especifique ruta" class="input-sm form-control inp_f" id="txtRuta_f" name="Ruta_f" disabled />
+                                                            <small id="lblRuta_f" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input placeholder="Especifique vuelo" class="input-sm form-control inp_f" id="txtVuelo_f" name="Vuelo_f" disabled />
+                                                            <small id="lblVuelo_f" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique sale" class="input-sm form-control inp_f" id="txtSale_f" name="Sale_f" disabled />
+                                                            <small id="lblSale_f" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique llega" class="input-sm form-control inp_f" id="txtLlega_f" name="Llega_f" disabled />
+                                                            <small id="lblLlega_f" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td id="btn_vuelo_f" style="text-align: center">
+                                                            <a class="select_a" id="btn_2" data-toggle="tooltip" title="Agregar vuelo"><i class="fa fa-pencil gold" style="font-size:25px;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_vuelos_3" class="hidden">
+                                                        <td id="destino_3" name="Destino_3"></td>
+                                                        <td id="fecha_3" name="Fecha_3"></td>
+                                                        <td id="horario_3" name="Horario_3"></td>
+                                                        <td>
+                                                            <input placeholder="Especifique ruta" class="input-sm form-control inp_j" id="txtRuta_j" name="Ruta_j" disabled />
+                                                            <small id="lblRuta_j" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input placeholder="Especifique vuelo" class="input-sm form-control inp_j" id="txtVuelo_j" name="Vuelo_j" disabled />
+                                                            <small id="lblVuelo_j" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique sale" class="input-sm form-control inp_j" id="txtSale_j" name="Sale_j" disabled />
+                                                            <small id="lblSale_j" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique llega" class="input-sm form-control inp_j" id="txtLlega_j" name="Llega_j" disabled />
+                                                            <small id="lblLlega_j" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td id="btn_vuelo_j" style="text-align: center">
+                                                            <a class="select_a" id="btn_3" data-toggle="tooltip" title="Agregar vuelo"><i class="fa fa-pencil gold" style="font-size:25px;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_vuelos_4" class="hidden">
+                                                        <td id="destino_4" name="Destino_4"></td>
+                                                        <td id="fecha_4" name="Fecha_4"></td>
+                                                        <td id="horario_4" name="Horario_4"></td>
+                                                        <td>
+                                                            <input placeholder="Especifique ruta" class="input-sm form-control inp_k" id="txtRuta_k" name="Ruta_k" disabled />
+                                                            <small id="lblRuta_k" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input placeholder="Especifique vuelo" class="input-sm form-control inp_k" id="txtVuelo_k" name="Vuelo_k" disabled />
+                                                            <small id="lblVuelo_k" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique sale" class="input-sm form-control inp_k" id="txtSale_k" name="Sale_k" disabled />
+                                                            <small id="lblSale_k" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time" placeholder="Especifique llega" class="input-sm form-control inp_k" id="txtLlega_k" name="Llega_k" disabled />
+                                                            <small id="lblLlega_k" class="hidden validate">Campo requerido *</small>
+                                                        </td>
+                                                        <td id="btn_vuelo_k" style="text-align: center">
+                                                            <a class="select_a" id="btn_4" data-toggle="tooltip" title="Agregar vuelo"><i class="fa fa-pencil gold" style="font-size:25px;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Sale:</strong><br>
-                                                    <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_i" name="Sale_i" />
-                                                    <small id="lblSale_i" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-
-                                                    <strong>Llega:</strong><br>
-                                                    <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_i" name="Llega_i" />
-                                                    <small id="lblLlega_i" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <label>Vuelo Regreso</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Ruta:</strong><br>
-                                                    <input placeholder="Especifique ruta" class="form-control" id="txtRuta_f" name="Ruta_f" />
-                                                    <small id="lblRuta_f" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Vuelo:</strong><br>
-                                                    <input placeholder="Especifique vuelo" class="form-control" id="txtVuelo_f" name="Vuelo_f" />
-                                                    <small id="lblVuelo_f" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Sale:</strong><br>
-                                                    <input type="time" placeholder="Especifique sale" class="form-control" id="txtSale_f" name="Sale_f" />
-                                                    <small id="lblSale_f" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>
-                                                    <strong>Llega:</strong><br>
-                                                    <input type="time" placeholder="Especifique llega" class="form-control" id="txtLlega_f" name="Llega_f" />
-                                                    <small id="lblLlega_f" class="hidden">Campo requerido *</small>
-                                                </p>
-                                            </div>
-                                        </div>
                                         <div class="row top-buffer">
                                             <div class="col-md-4">
                                                 <button class="btn btn-primary" type="button" id="btnUpdate">Guardar</button>
                                             </div>
                                         </div>
                                     </form>
-                                </div>
-
-
+                                        </div>
                             </div>
 
                         </div>
@@ -382,7 +342,10 @@
 
         $('#btnUpdate').click(function () {
             // Serializar el formulario a JSON
-
+            $(".inp_i").removeAttr('disabled');
+            $(".inp_f").removeAttr('disabled');
+            $(".inp_j").removeAttr('disabled');
+            $(".inp_k").removeAttr('disabled');
             //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
             const array = $("#form_avion").serializeArray();
             const json = {};
@@ -462,7 +425,14 @@
                             // Mostramos un mensaje de éxito.
                             //$("#ExitoAlert").show("slow").delay(2000).hide("slow");
                             $("#alertAjax").append(result);
-                            showAlert();
+                            //setInterval('location.reload()', 5000);
+                            $.blockUI({
+                                blockMsgClass: 'alertBox',
+                                message: "<div class='alert alert-success' role='alert'>Se registraron los vuelos con exito</div>",
+                                timeout: 2000
+                            });
+                            setInterval('location.reload()', 2500);
+                            //showAlert();
                         } else {
                             $("#divDescripcion").hide();
                             // Mostramos un mensaje de error.
@@ -515,8 +485,23 @@
             });
         }
 
+        $('.select_a').click(function () {
+            var selectId = this.id.replace('btn_', '');
+            console.log(selectId);
+            if (selectId == 1) {
+                $(".inp_i").removeAttr('disabled');
+            } else if (selectId == 2) {
+                $(".inp_f").removeAttr('disabled');
+            } else if (selectId == 3) {
+                $(".inp_j").removeAttr('disabled');
+            } else if (selectId == 4) {
+                $(".inp_k").removeAttr('disabled');
+            }
+            
+            //$('#' + selectId).trigger('click'); // will behave as if #select-5 is clicked.
+        });
 
-
+        
 
 
     });

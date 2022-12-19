@@ -544,3 +544,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .agrandar:hover {
     transform: scale(2.0);
 }
+
+
+.alertBox {
+    border: none !important;
+    background-color: unset !important;
+}
