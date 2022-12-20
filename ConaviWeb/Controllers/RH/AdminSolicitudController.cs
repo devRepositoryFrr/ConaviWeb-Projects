@@ -150,6 +150,8 @@ namespace ConaviWeb.Controllers.RH
         {
 
             var viaticos = await _rHRepository.GetSolicitud(id);
+            var periodoFinal=viaticos.Periodo_comision_f.Equals("Indeterminado");
+            if (!periodoFinal) viaticos.Periodo_comision_f.Substring(0, 10);
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var fileName = viaticos.Folio + ".pdf";
             var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RH", id.ToString());
@@ -170,7 +172,6 @@ namespace ConaviWeb.Controllers.RH
             //LOGICA PDF
             GetPDF(doc, viaticos);
             doc.Close();
-
             byte[] byteInfo = ms.ToArray();
             ms.Write(byteInfo, 0, byteInfo.Length);
             ms.Position = 0;
@@ -703,8 +704,9 @@ namespace ConaviWeb.Controllers.RH
                   .SetFont(fonte)
                   .SetVerticalAlignment((VerticalAlignment.MIDDLE))
                   .SetBorder(Border.NO_BORDER)
-                  .SetFontSize(7)
-                  .Add(new Paragraph(viaticos.Periodo_comision_i.Substring(0, 10) + " - " +viaticos.Periodo_comision_f.Substring(0, 10))); //PERIODO DE LA COMISION 
+                  .SetFontSize(6)       
+                  .SetHeight(50)
+                  .Add(new Paragraph(viaticos.Periodo_comision_i.Substring(0, 10) + " - " + viaticos.Periodo_comision_f)); //PERIODO DE LA COMISION 
             Cell txtdias = new Cell(1, 1)
                   .SetTextAlignment(TextAlignment.CENTER)
                   .SetFont(fonte)
@@ -885,6 +887,7 @@ namespace ConaviWeb.Controllers.RH
             float[] columnWidths22 = { 8, 8, 8, 8, 8, 8 };
             Table vuelos = new Table(UnitValue.CreatePercentArray(columnWidths22));
             vuelos.SetRelativePosition(5, -20, 50, 40);
+            vuelos.SetWidth(480);
             Cell solicitud = new Cell(1, 6)
                  .Add(new Paragraph("SOLICITUD DE PASAJES ÁREOS"))
                  .SetFont(fonts)
@@ -1295,91 +1298,63 @@ namespace ConaviWeb.Controllers.RH
             doc.Add(fechaT);
             doc.Add(saltoDeLineaT);
             doc.Add(saltoDeLineaT);
-            doc.Add(saltoDeLineaT);
-            Table puestosT = new Table(2, false);
-            puestosT.SetBorder(Border.NO_BORDER);
-            Cell cell101T = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
+            doc.Add(saltoDeLineaT);          
+            Paragraph cell101T = new Paragraph("DE: ")
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFixedPosition(3, 10, 680, 100)
+                .SetFont(fonts)
+                .SetFontColor(DeviceGray.BLACK)
+                .SetFontSize(10);
+            doc.Add(cell101T);
+            Paragraph cell102T = new Paragraph("ING. ARQ. RAUL HERRERA HERRERA")
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFixedPosition(3, 15, 680, 300)
+                .SetFont(fonts)
+                .SetFontColor(DeviceGray.BLACK)
+                .SetFontSize(10); //cell104T
+            doc.Add(cell102T);
+            Paragraph cell104T = new Paragraph("SUBDIRECTOR GENERAL DE OPERACION Y SEGUIMIENTO")
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFixedPosition(3, 45, 665, 300)
+                .SetFont(fonts)
+                .SetFontColor(DeviceGray.BLACK)
+                .SetFontSize(10);  //
+            doc.Add(cell104T);
+            Paragraph cell107T = new Paragraph("PARA: "+viaticos.Nombre)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFixedPosition(3, -10, 645, 300)
+                .SetFont(fonts)
+                .SetFontColor(DeviceGray.BLACK)
+                .SetFontSize(10);  
+            doc.Add(cell107T);
+            Paragraph cell108T = new Paragraph(viaticos.Puesto)
+                  .SetTextAlignment(TextAlignment.CENTER)
+                  .SetFixedPosition(3, 8, 635, 400)
                   .SetFont(fonts)
-                  .SetFontSize(10)
-                  .SetWidth(0)
-                  .SetBorder(Border.NO_BORDER)
-                  .Add(new Paragraph("DE:"));
-            Cell cell102T = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFontSize(9)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetWidth(500)
-                  .SetFontColor(new DeviceRgb(130, 27, 63))
-                  .SetFont(fonte)
-                  .Add(new Paragraph("NOMBRE SUBDIRECTOR GENERAL QUE COMISIONA "));  //NOMBRE SUBDIRECTOR 
-            Cell cell103T = new Cell(1, 1)
-                  .SetTextAlignment(TextAlignment.LEFT)
-                  .SetFontSize(10)
-                  .SetBorder(Border.NO_BORDER)
-                  .SetFont(fonts)
-                  .Add(new Paragraph("PUESTO: "));
-            Cell cell104T = new Cell(1, 1)
-                   .SetTextAlignment(TextAlignment.LEFT)
-                   .SetFont(fonte)
-                   .SetFontColor(new DeviceRgb(130, 27, 63))
-                   .SetFontSize(9)
-                   .SetBorder(Border.NO_BORDER)
-                   .Add(new Paragraph("SUBDIRECTOR DE AREA")); //PUESTO DEL SUBDIRECTOR 
-            Cell cell105T = new Cell(1, 1)
-                   .SetTextAlignment(TextAlignment.LEFT)
-                   .SetFontSize(10)
-                   .SetFont(fonts)
-                   .SetBorder(Border.NO_BORDER)
-                   .Add(new Paragraph("PARA:"));
-            Cell cell106T = new Cell(1, 1)
-                   .SetTextAlignment(TextAlignment.LEFT)
-                   .SetFont(fonte)
-                   .SetFontColor(new DeviceRgb(130, 27, 63))
-                   .SetFontSize(9)
-                   .SetBorder(Border.NO_BORDER)
-                   .Add(new Paragraph(viaticos.Nombre)); //NOMBRE DEL COMISIONADO 
-            Cell cell1071T = new Cell(1, 1)
-                   .SetTextAlignment(TextAlignment.LEFT)
-                   .SetFont(fonts)
-                   .SetFontSize(10)
-                   .SetBorder(Border.NO_BORDER)
-                   .Add(new Paragraph("PUESTO:"));
-            Cell cell107T = new Cell(1, 1)
-                   .SetTextAlignment(TextAlignment.LEFT)
-                   .SetFont(fonte)
-                   .SetFontColor(new DeviceRgb(130, 27, 63))
-                   .SetFontSize(9)
-                   .SetBorder(Border.NO_BORDER)
-                   .Add(new Paragraph(viaticos.Puesto)); //NOMBRE DEL PUESTO 
-            puestosT.AddCell(cell101T);
-            puestosT.AddCell(cell102T);
-            puestosT.AddCell(cell103T);
-            puestosT.AddCell(cell104T);
-            puestosT.AddCell(cell105T);
-            puestosT.AddCell(cell106T);
-            puestosT.AddCell(cell1071T);
-            puestosT.AddCell(cell107T);
-            doc.Add(puestosT);
+                  .SetFontColor(DeviceGray.BLACK)
+                  .SetFontSize(10);
+            doc.Add(cell108T);
             doc.Add(saltoDeLineaT);
             doc.Add(saltoDeLineaT);
             doc.Add(saltoDeLineaT);
             doc.Add(saltoDeLineaT);
             //COMISION 
-            Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionarlo. " + viaticos.Descripcion_comision)
+            Paragraph primer = new Paragraph("Sirva el presente para informar que he tenido a bien comisionarlo, " + viaticos.Descripcion_comision)
                      .SetTextAlignment(TextAlignment.JUSTIFIED)
                      .SetFontColor(DeviceGray.BLACK)
-                     .SetFontSize(11);
+                     .SetFixedPosition(3, 45, 600, 500)
+                     .SetFontSize(10);
             doc.Add(primer);
-            Paragraph segundo = new Paragraph("Lo anterior con el fin de que lleva cabo las medidas pertinentes para el cumplimiento de la encomienda. " + viaticos.Objetivo)
+            Paragraph segundo = new Paragraph("Lo anterior con el fin de que lleva cabo las medidas pertinentes para el cumplimiento de la encomienda, " + viaticos.Objetivo)
                    .SetTextAlignment(TextAlignment.JUSTIFIED)
                    .SetFontColor(DeviceGray.BLACK)
-                   .SetFontSize(11);
+                   .SetFixedPosition(3, 45, 500, 500)
+                   .SetFontSize(10);
             doc.Add(segundo);
 
             //Table firma3 = new Table(1, false);
             //firma3.SetBorder(Border.NO_BORDER);
-            //firma3.SetRelativePosition(130, 380, 50, 40);
+            //firma3.SetFixedPosition(3, 45, 200, 500);
             //Cell servidorpublico3 = new Cell(1, 1)
             //   .SetTextAlignment(TextAlignment.CENTER)
             //  .SetFont(fonts)
