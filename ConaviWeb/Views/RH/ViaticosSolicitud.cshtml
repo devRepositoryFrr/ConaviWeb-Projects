@@ -2,6 +2,59 @@
 @{
     ViewBag.Title = "Administrador";
 }
+
+<style>
+    .switchIn {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
+
+    .switchLab {
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 50px;
+        height: 25px;
+        background: grey;
+        display: block;
+        border-radius: 25px;
+        position: relative;
+    }
+
+        .switchLab:after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            border-radius: 15px;
+            transition: 0.4s;
+        }
+
+    .switchIn:checked + .switchLab {
+        background: #661e2c;
+    }
+
+        .switchIn:checked + .switchLab:after {
+            left: calc(100% - 5px);
+            transform: translateX(-100%);
+        }
+
+    .switchLab:active:after {
+        width: 130px;
+    }
+
+    // centering
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+</style>
+
 <div class="row">
     <div id="alertAjax" class="col-md-12">
         @Html.Raw(@ViewBag.Alert)
@@ -106,32 +159,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                @*<div class="row">
-                                    <div class="col-md-4">
-                                    <p>
-                                    <small>Unidad</small>
-                                    <input type="number" placeholder="Especifique unidad" class="form-control" id="txtUnidad" name="Unidad" />
-                                    <small id="lblUnidad" class="hidden">Campo requerido *</small>
-                                    </p>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                    <p>
-                                    <small>Cantidad</small>
-                                    <input type="number" placeholder="Especifique cantidad" class="form-control" id="txtCantidad" name="Cantidad" />
-                                    <small id="lblCantidad" class="hidden">Campo requerido *</small>
-                                    </p>
-                                    </div>
-
-                                    <div class="col-md-4" style="float:right">
-                                    <p>
-                                    <small>Monto total</small>
-                                    <input disabled class="form-control" id="txtMonto_total" name="Monto_total" />
-                                    <small id="lblMonto_total" class="hidden">Campo requerido *</small>
-                                    </p>
-                                    </div>
-                                    </div>*@
-
+                               
                             </div>
 
 
@@ -166,15 +194,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    @*<div class="col-md-4">
-                                        <p>
-                                        <small>Entidad asignada en la comisión</small>
-                                        <select class="form-control" id="txtLugares_asignados_comision" name="Descripcion" />
-                                        <option value="">--- Seleccionar ---</option>
-                                        </select>
-                                        <small id="lblLugares_asignados_comision" class="hidden">Campo requerido *</small>
-                                        </p>
-                                        </div>*@
                                     <div class="form-group col-md-4">
                                         <p>
                                             <small>Entidad asignada en la comisión</small>
@@ -205,6 +224,10 @@
                                             <small id="lblMedio_transporte" class="hidden">Campo requerido *</small>
                                         </p>
                                     </div>
+                                </div>
+                                <div class="row col-md-12 hidden" id="indet">
+                                    <small>Indeterminado</small>
+                                    <input type="checkbox" class="switchIn" id="switchIndet" /><label class="switchLab" for="switchIndet">Toggle</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -563,6 +586,7 @@
 
     $('#slctMedio_transporte').change(function () {
         if ($("#slctMedio_transporte").val() == 1) {
+            $("#indet").removeClass("hidden");
             $('#txtPeriodo_comision_i').datepicker('destroy');
             $('#txtPeriodo_comision_f').datepicker('destroy');
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
@@ -585,6 +609,7 @@
         } else {
             $('#txtPeriodo_comision_i').datepicker('destroy');
             $('#txtPeriodo_comision_f').datepicker('destroy');
+            $("#indet").addClass("hidden");
             var dateToday = new Date();
             var periodo = $("#txtPeriodo_comision_i, #txtPeriodo_comision_f").datepicker({
                 minDate: dateToday,
@@ -683,7 +708,12 @@
         }
     });
 
-
+    $("#switchIndet").change(function () {
+        const $f = document.querySelector("#txtPeriodo_comision_f");
+        $f.setAttribute("disabled", 1);
+        var indeter = $("#switchIndet").is(':checked');
+        console.log(indeter);
+    });
 
     var v1, v2, v3;
 
@@ -1010,6 +1040,10 @@
 
 
     $('#btnGeneral').click(function () {
+        if ($("#switchIndet").is(':checked') == true) {
+            $('#txtDias_duracion').val("0");
+            $('#txtImporte_viaticos').val("0");
+        }
         // Serializar el formulario a JSON
         var disabled = $("#form_viaticos").find(':input:disabled').removeAttr('disabled')
         //let obj = $("#form_viaticos").serializeToJSON({ associativeArrays: false }); forma antigua !!
@@ -1192,6 +1226,20 @@
         for (let i = 0; i < exclude2.length; i++) {
             $("#" + exclude2[i]).removeClass("error-lbl");
             $("#" + exclude2[i]).addClass("hidden");
+            //console.log("#" + exclude2[i])
+        }
+
+        let exclude3;
+        if ($("#switchIndet").is(':checked') == true) {
+            exclude3 = ['lblPeriodo_comision_f'];
+            alert(exclude3);
+        } else {
+            exclude3 = [];
+        }
+
+        for (let i = 0; i < exclude3.length; i++) {
+            $("#" + exclude3[i]).removeClass("error-lbl");
+            $("#" + exclude3[i]).addClass("hidden");
             //console.log("#" + exclude2[i])
         }
 
