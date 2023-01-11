@@ -22,6 +22,7 @@ namespace ConaviWeb.Model.Reporteador
         public string Img_ine_correcion_b { get; set; }
         public string Nombre_estado { get; set; }
         public string Nombre_municipio { get; set; }
+        public string Nombre_localidad { get; set; }
         public string Direccion { get; set; }
         public string Cp { get; set; }
         public string Referencia { get; set; }

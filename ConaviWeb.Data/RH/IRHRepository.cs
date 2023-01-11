@@ -23,6 +23,6 @@ namespace ConaviWeb.Data.RH
         Task<IEnumerable<Catalogo>> GetEntidades();
         Task<bool> InsertComprobacion(CFDI cfdi);
         Task<IEnumerable<CFDI>> GetComprobaciones(string folio);
-
+        Task<string> GetDataMail(int id_user);
     }
 }

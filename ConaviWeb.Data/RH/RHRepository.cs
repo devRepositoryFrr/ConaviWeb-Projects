@@ -431,7 +431,7 @@ namespace ConaviWeb.Data.RH
                             ca.descripcion  AS Area_adscripcion ,
                             descripcion_comision AS Descripcion_comision ,
                             objetivo AS Objetivo ,
-                            observaciones AS Observaciones ,
+                            ifnull(observaciones,'') AS Observaciones ,
                             concat(cef.descripcion,' - ',municipio) AS Lugares_asignados_comision,
                             medio_transporte AS Medio_transporte ,
                             periodo_comision_i AS Periodo_comision_i ,
@@ -593,6 +593,14 @@ namespace ConaviWeb.Data.RH
                          ";
 
             return await db.QueryAsync<CFDI>(sql, new { folio });
+        }
+        public async Task<string> GetDataMail(int id_user)
+        {
+            var db = DbConnection();
+
+            var sql = @"CALL prod_rh.sp_get_firma_mail(@Id_user)";
+
+            return await db.QueryFirstOrDefaultAsync<string>(sql, new { id_user });
         }
     }
 }

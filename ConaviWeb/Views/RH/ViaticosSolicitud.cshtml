@@ -709,9 +709,15 @@
     });
 
     $("#switchIndet").change(function () {
-        const $f = document.querySelector("#txtPeriodo_comision_f");
-        $f.setAttribute("disabled", 1);
         var indeter = $("#switchIndet").is(':checked');
+        const $f = document.querySelector("#txtPeriodo_comision_f");
+        if (indeter) {
+            $f.setAttribute("disabled", 1);
+        } else {
+            $f.removeAttribute("disabled")
+        }
+        
+        
         console.log(indeter);
     });
 

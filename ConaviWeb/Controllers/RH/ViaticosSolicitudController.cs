@@ -79,16 +79,13 @@ namespace ConaviWeb.Controllers.RH
                 mailRequest.ToEmail = user.Email+",frojas@conavi.gob.mx"; //"paparicio@conavi.gob.mx";
                 mailRequest.Subject = "Solicitud de viáticos.";
                 mailRequest.Body = mail.ToString();
-                bool send = await SendMail(mailRequest);
-                //if (send)
-                //{
+                //bool send = await SendMail(mailRequest);
+                
                 var alert = AlertService.ShowAlert(Alerts.Success, "Su solicitud de viáticos se ha registrado con el siguiente Número de Comisión: " + viaticos.Folio);
                 return Ok(alert);
             }
             var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la solicitud de viáticos");
             return Ok(alertJson);
-            //}
-            //return BadRequest();
         }
 
         [HttpGet]
