@@ -1,5 +1,7 @@
 ﻿using ConaviWeb.Commons;
+using ConaviWeb.Data.RH;
 using ConaviWeb.Model.Response;
+using ConaviWeb.Model.RH;
 using ConaviWeb.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +19,12 @@ namespace ConaviWeb.Controllers.RH
     public class RecibosNominaController : Controller
     {
         private readonly IWebHostEnvironment _environment;
+        private readonly INominaRepository _nominaRepository;
 
-        public RecibosNominaController(IWebHostEnvironment environment)
+        public RecibosNominaController(IWebHostEnvironment environment, INominaRepository nominaRepository)
         {
             _environment = environment;
+            _nominaRepository = nominaRepository;
         }
         public IActionResult Index()
         {
@@ -28,11 +32,24 @@ namespace ConaviWeb.Controllers.RH
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/RecibosNomina");
         }
-        public async Task DownloadZipRN(string anio, string periodo)
+        public async Task DownloadZipRN(string anio, string periodo, string acept)
         {
             try
             {
             string[] arrperiodo = periodo.Split(@"-");
+                string[] meses = {"Enero",
+                                    "Febrero",
+                                    "Marzo",
+                                    "Abril",
+                                    "Mayo",
+                                    "Junio",
+                                    "Julio",
+                                    "Agosto",
+                                    "Septiembre",
+                                    "Octubre",
+                                    "Noviembre",
+                                    "Diciembre"};
+                var numes = Array.FindIndex(meses, row => row.Contains(arrperiodo[0])) + 1;
             var rootPath = Path.Combine(_environment.WebRootPath, "doc", "RH", "ReciboNomina");
 
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
@@ -56,6 +73,14 @@ namespace ConaviWeb.Controllers.RH
                     }
                 }
             }
+                Aceptacion aceptacion = new();
+                aceptacion.Anio = anio;
+                aceptacion.Mes = numes.ToString();
+                aceptacion.Quincena = arrperiodo[1].Substring(1);
+                aceptacion.Acepta = acept.Equals("on") ? 1 : 2;
+                aceptacion.NuEmpleado = user.NuEmpleado;
+
+                var success = await _nominaRepository.InsertAceptacion(aceptacion);
             }
             catch (Exception e)
             {

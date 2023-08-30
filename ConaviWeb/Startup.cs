@@ -74,6 +74,7 @@ namespace ConaviWeb
             services.AddScoped<ISecurityTools, SecurityTools>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRHRepository, RHRepository>();
+            services.AddScoped<INominaRepository, NominaRepository>();
             services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
             var appSettingSection = Configuration.GetSection("AppSettings");
             //services.AddSingleton<HttpClient>();  Revisar el uso de esta inyección

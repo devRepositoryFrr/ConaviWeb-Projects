@@ -38,7 +38,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group  col-md-12">
+                        <div class="alert alert-info" role="alert">
+                            <input class="form-check-input" type="checkbox" name="acept" id="activeChk">
+                            <strong>Nota: </strong>Al activar esta casilla acepta que esta descargando el recibo de nomina correspondiente al filtro que acaba de elegir.
+                        </div>
+                </div>
             </div>
+        </div>
         </div>
         <div id="results"></div>
     </form>
@@ -60,7 +68,26 @@
             }
         });
     });
-
+    $('#activeChk').change(function () {
+        let active = this.checked ? 1 : 0;
+        if (active == 1) {
+            console.log("TRUE");
+            $("#download").prop("disabled", false);
+        } else {
+            console.log("FALSE");
+            $("#download").prop("disabled", true);
+        }
+        //console.log(this.checked);
+    });
+    $("form").submit(function (e) {
+        let isChecked = $('#activeChk').is(':checked');
+        //console.log(isChecked);
+        if (!isChecked) {
+            $("#alert").html("<div class='alert alert-danger' role='alert' id='alerta'>Es necesario aceptar las condiciones para poder descargar el recibo de nomina!</div>");
+            showAlert();
+            e.preventDefault();
+        }
+    });
     function Download() {
 
         let ganio = $("#slctAnio option:selected").text();
@@ -69,6 +96,7 @@
         var data = {
             anio: ganio,
             periodo: gperiodo,
+            acept: active
         };
         data = JSON.stringify(data);
         $.ajax({
