@@ -1,0 +1,197 @@
+﻿@{
+    ViewData["Title"] = "Formato No Expedientable";
+}
+@********************************************************************************************************************************************************************@
+@*formulario de documentacion no expedientable*@
+<div class="row">
+    <div class="col-md-5 center-block">
+        <img src="../img/encab2021.png" class="img-responsive" />
+    </div>
+    <div class="col-md-7">
+        <h6 class="text-right">
+            SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
+            COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
+            DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />
+            DEPARTAMENTO DE UNIDADES DOCUMENTALES
+        </h6>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <h3 class="text-center">Inventario de Documentación no Expedientable transferible al Archivo de Concentración</h3>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
+        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+    </div>
+    <div class="col-md-4 datepicker-group">
+        <label for="felaboracion_inventario">Fecha de Elaboración del Inventario:</label>
+        <input type="text" id="felaboracion_inventario_nexp" class="form-control" />
+        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
+    </div>
+    <div class="col-md-4 datepicker-group">
+        <label for="ftransferencia_archivo">Fecha de transferencia:</label>
+        <input type="text" id="ftransferencia_inventario" class="form-control" />
+        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+    </div>
+</div>
+@*Tabla de expedientes de documentacion no expedientabale*@
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            No. Prog.
+                        </th>
+                        <th>
+                            Cve. Tipo de Soporte
+                        </th>
+                        <th>
+                            Clave Interna
+                        </th>
+                        <th>
+                            No. de Partes
+                        </th>
+                        <th>
+                            Título del Expediente
+                        </th>
+                        <th>
+                            Fecha de Elaboración
+                        </th>
+                        <th>
+                            Observaciones
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            c6-2
+                        </td>
+                        <td>
+                            2S.2-01/2008
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Campaña "Este en un buen momento para comprar vivienda" del programa "Esta es tu casa"
+                        </td>
+                        <td>
+                            2008
+                        </td>
+                        <td>
+                            Anexa 3 cd´s
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
+                        <td>
+                            d1, c6-2
+                        </td>
+                        <td>
+                            2S.2-02/2008
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            "Esta es tu casa" material audiovisual
+                        </td>
+                        <td>
+                            2008
+                        </td>
+                        <td>
+                            Anexa 2 cd´s
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3
+                        </td>
+                        <td>
+                            b9-2
+                        </td>
+                        <td>
+                            9C.7-03/2008
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            Spot "inscribe tu manzana" de la CONAVI
+                        </td>
+                        <td>
+                            2008
+                        </td>
+                        <td>
+                            Soporte cd 1
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table text-center">
+                <thead>
+                    <tr>
+                        <td style="width: 25%">
+                            Responsable de la custodia
+                        </td>
+                        <td style="width: 25%">
+                            Entrega
+                        </td>
+                        <td style="width: 25%">
+                            Recibe Responsable del Archivo de Concentración
+                        </td>
+                        <td style="width: 25%">
+                            Vo.Bo. del Departamento de Unidades Documentales
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><br /><br /><br /><br /></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nombre y firma
+                        </td>
+                        <td>
+                            Nombre y firma
+                        </td>
+                        <td>
+                            Nombre y firma
+                        </td>
+                        <td>
+                            Nombre y firma
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </form>
+    </div>
+</div>
+@*fin del formulario de expediente de documentacion no expedientable*@
+@*fin del formulario de documentacion no expedientable*@
+<hr />

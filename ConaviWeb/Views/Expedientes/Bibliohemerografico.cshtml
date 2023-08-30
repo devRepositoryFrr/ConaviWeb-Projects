@@ -1,0 +1,200 @@
+﻿@{
+    ViewData["Title"] = "Acervo Bibliohemerográfico";
+}
+@****************************************************************************************************************************************************************************@
+@{
+    @await Html.PartialAsync("../Expedientes/Botones");
+}
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+@*formulario de acervo bibliohemerográfico*@
+<div class="row form-group">
+    <div class="col-md-12">
+        <h3 class="text-center">Inventario de acervo bibliohemerográfico</h3>
+    </div>
+</div>
+<div id="divAdd">
+    @{
+        @await Html.PartialAsync("../Expedientes/_AddInventarioBibliohemerografico")
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="tableExpedientes" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            No. Prog.
+                        </th>
+                        <th>
+                            No. Ejem.
+                        </th>
+                        <th>
+                            Tipo de Soporte
+                        </th>
+                        <th>
+                            Título del Libro
+                        </th>
+                        <th>
+                            Nombre del Autor
+                        </th>
+                        <th>
+                            Tema
+                        </th>
+                        <th>
+                            Editorial
+                        </th>
+                        <th>
+                            Año
+                        </th>
+                        <th>
+                            ISBN/ISSN
+                        </th>
+                        <th>
+                            No. Pág.
+                        </th>
+                        <th>
+                            No. Volumen
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<button class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+@*formulario de expediente bibliohemerográfico*@
+<div id="divAddExpediente">
+    @{
+        @await Html.PartialAsync("../Expedientes/_AddExpedienteBibliohemerografico")
+    }
+</div>
+@*fin del formulario de acervo bobliohemerográfico*@
+<!-- Modal Drop Expediente -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalTrashExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_DropExpedienteBb")
+            }
+        </div>
+    </div>
+</div>
+<hr />
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        var table;
+        $(document).ready(function () {
+            showAlert();
+            if ($("#hd_id_inventario").val() == 0)
+                $("#formInsertInventarioBibliohemerografico").show();
+            else
+                $("#formInsertInventarioBibliohemerografico").hide();
+            showTable();
+            $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('exp-id');
+                $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+        });
+        function showTable() {
+            var urlTipo = "";
+            urlTipo = "/Bibliohemerografico/ExpedientesBibliohemerograficos";
+            table = $('#tableExpedientes').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0},
+            { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
+            { "name": "TipoSoporte", "data": "soporte", "targets": 2 },
+            { "name": "Titulo", "data": "titulo", "targets": 3 },
+            { "name": "Autor", "data": "autor", "targets": 4 },
+            { "name": "Tema", "data": "tema", "targets": 5 },
+            { "name": "Editorial", "data": "editorial", "targets": 6 },
+            { "name": "Anio", "data": "anio", "targets": 7 },
+            { "name": "IsbnIssn", "data": "isbnIssn", "targets": 8 },
+            { "name": "Paginas", "data": "paginas", "targets": 9 },
+            { "name": "Volumen", "data": "volumen", "targets": 10 },
+            {
+                "targets": 11,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    /*var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id='+ data.id +'\'"></span>';*/
+                    var ret = "";
+                    if (row.esEditable == 'editable') {
+                        ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+                        ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span>';
+                    }
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
+    </script>
+}

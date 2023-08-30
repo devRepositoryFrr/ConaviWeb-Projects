@@ -1,0 +1,99 @@
+﻿@model ConaviWeb.Model.Expedientes.Expediente
+
+<!-- Modal -->
+<div class="modal fade" id="modalExpediente" tabindex="-1" role="dialog" aria-labelledby="modalExpediente" style="z-index:1041">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Alta de Expediente</h4>
+            </div>
+            <form id="formInsertExpedienteInventarioTP" enctype="multipart/form-data" method="post" asp-controller="Inventario" asp-action="InsertExpedienteInventarioTPrimaria">
+                <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+                                <label class="control-label">Clave:</label>
+                                <select id="slctClaveExp" asp-for="IdExpediente" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Catalogo"], "Id", "Clave"))">
+                                    <option value="">--Seleccione--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Nombre del expediente:</label>
+                            <input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Periodo</label>
+                            <input asp-for="Periodo" type="text" class="form-control" placeholder="2006" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <label class="control-label">Años de resguardo en el archivo de concentración:</label>
+                            <input asp-for="AniosResguardo" id="aniosArchivoCon" type="number" class="form-control" min="0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Número de Legajos:</label>
+                            <input asp-for="Legajos" type="number" class="form-control" min="0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Número de Fojas:</label>
+                            <input asp-for="Fojas" type="number" class="form-control" min="0" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">Observaciones:</label>
+                            <textarea asp-for="Observaciones" class="form-control" placeholder="..." rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*Fin del formulario para el alta de expediente*@
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#slctClaveExp').on('change', function () {
+            $.ajax({
+                url: "@Url.Action("GetSerieDocumental", "Catalogos")", // Url
+                data: {
+                    // Datos / Parámetros
+                    Id: $("#slctClaveExp").val()
+                },
+                type: "post"  // Verbo HTTP
+            })
+            .done(function (result) {
+                $('#aniosArchivoCon').val(result.plazoConAC);
+            })
+            // Se ejecuta si se produjo un error.
+            .fail(function (xhr, status, error) {
+                // Mostramos un mensaje de error.
+                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                // Escondemos el Ajax Loader
+                //$("#AjaxLoader").hide("slow");
+
+                // Habilitamos el botón de Submit
+                //$("#SubmitBtn").prop("disabled", false);
+            })
+            // Hacer algo siempre, haya sido exitosa o no.
+            .always(function () {
+
+            });
+        });
+        $("#formInsertExpedienteInventarioTP").submit(function (e) {
+
+        });
+    });
+</script>

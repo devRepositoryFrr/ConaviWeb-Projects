@@ -1,0 +1,350 @@
+﻿@{
+    ViewData["Title"] = "Depuración preliminar";
+}
+@*formulario de la bitácora de depuración preliminar*@
+<div class="row">
+    <div class="col-md-5 center-block">
+        <img src="../img/encab2021.png" class="img-responsive" />
+    </div>
+    <div class="col-md-7">
+        <h6 class="text-right">
+            SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
+            COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
+            DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />
+            DEPARTAMENTO DE UNIDADES DOCUMENTALES
+        </h6>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <h3 class="text-center">Bitácora de depuración preliminar por documentación de comprobación administrativa inmediata</h3>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <label class="control-label">Nombre de la Unidad Administrativa:</label>
+        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+    </div>
+    <div class="col-md-4 datepicker-group">
+        <label for="finicio_depuracion">Fecha de inicio de la depuración:</label>
+        <input type="text" id="finicio_depuracion" class="form-control" />
+        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-8">
+        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
+    </div>
+    <div class="col-md-4">
+        <label>Número de cajas:</label>
+        <input type="number" class="form-control" min="1" />
+    </div>
+</div>
+
+<div class="row table-responsive">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <th rowspan="3">
+                            No. Prog.
+                        </th>
+                        <th rowspan="3">
+                            Nombre o título del expediente
+                        </th>
+                        <th rowspan="3">
+                            Periodo de los documentos
+                        </th>
+                        <th colspan="18">
+                            Criterios para la Depuración Preliminar
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            Criterio 1<br />Duplicados
+                        </th>
+                        <th colspan="2">
+                            Criterio 2<br />Copias fotostatica NO generadas por la Unidad Administrativa y copias de conocimiento
+                        </th>
+                        <th colspan="2">
+                            Criterio 3<br />Documentos sin firma autografa
+                        </th>
+                        <th colspan="2">
+                            Criterio 4<br />Borradores de escritos
+                        </th>
+                        <th colspan="2">
+                            Criterio 5<br />Comunicaciones informales
+                        </th>
+                        <th colspan="2">
+                            Criterio 6<br />Acontecimiento informativo
+                        </th>
+                        <th colspan="2">
+                            Criterio 7<br />Documentos de carácter temporal
+                        </th>
+                        <th colspan="2">
+                            Criterio 8<br />Formatos en blanco
+                        </th>
+                        <th colspan="2">
+                            Total de Documentos a depurar
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                        <th>
+                            Copia
+                        </th>
+                        <th>
+                            Original
+                        </th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            1
+
+                        </td>
+                        <td>
+                            9C.3-01/2006
+                        </td>
+                        <td>
+                            Contrato con "Radio y televisión de Aguascalientes" para realizar campañas publicitarias de la CONAVI
+                        </td>
+                        <td>
+                            2006
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            10
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2
+                        </td>
+                        <td>
+                            9C.3-02/2006
+                        </td>
+                        <td>
+                            Contrato con "Radio y televisión de Aguascalientes" para realizar la producción de material audiovisual para el Premio Nacional de Vivienda
+                        </td>
+                        <td>
+                            2006
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            10
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3
+                        </td>
+                        <td>
+                            9C.1-01/2007
+                        </td>
+                        <td>
+                            Acuerdo por el que se establecen los Lineamientos Generales para la orientación,planeación, autorización, coordinación, supervición y evaluación de las estrategias, programas y las campañas de Comunicación Social.
+                        </td>
+                        <td>
+                            2007
+                        </td>
+                        <td>
+                            5
+                        </td>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            15
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="19" style="text-align:right;">
+                            Subtotal:
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" value="&nbsp;" />
+                        </th>
+                        <th>
+                            <input type="text" class="form-control" value="&nbsp;" />
+                        </th>
+                    </tr>
+                </tbody>
+                @*<tfoot>
+                    <tr>
+                        <th colspan="3" style="height: 130px; border-right: 1px solid;">
+
+                        </th>
+                        <th colspan="4" style="border-right: 1px solid;">
+
+                        </th>
+                        <th colspan="4" style="border-right: 1px solid;">
+
+                        </th>
+                        <th colspan="4" style="border-right: 1px solid;">
+
+                        </th>
+                        <th colspan="4" style="border-right: 1px solid;">
+
+                        </th>
+                        <th colspan="3">
+
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">
+                            Vo.Bo. de la Responsable del Archivo de Concentración
+                        </th>
+                        <th colspan="4">
+                            Nombre y firma del depurador (a)
+                        </th>
+                        <th colspan="4">
+                            Nombre y firma del (la) responsable del archivo de trámite de la Unidad Administativa que revisó
+                        </th>
+                        <th colspan="4">
+                            Nombre y firma del Titular de la Unidad Administrativa
+                        </th>
+                        <th colspan="4">
+                            Nombre y firma de la Coordinación de Archivos
+                        </th>
+                        <th colspan="3">
+                            Total de documentos depurados
+                        </th>
+                    </tr>
+                </tfoot>*@
+            </table>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height:130px; border-right: 1px solid;">
+
+            </div>
+            <div class="col-md-12">
+                Vo.Bo. de la Responsable del Archivo de Concentración
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height: 130px; border-right: 1px solid;">
+
+            </div>
+            <div class="col-md-12">
+                Nombre y firma del depurador (a)
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height: 130px; border-right: 1px solid;">
+
+            </div>
+            <div class="col-md-12">
+                Nombre y firma del (la) responsable del archivo de trámite de la Unidad Administativa que revisó
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height: 130px; border-right: 1px solid;">
+
+            </div>
+            <div class="col-md-12">
+                Nombre y firma del Titular de la Unidad Administrativa
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height: 130px; border-right: 1px solid;">
+
+            </div>
+            <div class="col-md-12">
+                Nombre y firma de la Coordinación de Archivos
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <div class="col-md-12" style="height: 130px;">
+
+            </div>
+            <div class="col-md-12">
+                Total de documentos depurados
+            </div>
+        </div>
+    </div>
+</div>
+@*fin del formulario de la bitácora de depuración preliminar*@
+@*fin del formulario de la bitácora de depuración preliminar*@
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#finicio_depuracion').datepicker();
+    });
+</script>

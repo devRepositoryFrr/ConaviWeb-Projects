@@ -1,0 +1,46 @@
+﻿@model ConaviWeb.Model.Expedientes.Inventario
+
+<form id="formInsertInventarioTPrimaria" enctype="multipart/form-data" method="post" asp-controller="Inventario" asp-action="InsertInventarioTPrimaria" style="display:none;">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <input type="hidden" id="hd_id_inventario" asp-for="Id" value="@ViewBag.IdInv" />
+    <div class="row form-group">
+        <div class="col-md-8">
+            <label class="control-label">Nombre de la Unidad Administrativa:</label>
+            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["AreaCatalogo"], "Id", "Clave"))">
+                <option value="">--Seleccione--</option>
+            </select>
+        </div>
+        <div class="col-md-4 datepicker-group">
+            <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
+            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" class="form-control" />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-8">
+            <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="María Luisa Negrete Gaytán" />
+        </div>
+        <div class="col-md-4 datepicker-group">
+            <label for="ftransferencia_archivo">Fecha de transferencia:</label>
+            <input type="text" id="ftransferencia_archivo" asp-for="FechaTransferencia" class="form-control" />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-default btn-md pull-right">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#felaboracion_inventario, #ftransferencia_archivo').datepicker();
+
+        $("#formInsertInventarioTPrimaria").submit(function (e) {
+
+        });
+    });
+</script>

@@ -1,0 +1,244 @@
+﻿@{
+    ViewData["Title"] = "Inventario de control";
+}
+@********************************************************************************************************************************************************************@
+@{
+    @await Html.PartialAsync("../Expedientes/Botones");
+}
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+@*Formulario para el inventario de control del acervo documental en los archivos de trámite*@
+<div class="row">
+    <div class="col-md-12 form-group">
+        <h3 class="text-center">Inventario para el control del acervo documental en los archivos de trámite</h3>
+    </div>
+</div>
+<div id="divAdd">
+    @{
+        @await Html.PartialAsync("../Expedientes/_AddInventarioControl")
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="tableExpedientesControl" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            No. Prog.
+                        </th>
+                        <th>
+                            Cve del Expediente
+                        </th>
+                        <th>
+                            Nombre del Expediente
+                        </th>
+                        <th>
+                            No. de Legajos
+                        </th>
+                        <th>
+                            Primero (antiguo)
+                        </th>
+                        <th>
+                            Último (reciente)
+                        </th>
+                        <th>
+                            Estatus
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<button class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+<div id="addExpediente">
+    @{
+        @await Html.PartialAsync("../Expedientes/_AddExpedienteControl")
+    }
+</div>
+<!-- Modal Drop Expediente -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalTrashExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_DropExpedienteControl")
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal SendVal Expediente -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalSendValExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_SendValExpedienteControl")
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal VoBo Expediente -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_VoBoExpedienteControl")
+            }
+        </div>
+    </div>
+</div>
+<!-- Modal VoBo Expediente -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_RevalidacionExpedienteControl")
+            }
+        </div>
+    </div>
+</div>
+<hr />
+
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var table;
+        $(document).ready(function () {
+            showAlert();
+            if ($("#hd_id_inventario").val() == 0)
+                $("#formInsertInventarioControl").show();
+            else
+                $("#formInsertInventarioControl").hide();
+            showTable();
+            $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('exp-id');
+                $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+            $('#showModalSendValExpediente').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('exp-id');
+                $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+            $('#showModalVoBoExpediente').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('exp-id');
+                $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+            $('#showModalRevalidacionExpediente').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('exp-id');
+                $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+        });
+        function showTable() {
+            var urlTipo = "";
+            urlTipo = "/InventarioControl/ExpedientesControl";
+            table = $('#tableExpedientesControl').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+    var columns = [
+        { "name": "NoProg", "data": "noProg", "targets": 0},
+        { "name": "Codigo", "data": "codigo", "targets": 1 },
+        { "name": "Nombre", "data": "nombre", "targets": 2 },
+        { "name": "Legajos", "data": "legajos", "targets": 3 },
+        {
+            "name": "FechaPrimeroAntiguo",
+            "data": "fechaPrimeroAntiguo",
+            "targets": 4,
+            "render": function (data, type, row) {
+                var fprimero = new Date(row.fechaPrimeroAntiguo);
+                var month = fprimero.getMonth() + 1;
+                var day = fprimero.getDate();
+                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+            }
+        },
+        {
+            "name": "FechaUltimoReciente",
+            "data": "fechaUltimoReciente",
+            "targets": 5,
+            "render": function (data, type, row) {
+                var fprimero = new Date(row.fechaUltimoReciente);
+                var month = fprimero.getMonth() + 1;
+                var day = fprimero.getDate();
+                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+            }
+        },
+        { "name": "Estatus", "data": "estatus", "targets": 6 },
+        {
+            "targets": 7,
+            "data": null,
+            "render": function (data, type, row, meta) {
+                var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id=' + data.id + '\'"></span>';
+                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
+                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
+                if (row.esEditable == 'editable') {
+                    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
+                }
+                return ret;
+            },
+            "sortable": false,
+            "className": 'text-center'
+        },
+    ];
+    function showAlert() {
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+        }, 3000);
+        setTimeout(function () {
+            $("#alerta").remove();
+        }, 6000);
+    }
+    </script>
+}

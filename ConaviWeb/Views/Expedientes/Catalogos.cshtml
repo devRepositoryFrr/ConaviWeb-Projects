@@ -1,0 +1,239 @@
+﻿@model ConaviWeb.Model.Expedientes.SerieDocumental
+@{
+    ViewData["Title"] = "Catalogos";
+}
+@*************************************************************************************************************************************************************@
+@*Tabla de control para el catálogo de Serie Documental*@
+<div class="row form-group">
+    <div class="col-md-12">
+        <h3 class="text-center">Catálogo de Serie Documental</h3>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="table" class="table">
+                <thead>
+                    <tr>
+                        <th rowspan="3">
+                            #
+                        </th>
+                        <th rowspan="3">
+                            Codigo
+                        </th>
+                        <th rowspan="3">
+                            Niveles de clasificación<br />(serie documental)
+                        </th>
+                        <th colspan="6">
+                            Vigencia Documental
+                        </th>
+                        <th colspan="3" rowspan="2">
+                            Técnicas de Selección
+                        </th>
+                        <th rowspan="3">
+                            Observaciones
+                        </th>
+                        <th rowspan="3">
+                            &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="3">
+                            Valor documental
+                        </th>
+                        <th colspan="3">
+                            Plazos de conservación
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            A
+                        </th>
+                        <th>
+                            L
+                        </th>
+                        <th>
+                            F/C
+                        </th>
+                        <th>
+                            AT
+                        </th>
+                        <th>
+                            AC
+                        </th>
+                        <th>
+                            TOTAL
+                        </th>
+                        <th>
+                            E
+                        </th>
+                        <th>
+                            C
+                        </th>
+                        <th>
+                            M
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Update Serie Documental-->
+<div class="modal fade fade-" style="z-index:1041" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_UpdateSerieDocCat")
+            }
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        var table;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showAlert();
+            showTable();
+            $('#modalEdit').on('hidden.bs.modal', function (e) {
+                $(this).find('#formUpdateSerieDocCat')[0].reset();
+            });
+            $('#modalEdit').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                $.ajax({
+                    url: "@Url.Action("GetSerieDocumental", "Catalogos")", // Url
+                    data: {
+                        // Datos / Parámetros
+                        Id: bookId
+                    },
+                    type: "post"  // Verbo HTTP
+                }).done(function (result) {
+                    $('#idSerie').val(result.id);
+                    $('#label_cod').val(result.codigo);
+                    $('#label_descripcion').val(result.descripcion);
+                    $('#VigDocA').val(result.vigDocA);
+                    $('#VigDocL').val(result.vigDocL);
+                    $('#VigDocFC').val(result.vigDocFC);
+                    $('#PlazoConAT').val(result.plazoConAT);
+                    $('#PlazoConAC').val(result.plazoConAC);
+                    $('#PlazoConTot').val(result.plazoConTot);
+                    $('#TecSelE').val(result.tecSelE);
+                    $('#TecSelC').val(result.tecSelC);
+                    $('#TecSelM').val(result.tecSelM);
+                    $('#Observaciones').val(result.observaciones);
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
+                //$(e.currentTarget).find('#idSerie').val(bookId);
+            });
+        });
+        function showTable() {
+            var urlTipo = "";
+            urlTipo = "/Catalogos/ListaAjax";
+            $("#spinner").show();
+            $("#divTable").show();
+            table = $('#table').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": '700px',
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            { "name": "Id", "data": "id", "targets": 0, "visible": true },
+            { "name": "Codigo", "data": "codigo", "targets": 1 },
+            { "name": "Descripción", "data": "descripcion", "targets": 2 },
+            { "name": "VigDocA", "data": "vigDocA", "targets": 3 },
+            { "name": "VigDocL", "data": "vigDocL", "targets": 4 },
+            { "name": "VigDocFC", "data": "vigDocFC", "targets": 5 },
+            { "name": "PlazoConAT", "data": "plazoConAT", "targets": 6 },
+            { "name": "PlazoConAC", "data": "plazoConAC", "targets": 7 },
+            { "name": "PlazoConTot", "data": "plazoConTot", "targets": 8 },
+            { "name": "TecSelE", "data": "tecSelE", "targets": 9 },
+            { "name": "TecSelC", "data": "tecSelC", "targets": 10 },
+            { "name": "TecSelM", "data": "tecSelM", "targets": 11 },
+            { "name": "Observaciones", "data": "observaciones", "targets": 12 },
+            {
+                "targets": 13,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = '<span data-book-id=' + row.id +' class="glyphicon glyphicon-pencil" title="Editar" data-toggle="modal" data-target="#modalEdit"></span>';
+                    if (row.estatus == 'activo') ret += '<span class="glyphicon glyphicon-eye-close" title="Desactivar"></span>';
+                    else ret += '<span class="glyphicon glyphicon-eye-open" title="Activar"></span>';
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 6000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 12000);
+        }
+</script>
+}

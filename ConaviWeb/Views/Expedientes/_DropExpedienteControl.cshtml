@@ -1,0 +1,20 @@
+﻿@model ConaviWeb.Model.Expedientes.Expediente
+
+<form id="formDropExpediente" enctype="multipart/form-data" method="post" asp-controller="InventarioControl" asp-action="DropExpediente">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <div class='modal-header'>
+        <h4 id='titulo-modal' style="font-weight: 300">Eliminar Expediente</h4>
+    </div>
+    <div class='modal-body'>
+        <input id="idExpediente" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>¿Estás seguro de eliminar el expediente?</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Si, eliminar</button>
+    </div>
+</form>

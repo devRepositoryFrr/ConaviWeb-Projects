@@ -1,0 +1,81 @@
+﻿@model ConaviWeb.Model.Expedientes.SerieDocumental
+<script src="~/js/jquery-1.11/jquery.min.js" type="text/javascript"></script>
+
+<form id="formUpdateSerieDocCat" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="UpdateSerieDocCat">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <div class='modal-header'>
+        <h4 id='titulo-modal' style="font-weight: 300">Editar serie documental</h4>
+    </div>
+    <div class='modal-body'>
+        <input id="idSerie" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="label_cod">Código:</label>
+                    <input type="text" asp-for="Codigo" id="label_cod" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="label_descripcion">Descripción:</label>
+                    <input type="text" id="label_descripcion" asp-for="Descripcion" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">Valor documental</th>
+                            <th colspan="3">Plazos de conservación</th>
+                            <th colspan="3">Técnicas de selección</th>
+                        </tr>
+                        <tr class="text-center">
+                            <th>A</th>
+                            <th>L</th>
+                            <th>F/C</th>
+                            <th>AT</th>
+                            <th>AC</th>
+                            <th>Total</th>
+                            <th>E</th>
+                            <th>C</th>
+                            <th>M</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" asp-for="VigDocA" class="form-control" /></td>
+                            <td><input type="text" asp-for="VigDocL" class="form-control" /></td>
+                            <td><input type="text" asp-for="VigDocFC" class="form-control" /></td>
+                            <td><input type="text" asp-for="PlazoConAT" class="form-control" /></td>
+                            <td><input type="text" asp-for="PlazoConAC" class="form-control" /></td>
+                            <td><input type="text" asp-for="PlazoConTot" class="form-control" disabled /></td>
+                            <td><input type="text" asp-for="TecSelE" class="form-control" /></td>
+                            <td><input type="text" asp-for="TecSelC" class="form-control" /></td>
+                            <td><input type="text" asp-for="TecSelM" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="label_observacion">Observaciones:</label>
+                <textarea class="form-control" asp-for="Observaciones"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#formUpdateSerieDocCat").submit(function (e) {
+            
+        });
+    });
+</script>

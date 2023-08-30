@@ -4,6 +4,7 @@ using ConaviWeb.Data.Repositories;
 using ConaviWeb.Data.RH;
 using ConaviWeb.Data.Shell;
 using ConaviWeb.Data.Sisevive;
+using ConaviWeb.Data.Expedientes;
 using ConaviWeb.Model.Common;
 using ConaviWeb.Services;
 using ConaviWeb.Tools;
@@ -58,7 +59,8 @@ namespace ConaviWeb
             //Conexion DataBase
             var ConnectionConfig = new MySQLConfiguration(Configuration.GetConnectionString("SiseviveConnection"), 
                 Configuration.GetConnectionString("UserConnection"),
-                Configuration.GetConnectionString("EDConnection")
+                Configuration.GetConnectionString("EDConnection"),
+                Configuration.GetConnectionString("ExpedientesConnection")
                 );
             services.AddSingleton(ConnectionConfig);
 
@@ -74,6 +76,7 @@ namespace ConaviWeb
             services.AddScoped<ISecurityTools, SecurityTools>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRHRepository, RHRepository>();
+            services.AddScoped<IExpedienteRepository, ExpedienteRepository>();
             services.AddScoped<INominaRepository, NominaRepository>();
             services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
             var appSettingSection = Configuration.GetSection("AppSettings");
