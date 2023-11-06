@@ -113,29 +113,29 @@ namespace ConaviWeb.Controllers.Expedientes
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revisión con exito");
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> VoBoExpediente(Expediente expediente)
-        {
-            var success = await _expedienteRepository.VoBoExpedienteControl(expediente.Id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
-            return RedirectToAction("Index");
-        }
-        [HttpPost]
-        public async Task<IActionResult> RevalidacionExpediente(Expediente expediente)
-        {
-            var success = await _expedienteRepository.RevalidacionExpedienteControl(expediente.Id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> VoBoExpediente(Expediente expediente)
+        //{
+        //    var success = await _expedienteRepository.VoBoExpedienteControl(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
+        //    return RedirectToAction("Index");
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> RevalidacionExpediente(Expediente expediente)
+        //{
+        //    var success = await _expedienteRepository.RevalidacionExpedienteControl(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
+        //    return RedirectToAction("Index");
+        //}
     }
 }

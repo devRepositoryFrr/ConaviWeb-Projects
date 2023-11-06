@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-<!-- Modal VoBo Expediente -->
+ @*Modal VoBo Expediente 
 <div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -96,7 +96,7 @@
         </div>
     </div>
 </div>
-<!-- Modal VoBo Expediente -->
+ Modal VoBo Expediente 
 <div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -105,10 +105,9 @@
             }
         </div>
     </div>
-</div>
+</div>*@
 <hr />
 
-<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
@@ -131,14 +130,14 @@
                 var expId = $(e.relatedTarget).data('exp-id');
                 $(e.currentTarget).find('#idExpediente').val(expId);
             });
-            $('#showModalVoBoExpediente').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
-            $('#showModalRevalidacionExpediente').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
+            //$('#showModalVoBoExpediente').on('show.bs.modal', function (e) {
+            //    var expId = $(e.relatedTarget).data('exp-id');
+            //    $(e.currentTarget).find('#idExpediente').val(expId);
+            //});
+            //$('#showModalRevalidacionExpediente').on('show.bs.modal', function (e) {
+            //    var expId = $(e.relatedTarget).data('exp-id');
+            //    $(e.currentTarget).find('#idExpediente').val(expId);
+            //});
         });
         function showTable() {
             var urlTipo = "";
@@ -221,9 +220,9 @@
             "data": null,
             "render": function (data, type, row, meta) {
                 var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id=' + data.id + '\'"></span>';
-                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
-                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
-                if (row.esEditable == 'editable') {
+                //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
+                //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
+                if (row.esEditable == 'editable') {         //is editable for owner
                     ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
                 }
                 return ret;

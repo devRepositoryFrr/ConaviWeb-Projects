@@ -181,6 +181,20 @@ namespace ConaviWeb.Data.Expedientes
                         order by et.id;";
             return await db.QueryAsync<Expediente>(sql, new { Id = id, IdInv = id_inventario });
         }
+        public async Task<IEnumerable<Expediente>> GetExpedientesValidacionTP(int idArea)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        select ROW_NUMBER() over(order by et.id) NoProg, et.id Id, et.id_expediente IdExpediente, csd.codigo Codigo, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.id_inventario IdInventario
+                            , et.estatus Estatus
+                        from prod_control_exp.expediente_transferencia et
+                        join prod_control_exp.inventario_transferencia it on et.id_inventario = it.id
+                        join prod_control_exp.cat_serie_documental csd on et.id_expediente = csd.id
+                        where it.id_area = @IdArea
+                        order by et.id;";
+            return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
+        }
         public async Task<Expediente> GetExpedienteTP(int id)
         {
             var db = DbConnection();
@@ -291,6 +305,18 @@ namespace ConaviWeb.Data.Expedientes
                         where ec.id_inventario_control = @IdInv
                         order by ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { Id = id, IdInv = id_inventario });
+        }
+        public async Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int idArea)
+        {
+            var db = DbConnection();
+            var sql = @"
+                        select ROW_NUMBER() over(order by ec.id) NoProg, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, ec.nombre Nombre, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
+                        from prod_control_exp.expediente_control ec
+                        join prod_control_exp.inventario_control ic on ec.id_inventario_control = ic.id
+                        join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
+                        where ic.id_area = @IdArea
+                        order by ec.id;";
+            return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
         }
         public async Task<Expediente> GetExpedienteControl(int id)
         {
