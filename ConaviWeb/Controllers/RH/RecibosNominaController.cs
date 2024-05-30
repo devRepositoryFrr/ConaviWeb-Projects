@@ -32,10 +32,8 @@ namespace ConaviWeb.Controllers.RH
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../RH/RecibosNomina");
         }
-        public async Task DownloadZipRN(string anio, string periodo, string acept)
+        public async Task<IActionResult> DownloadZipRN(string anio, string periodo, string acept)
         {
-            try
-            {
             string[] arrperiodo = periodo.Split(@"-");
                 string[] meses = {"Enero",
                                     "Febrero",
@@ -54,25 +52,27 @@ namespace ConaviWeb.Controllers.RH
 
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
 
-            Response.ContentType = "application/octet-stream";
-            DateTime date = DateTime.Now;
-            Response.Headers.Add("Content-Disposition", "attachment; filename=\"Files" + "Recibo_"+ anio + arrperiodo[0] + arrperiodo[1] + ".zip\"");
-
             var botsFolderPath = Path.Combine(rootPath, anio, arrperiodo[0], arrperiodo[1], user.NuEmpleado);
-            var botFilePaths = Directory.GetFiles(botsFolderPath);
-            using (ZipArchive archive = new ZipArchive(Response.BodyWriter.AsStream(), ZipArchiveMode.Create))
+            var zipFileMemoryStream = new MemoryStream();
+            try
             {
-                foreach (var botFilePath in botFilePaths)
+                var botFilePaths = Directory.GetFiles(botsFolderPath);
+
+                using (ZipArchive archive = new ZipArchive(zipFileMemoryStream, ZipArchiveMode.Update, leaveOpen: true))
                 {
-                    var botFileName = Path.GetFileName(botFilePath);
-                    var entry = archive.CreateEntry(botFileName);
-                    using (var entryStream = entry.Open())
-                    using (var fileStream = System.IO.File.OpenRead(botFilePath))
+                    foreach (var botFilePath in botFilePaths)
                     {
-                        await fileStream.CopyToAsync(entryStream);
+                        var botFileName = Path.GetFileName(botFilePath);
+                        var entry = archive.CreateEntry(botFileName);
+                        using (var entryStream = entry.Open())
+                        using (var fileStream = System.IO.File.OpenRead(botFilePath))
+                        {
+                            await fileStream.CopyToAsync(entryStream);
+                        }
                     }
                 }
-            }
+
+               
                 Aceptacion aceptacion = new();
                 aceptacion.Anio = anio;
                 aceptacion.Mes = numes.ToString();
@@ -84,7 +84,11 @@ namespace ConaviWeb.Controllers.RH
             }
             catch (Exception e)
             {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "El periodo consultado no cuenta con archivos");
+                return RedirectToAction("Index");
             }
+            zipFileMemoryStream.Seek(0, SeekOrigin.Begin);
+            return File(zipFileMemoryStream, "application/octet-stream", "Recibo_" + anio + arrperiodo[0] + arrperiodo[1] + ".zip");
         }
     }
 }
