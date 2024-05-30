@@ -95,7 +95,7 @@
     </div>
 </div>
 <!-- Modal VoBo Expediente -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
@@ -103,9 +103,9 @@
             }
         </div>
     </div>
-</div>
-<!-- Modal VoBo Expediente -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+</div>*@
+<!-- Modal Revalidacion Expediente -->
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
@@ -113,7 +113,7 @@
             }
         </div>
     </div>
-</div>
+</div>*@
 <hr />
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 
@@ -139,14 +139,14 @@
                 var expId = $(e.relatedTarget).data('exp-id');
                 $(e.currentTarget).find('#idExpediente').val(expId);
             });
-            $('#showModalVoBoExpediente').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
-            $('#showModalRevalidacionExpediente').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
+            //$('#showModalVoBoExpediente').on('show.bs.modal', function (e) {
+            //    var expId = $(e.relatedTarget).data('exp-id');
+            //    $(e.currentTarget).find('#idExpediente').val(expId);
+            //});
+            //$('#showModalRevalidacionExpediente').on('show.bs.modal', function (e) {
+            //    var expId = $(e.relatedTarget).data('exp-id');
+            //    $(e.currentTarget).find('#idExpediente').val(expId);
+            //});
         });
         function showTable() {
             var urlTipo = "";
@@ -196,39 +196,39 @@
                 }
             });
         }
-    var columns = [
-        { "name": "NoProg", "data": "noProg", "targets": 0},
-        { "name": "Codigo", "data": "codigo", "targets": 1 },
-        { "name": "Nombre", "data": "nombre", "targets": 2 },
-        { "name": "Periodo", "data": "periodo", "targets": 3 },
-        { "name": "AniosResguardo", "data": "aniosResguardo", "targets": 4 },
-        { "name": "Legajos", "data": "legajos", "targets": 5 },
-        { "name": "Fojas", "data": "fojas", "targets": 6 },
-        { "name": "Observaciones", "data": "observaciones", "targets": 7 },
-        { "name": "Estatus", "data": "estatus", "targets": 8 },
-        {
-            "targets": 9,
-            "data": null,
-            "render": function (data, type, row, meta) {
-                var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'Caratula?id=' + data.id + '\'"></span>';
-                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
-                ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
-                if (row.esEditable == 'editable') {
-                    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
-                }
-                return ret;
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0},
+            { "name": "Codigo", "data": "codigo", "targets": 1 },
+            { "name": "Nombre", "data": "nombre", "targets": 2 },
+            { "name": "Periodo", "data": "periodo", "targets": 3 },
+            { "name": "AniosResguardo", "data": "aniosResguardo", "targets": 4 },
+            { "name": "Legajos", "data": "legajos", "targets": 5 },
+            { "name": "Fojas", "data": "fojas", "targets": 6 },
+            { "name": "Observaciones", "data": "observaciones", "targets": 7 },
+            { "name": "Estatus", "data": "estatus", "targets": 8 },
+            {
+                "targets": 9,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'Caratula?id=' + data.id + '\'"></span>';
+                    //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
+                    //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
+                    if (row.esEditable == 'editable') {     //is editable by owner
+                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
+                    }
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
             },
-            "sortable": false,
-            "className": 'text-center'
-        },
-    ];
-    function showAlert() {
-        setTimeout(function () {
-            $("#alerta").fadeOut(1500);
-        }, 3000);
-        setTimeout(function () {
-            $("#alerta").remove();
-        }, 6000);
-    }
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
     </script>
 }

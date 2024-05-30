@@ -23,6 +23,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> InsertInventarioTP(Inventario inventario);
         Task<bool> InsertExpedienteInventarioTP(Expediente expediente);
         Task<IEnumerable<Expediente>> GetExpedientesInventarioTP(int id, int id_inventario);
+        Task<IEnumerable<Expediente>> GetExpedientesValidacionTP(int idArea);
         Task<Expediente> GetExpedienteTP(int id);
         Task<bool> DropExpediente(int id);
         Task<bool> SendValExpediente(int id);
@@ -31,6 +32,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> InsertInventarioControl(Inventario inventario);
         Task<bool> InsertExpedienteInventarioControl(Expediente expediente);
         Task<IEnumerable<Expediente>> GetExpedientesInventarioControl(int id, int id_inventario);
+        Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int id_area);
         Task<Expediente> GetExpedienteControl(int id);
         Task<bool> DropExpedienteControl(int id);
         Task<bool> SendValExpedienteControl(int id);
