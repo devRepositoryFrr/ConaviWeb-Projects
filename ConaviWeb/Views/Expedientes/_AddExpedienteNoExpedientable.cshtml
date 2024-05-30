@@ -55,12 +55,21 @@
 </div>
 @*fin del formulario de expediente de documentacion no expedientable*@
 
-<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
-<script>
+@*<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>*@
+<script type="text/javascript">
     $(document).ready(function () {
-        $("#felaboracion_nexp").datepicker();
+        $("#felaboracion_nexp").datepicker({
+            beforeShow: function (input, inst) {
+                $(document).off('focusin.bs.modal');
+            },
+            onClose: function () {
+                $(document).on('focusin.bs.modal');
+            },
+            changeYear: true
+        });
         $("#formInsertExpedienteNoExpedientable").submit(function (e) {
 
+            return true;
         });
     });
 </script>

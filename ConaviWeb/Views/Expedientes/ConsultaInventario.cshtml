@@ -1,18 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Validaciones de Expedientes";
+    ViewData["Title"] = "Consulta de Inventarios";
 }
 @********************************************************************************************************************************************************************@
-@{
-    @await Html.PartialAsync("../Expedientes/Botones");
-}
-<div class="row">
-    <div class="col-md-12">
-        @Html.Raw(@ViewBag.Alert)
-    </div>
-</div>
 <div class="row form-group">
     <div class="col-md-12">
-        <h3 class="text-center">Validación de expedientes</h3>
+        <h3 class="text-center">Consulta de Inventarios</h3>
     </div>
 </div>
 <div class="row">
@@ -129,53 +121,7 @@
         </form>
     </div>
 </div>
-<!-- Modal VoBo Expediente -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpedienteTP" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @{
-                @await Html.PartialAsync("../Expedientes/_VoBoExpedienteTp")
-            }
-        </div>
-    </div>
-</div>
-<!-- Modal Revalidacion Expediente -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpedienteTP" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @{
-                @await Html.PartialAsync("../Expedientes/_RevalidacionExpedienteTp")
-            }
-        </div>
-    </div>
-</div>
-
-@* Modal VoBo Expediente Control *@
-<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpedienteControl" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @{
-                @await Html.PartialAsync("../Expedientes/_VoBoExpedienteControl")
-            }
-        </div>
-    </div>
-</div>
-@* Modal Revalidacion Expediente Control *@
-<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpedienteControl" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @{
-                @await Html.PartialAsync("../Expedientes/_RevalidacionExpedienteControl")
-            }
-        </div>
-    </div>
-</div>
 <hr />
-@*<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>*@
-
-<!-- DataTables local-->
-@*<link href="/js/datatable2/datatables.min.css" rel="stylesheet" type="text/css" />
-    <script src="../js/datatable2/datatables.min.js" type="text/javascript"></script>*@
 <!-- Datatables CDN -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
@@ -187,35 +133,6 @@
         $(document).ready(function () {
             showAlert();
             $("#divtableExpedientes, #divtableExpedientesControl").hide();
-            //if ($("#hd_id_inventario").val() == 0)
-            //    $("#formInsertInventarioTPrimaria").show();
-            //else
-            //    $("#formInsertInventarioTPrimaria").hide();
-            //showTable();
-            //$('#showModalTrashExpediente').on('show.bs.modal', function (e) {
-            //    var expId = $(e.relatedTarget).data('exp-id');
-            //    $(e.currentTarget).find('#idExpediente').val(expId);
-            //});
-            //$('#showModalSendValExpediente').on('show.bs.modal', function (e) {
-            //    var expId = $(e.relatedTarget).data('exp-id');
-            //    $(e.currentTarget).find('#idExpediente').val(expId);
-            //});
-            $('#showModalVoBoExpedienteTP').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
-            $('#showModalRevalidacionExpedienteTP').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
-            $('#showModalVoBoExpedienteControl').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
-            $('#showModalRevalidacionExpedienteControl').on('show.bs.modal', function (e) {
-                var expId = $(e.relatedTarget).data('exp-id');
-                $(e.currentTarget).find('#idExpediente').val(expId);
-            });
         });
         function getExpedientes() {
             $("#slcInventario, #slcArea").removeClass("alert-danger");
@@ -364,12 +281,7 @@
                 "targets": 9,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'Caratula?id=' + data.id + '\'"></span>';
-                    ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpedienteTP" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
-                    ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpedienteTP" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
-                    if (row.esEditable == 'editable') {
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
-                    }
+                    var ret = '<a href="Caratula?id=' + data.id + '&sh=1" class="btn btn-link" title="Carátula" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                     return ret;
                 },
                 "sortable": false,
@@ -408,12 +320,7 @@
                 "targets": 7,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id=' + data.id + '\'"></span>';
-                    ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpedienteControl" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
-                    ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpedienteControl" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
-                    if (row.esEditable == 'editable') {
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
-                    }
+                    var ret = '<a target="_blank" class="btn btn-link" title="Carátula" href="CaratulaControl?id=' + data.id + '&sh=1"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                     return ret;
                 },
                 "sortable": false,

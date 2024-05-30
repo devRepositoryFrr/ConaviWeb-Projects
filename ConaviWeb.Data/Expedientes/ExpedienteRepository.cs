@@ -28,7 +28,7 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        select id Id,codigo Clave from prod_control_exp.cat_serie_documental order by id;
+                        select id Id,concat(codigo,'-',descripcion) Clave from prod_control_exp.cat_serie_documental order by id;
                        ";
             return await db.QueryAsync<Catalogo>(sql, new { });
         }

@@ -270,7 +270,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <button type="button" class="btn btn-primary pull-right">Guardar</button>
+        <button id="btn-save" type="button" class="btn btn-primary pull-right">Guardar</button>
     </div>
 </div>
 @*Fin del formulario de carátula de expediente*@
@@ -282,6 +282,7 @@
         $('#fprimer_documento, #fultimo_documento, #fclasificacion_expediente, #fdesclasificacion_expediente').datepicker();
         const urlParams = new URLSearchParams(window.location.search);
         const idExpediente = urlParams.get('id');
+        const search = urlParams.get('sh');
         $.ajax({
             url: "@Url.Action("GetExpedienteTP", "Inventario")", // Url
             data: {
@@ -304,6 +305,13 @@
             //$('#vig_doc_pla_con_tot').val(result.vigDocPlaConTot);
             $('#tec_sel_e').val(result.tecSelE == 'X' ? 'E' : result.tecSelC == 'X' ? 'C' : 'M');
             //$('#tec_sel_c').val(result.tecSelC);
+            if (search == 1) {
+                $("#btn-save").remove();
+                $("input[type=text], input[type=number], textarea").replaceWith(function () {
+                    return '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
+                });
+                //$("input:text").prop("disabled", true);
+            }
         })
         // Se ejecuta si se produjo un error.
         .fail(function (xhr, status, error) {

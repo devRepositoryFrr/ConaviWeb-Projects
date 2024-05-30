@@ -10,9 +10,9 @@
 <a class="btn btn-primary" target="_self" href="@Url.Action("Index","Noexpedientable")" title="Inventario de Documentación no Expedientable transferible al Archivo de Concentración">
     No expedientable
 </a>
-<a id="btn-validacion" class="btn btn-primary" target="_self" href="@Url.Action("Index","InventarioValidacion")" title="Validación de expedientes">
-    Validación
-</a>
-@*<a class="btn btn-primary" target="_blank" href="@Url.Action("Index","Depuracion")" title="Bitácora de depuración preliminar por documentación de comprobación administrativa inmediata">
-    Depuración
-</a>*@
+@if (ViewData["btnShowValidacion"].ToString() == "True")
+{
+    <a id="btn-validacion" class="btn btn-primary" target="_self" href="@Url.Action("Index","InventarioValidacion")" title="Validación de expedientes">
+        Validación
+    </a>
+}

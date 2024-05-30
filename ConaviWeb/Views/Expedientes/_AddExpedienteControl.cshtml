@@ -58,12 +58,17 @@
 @*Fin del formulario para el alta de expediente*@
 
 @*<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
-@*<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
 
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $('#fprimero_antiguo, #fultimo_reciente').datepicker({
+            beforeShow: function (input, inst) {
+                $(document).off('focusin.bs.modal');
+            },
+            onClose: function () {
+                $(document).on('focusin.bs.modal');
+            },
             changeYear: true
         });
         $("#formInsertExpedienteControl").submit(function (e) {

@@ -29,7 +29,10 @@ namespace ConaviWeb.Controllers.Expedientes
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
             ViewBag.IdInv = id_inventario;
-            //ViewBag["IdUserExp"] = user.Id;
+            if (user.Id == 212 || user.Id == 323)
+                ViewData["btnShowValidacion"] = true;
+            else
+                ViewData["btnShowValidacion"] = false;
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Inventario");
