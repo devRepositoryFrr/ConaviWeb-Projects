@@ -42,66 +42,10 @@ namespace ConaviWeb.Controllers.Reporteador
 
         public async Task<IActionResult> GetAllBenef()
         {
-            string[] curps =  { "2204047053",
-"2204021600",
-"2204041192",
-"2204024325",
-"2204046910",
-"2204027698",
-"2204050749",
-"2204003038",
-"2204050347",
-"2204053865",
-"2204003700",
-"2204050925",
-"2204048439",
-"2204050808",
-"2204042746",
-"2204047940",
-"2204028927",
-"2204046744",
-"2204026983",
-"2204025015",
-"2204017843",
-"2204005968",
-"2204043289",
-"2204054707",
-"2204049192",
-"2204058450",
-"2204054321",
-"2204025743",
-"2204056494",
-"2204008539",
-"2204008542",
-"2204058120",
-"2204035467",
-"2204009275",
-"2204023170",
-"2204045484",
-"2204009785",
-"2204041765",
-"2204010508",
-"2204010581",
-"2204028113",
-"2204010664",
-"2204023263",
-"2204011931",
-"2204023504",
-"2204037747",
-"2204017858",
-"2204054652",
-"2204013228",
-"2204024446",
-"2204013986",
-"2204030465",
-"2204059514",
-"2204058856",
-"2204015924",
-"2204031611",
-"2204021912",
-"2204029068",
-"2204059578",
-"2204055221"};
+            string[] curps =  { "2204010177",
+"2204014391",
+"2204015158"
+};
             foreach (var curp in curps)
             {
                 var beneficiario = await _reporteadorRepository.GetBeneficiario(curp);
@@ -118,7 +62,7 @@ namespace ConaviWeb.Controllers.Reporteador
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var fileName = beneficiario.CURPR + ".pdf";
-            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "ReporteadorCed");
+            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "ReporteadorCed_2024");
             if (!Directory.Exists(pathPdf))
                 ProccessFileTools.CreateDirectory(pathPdf);
             var file = System.IO.Path.Combine(pathPdf, fileName);

@@ -25,18 +25,18 @@ using Rectangle = iText.Kernel.Geom.Rectangle;
 
 namespace ConaviWeb.Controllers.Reporteador
 {
-    public class CartaPMVController : Controller
+    public class CartaPMV24Controller : Controller
     {
         private readonly IReporteadorRepository _reporteadorRepository;
         private readonly IWebHostEnvironment _environment;
-        public CartaPMVController(IWebHostEnvironment environment, IReporteadorRepository reporteadorRepository)
+        public CartaPMV24Controller(IWebHostEnvironment environment, IReporteadorRepository reporteadorRepository)
         {
             _environment = environment;
             _reporteadorRepository = reporteadorRepository;
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var benefs = await _reporteadorRepository.GetCartasPMV(10); // ACÁ SE CAMBIA EL ARCHIVO DE CARTA A EJECUTAR
+            var benefs = await _reporteadorRepository.GetCartasPMV24(1); // ACÁ SE CAMBIA EL ARCHIVO DE CARTA A EJECUTAR
             foreach (var benef in benefs)
             {
                 ManipulatePdf(benef);
@@ -49,7 +49,7 @@ namespace ConaviWeb.Controllers.Reporteador
         {
             var _header = System.IO.Path.Combine(_environment.WebRootPath, "img", "GOB_Sedatu_Conavi_H.png");
             var _footer = System.IO.Path.Combine(_environment.WebRootPath, "img", "footerConavi.png");
-            var pathCarta = Path.Combine(_environment.WebRootPath, "doc", "CartasPMV2023", benef.Path_carta, benef.Estado, benef.Municipio);
+            var pathCarta = Path.Combine(_environment.WebRootPath, "doc", "CartasPMV2024", benef.Path_carta, benef.Estado, benef.Municipio);
             if (!Directory.Exists(pathCarta))
             {
                 Directory.CreateDirectory(pathCarta);
@@ -78,7 +78,7 @@ namespace ConaviWeb.Controllers.Reporteador
                 .SetFont(Bold)
                 .SetFixedPosition(1, 285, 820, 300)
                 .SetCharacterSpacing(1)
-                .SetFontSize(10);
+                .SetFontSize(7);
             doc.Add(entidadCarta);
 
             float[] tamFirma = { 1, 5};
@@ -169,18 +169,34 @@ namespace ConaviWeb.Controllers.Reporteador
             doc.Add(folio);
 
 
-            Paragraph textomedio = new Paragraph("Este programa tiene como propósito contribuir a la reducción del rezago habitacional mediante la atención de vivienda con necesidades de mejoramiento y ampliaciones con mecanismos ágiles y coordinados para la aplicación de subsidios. Atendiendo primero a los que menos tienen, estamos seguros de que las cosas van a salir bien, pero necesitamos la participación de todos, haciendo cada quien lo que le corresponde y en la medida de sus posibilidades, ayudar a los demás. Los recursos para estos apoyos provienen del presupuesto público, de lo que todos aportamos, y son para ayudar a quienes más lo necesitan, sin ningún pago.Por eso te pedimos que lo utilices de manera responsable, para que tú y tu familia tengan una mejor vivienda, más segura, más cómoda y más bonita.")
+            Paragraph textomedio = new Paragraph("El Programa de Vivienda Social con la intervención a través del acompañamiento social, tiene como propósito proteger al pueblo y ayudarnos a superar el reto económico que enfrentamos. Con estas acciones vamos a impulsar la industria de la construcción, que genera en corto tiempo muchos empleos y contribuye a reactivar la economía de las ciudades, pueblos y comunidades. Y al mismo tiempo vamos a dar atención a una de las principales necesidades de vivienda de las familias de más bajos ingresos y que carecen de seguridad social.")
+            .SetTextAlignment(TextAlignment.JUSTIFIED)
+            .SetFixedPosition(1, 43, 610, 500)
+            .SetCharacterSpacing(1)
+            .SetFont(cursiva)
+            .SetFontColor(DeviceGray.BLACK)
+            .SetFontSize(8);
+            doc.Add(textomedio);
+            Paragraph textomedio2 = new Paragraph("Rescatando primero a los que menos tienen, estamos seguros de que las cosas van a salir bien, pero necesitamos la participación de todos, haciendo cada quien lo que le corresponde y en la medida de sus posibilidades, ayudar a los demás.")
             .SetTextAlignment(TextAlignment.JUSTIFIED)
             .SetFixedPosition(1, 43, 570, 500)
             .SetCharacterSpacing(1)
             .SetFont(cursiva)
             .SetFontColor(DeviceGray.BLACK)
             .SetFontSize(8);
-            doc.Add(textomedio);
+            doc.Add(textomedio2);
+            Paragraph textomedio3 = new Paragraph("Los recursos para estos apoyos provienen del presupuesto público, de lo que todos aportamos, y son para ayudar a quienes más lo necesitan, sin ningún pago. Por eso te pedimos que lo utilices de manera responsable, para que tú y tu familia tengan una mejor vivienda, más segura, más cómoda y más bonita.")
+            .SetTextAlignment(TextAlignment.JUSTIFIED)
+            .SetFixedPosition(1, 43, 530, 500)
+            .SetCharacterSpacing(1)
+            .SetFont(cursiva)
+            .SetFontColor(DeviceGray.BLACK)
+            .SetFontSize(8);
+            doc.Add(textomedio3);
 
             Paragraph gMexico = new Paragraph("GOBIERNO DE MÉXICO")
            .SetTextAlignment(TextAlignment.CENTER)
-           .SetFixedPosition(1, 170, 545, 250)
+           .SetFixedPosition(1, 170, 510, 250)
            .SetCharacterSpacing(1)
            .SetFont(Bold)
            .SetFontColor(DeviceGray.BLACK)
@@ -193,7 +209,7 @@ namespace ConaviWeb.Controllers.Reporteador
             float[] columnWidths = { 1, 7 };
             Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
             table.SetWidth(450);
-            table.SetFixedPosition(1, 50, 190, 500);
+            table.SetFixedPosition(1, 45, 160, 503);
 
             Cell cell = new Cell(1, 4)
             .Add(new Paragraph("INSTRUCCIONES PARA ACTIVAR LA CUENTA Y DISPONER DE LOS RECURSOS:"))
@@ -222,7 +238,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-             .Add(new Paragraph("La tarjeta bancaria del Proyecto Institucional “Programa por una Mejor Vivienda” (PMV), será activada 72 horas posteriores a la recepción de esta carta.")); //NOMBRE DEL COMISIONADO
+             .Add(new Paragraph("Se hará entrega de una tarjeta bancaria para la intervención del acompañamiento social, con la recepción de esta carta.")); //NOMBRE DEL COMISIONADO
             Cell rfc = new Cell(3, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
                  .SetFont(fonte)
@@ -240,7 +256,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-             .Add(new Paragraph("Es necesario que la persona titular de la cuenta se presente con su identificación oficial vigente en la asamblea del operativo para la entrega de su kit bancario y carta de aceptación del apoyo.")); //RFC DEL COMISIONADO 
+             .Add(new Paragraph("Es necesario que la persona titular de la cuenta se presente con su identificación oficial vigente (INE, INAPAM, Cédula profesional, Pasaporte o Carta de identidad), CURP y comprobante de domicilio no mayor a tres meses, en la asamblea del operativo para la entrega de su kit bancario y carta de aceptación del apoyo.")); //RFC DEL COMISIONADO 
 
             Cell puesto = new Cell(4, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
@@ -258,7 +274,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-              .Add(new Paragraph("El recurso estará disponible 5 días hábiles posteriores a la activación de su tarjeta, la persona beneficiaria podrá retirar en sucursales y cajeros de Banco del Bienestar, así mismo, se le informa que su tarjeta podrá ser usada para realizar pagos en comercios.")); //PUESTO DEL COMISIONADO 
+              .Add(new Paragraph("El recurso estará disponible en un máximo de 12 días hábiles posteriores a la entrega de su tarjeta, la persona beneficiaria podrá retirar en sucursales y cajeros de Banco del Bienestar. Asimismo, se le informa que su tarjeta podrá ser usada para realizar pagos en comercios.")); //PUESTO DEL COMISIONADO 
 
             Cell nivel = new Cell(5, 1)
                  .SetTextAlignment(TextAlignment.CENTER)
@@ -285,7 +301,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetFontSize(10)
               .SetPaddingBottom(10)
               .SetPaddingRight(10)
-              .SetHeight(140);
+              .SetHeight(120);
             //.Add(new Paragraph("FINAL")); //NIVEL DEL COMISIONADO 
 
 
@@ -525,7 +541,7 @@ namespace ConaviWeb.Controllers.Reporteador
             float[] tableCol = { 2, 1 };
             Table tableTel = new Table(UnitValue.CreatePercentArray(tableCol));
             tableTel.SetWidth(450);
-            tableTel.SetFixedPosition(1, 65, 195, 500);
+            tableTel.SetFixedPosition(1, 65, 175, 500);
 
 
             Cell asociado = new Cell(1, 1)
@@ -556,7 +572,7 @@ namespace ConaviWeb.Controllers.Reporteador
             float[] izquierda = { 1, 4 };
             Table izquierdas = new Table(UnitValue.CreatePercentArray(izquierda));
 
-            izquierdas.SetFixedPosition(1, 50, 45, 50);
+            izquierdas.SetFixedPosition(1, 50, 20, 50);
 
 
 
@@ -578,7 +594,7 @@ namespace ConaviWeb.Controllers.Reporteador
               .SetMaxWidth(250)
               .SetBorder(Border.NO_BORDER)
               .SetHeight(130)
-             .Add(new Paragraph("Manifiesto que he verificado que mis datos son correctos y verídicos, ratifico que los proporcioné de manera personal y directa. Autorizo expresamente su inclusión en el padrón que determine la dependencia federal correspondiente. Asimismo, manifiesto tener conocimiento del aviso simplificado de privacidad señalado en el sitio https://www.conavi.gob.mx/gobmx/datos_personales/doc/Aviso%20de%20Privacidad%20Simplificado%20PMV%202023.pdf, y autorizo a que el Gobierno Federal me pueda contactar para avisos relacionados con mi bienestar y las actividades del mismo. Acredito mi inclusión en el Programa antes señalado, obligándome a dar cumplimiento a la normatividad que le sea aplicable, aceptando el carácter personal e intransferible del mismo y comprometiéndome a darle un uso responsable y conforme a los Lineamientos o Reglas de Operación del Programa disponible en: https://www.conavi.gob.mx/gobmx/datos_personales/avisos/ Autorizo a que la institución bancaria me identifique mediante NIP, número de trámite u orden de pago. Es de mi conocimiento que, en su caso, puedo consultar el contrato de apertura a través de la página de internet de la institución bancaria correspondiente y acepto los términos y condiciones-")); //NOMBRE DEL COMISIONADO
+             .Add(new Paragraph("Manifiesto que he verificado que mis datos son correctos y verídicos, ratifico que los proporcioné de manera personal y directa. Autorizo expresamente su inclusión en el padrón que determine la dependencia federal correspondiente. Asimismo, manifiesto tener conocimiento del aviso simplificado de privacidad señalado en el sitio https://www.conavi.gob.mx/gobmx/datos_personales/avisos/Aviso_de_privacidad_simplificado_del_PMV_2024.pdf , y autorizo a que el Gobierno Federal me pueda contactar para avisos relacionados con mi bienestar y las actividades del mismo. Acredito mi inclusión en el Programa de Vivienda Social para la intervención del acompañamiento social por una mejor vivienda, obligándome a dar cumplimiento a la normatividad que le sea aplicable, aceptando el carácter personal e intransferible del mismo y comprometiéndome a darle un uso responsable y conforme a los Lineamientos o Reglas de Operación del Programa disponibles en: https://www.conavi.gob.mx/gobmx/datos_personales/avisos/ Autorizo a que la institución bancaria me identifique mediante NIP, número de trámite u orden de pago. Es de mi conocimiento que, en su caso, puedo consultar el contrato de apertura a través de la página de internet de la institución bancaria correspondiente y acepto los términos y condiciones.")); //NOMBRE DEL COMISIONADO
 
             izquierdas.AddCell(cinco);
             izquierdas.AddCell(txtcinco);
@@ -590,7 +606,7 @@ namespace ConaviWeb.Controllers.Reporteador
             Table firma2 = new Table(1, false);
             firma2.SetBorder(Border.NO_BORDER);
             firma2.SetWidth(500);
-            firma2.SetFixedPosition(1, 370, 60, 180);
+            firma2.SetFixedPosition(1, 370, 30, 180);
             Cell areatxt2 = new Cell(1, 1)
                 .SetWidth(250)
                .SetHeight(80); //AreaParaFirma
