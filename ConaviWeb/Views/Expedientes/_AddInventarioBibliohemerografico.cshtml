@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario_biblio">Fecha de elaboración del Inventario:</label>
-            <input type="text" id="felaboracion_inventario_biblio" asp-for="FechaElaboracion" class="form-control" />
+            <input type="text" id="felaboracion_inventario_biblio" asp-for="FechaElaboracion" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="ftransferencia_biblio">Fecha de transferencia:</label>
-            <input type="text" id="ftransferencia_biblio" asp-for="FechaTransferencia" class="form-control" />
+            <input type="text" id="ftransferencia_biblio" asp-for="FechaTransferencia" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -37,7 +37,9 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script>
     $(document).ready(function () {
-        $('#ftransferencia_biblio, #felaboracion_inventario_biblio').datepicker();
+        $('#ftransferencia_biblio, #felaboracion_inventario_biblio').datepicker({
+            changeYear: true
+        });
         $("#formInsertInventarioBibliohemerografico").submit(function (e) {
 
         });

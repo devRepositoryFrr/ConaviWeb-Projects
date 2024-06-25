@@ -11,6 +11,7 @@ namespace ConaviWeb.Model.Expedientes
         public int NoProg { get; set; }
         public int Id { get; set; }
         public int IdTipoSoporte { get; set; }
+        public int IdClaveInterna { get; set; }
         public string Clave { get; set; }
         public string Soporte { get; set; }
         public string Titulo { get; set; }

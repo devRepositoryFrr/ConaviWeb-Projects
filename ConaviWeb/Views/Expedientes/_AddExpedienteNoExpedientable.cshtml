@@ -20,7 +20,10 @@
                         </div>
                         <div class="col-md-4">
                             <label class="control-label" for="text_clave_interna">Clave interna:</label>
-                            <input type="text" asp-for="ClaveInterna" id="text_clave_interna" placeholder="9C.3-04/2011" class="form-control" />
+                            @*<input type="text" asp-for="ClaveInterna" id="text_clave_interna" placeholder="9C.3-04/2011" class="form-control" />*@
+                            <select id="slctClaveExp" asp-for="IdClaveInterna" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["ClaveInterna"], "Id", "Clave"))">
+                                <option value="">--Seleccione--</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label class="control-label" for="text_partes">Número de partes:</label>
@@ -30,7 +33,7 @@
                     <div class="row form-group">
                         <div class="col-md-4 datepicker-group">
                             <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>
-                            <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" />
+                            <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" readonly />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-8">

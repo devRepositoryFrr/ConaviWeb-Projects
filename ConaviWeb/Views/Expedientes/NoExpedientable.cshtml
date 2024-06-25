@@ -61,7 +61,7 @@
     </div>
 </div>
 @*fin del formulario de documentacion no expedientable*@
-<button class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+<button id="btn_new_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
 <div id="addExpediente">
     @{
         @await Html.PartialAsync("../Expedientes/_AddExpedienteNoExpedientable")
@@ -88,10 +88,14 @@
         var table;
         $(document).ready(function () {
             showAlert();
-            if ($("#hd_id_inventario").val() == 0)
+            if ($("#hd_id_inventario").val() == 0) {
                 $("#formInsertInventarioNoExpedientable").show();
-            else
+                $("#btn_new_exp").prop("disabled", true);
+            }
+            else {
                 $("#formInsertInventarioNoExpedientable").hide();
+                $("#btn_new_exp").prop("disabled", false);
+            }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('exp-id');
@@ -149,7 +153,16 @@
     var columns = [
         { "name": "NoProg", "data": "noProg", "targets": 0},
         { "name": "Clave", "data": "clave", "targets": 1 },
-        { "name": "ClaveInterna", "data": "claveInterna", "targets": 2 },
+        //{ "name": "ClaveInterna", "data": "claveInterna", "targets": 2 },
+        {
+            "name": "ClaveInterna",
+            "data": null,
+            "targets": 2,
+            "render": function (data, type, row) {
+                var fprimero = new Date(row.fechaElaboracion);
+                return row.claveInterna + "-" + row.noProg + "/" + fprimero.getFullYear();
+            }
+        },
         { "name": "Partes", "data": "partes", "targets": 3 },
         { "name": "Titulo", "data": "titulo", "targets": 4 },
         {

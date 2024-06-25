@@ -25,6 +25,8 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
             ViewData["AreaCatalogo"] = catArea;
+            var catClave = await _expedienteRepository.GetCodigosExp();
+            ViewData["ClaveInterna"] = catClave;
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var id_inventario = await _expedienteRepository.GetIdInventarioNoExpedientable(user.Area);
             ViewBag.IdInv = id_inventario;

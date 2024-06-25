@@ -68,7 +68,7 @@
         </div>
     </div>
 </div>
-<button class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+<button id="btn_add_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
 <div id="addExpediente">
     @{
         @await Html.PartialAsync("../Expedientes/_AddExpedienteInventarioTP")
@@ -126,10 +126,13 @@
         var table;
         $(document).ready(function () {
             showAlert();
-            if ($("#hd_id_inventario").val() == 0)
+            if ($("#hd_id_inventario").val() == 0) {
                 $("#formInsertInventarioTPrimaria").show();
-            else
+                $("#btn_add_exp").prop("disabled", true);
+            } else {
                 $("#formInsertInventarioTPrimaria").hide();
+                $("#btn_add_exp").prop("disabled", false);
+            }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('exp-id');
@@ -198,7 +201,17 @@
         }
         var columns = [
             { "name": "NoProg", "data": "noProg", "targets": 0},
-            { "name": "Codigo", "data": "codigo", "targets": 1 },
+            //{ "name": "Codigo", "data": "codigo", "targets": 1 },
+            {
+                "targets": 1,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = row.codigo + '-' + row.noProg + '/' + row.periodo;
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
             { "name": "Nombre", "data": "nombre", "targets": 2 },
             { "name": "Periodo", "data": "periodo", "targets": 3 },
             { "name": "AniosResguardo", "data": "aniosResguardo", "targets": 4 },
@@ -210,7 +223,7 @@
                 "targets": 9,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'Caratula?id=' + data.id + '\'"></span>';
+                    var ret = '<a style="cursor:pointer; color: #404041;" title="Carátula" href="Caratula?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                     if (row.esEditable == 'editable') {     //is editable by owner

@@ -19,12 +19,12 @@
     <div class="row form-group datepicker-group">
         <div class="col-md-4">
             <label for="felaboracion_inventario" class="control-label">Fecha de elaboración del inventario:</label>
-            <input type="text" asp-for="FechaElaboracion" id="felaboracion_inventario" class="form-control" />
+            <input type="text" asp-for="FechaElaboracion" id="felaboracion_inventario" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
         <div class="col-md-8">
             <label for="fentrega_documento" class="control-label">Fecha de la entrega,<small> en caso de una entrega-recepción se anota la última fecha del documento</small>:</label>
-            <input type="text" asp-for="FechaEntrega" id="fentrega_documento" class="form-control" />
+            <input type="text" asp-for="FechaEntrega" id="fentrega_documento" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -38,7 +38,9 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script>
     $(document).ready(function () {
-        $('#felaboracion_inventario, #fentrega_documento').datepicker();
+        $('#felaboracion_inventario, #fentrega_documento').datepicker({
+            changeYear: true
+        });
 
         $("#formInsertInventarioControl").submit(function (e) {
 

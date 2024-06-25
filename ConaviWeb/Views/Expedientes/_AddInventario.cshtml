@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
-            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" class="form-control" />
+            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="ftransferencia_archivo">Fecha de transferencia:</label>
-            <input type="text" id="ftransferencia_archivo" asp-for="FechaTransferencia" class="form-control" />
+            <input type="text" id="ftransferencia_archivo" asp-for="FechaTransferencia" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -37,7 +37,9 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script>
     $(document).ready(function () {
-        $('#felaboracion_inventario, #ftransferencia_archivo').datepicker();
+        $('#felaboracion_inventario, #ftransferencia_archivo').datepicker({
+            changeYear: true
+        });
 
         $("#formInsertInventarioTPrimaria").submit(function (e) {
 

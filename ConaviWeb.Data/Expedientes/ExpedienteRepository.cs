@@ -186,12 +186,13 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select ROW_NUMBER() over(order by et.id) NoProg, et.id Id, et.id_expediente IdExpediente, csd.codigo Codigo, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.id_inventario IdInventario
+                        select cons.NoProg NoProg, et.id Id, et.id_expediente IdExpediente, csd.codigo Codigo, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.id_inventario IdInventario
                             , et.estatus Estatus
                         from prod_control_exp.expediente_transferencia et
                         join prod_control_exp.inventario_transferencia it on et.id_inventario = it.id
                         join prod_control_exp.cat_serie_documental csd on et.id_expediente = csd.id
-                        where it.id_area = @IdArea
+                        join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_transferencia ets join prod_control_exp.inventario_transferencia it on ets.id_inventario = it.id where it.id_area = @IdArea) cons on et.id = cons.id
+                        where it.id_area = @IdArea and et.estatus = 2
                         order by et.id;";
             return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
         }
@@ -200,13 +201,14 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, id_inventario IdInventario
+                        select cons.NoProg NoProg, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, id_inventario IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area, et.estatus Estatus
                         from prod_control_exp.expediente_transferencia et
                         join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
                         join prod_control_exp.inventario_transferencia itf on et.id_inventario = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_transferencia ets where ets.id_inventario = (select id_inventario from expediente_transferencia where id = @Id)) cons on et.id = cons.id
                         where et.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Expediente>(sql, new { Id = id });
@@ -314,7 +316,7 @@ namespace ConaviWeb.Data.Expedientes
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.inventario_control ic on ec.id_inventario_control = ic.id
                         join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
-                        where ic.id_area = @IdArea
+                        where ic.id_area = @IdArea and ec.estatus = 2
                         order by ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
         }
@@ -479,13 +481,13 @@ namespace ConaviWeb.Data.Expedientes
 
             var sql = @"
                         INSERT INTO prod_control_exp.expediente_no_expedientable
-                        (id_tipo_soporte, clave_interna, numero_partes, fecha_elaboracion, titulo_expediente, observaciones, id_inventario_no_expedientable, id_user)
-                        VALUES (@IdSoporte, @Clave, @Partes, @FechaElaboracion, @Titulo, @Observaciones, @IdInventario, @IdUser);";
+                        (id_tipo_soporte, id_clave_interna, numero_partes, fecha_elaboracion, titulo_expediente, observaciones, id_inventario_no_expedientable, id_user)
+                        VALUES (@IdSoporte, @IdClaveInterna, @Partes, @FechaElaboracion, @Titulo, @Observaciones, @IdInventario, @IdUser);";
 
             var result = await db.ExecuteAsync(sql, new
             {
                 IdSoporte = expediente.IdTipoSoporte,
-                Clave = expediente.ClaveInterna,
+                IdClaveInterna = expediente.IdClaveInterna,
                 Partes = expediente.Partes,
                 FechaElaboracion = expediente.FechaElaboracion,
                 Titulo = expediente.Titulo,
@@ -499,10 +501,11 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        select ROW_NUMBER() over(order by en.id) NoProg, en.id Id, cts.clave Clave, en.id_tipo_soporte IdTipoSoporte, cts.descripcion Soporte, en.clave_interna ClaveInterna, en.titulo_expediente Titulo, en.numero_partes Partes, en.observaciones Observaciones, en.fecha_elaboracion FechaElaboracion, en.fecha_registro FechaRegistro, en.id_inventario_no_expedientable IdInventario
+                        select ROW_NUMBER() over(order by en.id) NoProg, en.id Id, cts.clave Clave, en.id_tipo_soporte IdTipoSoporte, cts.descripcion Soporte, en.id_clave_interna IdClaveInterna, csd.codigo ClaveInterna, en.titulo_expediente Titulo, en.numero_partes Partes, en.observaciones Observaciones, en.fecha_elaboracion FechaElaboracion, en.fecha_registro FechaRegistro, en.id_inventario_no_expedientable IdInventario
                             ,if(en.id_user = @Id, 'editable', 'noeditable') EsEditable
                         from prod_control_exp.expediente_no_expedientable en
                         join prod_control_exp.cat_tipo_soporte cts on en.id_tipo_soporte = cts.id
+                        join prod_control_exp.cat_serie_documental csd on en.id_clave_interna = csd.id
                         where en.id_inventario_no_expedientable = @IdInv
                         order by en.id;";
             return await db.QueryAsync<ExpedienteNoExpedientable>(sql, new { Id = id, IdInv = id_inventario });

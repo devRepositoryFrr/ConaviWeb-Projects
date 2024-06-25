@@ -83,12 +83,15 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> GetExpedienteTP([FromForm] int id)
         {
             Expediente expediente = new();
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             expediente = await _expedienteRepository.GetExpedienteTP(id);
+            
             if (expediente == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
                 return Ok(alert);
             }
+            expediente.UserName = user.Name;
             return Ok(expediente);
         }
         [HttpPost]
