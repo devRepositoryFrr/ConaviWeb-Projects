@@ -10,6 +10,8 @@ namespace ConaviWeb.Model.Expedientes
     {
         public int NoProg { get; set; }
         public int Id { get; set; }
+        public int IdTipoDocumental { get; set; }
+        public string TipoDocumental { get; set; }
         public int IdTipoSoporte { get; set; }
         public int IdClaveInterna { get; set; }
         public string Clave { get; set; }
@@ -22,6 +24,7 @@ namespace ConaviWeb.Model.Expedientes
         public DateTime FechaRegistro { get; set; }
         public int IdInventario { get; set; }
         public int IdUser { get; set; }
+        public string UserName { get; set; }
         public string EsEditable { get; set; }
     }
 }

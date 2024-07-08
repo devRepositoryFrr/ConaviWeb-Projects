@@ -89,11 +89,11 @@
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                $("#formInsertInventarioNoExpedientable").show();
+                //$("#formInsertInventarioNoExpedientable").show();
                 $("#btn_new_exp").prop("disabled", true);
             }
             else {
-                $("#formInsertInventarioNoExpedientable").hide();
+                //$("#formInsertInventarioNoExpedientable").hide();
                 $("#btn_new_exp").prop("disabled", false);
             }
             showTable();
@@ -152,8 +152,15 @@
         }
     var columns = [
         { "name": "NoProg", "data": "noProg", "targets": 0},
-        { "name": "Clave", "data": "clave", "targets": 1 },
-        //{ "name": "ClaveInterna", "data": "claveInterna", "targets": 2 },
+        //{ "name": "Clave", "data": "clave", "targets": 1 },
+        {
+            "name": "Clave",
+            "data": null,
+            "targets": 1,
+            "render": function (data, type, row) {
+                return (row.idTipoDocumental!=null && row.clave!=null) ? row.idTipoDocumental + '-' + row.clave : "";
+            }
+        },
         {
             "name": "ClaveInterna",
             "data": null,
@@ -181,11 +188,10 @@
             "targets": 7,
             "data": null,
             "render": function (data, type, row, meta) {
-                /*var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id='+ data.id +'\'"></span>';*/
-                var ret = "";
+                var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaNoExpedientable?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                 if (row.esEditable == 'editable') {
                     ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
-                    ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span>';
+                    ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-check" aria-hidden="true"></span>';
                 }
                 return ret;
             },

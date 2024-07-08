@@ -13,6 +13,12 @@
                 <div class="modal-body">
                     <div class="row form-group">
                         <div class="col-md-4">
+                            <label class="control-label" for="slctTipoDocumental">Clave tipo documental:</label>
+                            <select asp-for="IdTipoDocumental" id="slctTipoDocumental" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["CatTipoDoc"], "Id", "Clave"))">
+                                <option value="">--Seleccione--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
                             <label class="control-label" for="slctTipoSoporte">Clave tipo de soporte:</label>
                             <select asp-for="IdTipoSoporte" id="slctTipoSoporte" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Catalogo"], "Id", "Clave"))">
                                 <option value="">--Seleccione--</option>
@@ -25,23 +31,24 @@
                                 <option value="">--Seleccione--</option>
                             </select>
                         </div>
+                        
+                    </div>
+                    <div class="row form-group">
                         <div class="col-md-4">
                             <label class="control-label" for="text_partes">Número de partes:</label>
                             <input type="number" asp-for="Partes" id="text_partes" placeholder="0" class="form-control" min="1" />
                         </div>
-                    </div>
-                    <div class="row form-group">
                         <div class="col-md-4 datepicker-group">
                             <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>
                             <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" readonly />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-8">
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
                             <label class="control-label" for="text_titulo">Título del expediente:</label>
                             <input type="text" asp-for="Titulo" id="text_titulo" class="form-control" placeholder="título del expediente..." />
                         </div>
-                    </div>
-                    <div class="row form-group">
                         <div class="col-md-12">
                             <label class="control-label" for="text_observaciones">Observaciones:</label>
                             <textarea class="form-control" asp-for="Observaciones" id="text_observaciones" placeholder="..." rows="3"></textarea>

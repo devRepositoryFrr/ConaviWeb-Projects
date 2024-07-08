@@ -11,7 +11,10 @@ namespace ConaviWeb.Model.Expedientes
         public int NoProg { get; set; }
         public int Id { get; set; }
         public int Ejemplar { get; set; }
+        public int IdTipoDocumental { get; set; }
+        public string TipoDocumental { get; set; }
         public int IdTipoSoporte { get; set; }
+        public string ClaveSoporte { get; set; }
         public string Soporte { get; set; }
         public string Titulo { get; set; }
         public string Autor { get; set; }

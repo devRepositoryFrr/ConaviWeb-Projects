@@ -127,10 +127,10 @@
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                $("#formInsertInventarioTPrimaria").show();
+                //$("#formInsertInventarioTPrimaria").show();
                 $("#btn_add_exp").prop("disabled", true);
             } else {
-                $("#formInsertInventarioTPrimaria").hide();
+                //$("#formInsertInventarioTPrimaria").hide();
                 $("#btn_add_exp").prop("disabled", false);
             }
             showTable();
@@ -223,11 +223,11 @@
                 "targets": 9,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a style="cursor:pointer; color: #404041;" title="Carátula" href="Caratula?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="Caratula?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                     if (row.esEditable == 'editable') {     //is editable by owner
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>' : '';
+                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
                     }
                     return ret;
                 },

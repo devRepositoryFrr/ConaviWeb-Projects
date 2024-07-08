@@ -1,337 +1,357 @@
-﻿@model ConaviWeb.Model.Expedientes.Expediente
+﻿@model ConaviWeb.Model.Expedientes.Caratula
 @{
     ViewData["Title"] = "Carátula";
 }
 @********************************************************************************************************************************************************************@
 @*Formulario para la carátula de expediente*@
-<div class="row">
-    <div class="col-md-12">
-        <h3 class="text-center">Carátula de descripción del expediente</h3>
+<form id="formInsertCaratulaExpedienteControl" enctype="multipart/form-data" method="post" asp-controller="CaratulaControl" asp-action="InsertCaratulaExpedienteIC">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center">Carátula de descripción del expediente</h3>
+        </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-4">
-        <label class="control-label">Nombre de la Unidad administrativa productora de la documentación:</label>
+    <div class="row form-group">
+        <div class="col-sm-4">
+            <label class="control-label">Nombre de la Unidad administrativa productora de la documentación:</label>
+        </div>
+        <div class="col-sm-8">
+            <input id="areaDescripcion" type="text" class="form-control" readonly />
+        </div>
     </div>
-    <div class="col-sm-8">
-        <input id="areaDescripcion" type="text" class="form-control" readonly />
+    <div class="row">
+        <div class="col-md-12">
+            <h5 class="text-center">Datos de la Clave de clasificación por asunto</h5>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <h5 class="text-center">Datos de la Clave de clasificación por asunto</h5>
+    <div class="row form-group">
+        <div class="col-sm-4">
+            <label class="control-label">Fondo:</label>
+        </div>
+        <div class="col-sm-8">
+            <label class="form-control">CONAVI</label>
+        </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-4">
-        <label class="control-label">Fondo:</label>
+    <div class="row form-group">
+        <div class="col-sm-4">
+            <label class="control-label">Sección, serie y subserie documental:</label>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" id="txtCodigo" asp-for="Codigo" class="form-control" placeholder="..." readonly />
+        </div>
     </div>
-    <div class="col-sm-8">
-        <label class="form-control">CONAVI</label>
+    <div class="row form-group">
+        <div class="col-sm-4">
+            <label class="control-label">Clave de clasificación completa:</label>
+        </div>
+        <div class="col-sm-8">
+            <input type="text" id="claveCompleta" class="form-control" placeholder="..." readonly />
+        </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-4">
-        <label class="control-label">Sección, serie y subserie documental:</label>
+    <div class="row">
+        <div class="col-sm-12">
+            <h5 class="text-center">Datos del expediente</h5>
+            <input type="hidden" asp-for="IdExpediente" id="idExpediente" />
+        </div>
     </div>
-    <div class="col-sm-8">
-        <input type="text" id="txtCodigo" asp-for="Codigo" class="form-control" placeholder="..." readonly />
+    <div class="row form-group">
+        <div class="col-md-3">
+            <label class="control-label">Título del expediente:</label>
+        </div>
+        <div class="col-md-9">
+            <input type="text" id="tituloExpediente" asp-for="Nombre" class="form-control" placeholder="..." readonly />
+        </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-4">
-        <label class="control-label">Clave de clasificación completa:</label>
+    <div class="row form-group datepicker-group">
+        <div class="col-sm-3">
+            <label class="control-label">Fecha del primer documento del expediente:</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" id="fprimer_documento" class="form-control" placeholder="..." readonly />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">Fecha del último documento del expediente:</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="text" id="fultimo_documento" class="form-control" placeholder="..." readonly />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
     </div>
-    <div class="col-sm-8">
-        <input type="text" id="claveCompleta" class="form-control" placeholder="..." readonly />
+    <div class="row form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Número de fojas por expediente o legajo:</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" asp-for="Fojas" class="form-control" min="0" />
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">Número de legajo:</label>
+        </div>
+        <div class="col-sm-3">
+            <input type="number" asp-for="Legajos" class="form-control" min="0" readonly />
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-12">
-        <h5 class="text-center">Datos del expediente</h5>
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-3">
-        <label class="control-label">Título del expediente:</label>
-    </div>
-    <div class="col-md-9">
-        <input type="text" id="tituloExpediente" asp-for="Nombre" class="form-control" placeholder="..." readonly />
-    </div>
-</div>
-<div class="row form-group datepicker-group">
-    <div class="col-sm-3">
-        <label class="control-label">Fecha del primer documento del expediente:</label>
-    </div>
-    <div class="col-sm-3">
-        <input type="text" id="fprimer_documento" class="form-control" placeholder="..." readonly />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-    </div>
-    <div class="col-sm-3">
-        <label class="control-label">Fecha del último documento del expediente:</label>
-    </div>
-    <div class="col-sm-3">
-        <input type="text" id="fultimo_documento" class="form-control" placeholder="..." readonly />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-3">
-        <label class="control-label">Número de fojas por expediente o legajo:</label>
-    </div>
-    <div class="col-sm-3">
-        <input type="number" asp-for="Fojas" class="form-control" min="0" />
-    </div>
-    <div class="col-sm-3">
-        <label class="control-label">Número de legajo:</label>
-    </div>
-    <div class="col-sm-3">
-        <input type="number" asp-for="Legajos" class="form-control" min="0" readonly />
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-3">
-        <label class="control-label">Cantidad de documentos:</label>
-    </div>
-    <div class="col-sm-3">
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Originales:</label>
+    <div class="row form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Cantidad de documentos:</label>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">Originales:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="number" id="originales" asp-for="DocOriginales" class="form-control" min="0" />
+                </div>
             </div>
-            <div class="col-sm-6">
-                <input type="number" id="originales" class="form-control" min="0" />
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">Copias:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="number" id="copias" asp-for="DocCopias" class="form-control" min="0" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">Cantidad de Cd´s:</label>
+                </div>
+                <div class="col-sm-6">
+                    <input type="number" id="numero_cds" asp-for="Cds" class="form-control" min="0" />
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Copias:</label>
+    <div class="row form-group">
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Valores de la serie documental que indica el Catálogo de disposición documental (A= administrativo; L=legal; F= fiscal y C=contable).</label>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <input type="number" id="copias" class="form-control" min="0" />
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <p>Administrativo</p>
+                    <input type="text" id="vig_doc_val_a" class="form-control" placeholder="..." readonly />
+                </div>
+                <div class="col-sm-4">
+                    <p>Legal</p>
+                    <input type="text" id="vig_doc_val_l" class="form-control" placeholder="..." readonly />
+                </div>
+                <div class="col-sm-4">
+                    <p>Contable/Fiscal</p>
+                    <input type="text" id="vig_doc_val_fc" class="form-control" placeholder="..." readonly />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Número de años de conservación en los diferentes tipos de archivos que se indica en el Catálogo de disposición documental (AT= archivo trámite y AC= archivo concentración).</label>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-xs-6">
+                    <p>Tramite</p>
+                    <input type="number" id="vig_doc_pla_con_at" class="form-control" min="0" readonly />
+                </div>
+                <div class="col-xs-6">
+                    <p>Concentración</p>
+                    <input type="number" id="vig_doc_pla_con_ac" class="form-control" min="0" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label">Técnicas de selección de la documentación (E= eliminación; C=conservación y M= muestreo)</label>
+                    <input type="text" id="tec_sel_e" class="form-control" placeholder="..." readonly />
+                    <input type="text" id="tec_sel_libre" asp-for="TecnicasSeleccion" class="form-control" placeholder="..." />
+                    @*<input type="text" id="tec_sel_m" class="form-control" placeholder="..." />*@
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Cantidad de Cd´s:</label>
+    <div class="row">
+        <div class="col-md-12">
+            <h5 class="text-center">Carácter de la información</h5>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-xs-3">
+            <label class="control-label">Pública</label>
+            <input type="text" id="caracter_publica" asp-for="Publica" class="form-control" placeholder="..." value="X" maxlength="1" />
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Confidencial</label>
+            <input type="text" id="caracter_confidencial" asp-for="Confidencial" class="form-control" placeholder="..." maxlength="1" />
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Reservada cuando surja de una solicitud de información</label>
+            <input type="text" id="caracter_reservada" asp-for="Reservada" class="form-control" placeholder="..." maxlength="1" />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <h5 class="text-center">Descripción del asunto o asuntos contenidos en el expediente:</h5>
+            <textarea class="form-control" id="descripcion" asp-for="DescripcionAsunto" rows="3" placeholder="..."></textarea>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <h5 class="text-center">Clasificación y desclasificación de la información (ESTOS APARTADOS SÓLO SE LLENAN EN CASO DE QUE UN EXPEDIENTE HAYA SIDO SOLICITADO PARA DAR RESPUESTA A UNA SOLICITUD DE INFORMACIÓN DEL INAI)</h5>
+        </div>
+    </div>
+    <div class="row form-group datepicker-group">
+        <div class="col-xs-3">
+            <label for="fclasificacion_expediente">Fecha de clasificación:</label>
+            <input type="text" id="fclasificacion_expediente" asp-for="FechaClasificacion" class="form-control" readonly />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        <div class="col-xs-3">
+            <label class="control-label">Periodo de reserva:</label>
+            <input type="text" id="periodo_reserva" asp-for="PeriodoReserva" class="form-control" placeholder="..." />
+        </div>
+        <div class="col-xs-6">
+            <label class="control-label">Fundamento legal:</label>
+            <input type="text" id="fundamento_legal" asp-for="FundamentoLegal" class="form-control" placeholder="..." />
+        </div>
+    </div>
+    <div class="row form-group datepicker-group">
+        <div class="col-sm-3">
+            <label class="control-label">Ampliación del periodo de reserva:</label>
+            <input type="text" id="ampliacion_periodo_reserva" asp-for="AmpliacionPeriodo" class="form-control" placeholder="..." />
+        </div>
+        <div class="col-sm-3">
+            <label for="fdesclasificacion_expediente">Fecha de desclasificación:</label>
+            <input type="text" id="fdesclasificacion_expediente" asp-for="FechaDesclasificacion" class="form-control" readonly />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">Nombre, rúbrica y cargo del servidor público que desclasifica.</label>
+            <input type="text" id="info_desclasifica" asp-for="NombreDesclasifica" class="form-control" placeholder="..." />
+        </div>
+        <div class="col-sm-3">
+            <label class="control-label">Indicar las partes o secciones reservadas o confidenciales que se están reservando.</label>
+            <input type="text" id="info_reservada" asp-for="PartesReservando" class="form-control" placeholder="..." />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-6">
+            <label class="control-label">Nombre y rúbrica del titular de la Unidad Administrativa en caso de clasificar la información</label>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" id="info_titular_area" class="form-control" placeholder="..." />
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">Datos topográficos (ubicación física del expediente)</label>
+                </div>
+                <div class="col-sm-6">
+                    <textarea class="form-control" asp-for="DatosTopograficos" id="info_topografico" placeholder="..."></textarea>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <input type="number" id="numero_cds" class="form-control" min="0" />
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">Nombre de quien hace la captura  de esta carátula</label>
+                </div>
+                <div class="col-sm-6">
+                    <textarea class="form-control" readonly id="info_captura"></textarea>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-5">
-        <div class="row">
-            <div class="col-md-12">
-                <label class="control-label">Valores de la serie documental que indica el Catálogo de disposición documental (A= administrativo; L=legal; F= fiscal y C=contable).</label>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <p>Administrativo</p>
-                <input type="text" id="vig_doc_val_a" class="form-control" placeholder="..." readonly />
-            </div>
-            <div class="col-sm-4">
-                <p>Legal</p>
-                <input type="text" id="vig_doc_val_l" class="form-control" placeholder="..." readonly />
-            </div>
-            <div class="col-sm-4">
-                <p>Contable/Fiscal</p>
-                <input type="text" id="vig_doc_val_fc" class="form-control" placeholder="..." readonly />
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button id="btn-save" type="submit" class="btn btn-primary pull-right">Guardar</button>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <label class="control-label">Número de años de conservación en los diferentes tipos de archivos que se indica en el Catálogo de disposición documental (AT= archivo trámite y AC= archivo concentración).</label>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-xs-6">
-                <p>Tramite</p>
-                <input type="number" id="vig_doc_pla_con_at" class="form-control" min="0" readonly />
-            </div>
-            <div class="col-xs-6">
-                <p>Concentración</p>
-                <input type="number" id="vig_doc_pla_con_ac" class="form-control" min="0" readonly />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="row">
-            <div class="col-md-12">
-                <label class="control-label">Técnicas de selección de la documentación (E= eliminación; C=conservación y M= muestreo)</label>
-                <input type="text" id="tec_sel_e" class="form-control" placeholder="..." readonly />
-                <input type="text" id="tec_sel_libre" class="form-control" placeholder="..." />
-                @*<input type="text" id="tec_sel_m" class="form-control" placeholder="..." />*@
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <h5 class="text-center">Carácter de la información</h5>
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-xs-3">
-        <label class="control-label">Pública</label>
-        <input type="text" id="caracter_publica" class="form-control" placeholder="X" value="X" />
-    </div>
-    <div class="col-xs-3">
-        <label class="control-label">Confidencial</label>
-        <input type="text" id="caracter_confidencial" class="form-control" placeholder="..." />
-    </div>
-    <div class="col-xs-6">
-        <label class="control-label">Reservada cuando surja de una solicitud de información</label>
-        <input type="text" id="caracter_reservada" class="form-control" placeholder="..." />
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-12">
-        <h5 class="text-center">Descripción del asunto o asuntos contenidos en el expediente:</h5>
-        <textarea class="form-control" id="descripcion" rows="3" placeholder="..."></textarea>
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-12">
-        <h5 class="text-center">Clasificación y desclasificación de la información (ESTOS APARTADOS SÓLO SE LLENAN EN CASO DE QUE UN EXPEDIENTE HAYA SIDO SOLICITADO PARA DAR RESPUESTA A UNA SOLICITUD DE INFORMACIÓN DEL INAI)</h5>
-    </div>
-</div>
-<div class="row form-group datepicker-group">
-    <div class="col-xs-3">
-        <label for="fclasificacion_expediente">Fecha de clasificación:</label>
-        <input type="text" id="fclasificacion_expediente" class="form-control" readonly />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-    </div>
-    <div class="col-xs-3">
-        <label class="control-label">Periodo de reserva:</label>
-        <input type="text" id="periodo_reserva" class="form-control" placeholder="..." />
-    </div>
-    <div class="col-xs-6">
-        <label class="control-label">Fundamento legal:</label>
-        <input type="text" id="fundamento_legal" class="form-control" placeholder="..." />
-    </div>
-</div>
-<div class="row form-group datepicker-group">
-    <div class="col-sm-3">
-        <label class="control-label">Ampliación del periodo de reserva:</label>
-        <input type="text" id="ampliacion_periodo_reserva" class="form-control" placeholder="..." />
-    </div>
-    <div class="col-sm-3">
-        <label for="fdesclasificacion_expediente">Fecha de desclasificación:</label>
-        <input type="text" id="fdesclasificacion_expediente" class="form-control" readonly />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-    </div>
-    <div class="col-sm-3">
-        <label class="control-label">Nombre, rúbrica y cargo del servidor público que desclasifica.</label>
-        <input type="text" id="info_desclasifica" class="form-control" placeholder="..." />
-    </div>
-    <div class="col-sm-3">
-        <label class="control-label">Indicar las partes o secciones reservadas o confidenciales que se están reservando.</label>
-        <input type="text" id="info_reservada" class="form-control" placeholder="..." />
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-sm-6">
-        <label class="control-label">Nombre y rúbrica del titular de la Unidad Administrativa en caso de clasificar la información</label>
-    </div>
-    <div class="col-sm-6">
-        <input type="text" id="info_titular_area" class="form-control" placeholder="..." />
-    </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Datos topográficos (ubicación física del expediente)</label>
-            </div>
-            <div class="col-sm-6">
-                <textarea class="form-control" id="info_topografico" placeholder="..."></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-sm-6">
-                <label class="control-label">Nombre de quien hace la captura  de esta carátula</label>
-            </div>
-            <div class="col-sm-6">
-                <textarea class="form-control" id="info_captura" placeholder="..."></textarea>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <button id="btn-save" type="button" class="btn btn-primary pull-right">Guardar</button>
-    </div>
-</div>
-@*Fin del formulario de carátula de expediente*@
-<hr />
+    @*Fin del formulario de carátula de expediente*@
+    <hr />
+</form>
 
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#fprimer_documento, #fultimo_documento, #fclasificacion_expediente, #fdesclasificacion_expediente').datepicker({
-            changeYear: true
-        });
-        const urlParams = new URLSearchParams(window.location.search);
-        const idExpediente = urlParams.get('id');
-        const search = urlParams.get('sh');
-        $.ajax({
-            url: "@Url.Action("GetExpedienteControl", "InventarioControl")", // Url
-            data: {
-                // Datos / Parámetros
-                Id: idExpediente
-            },
-            type: "post"  // Verbo HTTP
-        }).done(function (result) {
-            $('#txtCodigo').val(result.codigo);
-            $('#areaDescripcion').val(result.area);
-            $('#tituloExpediente').val(result.nombre);
-            $('#claveCompleta').val(result.codigo + '-' + result.id + '/' + result.periodo);
-            $('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4));
-            $('#fultimo_documento').val(result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4));
-            $('#Fojas').val(result.fojas);
-            $('#Legajos').val(result.legajos);
-            $('#vig_doc_val_a').val(result.vigDocValA);
-            $('#vig_doc_val_l').val(result.vigDocValL);
-            $('#vig_doc_val_fc').val(result.vigDocValFC);
-            $('#vig_doc_pla_con_at').val(result.vigDocPlaConAT);
-            $('#vig_doc_pla_con_ac').val(result.vigDocPlaConAC);
-            //$('#vig_doc_pla_con_tot').val(result.vigDocPlaConTot);
-            $('#tec_sel_e').val(result.tecSelE == 'X' ? 'E' : result.tecSelC == 'X' ? 'C' : 'M');
-            //$('#tec_sel_c').val(result.tecSelC);
-            $('#info_captura').val(result.userName);
-            if (search == 1) {
-                $("#btn-save").remove();
-                $("input[type=text], input[type=number], textarea").replaceWith(function () {
-                    return '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
-                });
-                //$("input:text").prop("disabled", true);
-            }
-        })
-        // Se ejecuta si se produjo un error.
-        .fail(function (xhr, status, error) {
-            // Mostramos un mensaje de error.
-            //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
-
-            // Escondemos el Ajax Loader
-            //$("#AjaxLoader").hide("slow");
-
-            // Habilitamos el botón de Submit
-            //$("#SubmitBtn").prop("disabled", false);
-        })
-        // Hacer algo siempre, haya sido exitosa o no.
-        .always(function () {
-
-        });
+$(document).ready(function () {
+    $('#fprimer_documento, #fultimo_documento, #fclasificacion_expediente, #fdesclasificacion_expediente').datepicker({
+        changeYear: true
     });
+    const urlParams = new URLSearchParams(window.location.search);
+    const idExpediente = urlParams.get('id');
+    const search = urlParams.get('sh');
+    $.ajax({
+        url: "@Url.Action("GetCaratulaExpedienteControl", "InventarioControl")", // Url
+        data: {
+            // Datos / Parámetros
+            Id: idExpediente
+        },
+        type: "post"  // Verbo HTTP
+    }).done(function (result) {
+        $('#idExpediente').val(idExpediente);
+        $('#txtCodigo').val(result.codigo);
+        $('#areaDescripcion').val(result.area);
+        $('#tituloExpediente').val(result.nombre);
+        $('#claveCompleta').val(result.codigo + '-' + result.noProg + '/' + result.periodo);
+        $('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4));
+        $('#fultimo_documento').val(result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4));
+        $('#Fojas').val(result.fojas);
+        $('#Legajos').val(result.legajos);
+        $('#originales').val(result.docOriginales);
+        $('#copias').val(result.docCopias);
+        $('#numero_cds').val(result.cds);
+        $('#tec_sel_libre').val(result.tecnicasSeleccion);
+        $('#caracter_publica').val(result.publica);
+        $('#caracter_confidencial').val(result.confidencial);
+        $('#caracter_reservada').val(result.reservada);
+        $('#descripcion').val(result.descripcionAsunto);
+        $('#fclasificacion_expediente').val(result.fechaClasificacion!=null ? result.fechaClasificacion.substring(8, 10) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(0, 4) : '');
+        $('#periodo_reserva').val(result.periodoReserva);
+        $('#fundamento_legal').val(result.fundamentoLegal);
+        $('#ampliacion_periodo_reserva').val(result.ampliacionPeriodo);
+        $('#fdesclasificacion_expediente').val(result.fechaDesclasificacion!=null ? result.fechaDesclasificacion.substring(8, 10) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(0, 4) : '');
+        $('#info_desclasifica').val(result.nombreDesclasifica);
+        $('#info_reservada').val(result.partesReservando);
+        $('#info_topografico').val(result.datosTopograficos);
+        $('#vig_doc_val_a').val(result.vigDocValA);
+        $('#vig_doc_val_l').val(result.vigDocValL);
+        $('#vig_doc_val_fc').val(result.vigDocValFC);
+        $('#vig_doc_pla_con_at').val(result.vigDocPlaConAT);
+        $('#vig_doc_pla_con_ac').val(result.vigDocPlaConAC);
+        //$('#vig_doc_pla_con_tot').val(result.vigDocPlaConTot);
+        $('#tec_sel_e').val(result.tecSelE == 'X' ? 'E' : result.tecSelC == 'X' ? 'C' : 'M');
+        //$('#tec_sel_c').val(result.tecSelC);
+        $('#info_captura').val(result.userName);
+        if (search == 1) {
+            $("#btn-save").remove();
+            $("input[type=text], input[type=number], textarea").replaceWith(function () {
+                return '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
+            });
+            //$("input:text").prop("disabled", true);
+        }
+    })
+    // Se ejecuta si se produjo un error.
+    .fail(function (xhr, status, error) {
+        // Mostramos un mensaje de error.
+        //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+        // Escondemos el Ajax Loader
+        //$("#AjaxLoader").hide("slow");
+
+        // Habilitamos el botón de Submit
+        //$("#SubmitBtn").prop("disabled", false);
+    })
+    // Hacer algo siempre, haya sido exitosa o no.
+    .always(function () {
+
+    });
+});
 </script>

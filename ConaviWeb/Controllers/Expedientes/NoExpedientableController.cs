@@ -9,6 +9,7 @@ using ConaviWeb.Model.Expedientes;
 using ConaviWeb.Model.Response;
 using ConaviWeb.Services;
 using static ConaviWeb.Models.AlertsViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ConaviWeb.Controllers.Expedientes
 {
@@ -21,15 +22,21 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public async Task<IActionResult> IndexAsync()
         {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioNoExpedientable(user.Area);
+            ViewBag.IdInv = inventario != null ? inventario.Id : 0;
             var cat = await _expedienteRepository.GetTiposSoporte();
             ViewData["Catalogo"] = cat;
+            var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
+            ViewData["CatTipoDoc"] = catTipoDoc;
             var catArea = await _expedienteRepository.GetAreas();
-            ViewData["AreaCatalogo"] = catArea;
+            ViewBag.AreaCatalogo = new SelectList(catArea, "Id", "Clave", idUserArea);
             var catClave = await _expedienteRepository.GetCodigosExp();
             ViewData["ClaveInterna"] = catClave;
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioNoExpedientable(user.Area);
-            ViewBag.IdInv = id_inventario;
+            ViewBag.NombreR = inventario != null ? inventario.NombreResponsableAT : "";
+            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
+            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia?.ToShortDateString() : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -69,16 +76,44 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesNoExpedientables()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioNoExpedientable(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioNoExpedientable(user.Area);
 
             IEnumerable<ExpedienteNoExpedientable> expedientes = new List<ExpedienteNoExpedientable>();
-            expedientes = await _expedienteRepository.GetExpedientesNoExpedientables(user.Id, id_inventario);
+            expedientes = await _expedienteRepository.GetExpedientesNoExpedientables(user.Id, inventario!=null ? inventario.Id : 0);
             if (expedientes == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
                 return Ok(alert);
             }
             return Json(new { data = expedientes });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetNoExpedientable([FromForm] int id)
+        {
+            Expediente expediente = new();
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            expediente = await _expedienteRepository.GetNoExpedientable(id);
+            if (expediente == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                return Ok(alert);
+            }
+            expediente.UserName = user.Name;
+            return Ok(expediente);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetCaratulaNoExpedientable([FromForm] int id)
+        {
+            Caratula caratula = new();
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
+            if (caratula == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                return Ok(alert);
+            }
+            caratula.UserName = user.Name;
+            return Ok(caratula);
         }
         [HttpPost]
         public async Task<IActionResult> DropExpediente(ExpedienteNoExpedientable expediente)

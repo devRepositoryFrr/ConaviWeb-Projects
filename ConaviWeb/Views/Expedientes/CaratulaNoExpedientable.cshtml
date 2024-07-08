@@ -3,8 +3,8 @@
     ViewData["Title"] = "Carátula";
 }
 @********************************************************************************************************************************************************************@
-@*Formulario para la carátula de expediente*@
-<form id="formInsertCaratulaExpedienteTP" enctype="multipart/form-data" method="post" asp-controller="Caratula" asp-action="InsertCaratulaExpedienteTP">
+@*Formulario para la carátula de expediente no expedientable*@
+<form id="formInsertCaratulaNoExpedientable" enctype="multipart/form-data" method="post" asp-controller="CaratulaNoExpedientable" asp-action="InsertCaratulaNoExpedientable">
     <div class="row">
         <div class="col-md-12">
             <h3 class="text-center">Carátula de descripción del expediente</h3>
@@ -82,10 +82,10 @@
             <label class="control-label">Número de fojas por expediente o legajo:</label>
         </div>
         <div class="col-sm-3">
-            <input type="number" asp-for="Fojas" class="form-control" min="0" readonly />
+            <input type="number" asp-for="Fojas" class="form-control" min="0" />
         </div>
         <div class="col-sm-3">
-            <label class="control-label">Número de legajos:</label>
+            <label class="control-label">Número de legajo:</label>
         </div>
         <div class="col-sm-3">
             <input type="number" asp-for="Legajos" class="form-control" min="0" readonly />
@@ -169,7 +169,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label class="control-label">Técnicas de selección de la documentación (E= eliminación; C=conservación y M= muestreo)</label>
-                    <input type="text" id="tec_sel_e" class="form-control" placeholder="..." readonly/>
+                    <input type="text" id="tec_sel_e" class="form-control" placeholder="..." readonly />
                     <input type="text" id="tec_sel_libre" asp-for="TecnicasSeleccion" class="form-control" placeholder="..." />
                     @*<input type="text" id="tec_sel_m" class="form-control" placeholder="..." />*@
                 </div>
@@ -184,11 +184,11 @@
     <div class="row form-group">
         <div class="col-xs-3">
             <label class="control-label">Pública</label>
-            <input type="text" id="caracter_publica" asp-for="Publica" class="form-control" placeholder="..." value="X" maxlength="1" />
+            <input type="text" id="caracter_publica" asp-for="Publica" class="form-control" placeholder="..." />
         </div>
         <div class="col-xs-3">
             <label class="control-label">Confidencial</label>
-            <input type="text" id="caracter_confidencial" asp-for="Confidencial" class="form-control" placeholder="..." maxlength="1" />
+            <input type="text" id="caracter_confidencial" asp-for="Confidencial" class="form-control" placeholder="..." />
         </div>
         <div class="col-xs-6">
             <label class="control-label">Reservada cuando surja de una solicitud de información</label>
@@ -288,7 +288,7 @@ $(document).ready(function () {
     const idExpediente = urlParams.get('id');
     const search = urlParams.get('sh');
     $.ajax({
-        url: "@Url.Action("GetCaratulaExpedienteTP", "Inventario")", // Url
+        url: "@Url.Action("GetCaratulaNoExpedientable", "NoExpedientable")", // Url
         data: {
             // Datos / Parámetros
             Id: idExpediente
@@ -300,8 +300,10 @@ $(document).ready(function () {
         $('#areaDescripcion').val(result.area);
         $('#tituloExpediente').val(result.nombre);
         $('#claveCompleta').val(result.codigo + '-' + result.noProg + '/' + result.periodo);
+        //$('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4));
+        //$('#fultimo_documento').val(result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4));
         $('#Fojas').val(result.fojas);
-        $('#Legajos').val(result.legajos);
+        //$('#Legajos').val(result.legajos);
         $('#originales').val(result.docOriginales);
         $('#copias').val(result.docCopias);
         $('#numero_cds').val(result.cds);

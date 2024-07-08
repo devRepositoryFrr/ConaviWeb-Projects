@@ -114,6 +114,7 @@
                 var expId = $(e.relatedTarget).data('exp-id');
                 $(e.currentTarget).find('#idExpediente').val(expId);
             });
+            getAnio();
         });
         function showTable() {
             var urlTipo = "";
@@ -166,7 +167,15 @@
         var columns = [
             { "name": "NoProg", "data": "noProg", "targets": 0},
             { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
-            { "name": "TipoSoporte", "data": "soporte", "targets": 2 },
+            //{ "name": "TipoSoporte", "data": "soporte", "targets": 2 },
+            {
+                "name": "TipoSoporte",
+                "data": null,
+                "targets": 2,
+                "render": function (data, type, row) {
+                    return row.idTipoDocumental + '-' + row.claveSoporte;
+                }
+            },
             { "name": "Titulo", "data": "titulo", "targets": 3 },
             { "name": "Autor", "data": "autor", "targets": 4 },
             { "name": "Tema", "data": "tema", "targets": 5 },
@@ -183,7 +192,7 @@
                     var ret = "";
                     if (row.esEditable == 'editable') {
                         ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
-                        ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-new-window" aria-hidden="true"></span>';
+                        ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-new-window" aria-hidden="true"></span>';
                     }
                     return ret;
                 },
@@ -198,6 +207,21 @@
             setTimeout(function () {
                 $("#alerta").remove();
             }, 6000);
+        }
+        function getAnio() {
+            var optionString = '';
+            var data = [];
+            // Return today's date and time
+            var currentTime = new Date();
+            // returns the year (four digits)
+            var year = currentTime.getFullYear();
+            for (var i = year; i >= 1900;i--) {
+                data.push(i);
+            }
+            data.forEach(function (dataItem, index) {
+                optionString += '<option value="' + dataItem + '">' + dataItem + '</option>';
+            });
+            $('#slctAnio').append(optionString);
         }
     </script>
 }

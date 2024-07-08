@@ -6,25 +6,26 @@
     <div class="row form-group">
         <div class="col-md-12 form-group">
             <label class="control-label">Nombre de la Unidad Administrativa Generadora:</label>
-            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["AreaCatalogo"], "Id", "Clave"))">
+            @*<select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["AreaCatalogo"], "Id", "Clave"))">*@
+            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo">
                 <option value="">--Seleccione--</option>
             </select>
         </div>
         <div class="col-md-12 form-group">
             <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="María Luisa Negrete Gaytán" />
+            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" />
         </div>
     </div>
 
     <div class="row form-group datepicker-group">
         <div class="col-md-4">
             <label for="felaboracion_inventario" class="control-label">Fecha de elaboración del inventario:</label>
-            <input type="text" asp-for="FechaElaboracion" id="felaboracion_inventario" class="form-control" readonly />
+            <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
         <div class="col-md-8">
             <label for="fentrega_documento" class="control-label">Fecha de la entrega,<small> en caso de una entrega-recepción se anota la última fecha del documento</small>:</label>
-            <input type="text" asp-for="FechaEntrega" id="fentrega_documento" class="form-control" readonly />
+            <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>

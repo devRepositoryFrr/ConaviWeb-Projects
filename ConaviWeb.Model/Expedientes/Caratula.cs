@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConaviWeb.Model.Expedientes
 {
-    public class Expediente
+    public class Caratula
     {
         public int IdUser { get; set; }
         public string UserName { get; set; }
@@ -36,7 +36,34 @@ namespace ConaviWeb.Model.Expedientes
         public string Area { get; set; }
         public string EsEditable { get; set; }
         public string Estatus { get; set; }
-        public int MigradoTP { get; set; }
-        public int MigradoNE { get; set; }
+        //los campos de la caratula
+        //public int IdUser { get; set; }
+        //public string UserName { get; set; }
+        //public int NoProg { get; set; }
+        //public int Id { get; set; }
+        //public int IdExpediente { get; set; }
+        //public string Codigo { get; set; }
+        //public string Nombre { get; set; }
+        //public string Periodo { get; set; }
+        //public int AniosResguardo { get; set; }
+        //public int Legajos { get; set; }
+        //public int Fojas { get; set; }
+        public int DocOriginales { get; set; }
+        public int DocCopias { get; set; }
+        public int Cds { get; set; }
+        public string TecnicasSeleccion { get; set; }
+        public string Publica { get; set; }
+        public string Confidencial { get; set; }
+        public string Reservada { get; set; }
+        public string DescripcionAsunto { get; set; }
+        public DateTime? FechaClasificacion { get; set; }
+        public string PeriodoReserva { get; set; }
+        public string FundamentoLegal { get; set; }
+        public string AmpliacionPeriodo { get; set; }
+        public DateTime? FechaDesclasificacion { get; set; }
+        public string NombreDesclasifica { get; set; }
+        public string CargoDesclasifica { get; set; }
+        public string PartesReservando { get; set; }
+        public string DatosTopograficos { get; set; }
     }
 }

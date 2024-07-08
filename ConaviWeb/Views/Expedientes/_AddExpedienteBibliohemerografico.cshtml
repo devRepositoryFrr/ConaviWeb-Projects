@@ -12,12 +12,19 @@
                 <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
                 <div class="modal-body">
                     <div class="row form-group">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="control-label">Número de ejemplar:</label>
                             <input asp-for="Ejemplar" type="number" placeholder="0" class="form-control" min="1" />
                         </div>
-                        <div class="col-md-6">
-                            <label class="control-label">Tipo de soporte:</label>
+                        
+                        <div class="col-md-4">
+                            <label class="control-label">Clave tipo documental:</label>
+                            <select id="" asp-for="IdTipoDocumental" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["CatTipoDoc"], "Id", "Clave"))">
+                                <option value="">--Seleccione--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label">Clave tipo de soporte:</label>
                             <select id="" asp-for="IdTipoSoporte" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Catalogo"], "Id", "Clave"))">
                                 <option value="">--Seleccione--</option>
                             </select>
@@ -42,7 +49,10 @@
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Año:</label>
-                            <input type="number" asp-for="Anio" placeholder="Año..." class="form-control" min="2000" />
+                            @*<input type="number" asp-for="Anio" placeholder="Año..." class="form-control" min="2000" />*@
+                        <select id="slctAnio" asp-for="Anio" class="form-control">
+                            <option value="">--Seleccione--</option>
+                        </select>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">ISBN/ISSN:</label>

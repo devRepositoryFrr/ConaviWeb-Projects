@@ -9,6 +9,7 @@ using ConaviWeb.Model.Expedientes;
 using ConaviWeb.Services;
 using static ConaviWeb.Models.AlertsViewModel;
 using ConaviWeb.Model.Response;
+using ConaviWeb.Model;
 
 namespace ConaviWeb.Controllers.Expedientes
 {
@@ -25,6 +26,14 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
             ViewData["AreaCatalogo"] = catArea;
+            var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
+            ViewData["CatTipoDoc"] = catTipoDoc;
+            /*List<Catalogo> catAnios = new List<Catalogo>();
+            DateTime date1 = new DateTime();
+            for (int i = 1900; i<=date1.Year; i++)
+            {
+                catAnios.Add(new Catalogo { i, i });
+            }*/
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var id_inventario = await _expedienteRepository.GetIdInventarioBibliohemerografico(user.Area);
             ViewBag.IdInv = id_inventario;

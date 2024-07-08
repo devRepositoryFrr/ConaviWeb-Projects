@@ -9,6 +9,7 @@ using ConaviWeb.Model.Expedientes;
 using ConaviWeb.Services;
 using static ConaviWeb.Models.AlertsViewModel;
 using ConaviWeb.Model.Response;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ConaviWeb.Controllers.Expedientes
 {
@@ -25,13 +26,17 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public async Task<IActionResult> IndexAsync()
         {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
             var cat = await _expedienteRepository.GetCodigosExp();
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
-            ViewData["AreaCatalogo"] = catArea;
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioControl(user.Area);
-            ViewBag.IdInv = id_inventario;
+            ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
+            ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
+            ViewBag.IdInv = inventario!=null ? inventario.Id : 0;
+            ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToShortDateString() : "";
+            ViewBag.FechaEnt = inventario!=null ? inventario.FechaEntrega?.ToShortDateString() : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -69,10 +74,10 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesControl()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioControl(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
 
             IEnumerable<Expediente> expedientes = new List<Expediente>();
-            expedientes = await _expedienteRepository.GetExpedientesInventarioControl(user.Id, id_inventario);
+            expedientes = await _expedienteRepository.GetExpedientesInventarioControl(user.Id, inventario!=null ? inventario.Id : 0);
 
             if (expedientes == null)
             {
@@ -96,6 +101,20 @@ namespace ConaviWeb.Controllers.Expedientes
             return Ok(expediente);
         }
         [HttpPost]
+        public async Task<IActionResult> GetCaratulaExpedienteControl([FromForm] int id)
+        {
+            Caratula caratula = new();
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id);
+            if (caratula == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                return Ok(alert);
+            }
+            caratula.UserName = user.Name;
+            return Ok(caratula);
+        }
+        [HttpPost]
         public async Task<IActionResult> DropExpediente(Expediente expediente)
         {
             var success = await _expedienteRepository.DropExpedienteControl(expediente.Id);
@@ -117,6 +136,30 @@ namespace ConaviWeb.Controllers.Expedientes
                 return RedirectToAction("Index");
             }
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revisión con exito");
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> MigrarExpedienteControlInvTP(Expediente expediente)
+        {
+            var success = await _expedienteRepository.MigrarExpedienteInvTP(expediente.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+                return RedirectToAction("Index");
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Transferencia Primaria con exito");
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> MigrarExpedienteControlInvNE(Expediente expediente)
+        {
+            var success = await _expedienteRepository.MigrarExpedienteInvNE(expediente.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+                return RedirectToAction("Index");
+            }
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Documentación No Expedientable con exito");
             return RedirectToAction("Index");
         }
         //[HttpPost]
