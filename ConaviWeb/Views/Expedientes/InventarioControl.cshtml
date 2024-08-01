@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Inventario de control";
+    ViewData["Title"] = "Inicio";
 }
 @********************************************************************************************************************************************************************@
 @{
@@ -133,7 +133,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
         var table;
         $(document).ready(function () {
             showAlert();
@@ -169,6 +169,67 @@
             //    var expId = $(e.relatedTarget).data('exp-id');
             //    $(e.currentTarget).find('#idExpediente').val(expId);
             //});
+            $('#modalExpediente').on('hidden.bs.modal', function (e) {
+                $(this).find('#formInsertExpedienteControl')[0].reset();
+                $('#hd_id_expediente').val("0");
+            });
+            $('#modalExpediente').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('exp-id');
+                if (!isNaN(bookId)) {
+                    $.ajax({
+                        url: "@Url.Action("GetExpedienteControl", "InventarioControl")", // Url
+                        data: {
+                            // Datos / Parámetros
+                            Id: bookId
+                        },
+                        type: "post"  // Verbo HTTP
+                    }).done(function (result) {
+                        $('#hd_id_expediente').val(result.id);
+                        $('#slctClaveExp option[value="'+result.idExpediente+'"]').prop('selected', true);
+                        $('#Legajos').val(result.legajos);
+                        $('#Nombre').val(result.nombre);
+                        $('#Observaciones').val(result.observaciones);
+                        var fprimero = new Date(result.fechaPrimeroAntiguo);
+                        var month = fprimero.getMonth() + 1;
+                        var day = fprimero.getDate();
+                        fprimero = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear();
+                        $('#fprimero_antiguo').val(fprimero);
+                        var fultimo = new Date(result.fechaUltimoReciente);
+                        var month = fultimo.getMonth() + 1;
+                        var day = fultimo.getDate();
+                        fultimo = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fultimo.getFullYear();
+                        $('#fultimo_reciente').val(fultimo);
+                        $('#Fojas').val(result.fojas);
+                        $('#aniosArchivoCon').val(result.aniosResguardo);
+                        $('#slctTipoDocumental option[value="' + result.idTipoDocumental +'"]').prop('selected', true);
+                        $('#slctTipoSoporte option[value="' + result.idTipoSoporte +'"]').prop('selected', true);
+                        $('#text_partes').val(result.noPartes);
+                        if (result.fechaElaboracion != null) {
+                            var felaboracion = new Date(result.fechaElaboracion);
+                            var month = felaboracion.getMonth() + 1;
+                            var day = felaboracion.getDate();
+                            felaboracion = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + felaboracion.getFullYear();
+                            $('#felaboracion_nexp').val(felaboracion);
+                        }
+                    })
+                        // Se ejecuta si se produjo un error.
+                        .fail(function (xhr, status, error) {
+                            // Mostramos un mensaje de error.
+                            //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            //$("#SubmitBtn").prop("disabled", false);
+                        })
+                        // Hacer algo siempre, haya sido exitosa o no.
+                        .always(function () {
+
+                        });
+                    //$(e.currentTarget).find('#idSerie').val(bookId);
+                }
+            });
         });
         function showTable() {
             var urlTipo = "";
@@ -224,8 +285,10 @@
             "data": null,
             "targets": 1,
             "render": function (data, type, row) {
-                var fprimero = new Date(row.fechaPrimeroAntiguo);
-                return row.codigo + '-' + row.noProg + '/' + fprimero.getFullYear();
+                //var fprimero = (new Date(row.fechaPrimeroAntiguo)).getFullYear();
+                //var freciente = (new Date(row.fechaUltimoReciente)).getFullYear();
+                //var periodo = freciente == fprimero ? fprimero : fprimero + '-' + freciente;
+                return row.codigo + '-' + row.noProg + '/' + row.periodo;
             }
         },
         { "name": "Nombre", "data": "nombre", "targets": 2 },
@@ -238,7 +301,7 @@
                 var fprimero = new Date(row.fechaPrimeroAntiguo);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
             }
         },
         {
@@ -249,7 +312,7 @@
                 var fprimero = new Date(row.fechaUltimoReciente);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
             }
         },
         { "name": "Estatus", "data": "estatus", "targets": 6 },
@@ -257,15 +320,14 @@
             "targets": 7,
             "data": null,
             "render": function (data, type, row, meta) {
-                var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+                var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank" style="font-size: 20px;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a><br>';
                 //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                 //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                 if (row.esEditable == 'editable') {         //is editable for owner
-                    if(row.migradoTP == 0)
-                        ret += '<a data-exp-id="' + row.id + '" class="gold" type="button" data-toggle="modal" data-target="#showModalMigrarTP" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-share" title="Migrar a Inventario de Transferencia al Archivo de Concentración" aria-hidden="true"></span></a>';
-                    if (row.migradoNE == 0)
-                        ret += '<a data-exp-id="' + row.id + '" class="gold" type="button" data-toggle="modal" data-target="#showModalMigrarNE" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-new-window" title="Migrar a Inventario de Documentación No Expedientable" aria-hidden="true"></span></a>';
-                    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
+                    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Enviar a revisión" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-check" aria-hidden="true"></span></a><br>' : '';
+                    ret += (row.migradoTP == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Transferencia Primaria al Archivo de Concentración" data-toggle="modal" data-target="#showModalMigrarTP" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-share" aria-hidden="true"></span></a><br>' : '';
+                    ret += (row.migradoNE == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Documentación No Expedientable" data-toggle="modal" data-target="#showModalMigrarNE" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a><br>' : '';
+                    ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f; font-size: 20px;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a><br>' : '';
                 }
                 return ret;
             },
@@ -281,5 +343,5 @@
             $("#alerta").remove();
         }, 6000);
     }
-    </script>
+</script>
 }

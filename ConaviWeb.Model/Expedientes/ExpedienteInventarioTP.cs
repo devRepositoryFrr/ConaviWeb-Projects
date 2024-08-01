@@ -13,16 +13,23 @@ namespace ConaviWeb.Model.Expedientes
         public int NoProg { get; set; }
         public int Id { get; set; }
         public int IdExpediente { get; set; }
+        public string Clave { get; set; }
         public string Codigo { get; set; }
+        public int? IdTipoDocumental { get; set; }
+        public string TipoDocumental { get; set; }
+        public int? IdTipoSoporte { get; set; }
+        public string Soporte { get; set; }
         public string Nombre { get; set; }
         public string Periodo { get; set; }
-        public int AniosResguardo { get; set; }
+        public int? AniosResguardo { get; set; }
         public int Legajos { get; set; }
-        public int Fojas { get; set; }
+        public int? Fojas { get; set; }
+        public int? NoPartes { get; set; }
         public string Observaciones { get; set; }
         public DateTime FechaRegistro { get; set; }
-        public DateTime FechaPrimeroAntiguo { get; set; }
-        public DateTime FechaUltimoReciente { get; set; }
+        public DateTime? FechaPrimeroAntiguo { get; set; }
+        public DateTime? FechaUltimoReciente { get; set; }
+        public DateTime? FechaElaboracion { get; set; }
         public int IdInventario { get; set; }
         public string VigDocValA { get; set; }
         public string VigDocValL { get; set; }

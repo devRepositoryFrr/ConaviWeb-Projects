@@ -36,12 +36,12 @@ namespace ConaviWeb.Controllers.Expedientes
             return View("../Expedientes/InventarioValidacion");
         }
         [HttpPost]
-        public async Task<IActionResult> GetExpedientesTP([FromHeader] int slcArea)
+        public async Task<IActionResult> GetExpedientesBiblio([FromHeader] int slcArea)
         {
             //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             //var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
 
-            IEnumerable<Expediente> expedientes = await _expedienteRepository.GetExpedientesValidacionTP(slcArea);
+            IEnumerable<ExpedienteBibliohemerografico> expedientes = await _expedienteRepository.GetExpedientesValidacionBiblio(slcArea);
             if (expedientes == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
@@ -65,52 +65,54 @@ namespace ConaviWeb.Controllers.Expedientes
             return Json(new { data = expedientes });
         }
         [HttpPost]
-        public async Task<IActionResult> VoBoExpedienteTP(Expediente expediente)
+        public async Task<IActionResult> VoBoExpedienteBiblio(int idExp)
         {
-            var success = await _expedienteRepository.VoBoExpediente(expediente.Id);
+            var success = await _expedienteRepository.VoBoExpedienteBiblio(idExp);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
-                return RedirectToAction("Index");
+                var alerJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente bibliohemerográfico");
+                return Ok(alerJson);
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
-            return RedirectToAction("Index");
+            var alert = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente bibliohemerográfico con éxito");
+            return Ok(alert);
         }
         [HttpPost]
-        public async Task<IActionResult> RevalidacionExpedienteTP(Expediente expediente)
+        public async Task<IActionResult> RevalidacionExpedienteBiblio(int idExp)
         {
-            var success = await _expedienteRepository.RevalidacionExpediente(expediente.Id);
+            var success = await _expedienteRepository.RevalidacionExpedienteBiblio(idExp);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
-                return RedirectToAction("Index");
+                var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente bibliohemerográfico");
+                return Ok(alertJson);
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
-            return RedirectToAction("Index");
+            var alert = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente bibliohemerográfico con exito");
+            return Ok(alert);
         }
         [HttpPost]
-        public async Task<IActionResult> VoBoExpedienteControl(Expediente expediente)
+        public async Task<IActionResult> VoBoExpedienteControl(int idExp)
         {
-            var success = await _expedienteRepository.VoBoExpedienteControl(expediente.Id);
+            var success = await _expedienteRepository.VoBoExpedienteControl(idExp);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
-                return RedirectToAction("Index");
+                //TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
+                var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
+                return Ok(alertJson);
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
-            return RedirectToAction("Index");
+            //TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
+            var alert = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con éxito");
+            return Ok(alert);
         }
         [HttpPost]
-        public async Task<IActionResult> RevalidacionExpedienteControl(Expediente expediente)
+        public async Task<IActionResult> RevalidacionExpedienteControl(int idExp)
         {
-            var success = await _expedienteRepository.RevalidacionExpedienteControl(expediente.Id);
+            var success = await _expedienteRepository.RevalidacionExpedienteControl(idExp);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
-                return RedirectToAction("Index");
+                var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
+                return Ok(alertJson);
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
-            return RedirectToAction("Index");
+            var alert = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
+            return Ok(alert);
         }
     }
 }

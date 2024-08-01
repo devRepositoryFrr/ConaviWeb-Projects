@@ -6,20 +6,20 @@
     <div class="row form-group">
         <div class="col-md-8">
             <label class="control-label">Nombre de la Unidad Administrativa:</label>
-            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo">
+            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo" required>
                 <option value="">--Seleccione--</option>
             </select>
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
-            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" value="@ViewBag.FechaElab" class="form-control" readonly />
+            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" value="@ViewBag.FechaElab" class="form-control" readonly required />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-8">
             <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" />
+            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" readonly required />
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="ftransferencia_archivo">Fecha de transferencia:</label>

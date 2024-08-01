@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Inventario de Transferencia Primaria";
 }
 @********************************************************************************************************************************************************************@
 @*Formulario para el el Inventario de Transferencia Primaria al Archivo de Concentración*@
@@ -53,9 +53,9 @@
                             <th>
                                 Observaciones
                             </th>
-                            <th>
+                            @*<th>
                                 Estatus
-                            </th>
+                            </th>*@
                             <th>
                                 &nbsp;
                             </th>
@@ -68,7 +68,7 @@
         </div>
     </div>
 </div>
-<button id="btn_add_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+@*<button id="btn_add_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>*@
 <div id="addExpediente">
     @{
         @await Html.PartialAsync("../Expedientes/_AddExpedienteInventarioTP")
@@ -85,7 +85,7 @@
     </div>
 </div>
 <!-- Modal SendVal Expediente -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalSendValExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalSendValExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
@@ -93,7 +93,7 @@
             }
         </div>
     </div>
-</div>
+</div>*@
 <!-- Modal VoBo Expediente -->
 @*<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -218,17 +218,18 @@
             { "name": "Legajos", "data": "legajos", "targets": 5 },
             { "name": "Fojas", "data": "fojas", "targets": 6 },
             { "name": "Observaciones", "data": "observaciones", "targets": 7 },
-            { "name": "Estatus", "data": "estatus", "targets": 8 },
+            //{ "name": "Estatus", "data": "estatus", "targets": 8 },
             {
-                "targets": 9,
+                "targets": 8,
                 "data": null,
                 "render": function (data, type, row, meta) {
                     var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="Caratula?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
-                    if (row.esEditable == 'editable') {     //is editable by owner
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
-                    }
+                    //if (row.esEditable == 'editable') {     //is editable by owner
+                    //    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
+                    //}
+                    ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
                     return ret;
                 },
                 "sortable": false,

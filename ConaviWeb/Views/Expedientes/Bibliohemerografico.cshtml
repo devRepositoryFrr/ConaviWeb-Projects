@@ -90,6 +90,16 @@
         </div>
     </div>
 </div>
+<!-- Modal SendVal Expediente -->
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalSendValExpediente" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_SendValExpedienteBiblio")
+            }
+        </div>
+    </div>
+</div>*@
 <hr />
 
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
@@ -98,7 +108,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+<script type="text/javascript">
         var table;
         $(document).ready(function () {
             showAlert();
@@ -106,13 +116,62 @@
                 $("#formInsertInventarioBibliohemerografico").show();
                 $("#btn_add_exp").prop("disabled", true);
             } else {
-                $("#formInsertInventarioBibliohemerografico").hide();
+                //$("#formInsertInventarioBibliohemerografico").hide();
                 $("#btn_add_exp").prop("disabled", false);
             }
             showTable();
+            $('#modalExpediente').on('hidden.bs.modal', function (e) {
+                $(this).find('#formInsertExpedienteBibliohemerografico')[0].reset();
+                $('#hd_id_expediente').val("0");
+            });
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('exp-id');
                 $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+            //$('#showModalSendValExpediente').on('show.bs.modal', function (e) {
+            //    var expId = $(e.relatedTarget).data('exp-id');
+            //    $(e.currentTarget).find('#idExpediente').val(expId);
+            //});
+            $('#modalExpediente').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('exp-id');
+                if (!isNaN(bookId)) {
+                    $.ajax({
+                        url: "@Url.Action("GetExpedienteBibliohemerografico", "Bibliohemerografico")", // Url
+                        data: {
+                            // Datos / Parámetros
+                            Id: bookId
+                        },
+                        type: "post"  // Verbo HTTP
+                    }).done(function (result) {
+                        $('#hd_id_expediente').val(result.id);
+                        $('#Ejemplar').val(result.ejemplar);
+                        $('#slcTipoSoporte option[value="' + result.idTipoSoporte +'"]').prop('selected', true);
+                        $('#titulo_libro').val(result.titulo);
+                        $('#nombre_autor').val(result.autor);
+                        $('#tema').val(result.tema);
+                        $('#editorial').val(result.editorial);
+                        $('#slctAnio option[value="' + result.anio + '"]').prop('selected', true);
+                        $('#asbn_issn').val(result.isbnIssn);
+                        $('#paginas').val(result.paginas);
+                        $('#volumen').val(result.volumen);
+                    })
+                        // Se ejecuta si se produjo un error.
+                        .fail(function (xhr, status, error) {
+                            // Mostramos un mensaje de error.
+                            //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                            // Escondemos el Ajax Loader
+                            //$("#AjaxLoader").hide("slow");
+
+                            // Habilitamos el botón de Submit
+                            //$("#SubmitBtn").prop("disabled", false);
+                        })
+                        // Hacer algo siempre, haya sido exitosa o no.
+                        .always(function () {
+
+                        });
+                    //$(e.currentTarget).find('#idSerie').val(bookId);
+                }
             });
             getAnio();
         });
@@ -167,13 +226,12 @@
         var columns = [
             { "name": "NoProg", "data": "noProg", "targets": 0},
             { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
-            //{ "name": "TipoSoporte", "data": "soporte", "targets": 2 },
             {
                 "name": "TipoSoporte",
                 "data": null,
                 "targets": 2,
                 "render": function (data, type, row) {
-                    return row.idTipoDocumental + '-' + row.claveSoporte;
+                    return row.claveSoporte + '-' + row.noProg + '/' + row.anio;
                 }
             },
             { "name": "Titulo", "data": "titulo", "targets": 3 },
@@ -191,8 +249,10 @@
                     /*var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id='+ data.id +'\'"></span>';*/
                     var ret = "";
                     if (row.esEditable == 'editable') {
-                        ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
-                        ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-new-window" aria-hidden="true"></span>';
+                        ret += (row.estatus == 'Registro') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' : '';
+                        //ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
+                        //ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
+                        //ret += (row.estatus == 'Aceptado') ? '<span style="color: #b8925f;" title="Validado" class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>' : '';
                     }
                     return ret;
                 },
@@ -223,5 +283,5 @@
             });
             $('#slctAnio').append(optionString);
         }
-    </script>
+</script>
 }

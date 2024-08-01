@@ -25,15 +25,17 @@ namespace ConaviWeb.Controllers.Expedientes
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
-            var inventario = await _expedienteRepository.GetInventarioTP(user.Area);
+            //var inventario = await _expedienteRepository.GetInventarioTP(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
             var cat = await _expedienteRepository.GetCodigosExp();
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
             ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
             ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
             ViewBag.IdInv = inventario != null ? inventario.Id : 0;
-            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
-            ViewBag.FechaTra = inventario != null ? inventario.FechaTransferencia?.ToShortDateString() : "";
+            //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
+            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
+            ViewBag.FechaTra = inventario != null ? inventario.FechaTransferencia?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -73,7 +75,7 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesTP()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var inventario = await _expedienteRepository.GetInventarioTP(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
 
             IEnumerable<Expediente> expedientes = new List<Expediente>();
             expedientes = await _expedienteRepository.GetExpedientesInventarioTP(user.Id, inventario!=null ? inventario.Id: 0);
@@ -126,18 +128,18 @@ namespace ConaviWeb.Controllers.Expedientes
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se eliminó el expediente con exito");
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> SendValExpediente(Expediente expediente)
-        {
-            var success = await _expedienteRepository.SendValExpediente(expediente.Id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el expediente");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revisión con exito");
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> SendValExpediente(Expediente expediente)
+        //{
+        //    var success = await _expedienteRepository.SendValExpediente(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revisión con exito");
+        //    return RedirectToAction("Index");
+        //}
         //[HttpPost]
         //public async Task<IActionResult> VoBoExpediente(Expediente expediente)
         //{

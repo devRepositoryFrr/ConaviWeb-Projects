@@ -24,7 +24,7 @@ namespace ConaviWeb.Controllers.Expedientes
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
-            var inventario = await _expedienteRepository.GetInventarioNoExpedientable(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
             ViewBag.IdInv = inventario != null ? inventario.Id : 0;
             var cat = await _expedienteRepository.GetTiposSoporte();
             ViewData["Catalogo"] = cat;
@@ -35,8 +35,9 @@ namespace ConaviWeb.Controllers.Expedientes
             var catClave = await _expedienteRepository.GetCodigosExp();
             ViewData["ClaveInterna"] = catClave;
             ViewBag.NombreR = inventario != null ? inventario.NombreResponsableAT : "";
-            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
-            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia?.ToShortDateString() : "";
+            //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
+            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
+            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -76,9 +77,9 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesNoExpedientables()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var inventario = await _expedienteRepository.GetInventarioNoExpedientable(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
 
-            IEnumerable<ExpedienteNoExpedientable> expedientes = new List<ExpedienteNoExpedientable>();
+            IEnumerable<Expediente> expedientes = new List<Expediente>();
             expedientes = await _expedienteRepository.GetExpedientesNoExpedientables(user.Id, inventario!=null ? inventario.Id : 0);
             if (expedientes == null)
             {
@@ -104,9 +105,10 @@ namespace ConaviWeb.Controllers.Expedientes
         [HttpPost]
         public async Task<IActionResult> GetCaratulaNoExpedientable([FromForm] int id)
         {
-            Caratula caratula = new();
+            //Caratula caratula = new();
+            Caratula caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
+            //caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
             if (caratula == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
