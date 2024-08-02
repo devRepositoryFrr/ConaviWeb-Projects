@@ -29,14 +29,19 @@ namespace ConaviWeb.Controllers.Expedientes
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
             var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
+            var catSoporte = await _expedienteRepository.GetTiposSoporte();
+            ViewData["CatalogoSoporte"] = catSoporte;
+            var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
+            ViewData["CatTipoDoc"] = catTipoDoc;
             var cat = await _expedienteRepository.GetCodigosExp();
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
             ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
             ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
             ViewBag.IdInv = inventario!=null ? inventario.Id : 0;
-            ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToShortDateString() : "";
-            ViewBag.FechaEnt = inventario!=null ? inventario.FechaEntrega?.ToShortDateString() : "";
+            //ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToShortDateString() : "";
+            ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
+            ViewBag.FechaEnt = inventario!=null ? inventario.FechaEntrega?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -62,7 +67,15 @@ namespace ConaviWeb.Controllers.Expedientes
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             expediente.IdUser = user.Id;
 
-            var success = await _expedienteRepository.InsertExpedienteInventarioControl(expediente);
+            var success = false;
+            if(expediente.Id == 0)
+            {
+                success = await _expedienteRepository.InsertExpedienteInventarioControl(expediente);
+            }
+            else
+            {
+                success = await _expedienteRepository.UpdateExpedienteInventarioControl(expediente);
+            }
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
@@ -138,6 +151,18 @@ namespace ConaviWeb.Controllers.Expedientes
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revisión con exito");
             return RedirectToAction("Index");
         }
+        //[HttpPost]
+        //public async Task<IActionResult> SendRevalExpedienteControl(Expediente expediente)
+        //{
+        //    var success = await _expedienteRepository.RevalidacionExpedienteControl(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente a revalidación con exito");
+        //    return RedirectToAction("Index");
+        //}
         [HttpPost]
         public async Task<IActionResult> MigrarExpedienteControlInvTP(Expediente expediente)
         {
@@ -162,29 +187,5 @@ namespace ConaviWeb.Controllers.Expedientes
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Documentación No Expedientable con exito");
             return RedirectToAction("Index");
         }
-        //[HttpPost]
-        //public async Task<IActionResult> VoBoExpediente(Expediente expediente)
-        //{
-        //    var success = await _expedienteRepository.VoBoExpedienteControl(expediente.Id);
-        //    if (!success)
-        //    {
-        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente");
-        //        return RedirectToAction("Index");
-        //    }
-        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente con exito");
-        //    return RedirectToAction("Index");
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> RevalidacionExpediente(Expediente expediente)
-        //{
-        //    var success = await _expedienteRepository.RevalidacionExpedienteControl(expediente.Id);
-        //    if (!success)
-        //    {
-        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");
-        //        return RedirectToAction("Index");
-        //    }
-        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente con exito");
-        //    return RedirectToAction("Index");
-        //}
     }
 }

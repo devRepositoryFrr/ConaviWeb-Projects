@@ -10,6 +10,7 @@ using ConaviWeb.Services;
 using static ConaviWeb.Models.AlertsViewModel;
 using ConaviWeb.Model.Response;
 using ConaviWeb.Model;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ConaviWeb.Controllers.Expedientes
 {
@@ -22,21 +23,18 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public async Task<IActionResult> IndexAsync()
         {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioBibliohemerografico(user.Area);
             var cat = await _expedienteRepository.GetTiposSoporte();
             ViewData["Catalogo"] = cat;
             var catArea = await _expedienteRepository.GetAreas();
-            ViewData["AreaCatalogo"] = catArea;
-            var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
-            ViewData["CatTipoDoc"] = catTipoDoc;
-            /*List<Catalogo> catAnios = new List<Catalogo>();
-            DateTime date1 = new DateTime();
-            for (int i = 1900; i<=date1.Year; i++)
-            {
-                catAnios.Add(new Catalogo { i, i });
-            }*/
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioBibliohemerografico(user.Area);
-            ViewBag.IdInv = id_inventario;
+            //ViewData["AreaCatalogo"] = catArea;
+            ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
+            ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
+            ViewBag.IdInv = inventario != null ? inventario.Id : 0;
+            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
+            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else
@@ -62,10 +60,19 @@ namespace ConaviWeb.Controllers.Expedientes
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             expediente.IdUser = user.Id;
 
-            var success = await _expedienteRepository.InsertExpedienteBibliohemerografico(expediente);
+            var success = false;
+            if (expediente.Id == 0)
+            {
+                success = await _expedienteRepository.InsertExpedienteBibliohemerografico(expediente);
+            }
+            else
+            {
+                success = await _expedienteRepository.UpdateExpedienteBibliohemerografico(expediente);
+            }
+    
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al guardar el expediente");
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
@@ -74,10 +81,10 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesBibliohemerograficos()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var id_inventario = await _expedienteRepository.GetIdInventarioBibliohemerografico(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioBibliohemerografico(user.Area);
 
             IEnumerable<ExpedienteBibliohemerografico> expedientes = new List<ExpedienteBibliohemerografico>();
-            expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficos(user.Id, id_inventario);
+            expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficos(user.Id, inventario.Id);
             if (expedientes == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
@@ -97,5 +104,32 @@ namespace ConaviWeb.Controllers.Expedientes
             TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se eliminó el expediente con exito");
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> GetExpedienteBibliohemerografico([FromForm] int id)
+        {
+            //ExpedienteBibliohemerografico expediente = new();
+            ExpedienteBibliohemerografico expediente = await _expedienteRepository.GetExpedienteBibliohemerografico(id);
+            //expediente = await _expedienteRepository.GetExpedienteBibliohemerografico(id);
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            if (expediente == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                return Ok(alert);
+            }
+            expediente.UserName = user.Name;
+            return Ok(expediente);
+        }
+        //[HttpPost]
+        //public async Task<IActionResult> SendValExpedienteBiblio(ExpedienteBibliohemerografico expediente)
+        //{
+        //    var success = await _expedienteRepository.SendValExpedienteBiblio(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el expediente bibliohemerográfico");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se envió el expediente bibliohemerográfico a revisión con exito");
+        //    return RedirectToAction("Index");
+        //}
     }
 }

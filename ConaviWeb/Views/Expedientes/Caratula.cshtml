@@ -299,6 +299,8 @@ $(document).ready(function () {
         $('#txtCodigo').val(result.codigo);
         $('#areaDescripcion').val(result.area);
         $('#tituloExpediente').val(result.nombre);
+        $('#fprimer_documento').val(result.fechaPrimeroAntiguo != null ? result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4) : '');
+        $('#fultimo_documento').val(result.fechaUltimoReciente != null ? result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4) : '');
         $('#claveCompleta').val(result.codigo + '-' + result.noProg + '/' + result.periodo);
         $('#Fojas').val(result.fojas);
         $('#Legajos').val(result.legajos);
@@ -306,7 +308,7 @@ $(document).ready(function () {
         $('#copias').val(result.docCopias);
         $('#numero_cds').val(result.cds);
         $('#tec_sel_libre').val(result.tecnicasSeleccion);
-        $('#caracter_publica').val(result.publica);
+        $('#caracter_publica').val(result.publica != null ? result.publica : (result.confidencial == null && result.reservada == null) ? 'X' : '');
         $('#caracter_confidencial').val(result.confidencial);
         $('#caracter_reservada').val(result.reservada);
         $('#descripcion').val(result.descripcionAsunto);
@@ -327,13 +329,10 @@ $(document).ready(function () {
         $('#tec_sel_e').val(result.tecSelE == 'X' ? 'E' : result.tecSelC == 'X' ? 'C' : 'M');
         //$('#tec_sel_c').val(result.tecSelC);
         $('#info_captura').val(result.userName);
-        if (search == 1) {
-            $("#btn-save").remove();
-            $("input[type=text], input[type=number], textarea").replaceWith(function () {
-                return '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
-            });
-            //$("input:text").prop("disabled", true);
-        }
+        $("#btn-save").remove();
+        $("input[type=text], input[type=number], textarea").replaceWith(function () {
+            return '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
+        });
     })
     // Se ejecuta si se produjo un error.
     .fail(function (xhr, status, error) {

@@ -1,97 +1,55 @@
-﻿@model ConaviWeb.Model.Expedientes.SerieDocumental
+﻿@model ConaviWeb.Model.Expedientes.Area
 @{
-    ViewData["Title"] = "Catalogos";
+    ViewData["Title"] = "Catalogo de áreas";
 }
 @{
     @await Html.PartialAsync("../Expedientes/BotonesCatalogos");
 }
 @*************************************************************************************************************************************************************@
-@*Tabla de control para el catálogo de Serie Documental*@
+@* Tabla de control para el catálogo de areas *@
+<div class="row">
+    <div class="col-md-12">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
 <div class="row form-group">
     <div class="col-md-12">
-        <h3 class="text-center">Catálogo de Serie Documental</h3>
+        <h3 class="text-center">Catálogo de áreas</h3>
     </div>
 </div>
 <hr />
-<div class="row">
-    <div class="col-md-12">
-        <form id="formTable">
-            <table id="table" class="table">
-                <thead>
-                    <tr>
-                        <th rowspan="3">
-                            #
-                        </th>
-                        <th rowspan="3">
-                            Codigo
-                        </th>
-                        <th rowspan="3">
-                            Niveles de clasificación<br />(serie documental)
-                        </th>
-                        <th colspan="6">
-                            Vigencia Documental
-                        </th>
-                        <th colspan="3" rowspan="2">
-                            Técnicas de Selección
-                        </th>
-                        <th rowspan="3">
-                            Observaciones
-                        </th>
-                        <th rowspan="3">
-                            &nbsp;
-                        </th>
-                    </tr>
-                    <tr>
-                        <th colspan="3">
-                            Valor documental
-                        </th>
-                        <th colspan="3">
-                            Plazos de conservación
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            A
-                        </th>
-                        <th>
-                            L
-                        </th>
-                        <th>
-                            F/C
-                        </th>
-                        <th>
-                            AT
-                        </th>
-                        <th>
-                            AC
-                        </th>
-                        <th>
-                            TOTAL
-                        </th>
-                        <th>
-                            E
-                        </th>
-                        <th>
-                            C
-                        </th>
-                        <th>
-                            M
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </form>
+<div id="divListaAreas">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="formTable">
+                <table id="tableAreas" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Descripción
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </form>
+        </div>
     </div>
 </div>
 
-<!-- Modal Update Serie Documental-->
+<!-- Modal Update Area-->
 <div class="modal fade fade-" style="z-index:1041" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
-                @await Html.PartialAsync("../Expedientes/_UpdateSerieDocCat")
+                @await Html.PartialAsync("../Expedientes/_UpdateArea")
             }
         </div>
     </div>
@@ -109,31 +67,20 @@
             showAlert();
             showTable();
             $('#modalEdit').on('hidden.bs.modal', function (e) {
-                $(this).find('#formUpdateSerieDocCat')[0].reset();
+                $(this).find('#formUpdateArea')[0].reset();
             });
             $('#modalEdit').on('show.bs.modal', function (e) {
                 var bookId = $(e.relatedTarget).data('book-id');
                 $.ajax({
-                    url: "@Url.Action("GetSerieDocumental", "Catalogos")", // Url
+                    url: "@Url.Action("GetArea", "Catalogos")", // Url
                     data: {
                         // Datos / Parámetros
                         Id: bookId
                     },
                     type: "post"  // Verbo HTTP
                 }).done(function (result) {
-                    $('#idSerie').val(result.id);
-                    $('#label_cod').val(result.codigo);
+                    $('#idArea').val(result.id);
                     $('#label_descripcion').val(result.descripcion);
-                    $('#VigDocA').val(result.vigDocA);
-                    $('#VigDocL').val(result.vigDocL);
-                    $('#VigDocFC').val(result.vigDocFC);
-                    $('#PlazoConAT').val(result.plazoConAT);
-                    $('#PlazoConAC').val(result.plazoConAC);
-                    $('#PlazoConTot').val(result.plazoConTot);
-                    $('#TecSelE').val(result.tecSelE);
-                    $('#TecSelC').val(result.tecSelC);
-                    $('#TecSelM').val(result.tecSelM);
-                    $('#Observaciones').val(result.observaciones);
                 })
                 // Se ejecuta si se produjo un error.
                 .fail(function (xhr, status, error) {
@@ -155,10 +102,10 @@
         });
         function showTable() {
             var urlTipo = "";
-            urlTipo = "/Catalogos/ListaAjax";
+            urlTipo = "/Catalogos/ListaAreas";
             $("#spinner").show();
-            $("#divTable").show();
-            table = $('#table').DataTable({
+            //$("#divTable").show();
+            table = $('#tableAreas').DataTable({
                 "proccessing": true,
                 "serverSide": false,
                 "ajax": {
@@ -171,9 +118,9 @@
                 },
                 "columnDefs": columns,
                 "order": [[0, "desc"]],
-                "autoWidth": true,
+                "autoWidth": false,
                 "destroy": true,
-                "scrollY": '700px',
+                "scrollY": true,
                 "scrollCollapse": true,
                 "paging": true,
                 "info": true,
@@ -204,21 +151,10 @@
             });
         }
         var columns = [
-            { "name": "Id", "data": "id", "targets": 0, "visible": true },
-            { "name": "Codigo", "data": "codigo", "targets": 1 },
-            { "name": "Descripción", "data": "descripcion", "targets": 2 },
-            { "name": "VigDocA", "data": "vigDocA", "targets": 3 },
-            { "name": "VigDocL", "data": "vigDocL", "targets": 4 },
-            { "name": "VigDocFC", "data": "vigDocFC", "targets": 5 },
-            { "name": "PlazoConAT", "data": "plazoConAT", "targets": 6 },
-            { "name": "PlazoConAC", "data": "plazoConAC", "targets": 7 },
-            { "name": "PlazoConTot", "data": "plazoConTot", "targets": 8 },
-            { "name": "TecSelE", "data": "tecSelE", "targets": 9 },
-            { "name": "TecSelC", "data": "tecSelC", "targets": 10 },
-            { "name": "TecSelM", "data": "tecSelM", "targets": 11 },
-            { "name": "Observaciones", "data": "observaciones", "targets": 12 },
+            { "name": "Id", "data": "id", "targets": 0},
+            { "name": "Descripción", "data": "descripcion", "targets": 1 },
             {
-                "targets": 13,
+                "targets": 2,
                 "data": null,
                 "render": function (data, type, row, meta) {
                     var ret = '<span data-book-id=' + row.id +' class="glyphicon glyphicon-pencil" title="Editar" data-toggle="modal" data-target="#modalEdit"></span>';

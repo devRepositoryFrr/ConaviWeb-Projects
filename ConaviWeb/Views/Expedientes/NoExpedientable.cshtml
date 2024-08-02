@@ -61,7 +61,7 @@
     </div>
 </div>
 @*fin del formulario de documentacion no expedientable*@
-<button id="btn_new_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>
+@*<button id="btn_new_exp" class="btn btn-default btn-md" data-toggle="modal" data-target="#modalExpediente">Agregar Expediente</button>*@
 <div id="addExpediente">
     @{
         @await Html.PartialAsync("../Expedientes/_AddExpedienteNoExpedientable")
@@ -150,62 +150,71 @@
                 }
             });
         }
-    var columns = [
-        { "name": "NoProg", "data": "noProg", "targets": 0},
-        //{ "name": "Clave", "data": "clave", "targets": 1 },
-        {
-            "name": "Clave",
-            "data": null,
-            "targets": 1,
-            "render": function (data, type, row) {
-                return (row.idTipoDocumental!=null && row.clave!=null) ? row.idTipoDocumental + '-' + row.clave : "";
-            }
-        },
-        {
-            "name": "ClaveInterna",
-            "data": null,
-            "targets": 2,
-            "render": function (data, type, row) {
-                var fprimero = new Date(row.fechaElaboracion);
-                return row.claveInterna + "-" + row.noProg + "/" + fprimero.getFullYear();
-            }
-        },
-        { "name": "Partes", "data": "partes", "targets": 3 },
-        { "name": "Titulo", "data": "titulo", "targets": 4 },
-        {
-            "name": "FechaElaboracion",
-            "data": null,
-            "targets": 5,
-            "render": function (data, type, row) {
-                var fprimero = new Date(row.fechaElaboracion);
-                var month = fprimero.getMonth() + 1;
-                var day = fprimero.getDate();
-                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
-            }
-        },
-        { "name": "Observaciones", "data": "observaciones", "targets": 6 },
-        {
-            "targets": 7,
-            "data": null,
-            "render": function (data, type, row, meta) {
-                var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaNoExpedientable?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
-                if (row.esEditable == 'editable') {
-                    ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
-                    ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-check" aria-hidden="true"></span>';
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0},
+            //{ "name": "Clave", "data": "clave", "targets": 1 },
+            {
+                "name": "Clave",
+                "data": null,
+                "targets": 1,
+                "render": function (data, type, row) {
+                    return (row.idTipoDocumental!=null && row.codigo!=null) ? row.idTipoDocumental + '-' + row.codigo : "";
                 }
-                return ret;
             },
-            "sortable": false,
-            "className": 'text-center'
-        },
-    ];
-    function showAlert() {
-        setTimeout(function () {
-            $("#alerta").fadeOut(1500);
-        }, 3000);
-        setTimeout(function () {
-            $("#alerta").remove();
-        }, 6000);
-    }
+            {
+                "name": "ClaveInterna",
+                "data": null,
+                "targets": 2,
+                "render": function (data, type, row) {
+                    //var fprimero = new Date(row.fechaElaboracion);
+                    //return row.claveInterna + "-" + row.noProg + "/" + fprimero.getFullYear();
+                    return row.clave + "-" + row.noProg + "/" + row.periodo;
+                }
+            },
+            {
+                "name": "Partes",
+                "data": null,
+                "targets": 3,
+                "render": function (data, type, row) {
+                    return row.noPartes != null ? row.noPartes : "";
+                }
+            },
+            { "name": "Nombre", "data": "nombre", "targets": 4 },
+            {
+                "name": "FechaElaboracion",
+                "data": null,
+                "targets": 5,
+                "render": function (data, type, row) {
+                    var fprimero = new Date(row.fechaElaboracion);
+                    var month = fprimero.getMonth() + 1;
+                    var day = fprimero.getDate();
+                    return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                }
+            },
+            { "name": "Observaciones", "data": "observaciones", "targets": 6 },
+            {
+                "targets": 7,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaNoExpedientable?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+                    ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
+                    //if (row.esEditable == 'editable') {
+                    //    ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+                    //    ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-check" aria-hidden="true"></span>';
+                    //}
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
     </script>
 }

@@ -1,6 +1,6 @@
 ﻿@model ConaviWeb.Model.Expedientes.Expediente
 
-<form id="formVoBoExpediente" enctype="multipart/form-data" method="post" asp-controller="InventarioValidacion" asp-action="VoBoExpedienteControl">
+<form id="formVoBoExpediente" enctype="multipart/form-data" method="post">
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <div class='modal-header'>
         <h4 id='titulo-modal' style="font-weight: 300">VoBo expediente</h4>
@@ -15,6 +15,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Si, VoBo</button>
+        <button type="button" class="btn btn-primary" id="btn_vobo">Si, VoBo</button>
     </div>
 </form>

@@ -4,29 +4,30 @@
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <input type="hidden" id="hd_id_inventario" asp-for="Id" value="@ViewBag.IdInv" />
     <div class="row form-group">
-        <div class="col-md-12 form-group">
+        <div class="col-md-8 form-group">
             <label class="control-label">Nombre de la Unidad Administrativa Generadora:</label>
             @*<select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["AreaCatalogo"], "Id", "Clave"))">*@
-            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo">
+            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo" required>
                 <option value="">--Seleccione--</option>
             </select>
         </div>
-        <div class="col-md-12 form-group">
-            <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" />
+        <div class="col-md-4 datepicker-group">
+            <label for="felaboracion_inventario" class="control-label">Fecha de elaboración del inventario:</label>
+            <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" placeholder="dd/mm/aaaa" readonly required />
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
 
-    <div class="row form-group datepicker-group">
-        <div class="col-md-4">
-            <label for="felaboracion_inventario" class="control-label">Fecha de elaboración del inventario:</label>
-            <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" readonly />
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+    <div class="row form-group">
+        <div class="col-md-8 form-group">
+            <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" required />
         </div>
-        <div class="col-md-8">
-            <label for="fentrega_documento" class="control-label">Fecha de la entrega,<small> en caso de una entrega-recepción se anota la última fecha del documento</small>:</label>
-            <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly />
+        <div class="col-md-4 datepicker-group">
+            <label for="fentrega_documento" class="control-label">Fecha de la entrega:</label>
+            <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly placeholder="dd/mm/aaaa"/>
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            <small><p class="help-block">En caso de una entrega-recepción se anota la última fecha del documento.</p></small>
         </div>
     </div>
     <div class="row">

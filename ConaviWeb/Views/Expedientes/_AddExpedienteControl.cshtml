@@ -1,7 +1,7 @@
 ﻿@model ConaviWeb.Model.Expedientes.Expediente
 <!-- Modal -->
 <div class="modal fade" id="modalExpediente" tabindex="-1" role="dialog" aria-labelledby="modalExpediente" style="z-index:1041">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -9,47 +9,81 @@
             </div>
             <form id="formInsertExpedienteControl" enctype="multipart/form-data" method="post" asp-controller="InventarioControl" asp-action="InsertExpedienteInventarioControl">
                 <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
+                <input type="hidden" id="hd_id_expediente" asp-for="Id" value="0" />
                 <div class="modal-body">
                     <div class="row form-group">
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
-                                <label class="control-label">Clave:</label>
-                                <select id="slctClaveExp" asp-for="IdExpediente" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Catalogo"], "Id", "Clave"))">
-                                    <option value="">--Seleccione--</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="control-label">Nombre del expediente:</label>
-                            <input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." />
+                            <label class="control-label" for="text_clave_interna">Clave interna:</label>
+                            <select id="slctClaveExp" asp-for="IdExpediente" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Catalogo"], "Id", "Clave"))" required>
+                                <option value="">--Seleccione--</option>
+                            </select>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label">Número de legajos:</label>
-                            <input asp-for="Legajos" type="number" class="form-control" placeholder="..." min="1" />
+                            <input asp-for="Legajos" type="number" class="form-control" placeholder="..." min="1" required />
+                        </div>
+                        <div class="col-md-3 datepicker-group">
+                            <label class="control-label" for="fprimero_antiguo">Primero (antiguo):</label>
+                            <input type="text" asp-for="FechaPrimeroAntiguo" id="fprimero_antiguo" class="form-control" placeholder="dd/mm/aaaa" readonly />
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-3 datepicker-group">
+                            <label class="control-label" for="fultimo_reciente">Último (reciente):</label>
+                            <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="dd/mm/aaaa" readonly />
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Nombre del expediente:</label>
+                            <input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." required />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="control-label">Observaciones:</label>
+                            <textarea asp-for="Observaciones" class="form-control" placeholder="..." rows="2"></textarea>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <h5 class="text-center">Fecha de los documentos:</h5>
-                            <div class="row">
-                                <div class="col-md-6 datepicker-group">
-                                    <label class="control-label" for="fprimero_antiguo">Primero (antiguo):</label>
-                                    <input type="text" asp-for="FechaPrimeroAntiguo" id="fprimero_antiguo" class="form-control" placeholder="dd/mm/aaaa" readonly />
-                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                            <div class="row form-group">
+                                <center><label>Inventario de Transferencia Primaria al Archivo de Concentración</label></center>
+                                <div class="col-md-4">
+                                    <label class="control-label">Número de Fojas:</label>
+                                    <input asp-for="Fojas" type="number" class="form-control" placeholder="..." min="0" />
                                 </div>
-                                <div class="col-md-6 datepicker-group">
-                                    <label class="control-label" for="fultimo_reciente">Último (reciente):</label>
-                                    <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="dd/mm/aaaa" readonly />
-                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                <div class="col-md-6">
+                                    <label class="control-label">Años de resguardo en el archivo de concentración:</label>
+                                    <input asp-for="AniosResguardo" id="aniosArchivoCon" type="number" class="form-control" min="0" placeholder="..." />
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <div class="row form-group">
+                        <center><label>Inventario de Documentación no Expedientable transferible al Archivo de Concentración</label></center>
+                        <div class="col-md-3">
+                            <label class="control-label" for="slctTipoDocumental">Clave tipo documental:</label>
+                            <select asp-for="IdTipoDocumental" id="slctTipoDocumental" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["CatTipoDoc"], "Id", "Clave"))">
+                                <option value="">--Seleccione--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="slctTipoSoporte">Clave tipo de soporte:</label>
+                            <select asp-for="IdTipoSoporte" id="slctTipoSoporte" class="form-control" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["CatalogoSoporte"], "Id", "Clave"))">
+                                <option value="">--Seleccione--</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="text_partes">Número de partes:</label>
+                            <input type="number" asp-for="NoPartes" id="text_partes" placeholder="..." class="form-control" min="1" />
+                        </div>
+                        <div class="col-md-3 datepicker-group">
+                            <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>
+                            <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" placeholder="dd/mm/aaaa" readonly />
+                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Agregar</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -62,7 +96,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#fprimero_antiguo, #fultimo_reciente').datepicker({
+        $('#fprimero_antiguo, #fultimo_reciente, #felaboracion_nexp').datepicker({
             beforeShow: function (input, inst) {
                 $(document).off('focusin.bs.modal');
             },
