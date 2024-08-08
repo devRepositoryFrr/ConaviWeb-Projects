@@ -10,6 +10,7 @@ namespace ConaviWeb.Model.Reporteador
     {
         public string id_unico { get; set; }
         public string nombre { get; set; }
+        public string curp { get; set; }
         public string Estado { get; set; }
         public string Municipio { get; set; }
         public string Localidad { get; set; }
@@ -66,5 +67,10 @@ namespace ConaviWeb.Model.Reporteador
         public string concluye_problema_pago_gestion { get; set; }
         public string ayudo_programa { get; set; }
         public string califica_programa { get; set; }
+        public byte[] img1 { get; set; }
+        public byte[] img2 { get; set; }
+        public byte[] img3 { get; set; }
+        public byte[] img4 { get; set; }
+        public byte[] imgActaDef { get; set; }
     }
 }
