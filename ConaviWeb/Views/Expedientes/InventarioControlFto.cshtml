@@ -5,7 +5,7 @@
 @*Formulario para el el Inventario de Transferencia Primaria al Archivo de Concentración*@
 <div class="row">
     <div class="col-md-5 center-block">
-        <img src="../img/encab2021.png" class="img-responsive"/>
+        <img src="../img/encab2021.png" class="img-responsive" />
     </div>
     <div class="col-md-7 text-right">
         <label>
@@ -20,18 +20,24 @@
 <div class="row form-group">
     <div class="col-md-12 text-center">
         <label>
-            Inventario de Transferencia Primaria al Archivo de Concentración
+            Inventario para el control del acervo documental en los archivos de trámite
         </label>
     </div>
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <label class="control-label">Nombre de la Unidad Administrativa:</label>
-            </div>
-            <div class="col-md-6">
-                <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
-            </div>
-        </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-4">
+        <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
+    </div>
+    <div class="col-md-8">
+        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+    </div>
+</div>
+<div class="row form-group datepicker-group">
+    <div class="col-md-4">
+        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+    </div>
+    <div class="col-md-8">
+        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
     </div>
 </div>
 <div class="row form-group datepicker-group">
@@ -48,18 +54,15 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
-                <label for="ftransferencia_archivo">Fecha de transferencia al Archivo de Concentración:</label>
+                <label for="ftransferencia_archivo">Fecha de la entrega:</label>
             </div>
             <div class="col-md-6">
                 <input type="text" id="ftransferencia_archivo" class="form-control" />
             </div>
+            <div class="col-md-12">
+                <p class="help-block"><small>En caso de una entrega-recepción se anota la última fecha del documento</small></p>
+            </div>
         </div>
-    </div>
-    <div class="col-md-6">
-        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-    </div>
-    <div class="col-md-6">
-        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
     </div>
 </div>
 <div class="row">
@@ -68,29 +71,28 @@
             <table id="table" class="table">
                 <thead>
                     <tr>
-                        <th>
+                        <th rowspan="2">
                             No. Prog.
                         </th>
-                        <th>
+                        <th rowspan="2">
                             Cve del Expediente
                         </th>
-                        <th>
+                        <th rowspan="2">
                             Nombre del Expediente
                         </th>
-                        <th>
-                            Periodo
-                        </th>
-                        <th>
-                            Cantidad en años de resguardo en el archivo de concentración
-                        </th>
-                        <th>
+                        <th rowspan="2">
                             No. de Legajos
                         </th>
+                        <th colspan="2">
+                            <center>Fecha de los documentos</center>
+                        </th>
+                    </tr>
+                    <tr>
                         <th>
-                            No. de Fojas
+                            Primero (antiguo)
                         </th>
                         <th>
-                            Observaciones
+                            Último (reciente)
                         </th>
                     </tr>
                 </thead>
@@ -98,7 +100,6 @@
                     <tr>
                         <td>
                             1
-                            
                         </td>
                         <td>
                             9C.3-01/2006
@@ -107,16 +108,13 @@
                             Contrato con "Radio y televisión de Aguascalientes" para realizar campañas publicitarias de la CONAVI
                         </td>
                         <td>
-                            2006
+                            2
                         </td>
                         <td>
-                            5
+                            14/05/2019
                         </td>
                         <td>
-                            1
-                        </td>
-                        <td>
-                            10
+                            26/08/2019
                         </td>
                     </tr>
                     <tr>
@@ -130,16 +128,13 @@
                             Contrato con "Radio y televisión de Aguascalientes" para realizar la producción de material audiovisual para el Premio Nacional de Vivienda
                         </td>
                         <td>
-                            2006
+                            4
                         </td>
                         <td>
-                            5
+                            07/01/2020
                         </td>
                         <td>
-                            1
-                        </td>
-                        <td>
-                            10
+                            12/10/2021
                         </td>
                     </tr>
                     <tr>
@@ -147,22 +142,19 @@
                             3
                         </td>
                         <td>
-                            9C.1-01/2007
+                            9C.1-03/2007
                         </td>
                         <td>
                             Acuerdo por el que se establecen los Lineamientos Generales para la orientación,planeación, autorización, coordinación, supervición y evaluación de las estrategias, programas y las campañas de Comunicación Social.
                         </td>
                         <td>
-                            2007
+                            2
                         </td>
                         <td>
-                            5
+                            30/05/2008
                         </td>
                         <td>
-                            1
-                        </td>
-                        <td>
-                            15
+                            30/05/2008
                         </td>
                     </tr>
                 </tbody>
@@ -176,38 +168,31 @@
             <table id="table" class="table text-center">
                 <thead>
                     <tr>
-                        <td style="width: 25%">
-                            Responsable de la custodia
-                        </td>
-                        <td style="width: 25%">
+                        <td style="width: 33%">
                             Entrega
                         </td>
-                        <td style="width: 25%">
-                            Recibe Responsable del Archivo de Concentración
+                        <td style="width: 33%">
+                            Responsable de la custodia
                         </td>
-                        <td style="width: 25%">
-                            Vo.Bo. del Departamento de Unidades Documentales
+                        <td style="width: 34%">
+                            Recibe
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nombre y firma
+                        </td>
+                        <td>
+                            Nombre y firma
+                        </td>
+                        <td>
+                            Nombre y firma
                         </td>
                     </tr>
                     <tr>
                         <td><br /><br /><br /><br /></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Nombre y firma
-                        </td>
-                        <td>
-                            Nombre y firma
-                        </td>
-                        <td>
-                            Nombre y firma
-                        </td>
-                        <td>
-                            Nombre y firma
-                        </td>
                     </tr>
                 </thead>
             </table>

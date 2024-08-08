@@ -22,6 +22,8 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public IActionResult Index()
         {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/CaratulaControl");
         }
         [HttpPost]
@@ -34,10 +36,23 @@ namespace ConaviWeb.Controllers.Expedientes
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la carátula");
-                return RedirectToAction("Index");
             }
-            //return RedirectToAction("Index");
+            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Registro de carátula exitoso!");
             return Redirect("/CaratulaControl?id=" + caratula.IdExpediente);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetCaratulaExpedienteControl([FromForm] int id)
+        {
+            Caratula caratula = new();
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id);
+            if (caratula == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                return Ok(alert);
+            }
+            caratula.UserName = user.Name;
+            return Ok(caratula);
         }
     }
 }

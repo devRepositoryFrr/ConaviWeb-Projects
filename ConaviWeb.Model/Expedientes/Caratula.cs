@@ -10,6 +10,7 @@ namespace ConaviWeb.Model.Expedientes
     {
         public int IdUser { get; set; }
         public string UserName { get; set; }
+        public int Consecutivo { get; set; }
         public int NoProg { get; set; }
         public int Id { get; set; }
         public int IdExpediente { get; set; }

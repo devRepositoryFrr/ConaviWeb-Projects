@@ -11,10 +11,15 @@
             <div class="col-md-12">
                 <h3>¿Estás seguro de enviar a revalidación el expediente?</h3>
             </div>
+            <div class="col-md-12">
+                <label for="txt_observaciones_revalidación">Observaciones:</label>
+                <input type="text" id="txt_observaciones_revalidacion" class="form-control" />
+                <label class="alert alert-danger" id="lbl_error"></label>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btn_reval" class="btn btn-primary">Si, enviar</button>
+        <button type="button" id="btn_reval" class="btn btn-primary active">Si, enviar</button>
     </div>
 </form>

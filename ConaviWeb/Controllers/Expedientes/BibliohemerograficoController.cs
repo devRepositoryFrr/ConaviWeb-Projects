@@ -84,11 +84,9 @@ namespace ConaviWeb.Controllers.Expedientes
             var inventario = await _expedienteRepository.GetInventarioBibliohemerografico(user.Area);
 
             IEnumerable<ExpedienteBibliohemerografico> expedientes = new List<ExpedienteBibliohemerografico>();
-            expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficos(user.Id, inventario.Id);
-            if (expedientes == null)
+            if(inventario != null)
             {
-                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
-                return Ok(alert);
+                expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficos(user.Id, inventario.Id);
             }
             return Json(new { data = expedientes });
         }

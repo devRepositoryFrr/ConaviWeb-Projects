@@ -4,21 +4,22 @@
 @********************************************************************************************************************************************************************@
 @*formulario de documentacion no expedientable*@
 <div class="row">
-    <div class="col-md-5 center-block">
+    <div class="col-md-5">
         <img src="../img/encab2021.png" class="img-responsive" />
     </div>
-    <div class="col-md-7">
-        <h6 class="text-right">
+    <div class="col-md-7 text-right">
+        <label>
             SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
             COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
             DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />
             DEPARTAMENTO DE UNIDADES DOCUMENTALES
-        </h6>
+        </label>
     </div>
 </div>
+<br />
 <div class="row form-group">
-    <div class="col-md-12">
-        <h3 class="text-center">Inventario de Documentación no Expedientable transferible al Archivo de Concentración</h3>
+    <div class="col-md-12 text-center">
+        <label>Inventario de Documentación no Expedientable transferible al Archivo de Concentración</label>
     </div>
 </div>
 <div class="row form-group">
@@ -192,6 +193,70 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable_tipos">
+            <table id="table_tipos" class="table text-left" style="font-weight: bold; font-size: 70%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 25%; text-align:center; vertical-align:middle;">
+                            Tipos documentales
+                        </td>
+                        <td style="width: 75%">
+                            1. Estudios, 2. Proyectos, 3. Investigaciones, 4. Manuales, 5. Presupuestos, 6. Estadísticas, 7. Fotografías, 8. Programas, 9. Planos, 10. Material cartográfico. 11 Informes, 12. Carpetas de Juntas de Gobierno,13. Actas administrativas, 14. Carpetas de Comités, 15. Carpetas de entrega-recepción.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; text-align: center">
+                            CLAVE:
+                        </td>
+                        <td style="width: 75%; text-align:center;">
+                            TIPO DE SOPORTE:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">
+                            a) Microfilm:
+                        </td>
+                        <td style="width: 75%">
+                            1.Rollos, 2. Magazines, 3. Carteras de plástico, 4. Micro fichas, 5. Tarjetas de apertura
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; vertical-align: middle;">
+                            b) Audiovisuales:
+                        </td>
+                        <td style="width: 75%">
+                            1. Videocasetes, 2. Fonocasetes, 3. Corto metraje, 4. Diapositiva, 5. Negativos, 6. Acetatos, 7. Filminas, 8. Discos ópticos, 9. Discos compactos, 10. Formato comprimido MP3, 11. Minidisco, 12. Cintas de carrete abierto, 13. Audiocasetes
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">
+                            c) Materiales de computo:
+                        </td>
+                        <td style="width: 75%">
+                            1. Cintas magnéticas, 2. Disquetes, 3. Tarjetas perforadas, 4. Discos magnéticos, 5. Tambores magnéticos, 6. Discos compactos.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">
+                            d) Papel:
+                        </td>
+                        <td style="width: 75%">
+                            1. Papel bond, 2. Papel laminado, 3. Papel reciclable, 4. Cartulina.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
 @*fin del formulario de expediente de documentacion no expedientable*@
 @*fin del formulario de documentacion no expedientable*@
 <hr />
+<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#felaboracion_inventario_nexp, #ftransferencia_inventario').datepicker().datepicker("setDate", "today");
+    });
+</script>

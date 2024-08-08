@@ -40,7 +40,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> DropExpedienteControl(int id);
         Task<bool> SendValExpedienteControl(int id);
         Task<bool> VoBoExpedienteControl(int id);
-        Task<bool> RevalidacionExpedienteControl(int id);
+        Task<bool> RevalidacionExpedienteControl(int id, string obs);
         Task<bool> MigrarExpedienteInvTP(int id);
         Task<bool> MigrarExpedienteInvNE(int id);
         Task<bool> InsertInventarioBibliohemerografico(Inventario inventario);
