@@ -36,7 +36,7 @@ namespace ConaviWeb.Controllers.Reporteador
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var benefs = await _reporteadorRepository.GetCartasPMV24(1); // ACÁ SE CAMBIA EL ARCHIVO DE CARTA A EJECUTAR
+            var benefs = await _reporteadorRepository.GetCartasPMV24(4); // ACÁ SE CAMBIA EL ARCHIVO DE CARTA A EJECUTAR
             foreach (var benef in benefs)
             {
                 ManipulatePdf(benef);
