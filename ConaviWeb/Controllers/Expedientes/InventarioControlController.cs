@@ -39,7 +39,6 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
             ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
             ViewBag.IdInv = inventario!=null ? inventario.Id : 0;
-            //ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToShortDateString() : "";
             ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
             ViewBag.FechaEnt = inventario!=null ? inventario.FechaEntrega?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)
@@ -49,6 +48,10 @@ namespace ConaviWeb.Controllers.Expedientes
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/InventarioControl");
+        }
+        public IActionResult ICFormato()
+        {
+            return View("../Expedientes/InventarioControlFto");
         }
         [HttpPost]
         public async Task<IActionResult> InsertInventarioControl(Inventario inventario)
@@ -112,20 +115,6 @@ namespace ConaviWeb.Controllers.Expedientes
             }
             expediente.UserName = user.Name;
             return Ok(expediente);
-        }
-        [HttpPost]
-        public async Task<IActionResult> GetCaratulaExpedienteControl([FromForm] int id)
-        {
-            Caratula caratula = new();
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id);
-            if (caratula == null)
-            {
-                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
-                return Ok(alert);
-            }
-            caratula.UserName = user.Name;
-            return Ok(caratula);
         }
         [HttpPost]
         public async Task<IActionResult> DropExpediente(Expediente expediente)

@@ -301,7 +301,7 @@ $(document).ready(function () {
         $('#tituloExpediente').val(result.nombre);
         $('#fprimer_documento').val(result.fechaPrimeroAntiguo != null ? result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4) : '');
         $('#fultimo_documento').val(result.fechaUltimoReciente != null ? result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4) : '');
-        $('#claveCompleta').val(result.codigo + '-' + result.noProg + '/' + result.periodo);
+        $('#claveCompleta').val(result.codigo + '-' + result.consecutivo + '/' + result.periodo);
         $('#Fojas').val(result.fojas);
         $('#Legajos').val(result.legajos);
         $('#originales').val(result.docOriginales);

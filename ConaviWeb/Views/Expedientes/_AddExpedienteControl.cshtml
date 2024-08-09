@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Alta de registro para inventario de control del acervo documental en los archivos de trámite</h4>
+                <h4 class="modal-title" id="myModalLabel">Registro de expediente para inventario de control del acervo documental en los archivos de trámite</h4>
             </div>
             <form id="formInsertExpedienteControl" enctype="multipart/form-data" method="post" asp-controller="InventarioControl" asp-action="InsertExpedienteInventarioControl">
                 <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
@@ -24,12 +24,12 @@
                         </div>
                         <div class="col-md-3 datepicker-group">
                             <label class="control-label" for="fprimero_antiguo">Primero (antiguo):</label>
-                            <input type="text" asp-for="FechaPrimeroAntiguo" id="fprimero_antiguo" class="form-control" placeholder="dd/mm/aaaa" readonly />
+                            <input type="text" asp-for="FechaPrimeroAntiguo" id="fprimero_antiguo" class="form-control" placeholder="dd/mm/aaaa" readonly required />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-3 datepicker-group">
                             <label class="control-label" for="fultimo_reciente">Último (reciente):</label>
-                            <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="dd/mm/aaaa" readonly />
+                            <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="dd/mm/aaaa" readonly required />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-12">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="submit" class="btn btn-primary active">Enviar</button>
                     </div>
                 </div>
             </form>

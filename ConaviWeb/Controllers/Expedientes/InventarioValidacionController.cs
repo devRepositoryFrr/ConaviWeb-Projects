@@ -25,6 +25,12 @@ namespace ConaviWeb.Controllers.Expedientes
             var catArea = await _expedienteRepository.GetAreas();
             ViewData["AreaCatalogo"] = catArea;
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var catSoporte = await _expedienteRepository.GetTiposSoporte();
+            ViewData["CatalogoSoporte"] = catSoporte;
+            var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
+            ViewData["CatTipoDoc"] = catTipoDoc;
+            var cat = await _expedienteRepository.GetCodigosExp();
+            ViewData["Catalogo"] = cat;
             //var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
             //ViewBag.IdInv = id_inventario;
             if (user.Id == 212 || user.Id == 323)
@@ -35,20 +41,20 @@ namespace ConaviWeb.Controllers.Expedientes
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/InventarioValidacion");
         }
-        [HttpPost]
-        public async Task<IActionResult> GetExpedientesBiblio([FromHeader] int slcArea)
-        {
-            //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            //var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
+        //[HttpPost]
+        //public async Task<IActionResult> GetExpedientesBiblio([FromHeader] int slcArea)
+        //{
+        //    //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    //var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
 
-            IEnumerable<ExpedienteBibliohemerografico> expedientes = await _expedienteRepository.GetExpedientesValidacionBiblio(slcArea);
-            if (expedientes == null)
-            {
-                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
-                return Ok(alert);
-            }
-            return Json(new { data = expedientes });
-        }
+        //    IEnumerable<ExpedienteBibliohemerografico> expedientes = await _expedienteRepository.GetExpedientesValidacionBiblio(slcArea);
+        //    if (expedientes == null)
+        //    {
+        //        var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
+        //        return Ok(alert);
+        //    }
+        //    return Json(new { data = expedientes });
+        //}
         [HttpPost]
         public async Task<IActionResult> GetExpedientesControl([FromHeader] int slcArea)
         {
@@ -64,30 +70,30 @@ namespace ConaviWeb.Controllers.Expedientes
             }
             return Json(new { data = expedientes });
         }
-        [HttpPost]
-        public async Task<IActionResult> VoBoExpedienteBiblio(int idExp)
-        {
-            var success = await _expedienteRepository.VoBoExpedienteBiblio(idExp);
-            if (!success)
-            {
-                var alerJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente bibliohemerográfico");
-                return Ok(alerJson);
-            }
-            var alert = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente bibliohemerográfico con éxito");
-            return Ok(alert);
-        }
-        [HttpPost]
-        public async Task<IActionResult> RevalidacionExpedienteBiblio(int idExp)
-        {
-            var success = await _expedienteRepository.RevalidacionExpedienteBiblio(idExp);
-            if (!success)
-            {
-                var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente bibliohemerográfico");
-                return Ok(alertJson);
-            }
-            var alert = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente bibliohemerográfico con exito");
-            return Ok(alert);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> VoBoExpedienteBiblio(int idExp)
+        //{
+        //    var success = await _expedienteRepository.VoBoExpedienteBiblio(idExp);
+        //    if (!success)
+        //    {
+        //        var alerJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar el VoBo del expediente bibliohemerográfico");
+        //        return Ok(alerJson);
+        //    }
+        //    var alert = AlertService.ShowAlert(Alerts.Success, "Se dió el VoBo al expediente bibliohemerográfico con éxito");
+        //    return Ok(alert);
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> RevalidacionExpedienteBiblio(int idExp)
+        //{
+        //    var success = await _expedienteRepository.RevalidacionExpedienteBiblio(idExp);
+        //    if (!success)
+        //    {
+        //        var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente bibliohemerográfico");
+        //        return Ok(alertJson);
+        //    }
+        //    var alert = AlertService.ShowAlert(Alerts.Success, "Se envió a revalidación el expediente bibliohemerográfico con exito");
+        //    return Ok(alert);
+        //}
         [HttpPost]
         public async Task<IActionResult> VoBoExpedienteControl(int idExp)
         {
@@ -103,9 +109,9 @@ namespace ConaviWeb.Controllers.Expedientes
             return Ok(alert);
         }
         [HttpPost]
-        public async Task<IActionResult> RevalidacionExpedienteControl(int idExp)
+        public async Task<IActionResult> RevalidacionExpedienteControl(int idExp, string observaciones)
         {
-            var success = await _expedienteRepository.RevalidacionExpedienteControl(idExp);
+            var success = await _expedienteRepository.RevalidacionExpedienteControl(idExp, observaciones);
             if (!success)
             {
                 var alertJson = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al enviar a revalidación el expediente");

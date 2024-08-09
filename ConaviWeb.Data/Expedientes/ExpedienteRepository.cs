@@ -237,7 +237,7 @@ namespace ConaviWeb.Data.Expedientes
             //            where et.id_inventario = @IdInv
             //            order by et.id;";
             var sql = @"
-                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.id_inventario_control IdInventario
+                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ROW_NUMBER() over(partition by year(ec.fecha_ultimo) order by ec.fecha_ultimo, ec.id) Consecutivo, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.id_inventario_control IdInventario
                             ,if(ec.id_user = @id, 'editable', 'noeditable') EsEditable, ec.estatus Estatus
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
@@ -250,7 +250,6 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        
                         select cons.NoProg NoProg, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte, ct.clave ClaveSoporte, eb.titulo_del_libro Titulo, eb.nombre_autor Autor, eb.tema Tema, eb.editorial Editorial, eb.anio Anio, eb.isbn_issn IsbnIssn, eb.numero_paginas Paginas, eb.numero_volumen Volumen, eb.id_inventario_bibliohemerografico IdInventario
                         from prod_control_exp.expediente_bibliohemerografico eb
                         join prod_control_exp.inventario_bibliohemerografico ib on eb.id_inventario_bibliohemerografico = ib.id
@@ -294,7 +293,7 @@ namespace ConaviWeb.Data.Expedientes
             //            left join prod_control_exp.caratula crt on et.id = crt.id_expediente_tp
             //            where et.id = @Id";
             var sql = @"
-                        select cons.NoProg NoProg, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.fecha_primero FechaPrimeroAntiguo, et.fecha_ultimo FechaUltimoReciente, et.id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.fecha_primero FechaPrimeroAntiguo, et.fecha_ultimo FechaUltimoReciente, et.id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area, et.estatus Estatus
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_tp
@@ -302,7 +301,7 @@ namespace ConaviWeb.Data.Expedientes
                         join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on et.id_inventario_control = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 1) cons on et.id = cons.id
+                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 1 ORDER BY ets.fecha_ultimo, ets.id) cons on et.id = cons.id
                         left join prod_control_exp.caratula crt on et.id = crt.id_expediente_control
                         where et.id = @Id";
 
@@ -456,26 +455,27 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        select ROW_NUMBER() over(order by ec.fecha_ultimo) NoProg, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.nombre Nombre, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario
+                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ROW_NUMBER() over(partition by year(ec.fecha_ultimo) order by ec.fecha_ultimo, ec.id) Consecutivo, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.nombre Nombre, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.obs_revalidacion ObservacionesRevalidacion
                             ,if(ec.id_user = @Id, 'editable', 'noeditable') EsEditable, ec.estatus Estatus
                             ,if(ec.migrado_tp = 1, ec.migrado_tp, if(ec.anios_resguardo is not null and ec.numero_fojas is not null, 0, 1)) MigradoTP
                             ,if(ec.migrado_ne = 1, ec.migrado_ne, if(ec.numero_partes is not null and ec.fecha_elaboracion is not null and ec.id_tipo_documental is not null and ec.id_tipo_soporte is not null, 0, 1)) MigradoNE
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
                         where ec.id_inventario_control = @IdInv AND ec.migrado_tp = 0 AND ec.migrado_ne = 0
-                        order by ec.fecha_ultimo;";
+                        order by ec.fecha_ultimo, ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { Id = id, IdInv = id_inventario });
         }
         public async Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int idArea)
         {
             var db = DbConnection();
             var sql = @"
-                        select ROW_NUMBER() over(order by ec.fecha_ultimo) NoProg, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.nombre Nombre, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
+                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, cons.Consecutivo, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.nombre Nombre, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.inventario_control ic on ec.id_inventario_control = ic.id
                         join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
+                        join (select ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets join prod_control_exp.inventario_control ic2 on ets.id_inventario_control = ic2.id and ic2.id_area = @IdArea WHERE ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         where ic.id_area = @IdArea and ec.estatus = 2 AND ec.migrado_tp = 0 and ec.migrado_ne = 0
-                        order by ec.fecha_ultimo;";
+                        order by ec.fecha_ultimo, ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
         }
         public async Task<Expediente> GetExpedienteControl(int id)
@@ -483,14 +483,14 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg NoProg, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, nombre Nombre, ec.observaciones Observaciones, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.anios_resguardo AniosResguardo, ec.id_tipo_documental IdTipoDocumental, ec.id_tipo_soporte IdTipoSoporte, ec.numero_partes NoPartes, ec.fecha_elaboracion FechaElaboracion, id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, nombre Nombre, ec.observaciones Observaciones, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.anios_resguardo AniosResguardo, ec.id_tipo_documental IdTipoDocumental, ec.id_tipo_soporte IdTipoSoporte, ec.numero_partes NoPartes, ec.fecha_elaboracion FechaElaboracion, id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area, ec.estatus Estatus
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo) NoProg, ets.id from prod_control_exp.expediente_control ets WHERE ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0) cons on ec.id = cons.id
+                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets WHERE ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         where ec.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Expediente>(sql, new { Id = id });
@@ -500,7 +500,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg NoProg, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_control
@@ -508,7 +508,7 @@ namespace ConaviWeb.Data.Expedientes
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo) NoProg, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0) cons on ec.id = cons.id
+                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_control
                         where ec.id = @Id";
 
@@ -518,7 +518,7 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        delete from prod_control_exp.expediente_control where id = @Id;";
+                        delete ec,cc from prod_control_exp.expediente_control ec left join prod_control_exp.caratula cc on ec.id = cc.id_expediente_control where ec.id = @Id;";
             var result = await db.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }
@@ -538,12 +538,12 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }
-        public async Task<bool> RevalidacionExpedienteControl(int id)
+        public async Task<bool> RevalidacionExpedienteControl(int id, string obs)
         {
             var db = DbConnection();
             var sql = @"
-                        update prod_control_exp.expediente_control set estatus = 4 where id = @Id;";
-            var result = await db.ExecuteAsync(sql, new { Id = id });
+                        update prod_control_exp.expediente_control set estatus = 4, obs_revalidacion = @Obs where id = @Id;";
+            var result = await db.ExecuteAsync(sql, new { Id = id, Obs = obs });
             return result > 0;
         }
         public async Task<Inventario> GetInventarioBibliohemerografico(string area)
@@ -635,7 +635,7 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        select ROW_NUMBER() over(order by eb.anio,eb.id) NoProg, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte
+                        select ROW_NUMBER() over(order by eb.anio,eb.id) NoProg, ROW_NUMBER() over(partition by eb.anio order by eb.anio,eb.id) Consecutivo, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte
                             ,cts.clave ClaveSoporte, cts.descripcion Soporte,eb.titulo_del_libro Titulo, eb.nombre_autor Autor, eb.tema Tema
                             ,eb.editorial Editorial, eb.anio Anio,eb.isbn_issn IsbnIssn,eb.numero_paginas Paginas, eb.numero_volumen Volumen
                             ,eb.fecha_registro FechaRegistro,eb.id_inventario_bibliohemerografico IdInventario, if(eb.id_user = @Id, 'editable', 'noeditable') EsEditable
@@ -650,13 +650,13 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
             var sql = @"
-                        select cons.NoProg NoProg, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte, eb.titulo_del_libro Titulo, eb.nombre_autor Autor
+                        select cons.NoProg, cons.Consecutivo, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte, eb.titulo_del_libro Titulo, eb.nombre_autor Autor
                             ,eb.tema Tema, eb.editorial Editorial, eb.anio Anio,eb.isbn_issn IsbnIssn,eb.numero_paginas Paginas, eb.numero_volumen Volumen
                             ,eb.fecha_registro FechaRegistro,eb.id_inventario_bibliohemerografico IdInventario, if(eb.id_user = @Id, 'editable', 'noeditable') EsEditable
                             ,eb.estatus Estatus, cts.clave ClaveSoporte, cts.descripcion Soporte
                         from prod_control_exp.expediente_bibliohemerografico eb
                         join prod_control_exp.cat_tipo_soporte cts on eb.id_tipo_soporte = cts.id
-                        join (select ROW_NUMBER() over(order by eb.anio, eb.id) NoProg, eb.id from prod_control_exp.expediente_bibliohemerografico eb where eb.id_inventario_bibliohemerografico = (select id_inventario_bibliohemerografico from prod_control_exp.expediente_bibliohemerografico where id = @Id)) cons on eb.id = cons.id
+                        join (select ROW_NUMBER() over(order by eb.anio, eb.id) NoProg, ROW_NUMBER() over(partition by eb.anio order by eb.anio, eb.id) Consecutivo, eb.id from prod_control_exp.expediente_bibliohemerografico eb where eb.id_inventario_bibliohemerografico = (select id_inventario_bibliohemerografico from prod_control_exp.expediente_bibliohemerografico where id = @Id) ORDER BY eb.anio, eb.id) cons on eb.id = cons.id
                         where eb.id = @Id;";
             return await db.QueryFirstOrDefaultAsync<ExpedienteBibliohemerografico>(sql, new { Id = id });
         }
@@ -763,7 +763,7 @@ namespace ConaviWeb.Data.Expedientes
             //            where en.id_inventario_no_expedientable = @IdInv
             //            order by en.id;";
             var sql = @"
-                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ec.id Id, cts.clave Codigo, ec.id_tipo_soporte IdTipoSoporte, ec.id_tipo_documental IdTipoDocumental
+                        select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ROW_NUMBER() over(partition by year(ec.fecha_ultimo) order by ec.fecha_ultimo, ec.id) Consecutivo, ec.id Id, cts.clave Codigo, ec.id_tipo_soporte IdTipoSoporte, ec.id_tipo_documental IdTipoDocumental
 	                        ,cts.descripcion Soporte, ec.id_expediente IdClaveInterna, csd.codigo Clave, ec.nombre Nombre, ec.numero_partes NoPartes
 	                        ,ec.observaciones Observaciones, ec.fecha_elaboracion FechaElaboracion, ec.fecha_registro FechaRegistro
 	                        ,ec.id_inventario_control IdInventario, if(ec.id_user = @Id, 'editable', 'noeditable') EsEditable
@@ -781,14 +781,14 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg NoProg, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, ec.fecha_elaboracion FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, ec.fecha_elaboracion FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
 	                        ,ca.descripcion Area
                         from prod_control_exp.expediente_no_expedientable ec
                         join prod_control_exp.cat_serie_documental cs on ec.id = cs.id
                         join prod_control_exp.inventario_noexpedientable itf on ec.id_inventario_no_expedientable = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-                        join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_no_expedientable ets where ets.id_inventario_no_expedientable = (select id_inventario_no_expedientable from expediente_no_expedientable where id = @Id)) cons on ec.id = cons.id
+                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_no_expedientable ets where ets.id_inventario_no_expedientable = (select id_inventario_no_expedientable from expediente_no_expedientable where id = @Id) ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         where ec.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Expediente>(sql, new { Id = id });
@@ -847,7 +847,7 @@ namespace ConaviWeb.Data.Expedientes
             //            left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_noexp
             //            where ec.id = @Id";
             var sql = @"
-                        select cons.NoProg NoProg, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
 	                        ,ca.descripcion Area, ec.estatus Estatus
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_noexp
@@ -855,7 +855,7 @@ namespace ConaviWeb.Data.Expedientes
                         join prod_control_exp.cat_serie_documental cs on ec.id = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
                         join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_ne = 1) cons on ec.id = cons.id
+                        join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_ne = 1 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_control
                         where ec.id = @Id";
 

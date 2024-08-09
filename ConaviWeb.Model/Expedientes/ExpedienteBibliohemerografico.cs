@@ -9,6 +9,7 @@ namespace ConaviWeb.Model.Expedientes
     public class ExpedienteBibliohemerografico
     {
         public int NoProg { get; set; }
+        public int Consecutivo { get; set; }
         public int Id { get; set; }
         public int Ejemplar { get; set; }
         public int IdTipoSoporte { get; set; }

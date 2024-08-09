@@ -39,7 +39,7 @@
         <h3 class="text-center" id="h3title">Inventario </h3>
     </div>
 </div>
-<div id="divtableExpedientes">
+@*<div id="divtableExpedientes">
     <div class="row">
         <div class="col-md-12">
             <form id="formTable">
@@ -90,7 +90,7 @@
             </form>
         </div>
     </div>
-</div>
+</div>*@
 <div class="row" id="divtableExpedientesControl">
     <div class="col-md-12">
         <form id="formTable">
@@ -130,7 +130,7 @@
     </div>
 </div>
 <!-- Modal VoBo Expediente biblihemerográfico -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpedienteBiblio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalVoBoExpedienteBiblio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
@@ -138,9 +138,9 @@
             }
         </div>
     </div>
-</div>
+</div>*@
 <!-- Modal Revalidacion Expediente bibliohemerográfico -->
-<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpedienteBiblio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@*<div class="modal fade fade-in" style="z-index:1041" id="showModalRevalidacionExpedienteBiblio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
@@ -148,6 +148,13 @@
             }
         </div>
     </div>
+</div>*@
+
+@*Modal información del expediente*@
+<div id="infoExpediente">
+    @{
+        @await Html.PartialAsync("../Expedientes/_InfoExpedienteControl")
+    }
 </div>
 
 @* Modal VoBo Expediente Control *@
@@ -186,22 +193,90 @@
     var table;
     $(document).ready(function () {
         showAlert();
-        $("#divtableExpedientes, #divtableExpedientesControl").hide();
-        $('#showModalVoBoExpedienteBiblio').on('show.bs.modal', function (e) {
-            var expId = $(e.relatedTarget).data('exp-id');
-            $(e.currentTarget).find('#idExpediente').val(expId);
-        });
-        $('#showModalRevalidacionExpedienteBiblio').on('show.bs.modal', function (e) {
-            var expId = $(e.relatedTarget).data('exp-id');
-            $(e.currentTarget).find('#idExpediente').val(expId);
-        });
+        $("#divtableExpedientesControl").hide();
+        //$('#showModalVoBoExpedienteBiblio').on('show.bs.modal', function (e) {
+        //    var expId = $(e.relatedTarget).data('exp-id');
+        //    $(e.currentTarget).find('#idExpediente').val(expId);
+        //});
+        //$('#showModalRevalidacionExpedienteBiblio').on('show.bs.modal', function (e) {
+        //    var expId = $(e.relatedTarget).data('exp-id');
+        //    $(e.currentTarget).find('#idExpediente').val(expId);
+        //});
         $('#showModalVoBoExpedienteControl').on('show.bs.modal', function (e) {
             var expId = $(e.relatedTarget).data('exp-id');
             $(e.currentTarget).find('#idExpediente').val(expId);
         });
         $('#showModalRevalidacionExpedienteControl').on('show.bs.modal', function (e) {
+            $('#lbl_error').text('').hide();
             var expId = $(e.relatedTarget).data('exp-id');
             $(e.currentTarget).find('#idExpediente').val(expId);
+        });
+        $('#modalExpediente').on('show.bs.modal', function (e) {
+            var bookId = $(e.relatedTarget).data('exp-id');
+            if (!isNaN(bookId)) {
+                $.ajax({
+                    url: "@Url.Action("GetExpedienteControl", "InventarioControl")", // Url
+                    data: {
+                        // Datos / Parámetros
+                        Id: bookId
+                    },
+                    type: "post"  // Verbo HTTP
+                }).done(function (result) {
+                    if (result.id != null) {
+                        $('#hd_id_expediente').val(result.id);
+                        $('#slctClaveExp option[value="' + result.idExpediente + '"]').prop('selected', true);
+                        $('#Legajos').val(result.legajos);
+                        $('#Nombre').val(result.nombre);
+                        $('#Observaciones').val(result.observaciones);
+                        var fprimero = new Date(result.fechaPrimeroAntiguo);
+                        var month = fprimero.getMonth() + 1;
+                        var day = fprimero.getDate();
+                        fprimero = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear();
+                        $('#fprimero_antiguo').val(fprimero);
+                        var fultimo = new Date(result.fechaUltimoReciente);
+                        var month = fultimo.getMonth() + 1;
+                        var day = fultimo.getDate();
+                        fultimo = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fultimo.getFullYear();
+                        $('#fultimo_reciente').val(fultimo);
+                        $('#Fojas').val(result.fojas);
+                        $('#aniosArchivoCon').val(result.aniosResguardo);
+                        $('#slctTipoDocumental option[value="' + result.idTipoDocumental + '"]').prop('selected', true);
+                        $('#slctTipoSoporte option[value="' + result.idTipoSoporte + '"]').prop('selected', true);
+                        $('#text_partes').val(result.noPartes);
+                        if (result.fechaElaboracion != null) {
+                            var felaboracion = new Date(result.fechaElaboracion);
+                            var month = felaboracion.getMonth() + 1;
+                            var day = felaboracion.getDate();
+                            felaboracion = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + felaboracion.getFullYear();
+                            $('#felaboracion_nexp').val(felaboracion);
+                        }
+                        $("#modalExpediente").find("input[type=text], input[type=number], textarea, select").replaceWith(function () {
+                            return this.tagName == 'SELECT' ? '<div class="form-control" style="min-height: 39px; height:100%;">' + $('#' + this.id + ' option:selected').text() + '</div>' : '<div class="form-control" style="min-height: 39px; height:100%;">' + $(this).val() + '</div>';
+                        });
+                    } else {
+                        $('#modalExpediente').modal('toggle');
+                        window.scrollTo(0,0);
+                        $("#alertAjax").append(result);
+                        showAlert();
+                    }
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
+                //$(e.currentTarget).find('#idSerie').val(bookId);
+            }
         });
         $("#btn_vobo").on("click", function (e) {
             // Deshabilitamos el botón de Submit
@@ -249,7 +324,7 @@
                 getExpedientes();
             });
         });
-        $("#btn_vobo_bb").on("click", function (e) {
+        @*$("#btn_vobo_bb").on("click", function (e) {
             // Deshabilitamos el botón de Submit
             $("#btn_vobo_bb").prop("disabled", true);
             var id_exp = $("#showModalVoBoExpedienteBiblio").find("#idExpediente").val();
@@ -295,14 +370,21 @@
                 }, 600);
                 getExpedientes();
             });
-        });
+        });*@
         $("#btn_reval").on("click", function (e) {
             // Deshabilitamos el botón de Submit
             $("#btn_reval").prop("disabled", true);
+            var obs = ($('#txt_observaciones_revalidacion').val()).trim();
+            if (obs == '') {
+                $("#lbl_error").text('Describa el motivo');
+                $('#lbl_error').show('slow');
+                $("#btn_reval").prop("disabled", false);
+                return;
+            }
             var id_exp = $("#showModalRevalidacionExpedienteControl").find("#idExpediente").val();
-            console.log(id_exp);
             var formData = new FormData();
             formData.append("idExp", id_exp);
+            formData.append("observaciones", obs);
             $.ajax({
                 url: "@Url.Action("RevalidacionExpedienteControl", "InventarioValidacion")", // Url
                 type: 'post',
@@ -344,7 +426,7 @@
                 getExpedientes();
             });
         });
-        $("#btn_reval_bb").on("click", function (e) {
+        @*$("#btn_reval_bb").on("click", function (e) {
             // Deshabilitamos el botón de Submit
             $("#btn_reval_bb").prop("disabled", true);
             var id_exp = $("#showModalRevalidacionExpedienteBiblio").find("#idExpediente").val();
@@ -390,7 +472,7 @@
                 }, 600);
                 getExpedientes();
             });
-        });
+        });*@
     });
     function getExpedientes() {
         $("#slcInventario, #slcArea").removeClass("alert-danger");
@@ -466,7 +548,7 @@
         });
         //tableControl.buttons().container().appendTo($('.col-sm-6:eq(0)', tableControl.table().container()));
     }
-    function showTableBiblio() {
+    @*function showTableBiblio() {
         var urlTipo = "";
         $("#divtableExpedientesControl").hide();
         //const tipo = $('#slcInventario option:selected').val();
@@ -524,44 +606,44 @@
             }
         });
         //table.buttons().container().appendTo($('.col-sm-6:eq(0)', table.table().container()));
-    }
-    var columns = [
-        { "name": "NoProg", "data": "noProg", "targets": 0 },
-        { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
-        //{ "name": "TipoSoporte", "data": "soporte", "targets": 2 },
-        {
-            "name": "TipoSoporte",
-            "data": null,
-            "targets": 2,
-            "render": function (data, type, row) {
-                return row.claveSoporte + '-' + row.noProg + '/' + row.anio;
-            }
-        },
-        { "name": "Titulo", "data": "titulo", "targets": 3 },
-        { "name": "Autor", "data": "autor", "targets": 4 },
-        { "name": "Tema", "data": "tema", "targets": 5 },
-        { "name": "Editorial", "data": "editorial", "targets": 6 },
-        { "name": "Anio", "data": "anio", "targets": 7 },
-        { "name": "IsbnIssn", "data": "isbnIssn", "targets": 8 },
-        { "name": "Paginas", "data": "paginas", "targets": 9 },
-        { "name": "Volumen", "data": "volumen", "targets": 10 },
-        {
-            "targets": 11,
-            "data": null,
-            "render": function (data, type, row, meta) {
-                var ret = "";
-                //var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
-                ret += '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpedienteBiblio" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>';
-                ret += '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpedienteBiblio" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>';
-                //if (row.esEditable == 'editable') {
-                //    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
-                //}
-                return ret;
-            },
-            "sortable": false,
-            "className": 'text-center'
-        },
-    ];
+    }*@
+    //var columns = [
+    //    { "name": "NoProg", "data": "noProg", "targets": 0 },
+    //    { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
+    //    //{ "name": "TipoSoporte", "data": "soporte", "targets": 2 },
+    //    {
+    //        "name": "TipoSoporte",
+    //        "data": null,
+    //        "targets": 2,
+    //        "render": function (data, type, row) {
+    //            return row.claveSoporte + '-' + row.noProg + '/' + row.anio;
+    //        }
+    //    },
+    //    { "name": "Titulo", "data": "titulo", "targets": 3 },
+    //    { "name": "Autor", "data": "autor", "targets": 4 },
+    //    { "name": "Tema", "data": "tema", "targets": 5 },
+    //    { "name": "Editorial", "data": "editorial", "targets": 6 },
+    //    { "name": "Anio", "data": "anio", "targets": 7 },
+    //    { "name": "IsbnIssn", "data": "isbnIssn", "targets": 8 },
+    //    { "name": "Paginas", "data": "paginas", "targets": 9 },
+    //    { "name": "Volumen", "data": "volumen", "targets": 10 },
+    //    {
+    //        "targets": 11,
+    //        "data": null,
+    //        "render": function (data, type, row, meta) {
+    //            var ret = "";
+    //            //var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+    //            ret += '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpedienteBiblio" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>';
+    //            ret += '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpedienteBiblio" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>';
+    //            //if (row.esEditable == 'editable') {
+    //            //    ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
+    //            //}
+    //            return ret;
+    //        },
+    //        "sortable": false,
+    //        "className": 'text-center'
+    //    },
+    //];
     var columnsControl = [
         { "name": "NoProg", "data": "noProg", "targets": 0 },
         //{ "name": "Codigo", "data": "codigo", "targets": 1 },
@@ -570,7 +652,7 @@
             "data": null,
             "targets": 1,
             "render": function (data, type, row) {
-                return row.codigo + '-' + row.noProg + '/' + row.periodo;
+                return row.codigo + '-' + row.consecutivo + '/' + row.periodo;
             }
         },
         { "name": "Nombre", "data": "nombre", "targets": 2 },
@@ -583,7 +665,7 @@
                 var fprimero = new Date(row.fechaPrimeroAntiguo);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
             }
         },
         {
@@ -594,7 +676,7 @@
                 var fprimero = new Date(row.fechaUltimoReciente);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return (fprimero.getFullYear() + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day);
+                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
             }
         },
         { "name": "Estatus", "data": "estatus", "targets": 6 },
@@ -602,8 +684,9 @@
             "targets": 7,
             "data": null,
             "render": function (data, type, row, meta) {
-                var ret= "";
-                //var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+                //var ret= "";
+                var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + row.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
+                ret += '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Vista general" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span></a><br>';
                 ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpedienteControl" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                 ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpedienteControl" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                 if (row.esEditable == 'editable') {

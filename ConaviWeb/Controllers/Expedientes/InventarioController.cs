@@ -33,7 +33,6 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave", idUserArea));
             ViewBag.NombreResponsable = inventario != null ? inventario.NombreResponsableAT : "";
             ViewBag.IdInv = inventario != null ? inventario.Id : 0;
-            //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
             ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
             ViewBag.FechaTra = inventario != null ? inventario.FechaTransferencia?.ToString("dd/MM/yyyy") : "";
             if (user.Id == 212 || user.Id == 323)

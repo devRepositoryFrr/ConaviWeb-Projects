@@ -13,6 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Expedientes\_RevalidacionExpedienteBiblio.cshtml" />
+    <Content Remove="Views\Expedientes\_VoBoExpedienteBiblio.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="itext7" Version="7.2.0" />
     <PackageReference Include="MailKit" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />

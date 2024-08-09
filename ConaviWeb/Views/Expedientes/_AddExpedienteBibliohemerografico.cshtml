@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Alta de expediente bibliohemerográfico</h4>
+                <h4 class="modal-title" id="myModalLabel">Registro de expediente para el inventario bibliohemerográfico</h4>
             </div>
             <form id="formInsertExpedienteBibliohemerografico" enctype="multipart/form-data" method="post" asp-controller="Bibliohemerografico" asp-action="InsertExpedienteBibliohemerografico">
                 <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <button type="submit" class="btn btn-primary active">Enviar</button>
                 </div>
             </form>
         </div>

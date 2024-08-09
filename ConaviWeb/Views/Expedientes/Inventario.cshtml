@@ -114,7 +114,6 @@
         </div>
     </div>
 </div>*@
-<hr />
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -206,7 +205,7 @@
                 "targets": 1,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = row.codigo + '-' + row.noProg + '/' + row.periodo;
+                    var ret = row.codigo + '-' + row.consecutivo + '/' + row.periodo;
                     return ret;
                 },
                 "sortable": false,
