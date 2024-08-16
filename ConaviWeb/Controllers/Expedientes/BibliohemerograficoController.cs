@@ -55,6 +55,18 @@ namespace ConaviWeb.Controllers.Expedientes
             return RedirectToAction("Index");
         }
         [HttpPost]
+        public async Task<IActionResult> GetInventarioBiblioById([FromForm] int id)
+        {
+            Inventario inventario = new();
+            inventario = await _expedienteRepository.GetInventarioBiblioById(id);
+            if (inventario == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de inventario no encontrado");
+                return Ok(alert);
+            }
+            return Ok(inventario);
+        }
+        [HttpPost]
         public async Task<IActionResult> InsertExpedienteBibliohemerografico(ExpedienteBibliohemerografico expediente)
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
@@ -87,6 +99,16 @@ namespace ConaviWeb.Controllers.Expedientes
             if(inventario != null)
             {
                 expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficos(user.Id, inventario.Id);
+            }
+            return Json(new { data = expedientes });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetExpedientesBiblioByIdInv([FromForm] int id)
+        {
+            IEnumerable<ExpedienteBibliohemerografico> expedientes = new List<ExpedienteBibliohemerografico>();
+            if(id != 0)
+            {
+                expedientes = await _expedienteRepository.GetExpedientesBibliohemerograficosByIdInv(id);
             }
             return Json(new { data = expedientes });
         }

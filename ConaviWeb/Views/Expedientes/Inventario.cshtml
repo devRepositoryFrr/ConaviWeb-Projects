@@ -126,11 +126,10 @@
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                //$("#formInsertInventarioTPrimaria").show();
-                $("#btn_add_exp").prop("disabled", true);
+                $("#btn_save_inv").remove();
+                $("#btn_fto").remove();
             } else {
-                //$("#formInsertInventarioTPrimaria").hide();
-                $("#btn_add_exp").prop("disabled", false);
+
             }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
@@ -242,6 +241,11 @@
             setTimeout(function () {
                 $("#alerta").remove();
             }, 6000);
+        }
+        function sendToFormat() {
+            var id = $("#hd_id_inventario").val();
+            if (!isNaN(id) && id > 0)
+                window.open("/InventarioFto?id=" + id, "_blank");
         }
     </script>
 }

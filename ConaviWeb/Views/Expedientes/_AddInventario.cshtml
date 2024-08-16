@@ -12,29 +12,29 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
-            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" value="@ViewBag.FechaElab" class="form-control" readonly required />
+            <input asp-for="FechaElaboracion" type="text" id="felaboracion_inventario" value="@ViewBag.FechaElab" class="form-control" disabled required />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-8">
             <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" readonly required />
+            <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" disabled required />
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="ftransferencia_archivo">Fecha de transferencia:</label>
-            <input type="text" id="ftransferencia_archivo" asp-for="FechaTransferencia" value="@ViewBag.FechaTra" class="form-control" readonly />
+            <input type="text" id="ftransferencia_archivo" asp-for="FechaTransferencia" value="@ViewBag.FechaTra" class="form-control" placeholder="dd/mm/aaaa" readonly />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <button type="submit" class="btn btn-default btn-sm pull-right active">
+            <button type="submit" id="btn_save_inv" class="btn btn-default btn-sm pull-right active">
                 <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
             </button>
-            <a class="btn btn-sm btn-primary pull-right" target="_blank" href="@Url.Action("Index","InventarioFto")" title="Formato de Inventario de Transferencia Primaria al Archivo de Concentración">
+            <button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de Transferencia Primaria al Archivo de Concentración" onclick="sendToFormat()">
                 <span class="glyphicon glyphicon-print"></span> Formato
-            </a>
+            </button>
         </div>
     </div>
 </form>
@@ -42,7 +42,7 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script>
     $(document).ready(function () {
-        $('#felaboracion_inventario, #ftransferencia_archivo').datepicker({
+        $('#ftransferencia_archivo').datepicker({
             changeYear: true
         });
 

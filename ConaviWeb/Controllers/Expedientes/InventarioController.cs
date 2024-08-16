@@ -56,20 +56,20 @@ namespace ConaviWeb.Controllers.Expedientes
             }
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> InsertExpedienteInventarioTPrimaria(Expediente expediente)
-        {
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            expediente.IdUser = user.Id;
+        //[HttpPost]
+        //public async Task<IActionResult> InsertExpedienteInventarioTPrimaria(Expediente expediente)
+        //{
+        //    var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    expediente.IdUser = user.Id;
 
-            var success = await _expedienteRepository.InsertExpedienteInventarioTP(expediente);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index");
-        }
+        //    var success = await _expedienteRepository.InsertExpedienteInventarioTP(expediente);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    return RedirectToAction("Index");
+        //}
         [HttpPost]
         public async Task<IActionResult> ExpedientesTP()
         {
@@ -86,20 +86,32 @@ namespace ConaviWeb.Controllers.Expedientes
             return Json(new { data = expedientes });
         }
         [HttpPost]
-        public async Task<IActionResult> GetExpedienteTP([FromForm] int id)
+        public async Task<IActionResult> GetExpedientesTPByIdInv([FromForm] int id)
         {
-            Expediente expediente = new();
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            expediente = await _expedienteRepository.GetExpedienteTP(id);
-            
-            if (expediente == null)
+            IEnumerable<Expediente> expedientes = new List<Expediente>();
+            expedientes = await _expedienteRepository.GetExpedientesTPByIdInv(id);
+            if (expedientes == null)
             {
-                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
                 return Ok(alert);
             }
-            expediente.UserName = user.Name;
-            return Ok(expediente);
+            return Json(new { data = expedientes });
         }
+        //[HttpPost]
+        //public async Task<IActionResult> GetExpedienteTP([FromForm] int id)
+        //{
+        //    Expediente expediente = new();
+        //    var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    expediente = await _expedienteRepository.GetExpedienteTP(id);
+            
+        //    if (expediente == null)
+        //    {
+        //        var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
+        //        return Ok(alert);
+        //    }
+        //    expediente.UserName = user.Name;
+        //    return Ok(expediente);
+        //}
         [HttpPost]
         public async Task<IActionResult> GetCaratulaExpedienteTP([FromForm] int id)
         {
@@ -115,18 +127,18 @@ namespace ConaviWeb.Controllers.Expedientes
             caratula.UserName = user.Name;
             return Ok(caratula);
         }
-        [HttpPost]
-        public async Task<IActionResult> DropExpediente(Expediente expediente)
-        {
-            var success = await _expedienteRepository.DropExpediente(expediente.Id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al eliminar el expediente");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se eliminó el expediente con exito");
-            return RedirectToAction("Index");
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> DropExpediente(Expediente expediente)
+        //{
+        //    var success = await _expedienteRepository.DropExpediente(expediente.Id);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al eliminar el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se eliminó el expediente con exito");
+        //    return RedirectToAction("Index");
+        //}
         //[HttpPost]
         //public async Task<IActionResult> SendValExpediente(Expediente expediente)
         //{

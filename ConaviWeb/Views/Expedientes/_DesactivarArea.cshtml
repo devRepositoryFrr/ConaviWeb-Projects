@@ -1,15 +1,15 @@
-﻿@model ConaviWeb.Model.Expedientes.Expediente
+﻿@model ConaviWeb.Model.Expedientes.Area
 
-<form id="formSendValExpediente" enctype="multipart/form-data" method="post" asp-controller="InventarioControl" asp-action="SendValExpedienteControl">
+<form id="formActivarArea" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="DesactivarArea">
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <div class='modal-header'>
-        <h4 id='titulo-modal' style="font-weight: 300">Enviar Expediente a revisión</h4>
+        <h4 id='titulo-modal' style="font-weight: 300">Desactivar Area administrativa</h4>
     </div>
     <div class='modal-body'>
-        <input id="idExpediente" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <input id="idArea" asp-for="Id" type="text" class="form-control" style="display:none;">
         <div class="row">
             <div class="col-md-12">
-                <h3>¿Estás seguro de enviar el expediente a revisión?</h3>
+                <h3>¿Estás seguro de desactivar el área administrativa?</h3>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
             <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
         </button>
         <button type="submit" class="btn btn-sm btn-primary active">
-            <span class="glyphicon glyphicon-send"></span> Si, enviar
+            <span class="glyphicon glyphicon-remove-circle"></span> Si, desactivar
         </button>
     </div>
 </form>

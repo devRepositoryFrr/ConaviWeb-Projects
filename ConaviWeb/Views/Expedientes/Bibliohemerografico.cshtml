@@ -72,6 +72,7 @@
         </form>
     </div>
 </div>
+<br />
 <button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente">
     <span class="glyphicon glyphicon-plus"></span> Agregar Expediente
 </button>
@@ -109,16 +110,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript">
+    <script type="text/javascript">
         var table;
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                $("#formInsertInventarioBibliohemerografico").show();
-                $("#btn_add_exp").prop("disabled", true);
-            } else {
-                //$("#formInsertInventarioBibliohemerografico").hide();
-                $("#btn_add_exp").prop("disabled", false);
+                $("#btn_fto").remove();
+                $("#btn_add_exp").remove();
             }
             showTable();
             $('#modalExpediente').on('hidden.bs.modal', function (e) {
@@ -291,5 +289,10 @@
             });
             $('#slctAnio').append(optionString);
         }
-</script>
+        function sendToFormat() {
+            var id = $("#hd_id_inventario").val();
+            if (!isNaN(id) && id > 0)
+                window.open("/BibliohemerograficoFto?id=" + id, "_blank");
+        }
+    </script>
 }

@@ -103,6 +103,32 @@ namespace ConaviWeb.Controllers.Expedientes
             return Json(new { data = expedientes });
         }
         [HttpPost]
+        public async Task<IActionResult> GetExpedientesControlByIdInv([FromForm] int id)
+        {
+            IEnumerable<Expediente> expedientes = new List<Expediente>();
+            expedientes = await _expedienteRepository.GetExpedientesInventarioControlByIdInv(id);
+
+            if (expedientes == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
+                return Ok(alert);
+            }
+            return Json(new { data = expedientes });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetInventarioControlById([FromForm] int id)
+        {
+            Inventario inventario = new();
+            //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            inventario = await _expedienteRepository.GetInventarioControlById(id);
+            if (inventario == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de inventario no encontrado");
+                return Ok(alert);
+            }
+            return Ok(inventario);
+        }
+        [HttpPost]
         public async Task<IActionResult> GetExpedienteControl([FromForm] int id)
         {
             Expediente expediente = new();
@@ -155,26 +181,43 @@ namespace ConaviWeb.Controllers.Expedientes
         [HttpPost]
         public async Task<IActionResult> MigrarExpedienteControlInvTP(Expediente expediente)
         {
-            var success = await _expedienteRepository.MigrarExpedienteInvTP(expediente.Id);
-            if (!success)
+            var sepuedemigrar = await _expedienteRepository.sePuedeMigrarExpediente(expediente.Id, 1);
+            if (sepuedemigrar > 0)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+                var success = await _expedienteRepository.MigrarExpedienteInvTP(expediente.Id);
+                if (!success)
+                {
+                    TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+                    return RedirectToAction("Index");
+                }
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Transferencia Primaria con exito");
                 return RedirectToAction("Index");
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Transferencia Primaria con exito");
-            return RedirectToAction("Index");
+            else
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Necesitas editar los campos de Años de resguardo y número de Fojas, para poder migrar el expediente!");
+                return RedirectToAction("Index");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> MigrarExpedienteControlInvNE(Expediente expediente)
         {
-            var success = await _expedienteRepository.MigrarExpedienteInvNE(expediente.Id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+            var sepuedemigrar = await _expedienteRepository.sePuedeMigrarExpediente(expediente.Id, 2);
+            if (sepuedemigrar > 0) {
+                var success = await _expedienteRepository.MigrarExpedienteInvNE(expediente.Id);
+                if (!success)
+                {
+                    TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al migrar el expediente");
+                    return RedirectToAction("Index");
+                }
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Documentación No Expedientable con exito!");
                 return RedirectToAction("Index");
             }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se migró el expediente al Inventario de Documentación No Expedientable con exito");
-            return RedirectToAction("Index");
+            else
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Necesitas editar los campos necesarios para poder migrar el expediente!");
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -29,12 +29,12 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <button type="submit" class="btn btn-primary btn-sm pull-right active">
+            <button type="submit" id="btn_save_inv" class="btn btn-primary btn-sm pull-right active">
                 <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
             </button>
-            <a class="btn btn-sm btn-primary pull-right" target="_blank" href="@Url.Action("Index","BibliohemerograficoFto")" title="Formato de Inventario de acervo blibliohemerográfico">
+            <button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de acervo blibliohemerográfico" onclick="sendToFormat()">
                 <span class="glyphicon glyphicon-print"></span> Formato
-            </a>
+            </button>
         </div>
     </div>
 </form>

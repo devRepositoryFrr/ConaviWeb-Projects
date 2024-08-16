@@ -29,7 +29,7 @@
         <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
     </div>
     <div class="col-md-8">
-        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+        <label class="form-control" id="areaDescripcion">Aquí aparecerá la unidad administrativa ligada al usuario</label>
     </div>
 </div>
 <div class="row form-group datepicker-group">
@@ -37,7 +37,7 @@
         <label class="control-label">Nombre del responsable del archivo de trámite:</label>
     </div>
     <div class="col-md-8">
-        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
+        <label class="form-control" id="responsableArchivo">Aquí aparecerá el nombre del responsable</label>
     </div>
 </div>
 <div class="row form-group datepicker-group">
@@ -47,17 +47,17 @@
                 <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
             </div>
             <div class="col-md-6">
-                <input type="text" id="felaboracion_inventario" class="form-control" />
+                <label id="fechaElaboracion" class="form-control"></label>
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
-                <label for="ftransferencia_archivo">Fecha de la entrega:</label>
+                <label for="fechaEntrega">Fecha de la entrega:</label>
             </div>
             <div class="col-md-6">
-                <input type="text" id="ftransferencia_archivo" class="form-control" />
+                <label id="fechaEntrega" class="form-control"></label>
             </div>
             <div class="col-md-12">
                 <p class="help-block"><small>En caso de una entrega-recepción se anota la última fecha del documento</small></p>
@@ -68,7 +68,7 @@
 <div class="row">
     <div class="col-md-12">
         <form id="formTable">
-            <table id="table" class="table">
+            <table id="tableExpControl" class="table">
                 <thead>
                     <tr>
                         <th rowspan="2">
@@ -201,3 +201,145 @@
 </div>
 @*Fin del formulario para el alta de expediente*@
 <hr />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script type="text/javascript">
+        $(document).ready(function () {
+            showAlert();
+            const urlParams = new URLSearchParams(window.location.search);
+            const idInv = urlParams.get('id');
+            console.log(idInv);
+            $.ajax({
+                url: "@Url.Action("GetInventarioControlById", "InventarioControl")", // Url
+                data: {
+                    // Datos / Parámetros
+                    Id: idInv
+                },
+                type: "post"  // Verbo HTTP
+            }).done(function (result) {
+                if (result.id != null) {
+                    $('#areaDescripcion').text(result.nombreUnidadAdministrativa);
+                    $('#responsableArchivo').text(result.nombreResponsableAT);
+                    $('#fechaElaboracion').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
+                    $('#fechaEntrega').text(result.fechaEntrega != null ? result.fechaEntrega.substring(8, 10) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(0, 4) : '');
+
+                    var urlTipo = "";
+                    urlTipo = "/InventarioControl/GetExpedientesControlByIdInv";
+                    table = $('#tableExpControl').DataTable({
+                        "proccessing": true,
+                        "serverSide": false,
+                        "ajax": {
+                            url: urlTipo,
+                            data: { Id : idInv },
+                            type: 'POST',
+                            headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                            complete: function () {
+                                $("#spinner").hide();
+                            }
+                        },
+                        "columnDefs": columns,
+                        "order": [[0, "desc"]],
+                        "autoWidth": true,
+                        "destroy": true,
+                        "scrollY": true,
+                        "scrollCollapse": true,
+                        "paging": false,
+                        "searching": false,
+                        "info": false,
+                        "scrollX": true,
+                        "fixedColumns": true,
+                        "ordering": false,
+                        "language": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            }
+                        }
+                    });
+                } else {
+                    $("#alertAjax").append(result);
+                    showAlert();
+                }
+            })
+            // Se ejecuta si se produjo un error.
+            .fail(function (xhr, status, error) {
+                // Mostramos un mensaje de error.
+                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                // Escondemos el Ajax Loader
+                //$("#AjaxLoader").hide("slow");
+
+                // Habilitamos el botón de Submit
+                //$("#SubmitBtn").prop("disabled", false);
+            })
+            // Hacer algo siempre, haya sido exitosa o no.
+            .always(function () {
+
+            });
+
+        });
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0 },
+            {
+                "data": null,
+                "targets": 1,
+                "render": function (data, type, row) {
+                    //var fprimero = (new Date(row.fechaPrimeroAntiguo)).getFullYear();
+                    //var freciente = (new Date(row.fechaUltimoReciente)).getFullYear();
+                    //var periodo = freciente == fprimero ? fprimero : fprimero + '-' + freciente;
+                    return row.codigo + '-' + row.consecutivo + '/' + row.periodo;
+                }
+            },
+            { "name": "Nombre", "data": "nombre", "targets": 2 },
+            { "name": "Legajos", "data": "legajos", "targets": 3 },
+            {
+                "name": "FechaPrimeroAntiguo",
+                "data": "fechaPrimeroAntiguo",
+                "targets": 4,
+                "render": function (data, type, row) {
+                    var fprimero = new Date(row.fechaPrimeroAntiguo);
+                    var month = fprimero.getMonth() + 1;
+                    var day = fprimero.getDate();
+                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
+                }
+            },
+            {
+                "name": "FechaUltimoReciente",
+                "data": "fechaUltimoReciente",
+                "targets": 5,
+                "render": function (data, type, row) {
+                    var fprimero = new Date(row.fechaUltimoReciente);
+                    var month = fprimero.getMonth() + 1;
+                    var day = fprimero.getDate();
+                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
+                }
+            },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
+</script>
+}

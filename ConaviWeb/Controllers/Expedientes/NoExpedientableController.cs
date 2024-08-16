@@ -59,20 +59,20 @@ namespace ConaviWeb.Controllers.Expedientes
             }
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> InsertExpedienteNoExpedientable(ExpedienteNoExpedientable expediente)
-        {
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            expediente.IdUser = user.Id;
+        //[HttpPost]
+        //public async Task<IActionResult> InsertExpedienteNoExpedientable(ExpedienteNoExpedientable expediente)
+        //{
+        //    var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    expediente.IdUser = user.Id;
 
-            var success = await _expedienteRepository.InsertExpedienteNoExpedientable(expediente);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index");
-        }
+        //    var success = await _expedienteRepository.InsertExpedienteNoExpedientable(expediente);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el expediente");
+        //        return RedirectToAction("Index");
+        //    }
+        //    return RedirectToAction("Index");
+        //}
         [HttpGet]
         public async Task<IActionResult> ExpedientesNoExpedientables()
         {
@@ -81,6 +81,18 @@ namespace ConaviWeb.Controllers.Expedientes
 
             IEnumerable<Expediente> expedientes = new List<Expediente>();
             expedientes = await _expedienteRepository.GetExpedientesNoExpedientables(user.Id, inventario!=null ? inventario.Id : 0);
+            if (expedientes == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
+                return Ok(alert);
+            }
+            return Json(new { data = expedientes });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetExpedientesNoExpedientablesByIdInv([FromForm] int id)
+        {
+            IEnumerable<Expediente> expedientes = new List<Expediente>();
+            expedientes = await _expedienteRepository.GetExpedientesNoExpedientablesByIdInv(id);
             if (expedientes == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
