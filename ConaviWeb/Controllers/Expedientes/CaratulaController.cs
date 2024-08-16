@@ -21,20 +21,20 @@ namespace ConaviWeb.Controllers.Expedientes
         {
             return View("../Expedientes/Caratula");
         }
-        [HttpPost]
-        public async Task<IActionResult> InsertCaratulaExpedienteTP(Caratula caratula)
-        {
-            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            caratula.IdUser = user.Id;
+        //[HttpPost]
+        //public async Task<IActionResult> InsertCaratulaExpedienteTP(Caratula caratula)
+        //{
+        //    var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    caratula.IdUser = user.Id;
 
-            var success = await _expedienteRepository.InsertCaratulaExpedienteTP(caratula);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la carátula");
-                return RedirectToAction("Index");
-            }
-            //return RedirectToAction("Index");
-            return Redirect("/Caratula?id=" + caratula.IdExpediente);
-        }
+        //    var success = await _expedienteRepository.InsertCaratulaExpedienteTP(caratula);
+        //    if (!success)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la carátula");
+        //        return RedirectToAction("Index");
+        //    }
+        //    //return RedirectToAction("Index");
+        //    return Redirect("/Caratula?id=" + caratula.IdExpediente);
+        //}
     }
 }

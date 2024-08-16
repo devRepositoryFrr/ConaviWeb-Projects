@@ -141,10 +141,10 @@
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
                 //$("#formInsertInventarioControl").show();
-                $("#btn_add_exp").prop("disabled", true);
-            } else {
-                //$("#formInsertInventarioControl").hide();
-                $("#btn_add_exp").prop("disabled", false);
+                //$("#btn_add_exp").prop("disabled", true);
+                $("#btn_add_exp").remove();
+                //$("#btn_fto").prop("disabled", true);
+                $("#btn_fto").remove();
             }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
@@ -187,32 +187,39 @@
                         type: "post"  // Verbo HTTP
                     }).done(function (result) {
                         if (result.id != null) {
-                            $('#hd_id_expediente').val(result.id);
-                            $('#slctClaveExp option[value="' + result.idExpediente + '"]').prop('selected', true);
-                            $('#Legajos').val(result.legajos);
-                            $('#Nombre').val(result.nombre);
-                            $('#Observaciones').val(result.observaciones);
-                            var fprimero = new Date(result.fechaPrimeroAntiguo);
-                            var month = fprimero.getMonth() + 1;
-                            var day = fprimero.getDate();
-                            fprimero = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear();
-                            $('#fprimero_antiguo').val(fprimero);
-                            var fultimo = new Date(result.fechaUltimoReciente);
-                            var month = fultimo.getMonth() + 1;
-                            var day = fultimo.getDate();
-                            fultimo = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fultimo.getFullYear();
-                            $('#fultimo_reciente').val(fultimo);
-                            $('#Fojas').val(result.fojas);
-                            $('#aniosArchivoCon').val(result.aniosResguardo);
-                            $('#slctTipoDocumental option[value="' + result.idTipoDocumental + '"]').prop('selected', true);
-                            $('#slctTipoSoporte option[value="' + result.idTipoSoporte + '"]').prop('selected', true);
-                            $('#text_partes').val(result.noPartes);
-                            if (result.fechaElaboracion != null) {
-                                var felaboracion = new Date(result.fechaElaboracion);
-                                var month = felaboracion.getMonth() + 1;
-                                var day = felaboracion.getDate();
-                                felaboracion = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + felaboracion.getFullYear();
-                                $('#felaboracion_nexp').val(felaboracion);
+                            if (result.estatus != 'Aceptado' && result.estatus != 'Revisión') {
+                                $('#hd_id_expediente').val(result.id);
+                                $('#slctClaveExp option[value="' + result.idExpediente + '"]').prop('selected', true);
+                                $('#Legajos').val(result.legajos);
+                                $('#Nombre').val(result.nombre);
+                                $('#Observaciones').val(result.observaciones);
+                                var fprimero = new Date(result.fechaPrimeroAntiguo);
+                                var month = fprimero.getMonth() + 1;
+                                var day = fprimero.getDate();
+                                fprimero = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear();
+                                $('#fprimero_antiguo').val(fprimero);
+                                var fultimo = new Date(result.fechaUltimoReciente);
+                                var month = fultimo.getMonth() + 1;
+                                var day = fultimo.getDate();
+                                fultimo = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fultimo.getFullYear();
+                                $('#fultimo_reciente').val(fultimo);
+                                $('#Fojas').val(result.fojas);
+                                $('#aniosArchivoCon').val(result.aniosResguardo);
+                                $('#slctTipoDocumental option[value="' + result.idTipoDocumental + '"]').prop('selected', true);
+                                $('#slctTipoSoporte option[value="' + result.idTipoSoporte + '"]').prop('selected', true);
+                                $('#text_partes').val(result.noPartes);
+                                if (result.fechaElaboracion != null) {
+                                    var felaboracion = new Date(result.fechaElaboracion);
+                                    var month = felaboracion.getMonth() + 1;
+                                    var day = felaboracion.getDate();
+                                    felaboracion = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + felaboracion.getFullYear();
+                                    $('#felaboracion_nexp').val(felaboracion);
+                                }
+                            } else {
+                                $('#modalExpediente').modal('toggle');
+                                window.scrollTo(0, 0);
+                                $("#alertAjax").append("<div class='alertaOp alert alert-success' id='alerta'>El expediente no se puede editar en estos momentos!</div>");
+                                showAlert();
                             }
                         } else {
                             $('#modalExpediente').modal('toggle');
@@ -310,7 +317,7 @@
                     var fprimero = new Date(row.fechaPrimeroAntiguo);
                     var month = fprimero.getMonth() + 1;
                     var day = fprimero.getDate();
-                    return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
                 }
             },
             {
@@ -321,7 +328,7 @@
                     var fprimero = new Date(row.fechaUltimoReciente);
                     var month = fprimero.getMonth() + 1;
                     var day = fprimero.getDate();
-                    return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
                 }
             },
             //{ "name": "Estatus", "data": "estatus", "targets": 6 },
@@ -341,7 +348,7 @@
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                     if (row.esEditable == 'editable') {         //is editable for owner
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Enviar a revisión" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-check" aria-hidden="true"></span></a><br>' : '';
+                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación' || row.estatus == 'Edición para migrar') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Enviar a revisión" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-check" aria-hidden="true"></span></a><br>' : '';
                         ret += (row.migradoTP == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Transferencia Primaria al Archivo de Concentración" data-toggle="modal" data-target="#showModalMigrarTP" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-share" aria-hidden="true"></span></a><br>' : '';
                         ret += (row.migradoNE == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Documentación No Expedientable" data-toggle="modal" data-target="#showModalMigrarNE" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a><br>' : '';
                         ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f; font-size: 20px;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a><br>' : '';
@@ -359,6 +366,11 @@
             setTimeout(function () {
                 $("#alerta").remove();
             }, 6000);
+        }
+        function sendToFormat() {
+            var id = $("#hd_id_inventario").val();
+            if (!isNaN(id) && id>0)
+                window.open("/InventarioControl/ICFormato?id=" + id, "_blank");
         }
     </script>
 }

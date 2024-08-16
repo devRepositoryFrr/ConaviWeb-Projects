@@ -14,14 +14,14 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario_nexp">Fecha de Elaboración:</label>
-            <input type="text" asp-for="FechaElaboracion" id="felaboracion_inventario_nexp" value="@ViewBag.FechaElab" class="form-control" placeholder="dd/mm/aaaa" readonly required />
+            <input type="text" asp-for="FechaElaboracion" id="felaboracion_inventario_nexp" value="@ViewBag.FechaElab" class="form-control" placeholder="dd/mm/aaaa" disabled required />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-8">
             <label class="control-label" for="text_responsableAT">Nombre del responsable del archivo de trámite:</label>
-            <input type="text" asp-for="NombreResponsableAT" id="text_responsableAT" class="form-control" value="@ViewBag.NombreR" readonly required />
+            <input type="text" asp-for="NombreResponsableAT" id="text_responsableAT" class="form-control" value="@ViewBag.NombreR" disabled required />
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="ftransferencia_inventario_nexp">Fecha de transferencia:</label>
@@ -31,12 +31,12 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <button type="submit" class="btn btn-default btn-sm pull-right active">
+            <button type="submit" id="btn_save_inv" class="btn btn-default btn-sm pull-right active">
                 <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
             </button>
-            <a class="btn btn-sm btn-primary pull-right" target="_blank" href="@Url.Action("Index","NoExpedientableFto")" title="Formato de Inventario de Documentación no Expedientable transferible al Archivo de Concentración">
+            <button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de Documentación no Expedientable transferible al Archivo de Concentración" onclick="sendToFormat()">
                 <span class="glyphicon glyphicon-print"></span> Formato
-            </a>
+            </button>
         </div>
     </div>
 </form>
@@ -45,7 +45,7 @@
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 <script>
     $(document).ready(function () {
-        $('#felaboracion_inventario_nexp, #ftransferencia_inventario_nexp').datepicker({
+        $('#ftransferencia_inventario_nexp').datepicker({
             changeYear: true
         });
         $("#formInsertInventarioNoExpedientable").submit(function (e) {

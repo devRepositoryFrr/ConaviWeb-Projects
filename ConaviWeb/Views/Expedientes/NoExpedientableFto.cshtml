@@ -25,30 +25,28 @@
 <div class="row form-group">
     <div class="col-md-8">
         <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
-        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+        <label class="form-control" id="unidadAdministrativa">Aquí aparecerá la unidad administrativa ligada al usuario</label>
     </div>
     <div class="col-md-4 datepicker-group">
-        <label for="felaboracion_inventario">Fecha de Elaboración del Inventario:</label>
-        <input type="text" id="felaboracion_inventario_nexp" class="form-control" />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <label for="felaboracion_inventario_nexp">Fecha de Elaboración del Inventario:</label>
+        <label id="felaboracion_inventario_nexp" class="form-control"></label>
     </div>
 </div>
 <div class="row form-group">
     <div class="col-md-8">
         <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
+        <label class="form-control" id="responsableArchivo">Aquí aparecerá el nombre del responsable</label>
     </div>
     <div class="col-md-4 datepicker-group">
-        <label for="ftransferencia_archivo">Fecha de transferencia:</label>
-        <input type="text" id="ftransferencia_inventario" class="form-control" />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <label for="ftransferencia_inventario">Fecha de transferencia:</label>
+        <label id="ftransferencia_inventario" class="form-control"></label>
     </div>
 </div>
 @*Tabla de expedientes de documentacion no expedientabale*@
 <div class="row">
     <div class="col-md-12">
         <form id="formTable">
-            <table id="table" class="table">
+            <table id="tableExpNo" class="table">
                 <thead>
                     <tr>
                         <th>
@@ -254,9 +252,151 @@
 @*fin del formulario de expediente de documentacion no expedientable*@
 @*fin del formulario de documentacion no expedientable*@
 <hr />
-<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#felaboracion_inventario_nexp, #ftransferencia_inventario').datepicker().datepicker("setDate", "today");
-    });
-</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            showAlert();
+            const urlParams = new URLSearchParams(window.location.search);
+            const idInv = urlParams.get('id');
+            console.log(idInv);
+            $.ajax({
+                url: "@Url.Action("GetInventarioControlById", "InventarioControl")", // Url
+                data: {
+                    // Datos / Parámetros
+                    Id: idInv
+                },
+                type: "post"  // Verbo HTTP
+            }).done(function (result) {
+                if (result.id != null) {
+                    $('#unidadAdministrativa').text(result.nombreUnidadAdministrativa);
+                    $('#responsableArchivo').text(result.nombreResponsableAT);
+                    $('#felaboracion_inventario_nexp').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
+                    $('#ftransferencia_inventario').text(result.fechaTransferencia != null ? result.fechaTransferencia.substring(8, 10) + '/' + result.fechaTransferencia.substring(5, 7) + '/' + result.fechaTransferencia.substring(0, 4) : '');
+
+                    var urlTipo = "";
+                    urlTipo = "/NoExpedientable/GetExpedientesNoExpedientablesByIdInv";
+                    table = $('#tableExpNo').DataTable({
+                        "proccessing": true,
+                        "serverSide": false,
+                        "ajax": {
+                            url: urlTipo,
+                            data: { Id : idInv },
+                            type: 'POST',
+                            headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                            complete: function () {
+                                $("#spinner").hide();
+                            }
+                        },
+                        "columnDefs": columns,
+                        "order": [[0, "desc"]],
+                        "autoWidth": true,
+                        "destroy": true,
+                        "scrollY": true,
+                        "scrollCollapse": true,
+                        "paging": false,
+                        "searching": false,
+                        "info": false,
+                        "scrollX": true,
+                        "fixedColumns": true,
+                        "ordering": false,
+                        "language": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            }
+                        }
+                    });
+                } else {
+                    $("#alertAjax").append(result);
+                    showAlert();
+                }
+            })
+            // Se ejecuta si se produjo un error.
+            .fail(function (xhr, status, error) {
+                // Mostramos un mensaje de error.
+                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                // Escondemos el Ajax Loader
+                //$("#AjaxLoader").hide("slow");
+
+                // Habilitamos el botón de Submit
+                //$("#SubmitBtn").prop("disabled", false);
+            })
+            // Hacer algo siempre, haya sido exitosa o no.
+            .always(function () {
+
+            });
+
+        });
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0 },
+            //{ "name": "Clave", "data": "clave", "targets": 1 },
+            {
+                "name": "Clave",
+                "data": null,
+                "targets": 1,
+                "render": function (data, type, row) {
+                    return (row.idTipoDocumental != null && row.codigo != null) ? row.idTipoDocumental + '-' + row.codigo : "";
+                }
+            },
+            {
+                "name": "ClaveInterna",
+                "data": null,
+                "targets": 2,
+                "render": function (data, type, row) {
+                    //var fprimero = new Date(row.fechaElaboracion);
+                    //return row.claveInterna + "-" + row.noProg + "/" + fprimero.getFullYear();
+                    return row.clave + "-" + row.consecutivo + "/" + row.periodo;
+                }
+            },
+            {
+                "name": "Partes",
+                "data": null,
+                "targets": 3,
+                "render": function (data, type, row) {
+                    return row.noPartes != null ? row.noPartes : "";
+                }
+            },
+            { "name": "Nombre", "data": "nombre", "targets": 4 },
+            {
+                "name": "FechaElaboracion",
+                "data": null,
+                "targets": 5,
+                "render": function (data, type, row) {
+                    var fprimero = new Date(row.fechaElaboracion);
+                    var month = fprimero.getMonth() + 1;
+                    var day = fprimero.getDate();
+                    return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                }
+            },
+            { "name": "Observaciones", "data": "observaciones", "targets": 6 },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
+    </script>
+}

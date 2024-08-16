@@ -23,31 +23,29 @@
 </div>
 <div class="row form-group">
     <div class="col-md-8">
-        <label class="control-label">Nombre de la Unidad Administrativa:</label>
-        <label class="form-control">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+        <label class="control-label" for="unidadAdministrativa">Nombre de la Unidad Administrativa:</label>
+        <label class="form-control" id="unidadAdministrativa">Aquí aparecerá la unidad administrativa ligada al usuario</label>
     </div>
     <div class="col-md-4 datepicker-group">
         <label for="ftransferencia_biblio">Fecha de transferencia:</label>
-        <input type="text" id="ftransferencia_biblio" class="form-control" />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <label id="ftransferencia_biblio" class="form-control" />
     </div>
 </div>
 <div class="row form-group">
     <div class="col-md-8">
-        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-        <label class="form-control">Aquí aparecerá el nombre del responsable</label>
+        <label class="control-label" for="responsableArchivo">Nombre del responsable del archivo de trámite:</label>
+        <label class="form-control" id="responsableArchivo">Aquí aparecerá el nombre del responsable</label>
     </div>
     <div class="col-md-4 datepicker-group">
         <label for="felaboracion_inventario_biblio">Fecha de elaboración del Inventario:</label>
-        <input type="text" id="felaboracion_inventario_biblio" class="form-control" />
-        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        <label id="felaboracion_inventario_biblio" class="form-control" />
     </div>
 </div>
 @*formulario de expediente bibliohemerográfico*@
 <div class="row">
     <div class="col-md-12">
         <form id="formTable">
-            <table id="table" class="table">
+            <table id="tableExpBiblio" class="table">
                 <thead>
                     <tr>
                         <th>
@@ -245,9 +243,127 @@
 @*fin del formulario de acervo bobliohemerográfico*@
 <hr />
 
-<script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#felaboracion_inventario_biblio, #ftransferencia_biblio').datepicker().datepicker("setDate", "today");
-    });
-</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            showAlert();
+            const urlParams = new URLSearchParams(window.location.search);
+            const idInv = urlParams.get('id');
+            console.log(idInv);
+            $.ajax({
+                url: "@Url.Action("GetInventarioBiblioById", "Bibliohemerografico")", // Url
+                data: {
+                    // Datos / Parámetros
+                    Id: idInv
+                },
+                type: "post"  // Verbo HTTP
+            }).done(function (result) {
+                if (result.id != null) {
+                    $('#unidadAdministrativa').text(result.nombreUnidadAdministrativa);
+                    $('#responsableArchivo').text(result.nombreResponsableAT);
+                    $('#ftransferencia_biblio').text(result.fechaTransferencia != null ? result.fechaTransferencia.substring(8, 10) + '/' + result.fechaTransferencia.substring(5, 7) + '/' + result.fechaTransferencia.substring(0, 4) : '');
+                    $('#felaboracion_inventario_biblio').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
+
+                    var urlTipo = "";
+                    urlTipo = "/Bibliohemerografico/GetExpedientesBiblioByIdInv";
+                    table = $('#tableExpBiblio').DataTable({
+                        "proccessing": true,
+                        "serverSide": false,
+                        "ajax": {
+                            url: urlTipo,
+                            data: { Id : idInv },
+                            type: 'POST',
+                            headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                            complete: function () {
+                                $("#spinner").hide();
+                            }
+                        },
+                        "columnDefs": columns,
+                        "order": [[0, "desc"]],
+                        "autoWidth": true,
+                        "destroy": true,
+                        "scrollY": true,
+                        "scrollCollapse": true,
+                        "paging": false,
+                        "searching": false,
+                        "info": false,
+                        "scrollX": true,
+                        "fixedColumns": true,
+                        "ordering": false,
+                        "language": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            }
+                        }
+                    });
+                } else {
+                    $("#alertAjax").append(result);
+                    showAlert();
+                }
+            })
+            // Se ejecuta si se produjo un error.
+            .fail(function (xhr, status, error) {
+                // Mostramos un mensaje de error.
+                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                // Escondemos el Ajax Loader
+                //$("#AjaxLoader").hide("slow");
+
+                // Habilitamos el botón de Submit
+                //$("#SubmitBtn").prop("disabled", false);
+            })
+            // Hacer algo siempre, haya sido exitosa o no.
+            .always(function () {
+
+            });
+
+        });
+        var columns = [
+            { "name": "NoProg", "data": "noProg", "targets": 0 },
+            { "name": "Ejemplar", "data": "ejemplar", "targets": 1 },
+            {
+                "name": "TipoSoporte",
+                "data": null,
+                "targets": 2,
+                "render": function (data, type, row) {
+                    return row.claveSoporte + '-' + row.consecutivo + '/' + row.anio;
+                }
+            },
+            { "name": "Titulo", "data": "titulo", "targets": 3 },
+            { "name": "Autor", "data": "autor", "targets": 4 },
+            { "name": "Tema", "data": "tema", "targets": 5 },
+            { "name": "Editorial", "data": "editorial", "targets": 6 },
+            { "name": "Anio", "data": "anio", "targets": 7 },
+            { "name": "IsbnIssn", "data": "isbnIssn", "targets": 8 },
+            { "name": "Paginas", "data": "paginas", "targets": 9 },
+            { "name": "Volumen", "data": "volumen", "targets": 10 },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 3000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
+    </script>
+}

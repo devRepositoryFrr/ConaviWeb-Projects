@@ -4,7 +4,7 @@
 <form id="formUpdateSerieDocCat" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="UpdateSerieDocCat">
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <div class='modal-header'>
-        <h4 id='titulo-modal' style="font-weight: 300">Editar serie documental</h4>
+        <h4 id='titulo-modal' style="font-weight: 300">Registro de serie documental</h4>
     </div>
     <div class='modal-body'>
         <input id="idSerie" asp-for="Id" type="text" class="form-control" style="display:none;">
@@ -67,8 +67,12 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span> Cerrar
+        </button>
+        <button type="submit" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-send"></span> Enviar
+        </button>
     </div>
 </form>
 

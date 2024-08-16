@@ -20,10 +20,14 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public IActionResult Index()
         {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Catalogos");
         }
         public IActionResult Areas()
         {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Areas");
         }
         [HttpGet]
@@ -71,17 +75,59 @@ namespace ConaviWeb.Controllers.Expedientes
             var success = await _expedientesRepository.UpdateSerieDocCat(serie);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al editar la serie documental");
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al editar la serie documental");
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> ActivarSerieDoc(SerieDocumental serie)
+        {
+            var success = await _expedientesRepository.ActivarSerieDocCat(serie.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al activar la serie documental");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DesactivarSerieDoc(SerieDocumental serie)
+        {
+            var success = await _expedientesRepository.DesactivarSerieDocCat(serie.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al desactivar la serie documental");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ActivarArea(Area area)
+        {
+            var success = await _expedientesRepository.ActivarArea(area.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al activar el área");
+                return RedirectToAction("Areas");
+            }
+            return RedirectToAction("Areas");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DesactivarArea(Area area)
+        {
+            var success = await _expedientesRepository.DesactivarArea(area.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al desactivar el área");
+                return RedirectToAction("Areas");
+            }
+            return RedirectToAction("Areas");
+        }
         [HttpGet]
         public async Task<IActionResult> ListaAreas()
         {
-            //IEnumerable<Area> areas = new List<Area>();
             IEnumerable<Area> areas = await _expedientesRepository.GetAreasLista();
-            //areas = await _expedientesRepository.GetAreasLista();
             if (areas == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
@@ -95,7 +141,7 @@ namespace ConaviWeb.Controllers.Expedientes
             var success = await _expedientesRepository.UpdateArea(area);
             if (!success)
             {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al editar el área");
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error en el registro del área");
                 return RedirectToAction("Areas");
             }
             return RedirectToAction("Areas");

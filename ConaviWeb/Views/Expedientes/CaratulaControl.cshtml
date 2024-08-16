@@ -63,7 +63,7 @@
             <label class="control-label">Título del expediente:</label>
         </div>
         <div class="col-md-9">
-            <input type="text" id="tituloExpediente" asp-for="Nombre" class="form-control" placeholder="..." disabled />
+            <div class="form-control" style="min-height: 39px; height:100%;" id="tituloExpediente" readonly></div>
         </div>
     </div>
     <div class="row form-group datepicker-group">
@@ -277,7 +277,9 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <button id="btn-save" type="submit" class="btn btn-primary pull-right active">Guardar</button>
+            <button id="btn-save" type="submit" class="btn btn-sm btn-primary pull-right active">
+                <span class="glyphicon glyphicon-floppy-saved"></span> Guardar
+            </button>
         </div>
     </div>
     @*Fin del formulario de carátula de expediente*@
@@ -308,7 +310,7 @@
                     $('#idExpediente').val(idExpediente);
                     $('#txtCodigo').val(result.codigo);
                     $('#areaDescripcion').val(result.area);
-                    $('#tituloExpediente').val(result.nombre);
+                    $('#tituloExpediente').text(result.nombre);
                     $('#claveCompleta').val(result.codigo + '-' + result.consecutivo + '/' + result.periodo);
                     $('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4));
                     $('#fultimo_documento').val(result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4));

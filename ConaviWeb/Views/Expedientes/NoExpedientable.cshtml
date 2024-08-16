@@ -89,12 +89,11 @@
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                //$("#formInsertInventarioNoExpedientable").show();
-                $("#btn_new_exp").prop("disabled", true);
-            }
-            else {
-                //$("#formInsertInventarioNoExpedientable").hide();
-                $("#btn_new_exp").prop("disabled", false);
+                $("#btn_save_inv").remove();
+                //$("#btn_fto").prop("disabled", true);
+                $("#btn_fto").remove();
+            } else {
+                //$("#btn_fto").prop("disabled", false);
             }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
@@ -215,6 +214,11 @@
             setTimeout(function () {
                 $("#alerta").remove();
             }, 6000);
+        }
+        function sendToFormat() {
+            var id = $("#hd_id_inventario").val();
+            if (!isNaN(id) && id > 0)
+                window.open("/NoExpedientableFto?id=" + id, "_blank");
         }
     </script>
 }
