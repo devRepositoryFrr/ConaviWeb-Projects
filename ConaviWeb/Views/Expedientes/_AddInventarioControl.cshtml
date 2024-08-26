@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="felaboracion_inventario" class="control-label">Fecha de elaboración del inventario:</label>
-            <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" placeholder="dd/mm/aaaa" readonly required />
+            <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" placeholder="aaaa/mm/dd" readonly required />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
     </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-4 datepicker-group">
             <label for="fentrega_documento" class="control-label">Fecha de la entrega:</label>
-            <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly placeholder="dd/mm/aaaa"/>
+            <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly placeholder="aaaa/mm/dd"/>
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             <small><p class="help-block">En caso de una entrega-recepción se anota la última fecha del documento.</p></small>
         </div>
@@ -46,6 +46,7 @@
 <script>
     $(document).ready(function () {
         $('#felaboracion_inventario, #fentrega_documento').datepicker({
+            dateFormat: 'yy/mm/dd',
             changeYear: true
         });
 

@@ -202,7 +202,8 @@ namespace ConaviWeb.Data.Expedientes
             {
                 IdArea = inventario.IdArea,
                 //FechaElaboracion = inventario.FechaElaboracion,
-                FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
+                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
+                FechaTransferencia = inventario.FechaTransferencia,
                 //NombreResponsable = inventario.NombreResponsableAT
             });
             return result > 0;
@@ -348,10 +349,10 @@ namespace ConaviWeb.Data.Expedientes
             //            left join prod_control_exp.caratula crt on et.id = crt.id_expediente_tp
             //            where et.id = @Id";
             var sql = @"
-                        select cons.NoProg, cons.Consecutivo, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.fecha_primero FechaPrimeroAntiguo, et.fecha_ultimo FechaUltimoReciente, et.id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, date_format(et.fecha_primero,'%Y/%m/%d') FechaPrimeroAntiguo, date_format(et.fecha_ultimo,'%Y/%m/%d') FechaUltimoReciente, et.id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area, et.estatus Estatus
-                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_tp
+                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_tp
                         from prod_control_exp.expediente_control et
                         join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on et.id_inventario_control = itf.id
@@ -424,7 +425,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, itr.responsable_archivo_tramite NombreResponsableAT, itr.fecha_elaboracion FechaElaboracion, itr.fecha_entrega FechaEntrega, itr.fecha_transferencia FechaTransferencia
+                        select itr.id Id, itr.id_area IdArea, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
                         from prod_control_exp.inventario_control itr
                         join prod_control_exp.cat_areas ca on itr.id_area = ca.id
                         where ca.descripcion = @Area";
@@ -436,7 +437,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.responsable_archivo_tramite NombreResponsableAT, itr.fecha_elaboracion FechaElaboracion, itr.fecha_entrega FechaEntrega, itr.fecha_transferencia FechaTransferencia
+                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega,'%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
                         from prod_control_exp.inventario_control itr
                         join prod_control_exp.cat_areas ca on itr.id_area = ca.id
                         where itr.id = @Id";
@@ -457,7 +458,8 @@ namespace ConaviWeb.Data.Expedientes
             {
                 IdArea = inventario.IdArea,
                 NombreResponsable = inventario.NombreResponsableAT,
-                FechaElaboracion = inventario.FechaElaboracion.ToString("yyyy-MM-dd"),
+                //FechaElaboracion = inventario.FechaElaboracion.ToString("yyyy-MM-dd"),
+                FechaElaboracion = inventario.FechaElaboracion,
                 FechaEntrega = inventario.FechaEntrega
             });
             return result > 0;
@@ -477,9 +479,10 @@ namespace ConaviWeb.Data.Expedientes
                 NumeroLegajos = expediente.Legajos,
                 NumeroFojas = expediente.Fojas,
                 NumeroPartes = expediente.NoPartes,
-                FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
-                FechaUltimo = expediente.FechaUltimoReciente.ToString("yyyy-MM-dd"),
-                FechaElaboracion = expediente.FechaElaboracion?.ToString("yyyy-MM-dd"),
+                //FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
+                FechaPrimero = expediente.FechaPrimeroAntiguo,
+                FechaUltimo = expediente.FechaUltimoReciente,
+                FechaElaboracion = expediente.FechaElaboracion,
                 Observaciones = expediente.Observaciones,
                 AniosResguardo = expediente.AniosResguardo,
                 IdUser = expediente.IdUser,
@@ -504,9 +507,10 @@ namespace ConaviWeb.Data.Expedientes
                 NumeroLegajos = expediente.Legajos,
                 NumeroFojas = expediente.Fojas,
                 NumeroPartes = expediente.NoPartes,
-                FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
-                FechaUltimo = expediente.FechaUltimoReciente.ToString("yyyy-MM-dd"),
-                FechaElaboracion = expediente.FechaElaboracion?.ToString("yyyy-MM-dd"),
+                //FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
+                FechaPrimero = expediente.FechaPrimeroAntiguo,
+                FechaUltimo = expediente.FechaUltimoReciente,
+                FechaElaboracion = expediente.FechaElaboracion,
                 Observaciones = expediente.Observaciones,
                 AniosResguardo = expediente.AniosResguardo,
                 IdUser = expediente.IdUser,
@@ -538,11 +542,12 @@ namespace ConaviWeb.Data.Expedientes
                 Confidencial = caratula.Confidencial,
                 Reservada = caratula.Reservada,
                 DescripcionAsunto = caratula.DescripcionAsunto,
-                FechaClasificacion = caratula.FechaClasificacion?.ToString("yyyy-MM-dd"),
+                //FechaClasificacion = caratula.FechaClasificacion?.ToString("yyyy-MM-dd"),
+                FechaClasificacion = caratula.FechaClasificacion,
                 PeriodoReserva = caratula.PeriodoReserva,
                 FundamentoLegal = caratula.FundamentoLegal,
                 AmpliacionPeriodo = caratula.AmpliacionPeriodo,
-                FechaDesclasificacion = caratula.FechaDesclasificacion?.ToString("yyyy-MM-dd"),
+                FechaDesclasificacion = caratula.FechaDesclasificacion,
                 NombreDesclasifica = caratula.NombreDesclasifica,
                 CargoDesclasifica = caratula.CargoDesclasifica,
                 PartesReservando = caratula.PartesReservando,
@@ -598,7 +603,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, nombre Nombre, ec.observaciones Observaciones, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.anios_resguardo AniosResguardo, ec.id_tipo_documental IdTipoDocumental, ec.id_tipo_soporte IdTipoSoporte, ec.numero_partes NoPartes, ec.fecha_elaboracion FechaElaboracion, id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, nombre Nombre, ec.observaciones Observaciones, ec.numero_fojas Fojas, ec.numero_legajos Legajos, date_format(ec.fecha_primero,'%Y/%m/%d') FechaPrimeroAntiguo, date_format(ec.fecha_ultimo,'%Y/%m/%d') FechaUltimoReciente, ec.anios_resguardo AniosResguardo, ec.id_tipo_documental IdTipoDocumental, ec.id_tipo_soporte IdTipoSoporte, ec.numero_partes NoPartes, date_format(ec.fecha_elaboracion,'%Y/%m/d') FechaElaboracion, id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area, ec.estatus Estatus
                         from prod_control_exp.expediente_control ec
@@ -615,10 +620,10 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, ec.numero_fojas Fojas, ec.numero_legajos Legajos, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, ec.numero_fojas Fojas, ec.numero_legajos Legajos, date_format(ec.fecha_primero,'%Y/%m/%d') FechaPrimeroAntiguo, date_format(ec.fecha_ultimo,'%Y/%m/%d') FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
                             ,ca.descripcion Area
-                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_control
+                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_control
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
@@ -666,7 +671,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, itr.nombre_responsable NombreResponsableAT, itr.fecha_transferencia FechaTransferencia, itr.fecha_elaboracion FechaElaboracion
+                        select itr.id Id, itr.id_area IdArea, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
                         from prod_control_exp.inventario_bibliohemerografico itr
                         join prod_control_exp.cat_areas ca on itr.id_area = ca.id
                         where ca.descripcion = @Area";
@@ -678,7 +683,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.nombre_responsable NombreResponsableAT, itr.fecha_transferencia FechaTransferencia, itr.fecha_elaboracion FechaElaboracion
+                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
                         from prod_control_exp.inventario_bibliohemerografico itr
                         join prod_control_exp.cat_areas ca on itr.id_area = ca.id
                         where itr.id = @Id";
@@ -699,8 +704,9 @@ namespace ConaviWeb.Data.Expedientes
             {
                 IdArea = inventario.IdArea,
                 NombreResponsable = inventario.NombreResponsableAT,
-                FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
-                FechaElaboracion = inventario.FechaElaboracion.ToString("yyyy-MM-dd")
+                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
+                FechaTransferencia = inventario.FechaTransferencia,
+                FechaElaboracion = inventario.FechaElaboracion
             });
             return result > 0;
         }
@@ -864,7 +870,8 @@ namespace ConaviWeb.Data.Expedientes
                 IdArea = inventario.IdArea,
                 //NombreResponsable = inventario.NombreResponsableAT,
                 //FechaElaboracion = inventario.FechaElaboracion,
-                FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
+                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
+                FechaTransferencia = inventario.FechaTransferencia,
             });
             return result > 0;
         }
@@ -939,7 +946,7 @@ namespace ConaviWeb.Data.Expedientes
             var db = DbConnection();
 
             var sql = @"
-                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, ec.fecha_elaboracion FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, date_format(ec.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
 	                        ,ca.descripcion Area
                         from prod_control_exp.expediente_no_expedientable ec
@@ -1005,10 +1012,10 @@ namespace ConaviWeb.Data.Expedientes
             //            left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_noexp
             //            where ec.id = @Id";
             var sql = @"
-                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.fecha_primero FechaPrimeroAntiguo, ec.fecha_ultimo FechaUltimoReciente, ec.id_inventario_control IdInventario
+                        select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, date_format(ec.fecha_primero,'%Y/%m/%d') FechaPrimeroAntiguo, date_format(ec.fecha_ultimo,'%Y/%m/%d') FechaUltimoReciente, ec.id_inventario_control IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
 	                        ,ca.descripcion Area, ec.estatus Estatus
-                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_noexp
+                            ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_noexp
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id

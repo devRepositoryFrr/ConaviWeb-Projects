@@ -231,12 +231,12 @@
                         var fprimero = new Date(result.fechaPrimeroAntiguo);
                         var month = fprimero.getMonth() + 1;
                         var day = fprimero.getDate();
-                        fprimero = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear();
+                        fprimero = fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day;
                         $('#fprimero_antiguo').val(fprimero);
                         var fultimo = new Date(result.fechaUltimoReciente);
                         var month = fultimo.getMonth() + 1;
                         var day = fultimo.getDate();
-                        fultimo = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fultimo.getFullYear();
+                        fultimo = fultimo.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day;
                         $('#fultimo_reciente').val(fultimo);
                         $('#Fojas').val(result.fojas);
                         $('#aniosArchivoCon').val(result.aniosResguardo);
@@ -247,7 +247,7 @@
                             var felaboracion = new Date(result.fechaElaboracion);
                             var month = felaboracion.getMonth() + 1;
                             var day = felaboracion.getDate();
-                            felaboracion = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + felaboracion.getFullYear();
+                            felaboracion = felaboracion.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day;
                             $('#felaboracion_nexp').val(felaboracion);
                         }
                         $("#modalExpediente").find("input[type=text], input[type=number], textarea, select").replaceWith(function () {
@@ -665,7 +665,7 @@
                 var fprimero = new Date(row.fechaPrimeroAntiguo);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                return (fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day);
             }
         },
         {
@@ -676,7 +676,7 @@
                 var fprimero = new Date(row.fechaUltimoReciente);
                 var month = fprimero.getMonth() + 1;
                 var day = fprimero.getDate();
-                return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                return (fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day);
             }
         },
         { "name": "Estatus", "data": "estatus", "targets": 6 },

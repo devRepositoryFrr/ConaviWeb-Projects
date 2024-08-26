@@ -187,7 +187,7 @@
                     var fprimero = new Date(row.fechaElaboracion);
                     var month = fprimero.getMonth() + 1;
                     var day = fprimero.getDate();
-                    return ((day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + fprimero.getFullYear());
+                    return (fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day);
                 }
             },
             { "name": "Observaciones", "data": "observaciones", "targets": 6 },

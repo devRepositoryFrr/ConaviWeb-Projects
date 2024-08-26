@@ -29,12 +29,12 @@ namespace ConaviWeb.Model.Expedientes
         public int? NoPartes { get; set; }
         public string Observaciones { get; set; }
         public DateTime FechaRegistro { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime FechaPrimeroAntiguo { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime FechaUltimoReciente { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? FechaElaboracion { get; set; }
+        //[DataType(DataType.Date)]
+        public string FechaPrimeroAntiguo { get; set; }
+        //[DataType(DataType.Date)]
+        public string FechaUltimoReciente { get; set; }
+        //[DataType(DataType.Date)]
+        public string FechaElaboracion { get; set; }
         public int IdInventario { get; set; }
         public string VigDocValA { get; set; }
         public string VigDocValL { get; set; }

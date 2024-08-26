@@ -35,9 +35,9 @@ namespace ConaviWeb.Controllers.Expedientes
             var catClave = await _expedienteRepository.GetCodigosExp();
             ViewData["ClaveInterna"] = catClave;
             ViewBag.NombreR = inventario != null ? inventario.NombreResponsableAT : "";
-            //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToShortDateString() : "";
-            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
-            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia?.ToString("dd/MM/yyyy") : "";
+            //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
+            ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion : "";
+            ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia : "";
             if (user.Id == 212 || user.Id == 323)
                 ViewData["btnShowValidacion"] = true;
             else

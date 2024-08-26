@@ -21,9 +21,9 @@ namespace ConaviWeb.Model.Expedientes
         public int Legajos { get; set; }
         public int Fojas { get; set; }
         public string Observaciones { get; set; }
-        public DateTime FechaRegistro { get; set; }
-        public DateTime FechaPrimeroAntiguo { get; set; }
-        public DateTime FechaUltimoReciente { get; set; }
+        public string FechaRegistro { get; set; }
+        public string FechaPrimeroAntiguo { get; set; }
+        public string FechaUltimoReciente { get; set; }
         public int IdInventario { get; set; }
         public string VigDocValA { get; set; }
         public string VigDocValL { get; set; }
@@ -57,11 +57,11 @@ namespace ConaviWeb.Model.Expedientes
         public string Confidencial { get; set; }
         public string Reservada { get; set; }
         public string DescripcionAsunto { get; set; }
-        public DateTime? FechaClasificacion { get; set; }
+        public string FechaClasificacion { get; set; }
         public string PeriodoReserva { get; set; }
         public string FundamentoLegal { get; set; }
         public string AmpliacionPeriodo { get; set; }
-        public DateTime? FechaDesclasificacion { get; set; }
+        public string FechaDesclasificacion { get; set; }
         public string NombreDesclasifica { get; set; }
         public string CargoDesclasifica { get; set; }
         public string PartesReservando { get; set; }

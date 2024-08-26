@@ -282,6 +282,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     $('#fprimer_documento, #fultimo_documento, #fclasificacion_expediente, #fdesclasificacion_expediente').datepicker({
+        dateFormat: 'yy/mm/dd',
         changeYear: true
     });
     const urlParams = new URLSearchParams(window.location.search);
@@ -300,8 +301,8 @@ $(document).ready(function () {
         $('#areaDescripcion').val(result.area);
         $('#tituloExpediente').val(result.nombre);
         $('#claveCompleta').val(result.codigo + '-' + result.consecutivo + '/' + result.periodo);
-        $('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(8, 10) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(0, 4));
-        $('#fultimo_documento').val(result.fechaUltimoReciente.substring(8, 10) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(0, 4));
+        $('#fprimer_documento').val(result.fechaPrimeroAntiguo.substring(0, 4) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(8, 10));
+        $('#fultimo_documento').val(result.fechaUltimoReciente.substring(0, 4) + '/' + result.fechaUltimoReciente.substring(5, 7) + '/' + result.fechaUltimoReciente.substring(8, 10));
         $('#Fojas').val(result.fojas);
         $('#Legajos').val(result.legajos);
         $('#originales').val(result.docOriginales);
@@ -312,11 +313,11 @@ $(document).ready(function () {
         $('#caracter_confidencial').val(result.confidencial);
         $('#caracter_reservada').val(result.reservada);
         $('#descripcion').val(result.descripcionAsunto);
-        $('#fclasificacion_expediente').val(result.fechaClasificacion != null ? result.fechaClasificacion.substring(8, 10) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(0, 4) : '');
+        $('#fclasificacion_expediente').val(result.fechaClasificacion != null ? result.fechaClasificacion.substring(0, 4) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(8, 10) : '');
         $('#periodo_reserva').val(result.periodoReserva);
         $('#fundamento_legal').val(result.fundamentoLegal);
         $('#ampliacion_periodo_reserva').val(result.ampliacionPeriodo);
-        $('#fdesclasificacion_expediente').val(result.fechaDesclasificacion != null ? result.fechaDesclasificacion.substring(8, 10) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(0, 4) : '');
+        $('#fdesclasificacion_expediente').val(result.fechaDesclasificacion != null ? result.fechaDesclasificacion.substring(0, 4) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(8, 10) : '');
         $('#info_desclasifica').val(result.nombreDesclasifica);
         $('#info_reservada').val(result.partesReservando);
         $('#info_topografico').val(result.datosTopograficos);
