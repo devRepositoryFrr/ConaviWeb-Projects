@@ -3,343 +3,386 @@
 }
 @********************************************************************************************************************************************************************@
 @*Formulario para el el Inventario de Transferencia Primaria al Archivo de Concentración*@
-<div class="row">
-    <div class="col-md-5 center-block">
-        <img src="../img/encab2021.png" class="img-responsive" />
+<div id="general">
+    <div class="row">
+        <div class="col-md-5 center-block">
+            <img src="../img/encab2021.png" class="img-responsive" />
+        </div>
+        <div class="col-md-7 text-right">
+            <label>
+                SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
+                COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
+                DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />
+                DEPARTAMENTO DE UNIDADES DOCUMENTALES
+            </label>
+        </div>
     </div>
-    <div class="col-md-7 text-right">
-        <label>
-            SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
-            COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
-            DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />
-            DEPARTAMENTO DE UNIDADES DOCUMENTALES
-        </label>
+    <br />
+    <div class="row form-group">
+        <div class="col-md-12 text-center">
+            <label>
+                Inventario para el control del acervo documental en los archivos de trámite
+            </label>
+        </div>
     </div>
-</div>
-<br />
-<div class="row form-group">
-    <div class="col-md-12 text-center">
-        <label>
-            Inventario para el control del acervo documental en los archivos de trámite
-        </label>
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
+        </div>
+        <div class="col-md-8">
+            <label class="form-control" id="areaDescripcion">Aquí aparecerá la unidad administrativa ligada al usuario</label>
+        </div>
     </div>
-</div>
-<div class="row form-group">
-    <div class="col-md-4">
-        <label class="control-label">Nombre de la Unidad Administrativa generadora:</label>
+    <div class="row form-group datepicker-group">
+        <div class="col-md-4">
+            <label class="control-label">Nombre del responsable del archivo de trámite:</label>
+        </div>
+        <div class="col-md-8">
+            <label class="form-control" id="responsableArchivo">Aquí aparecerá el nombre del responsable</label>
+        </div>
     </div>
-    <div class="col-md-8">
-        <label class="form-control" id="areaDescripcion">Aquí aparecerá la unidad administrativa ligada al usuario</label>
-    </div>
-</div>
-<div class="row form-group datepicker-group">
-    <div class="col-md-4">
-        <label class="control-label">Nombre del responsable del archivo de trámite:</label>
-    </div>
-    <div class="col-md-8">
-        <label class="form-control" id="responsableArchivo">Aquí aparecerá el nombre del responsable</label>
-    </div>
-</div>
-<div class="row form-group datepicker-group">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-6">
-                <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
+    <div class="row form-group datepicker-group">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="felaboracion_inventario">Fecha de elaboración del inventario:</label>
+                </div>
+                <div class="col-md-6">
+                    <label id="fechaElaboracion" class="form-control"></label>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label id="fechaElaboracion" class="form-control"></label>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="fechaEntrega">Fecha de la entrega:</label>
+                </div>
+                <div class="col-md-6">
+                    <label id="fechaEntrega" class="form-control"></label>
+                </div>
+                <div class="col-md-12">
+                    <p class="help-block"><small>En caso de una entrega-recepción se anota la última fecha del documento</small></p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-6">
-                <label for="fechaEntrega">Fecha de la entrega:</label>
-            </div>
-            <div class="col-md-6">
-                <label id="fechaEntrega" class="form-control"></label>
-            </div>
-            <div class="col-md-12">
-                <p class="help-block"><small>En caso de una entrega-recepción se anota la última fecha del documento</small></p>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="formTable">
+                <table id="tableExpControl" class="table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">
+                                No. Prog.
+                            </th>
+                            <th rowspan="2">
+                                Cve del Expediente
+                            </th>
+                            <th rowspan="2">
+                                Nombre del Expediente
+                            </th>
+                            <th rowspan="2">
+                                No. de Legajos
+                            </th>
+                            <th colspan="2">
+                                <center>Fecha de los documentos</center>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Primero (antiguo)
+                            </th>
+                            <th>
+                                Último (reciente)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                9C.3-01/2006
+                            </td>
+                            <td>
+                                Contrato con "Radio y televisión de Aguascalientes" para realizar campañas publicitarias de la CONAVI
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                14/05/2019
+                            </td>
+                            <td>
+                                26/08/2019
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                9C.3-02/2006
+                            </td>
+                            <td>
+                                Contrato con "Radio y televisión de Aguascalientes" para realizar la producción de material audiovisual para el Premio Nacional de Vivienda
+                            </td>
+                            <td>
+                                4
+                            </td>
+                            <td>
+                                07/01/2020
+                            </td>
+                            <td>
+                                12/10/2021
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3
+                            </td>
+                            <td>
+                                9C.1-03/2007
+                            </td>
+                            <td>
+                                Acuerdo por el que se establecen los Lineamientos Generales para la orientación,planeación, autorización, coordinación, supervición y evaluación de las estrategias, programas y las campañas de Comunicación Social.
+                            </td>
+                            <td>
+                                2
+                            </td>
+                            <td>
+                                30/05/2008
+                            </td>
+                            <td>
+                                30/05/2008
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <form id="formTable">
-            <table id="tableExpControl" class="table">
-                <thead>
-                    <tr>
-                        <th rowspan="2">
-                            No. Prog.
-                        </th>
-                        <th rowspan="2">
-                            Cve del Expediente
-                        </th>
-                        <th rowspan="2">
-                            Nombre del Expediente
-                        </th>
-                        <th rowspan="2">
-                            No. de Legajos
-                        </th>
-                        <th colspan="2">
-                            <center>Fecha de los documentos</center>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
-                            Primero (antiguo)
-                        </th>
-                        <th>
-                            Último (reciente)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            9C.3-01/2006
-                        </td>
-                        <td>
-                            Contrato con "Radio y televisión de Aguascalientes" para realizar campañas publicitarias de la CONAVI
-                        </td>
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            14/05/2019
-                        </td>
-                        <td>
-                            26/08/2019
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            9C.3-02/2006
-                        </td>
-                        <td>
-                            Contrato con "Radio y televisión de Aguascalientes" para realizar la producción de material audiovisual para el Premio Nacional de Vivienda
-                        </td>
-                        <td>
-                            4
-                        </td>
-                        <td>
-                            07/01/2020
-                        </td>
-                        <td>
-                            12/10/2021
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            9C.1-03/2007
-                        </td>
-                        <td>
-                            Acuerdo por el que se establecen los Lineamientos Generales para la orientación,planeación, autorización, coordinación, supervición y evaluación de las estrategias, programas y las campañas de Comunicación Social.
-                        </td>
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            30/05/2008
-                        </td>
-                        <td>
-                            30/05/2008
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="formTable">
+                <table id="table" class="table text-center">
+                    <thead>
+                        <tr>
+                            <td style="width: 33%">
+                                Entrega
+                            </td>
+                            <td style="width: 33%">
+                                Responsable de la custodia
+                            </td>
+                            <td style="width: 34%">
+                                Recibe
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Nombre y firma
+                            </td>
+                            <td>
+                                Nombre y firma
+                            </td>
+                            <td>
+                                Nombre y firma
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br /><br /><br /><br /></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                </table>
+            </form>
+        </div>
     </div>
+    @*Fin del formulario para el alta de expediente*@
+    <hr />
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <form id="formTable">
-            <table id="table" class="table text-center">
-                <thead>
-                    <tr>
-                        <td style="width: 33%">
-                            Entrega
-                        </td>
-                        <td style="width: 33%">
-                            Responsable de la custodia
-                        </td>
-                        <td style="width: 34%">
-                            Recibe
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Nombre y firma
-                        </td>
-                        <td>
-                            Nombre y firma
-                        </td>
-                        <td>
-                            Nombre y firma
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><br /><br /><br /><br /></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </thead>
-            </table>
-        </form>
-    </div>
-</div>
-@*Fin del formulario para el alta de expediente*@
-<hr />
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script type="text/javascript">
-        $(document).ready(function () {
-            showAlert();
-            const urlParams = new URLSearchParams(window.location.search);
-            const idInv = urlParams.get('id');
-            console.log(idInv);
-            $.ajax({
-                url: "@Url.Action("GetInventarioControlById", "InventarioControl")", // Url
-                data: {
-                    // Datos / Parámetros
-                    Id: idInv
-                },
-                type: "post"  // Verbo HTTP
-            }).done(function (result) {
-                if (result.id != null) {
-                    $('#areaDescripcion').text(result.nombreUnidadAdministrativa);
-                    $('#responsableArchivo').text(result.nombreResponsableAT);
-                    $('#fechaElaboracion').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
-                    $('#fechaEntrega').text(result.fechaEntrega != null ? result.fechaEntrega.substring(8, 10) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(0, 4) : '');
+    <script type="text/javascript">
+    $(document).ready(function () {
+        showAlert();
+        const urlParams = new URLSearchParams(window.location.search);
+        const idInv = urlParams.get('id');
+        console.log(idInv);
+        $.ajax({
+            url: "@Url.Action("GetInventarioControlById", "InventarioControl")", // Url
+            data: {
+                // Datos / Parámetros
+                Id: idInv
+            },
+            type: "post"  // Verbo HTTP
+        }).done(function (result) {
+            if (result.id != null) {
+                $('#areaDescripcion').text(result.nombreUnidadAdministrativa);
+                $('#responsableArchivo').text(result.nombreResponsableAT);
+                $('#fechaElaboracion').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
+                $('#fechaEntrega').text(result.fechaEntrega != null ? result.fechaEntrega.substring(8, 10) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(0, 4) : '');
 
-                    var urlTipo = "";
-                    urlTipo = "/InventarioControl/GetExpedientesControlByIdInv";
-                    table = $('#tableExpControl').DataTable({
-                        "proccessing": true,
-                        "serverSide": false,
-                        "ajax": {
-                            url: urlTipo,
-                            data: { Id : idInv },
-                            type: 'POST',
-                            headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
-                            complete: function () {
-                                $("#spinner").hide();
-                            }
-                        },
-                        "columnDefs": columns,
-                        "order": [[0, "desc"]],
-                        "autoWidth": true,
-                        "destroy": true,
-                        "scrollY": true,
-                        "scrollCollapse": true,
-                        "paging": false,
-                        "searching": false,
-                        "info": false,
-                        "scrollX": true,
-                        "fixedColumns": true,
-                        "ordering": false,
-                        "language": {
-                            "sProcessing": "Procesando...",
-                            "sLengthMenu": "Mostrar _MENU_ registros",
-                            "sZeroRecords": "No se encontraron resultados",
-                            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Buscar:",
-                            "sUrl": "",
-                            "sInfoThousands": ",",
-                            "sLoadingRecords": "Cargando...",
-                            "oPaginate": {
-                                "sFirst": "Primero",
-                                "sLast": "Último",
-                                "sNext": "Siguiente",
-                                "sPrevious": "Anterior"
-                            }
+                var urlTipo = "";
+                urlTipo = "/InventarioControl/GetExpedientesControlByIdInv";
+                table = $('#tableExpControl').DataTable({
+                    "proccessing": true,
+                    "serverSide": false,
+                    "ajax": {
+                        url: urlTipo,
+                        data: { Id : idInv },
+                        type: 'POST',
+                        headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                        complete: function () {
+                            $("#spinner").hide();
                         }
-                    });
-                } else {
-                    $("#alertAjax").append(result);
-                    showAlert();
-                }
-            })
-            // Se ejecuta si se produjo un error.
-            .fail(function (xhr, status, error) {
-                // Mostramos un mensaje de error.
-                //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+                    },
+                    "columnDefs": columns,
+                    "order": [[0, "desc"]],
+                    "autoWidth": true,
+                    "destroy": true,
+                    "scrollY": true,
+                    "scrollCollapse": true,
+                    "paging": false,
+                    "searching": false,
+                    "info": false,
+                    "scrollX": true,
+                    "fixedColumns": true,
+                    "ordering": false,
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        }
+                    }
+                });
+            } else {
+                $("#alertAjax").append(result);
+                showAlert();
+            }
+        })
+        // Se ejecuta si se produjo un error.
+        .fail(function (xhr, status, error) {
+            // Mostramos un mensaje de error.
+            //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
 
-                // Escondemos el Ajax Loader
-                //$("#AjaxLoader").hide("slow");
+            // Escondemos el Ajax Loader
+            //$("#AjaxLoader").hide("slow");
 
-                // Habilitamos el botón de Submit
-                //$("#SubmitBtn").prop("disabled", false);
-            })
-            // Hacer algo siempre, haya sido exitosa o no.
-            .always(function () {
-
-            });
+            // Habilitamos el botón de Submit
+            //$("#SubmitBtn").prop("disabled", false);
+        })
+        // Hacer algo siempre, haya sido exitosa o no.
+        .always(function () {
 
         });
-        var columns = [
-            { "name": "NoProg", "data": "noProg", "targets": 0 },
-            {
-                "data": null,
-                "targets": 1,
-                "render": function (data, type, row) {
-                    //var fprimero = (new Date(row.fechaPrimeroAntiguo)).getFullYear();
-                    //var freciente = (new Date(row.fechaUltimoReciente)).getFullYear();
-                    //var periodo = freciente == fprimero ? fprimero : fprimero + '-' + freciente;
-                    return row.codigo + '-' + row.consecutivo + '/' + row.periodo;
-                }
-            },
-            { "name": "Nombre", "data": "nombre", "targets": 2 },
-            { "name": "Legajos", "data": "legajos", "targets": 3 },
-            {
-                "name": "FechaPrimeroAntiguo",
-                "data": "fechaPrimeroAntiguo",
-                "targets": 4,
-                "render": function (data, type, row) {
-                    var fprimero = new Date(row.fechaPrimeroAntiguo);
-                    var month = fprimero.getMonth() + 1;
-                    var day = fprimero.getDate();
-                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
-                }
-            },
-            {
-                "name": "FechaUltimoReciente",
-                "data": "fechaUltimoReciente",
-                "targets": 5,
-                "render": function (data, type, row) {
-                    var fprimero = new Date(row.fechaUltimoReciente);
-                    var month = fprimero.getMonth() + 1;
-                    var day = fprimero.getDate();
-                    return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
-                }
-            },
-        ];
-        function showAlert() {
-            setTimeout(function () {
-                $("#alerta").fadeOut(1500);
-            }, 3000);
-            setTimeout(function () {
-                $("#alerta").remove();
-            }, 6000);
+
+    });
+    var columns = [
+        { "name": "NoProg", "data": "noProg", "targets": 0 },
+        {
+            "data": null,
+            "targets": 1,
+            "render": function (data, type, row) {
+                //var fprimero = (new Date(row.fechaPrimeroAntiguo)).getFullYear();
+                //var freciente = (new Date(row.fechaUltimoReciente)).getFullYear();
+                //var periodo = freciente == fprimero ? fprimero : fprimero + '-' + freciente;
+                return row.codigo + '-' + row.consecutivo + '/' + row.periodo;
+            }
+        },
+        { "name": "Nombre", "data": "nombre", "targets": 2 },
+        { "name": "Legajos", "data": "legajos", "targets": 3 },
+        {
+            "name": "FechaPrimeroAntiguo",
+            "data": "fechaPrimeroAntiguo",
+            "targets": 4,
+            "render": function (data, type, row) {
+                var fprimero = new Date(row.fechaPrimeroAntiguo);
+                var month = fprimero.getMonth() + 1;
+                var day = fprimero.getDate();
+                return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
+            }
+        },
+        {
+            "name": "FechaUltimoReciente",
+            "data": "fechaUltimoReciente",
+            "targets": 5,
+            "render": function (data, type, row) {
+                var fprimero = new Date(row.fechaUltimoReciente);
+                var month = fprimero.getMonth() + 1;
+                var day = fprimero.getDate();
+                return ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month + '/' + fprimero.getFullYear());
+            }
+        },
+    ];
+    function showAlert() {
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+        }, 3000);
+        setTimeout(function () {
+            $("#alerta").remove();
+        }, 6000);
+    }
+    function imprimirElemento() {
+        var element = document.getElementById("general");
+        var ventana = window.open('', 'PRINT', 'height=600,width=800');
+        ventana.document.write('<html><head><title>' + element.title + '</title><link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">');
+        ventana.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">');
+        ventana.document.write('<style>body: {counter-reset: pages;}.pageHeader:before {counter-increment: pages;content: "Hoja " counter(page) " de " counter(pages) " del inventario";}</style></head><body style="font-size:10px !important;">');
+        ventana.document.write('<table style="font-size:10px;width:100%;"><thead id="mainTable" style="display: table-header-group;"><tr><th colspan="6"><table style="font-size:10px;"><tr><th width="38%"><img src="../img/encab2021.png" style="width: 100%; height:100%;" /></th><th style="text-align: right;"><label style="text-align: right;">SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />DEPARTAMENTO DE UNIDADES DOCUMENTALES</label></th></tr></table></th>');
+        ventana.document.write('<tr><th colspan="6" style="text-align:center;padding:10px;"><label>Inventario para el control del acervo documental en los archivos de trámite</label></th></tr>');
+        ventana.document.write('<tr><th colspan="6" style="text-align:right;padding:5px;"><label class="pageHeader"></label></th></tr>');
+        //ventana.document.write('<table width="100%" style="font-size:10px;"><tr><th><label>Nombre de la Unidad Administrativa generadora: </label></th><th><label>' + $('#unidadAdministrativa').text() + '</label></th></tr><tr><th><label for="felaboracion_inventario_nexp">Fecha de Elaboración del Inventario: ' + $('#felaboracion_inventario_nexp').text() + '</label></th><th><label>Fecha de transferencia: ' + $("#ftransferencia_inventario").text() + '</label></th></tr><tr><th><label>Nombre del responsable del archivo de trámite: </label></th><th><label>' + $("#responsableArchivo").text() +'</label></th></tr></table><br/>');
+        ventana.document.write('<tr><th colspan="6"><table width="100%" style="font-size:10px;"><tr><th><label>Nombre de la Unidad Administrativa generadora: </label></th><th><label>' + $('#areaDescripcion').text() + '</label></th></tr><tr><th><label for="felaboracion_inventario_nexp">Fecha de Elaboración del Inventario: ' + $('#fechaElaboracion').text() + '</label></th><th><label>Fecha de la entrega: ' + $("#fechaEntrega").text() + '</label></th></tr><tr><th><label>Nombre del responsable del archivo de trámite: </label></th><th><label>' + $("#responsableArchivo").text() + '</label></th></tr></table></th></tr>');
+        //ventana.document.write('<table width="100%" style="font-size:10px;" class="table row-border"><thead><tr><th><label>No. Prog.</label></th><th><label>Clave tipo de soporte:</label></th><th><label>Clave interna</label></th><th><label>No. de partes</label></th><th><label>Título del expediente</label></th><th><label>Fecha de Elaboración</label></th><th><label>Observaciones</label></th></tr></thead>');
+        ventana.document.write('<tr><th rowspan="2"><label>No. Prog.</label></th><th rowspan="2"><label>Clave del expediente:</label></th><th rowspan="2"><label>Nombre del expediente</label></th><th rowspan="2"><label>N° de legajos</label></th><th colspan="2" style="text-align:center;"><label>Fecha de los documentos</label></th></tr>');
+        ventana.document.write('<tr><th><label>Primero (antiguo)</label></th><th><label>Último (reciente)</label></th></tr></thead>');
+        //ventana.document.write('<tfoot style="display: table-footer-group;">');
+        //ventana.document.write('<tr><td colspan="6"><table style="width:100%;font-size:8px;"><tr><td style="width: 25%; text-align:center; vertical-align:middle;">Tipos documentales</td><td style="width: 75%">1. Estudios, 2. Proyectos, 3. Investigaciones, 4. Manuales, 5. Presupuestos, 6. Estadísticas, 7. Fotografías, 8. Programas, 9. Planos, 10. Material cartográfico. 11 Informes, 12. Carpetas de Juntas de Gobierno,13. Actas administrativas, 14. Carpetas de Comités, 15. Carpetas de entrega-recepción.</td></tr><tr><td style="width: 25%; text-align: center">CLAVE:</td><td style="width: 75%; text-align:center;">TIPO DE SOPORTE:</td></tr><tr><td style="width: 25%">a) Microfilm:</td><td style="width: 75%">1.Rollos, 2. Magazines, 3. Carteras de plástico, 4. Micro fichas, 5. Tarjetas de apertura</td></tr><tr><td style="width: 25%; vertical-align: middle;">b) Audiovisuales:</td><td style="width: 75%">1. Videocasetes, 2. Fonocasetes, 3. Corto metraje, 4. Diapositiva, 5. Negativos, 6. Acetatos, 7. Filminas, 8. Discos ópticos, 9. Discos compactos, 10. Formato comprimido MP3, 11. Minidisco, 12. Cintas de carrete abierto, 13. Audiocasetes</td></tr><tr><td style="width: 25%">c) Materiales de computo:</td><td style="width: 75%">1. Cintas magnéticas, 2. Disquetes, 3. Tarjetas perforadas, 4. Discos magnéticos, 5. Tambores magnéticos, 6. Discos compactos.</td></tr><tr><td style="width: 25%">d) Papel:</td><td style="width: 75%">1. Papel bond, 2. Papel laminado, 3. Papel reciclable, 4. Cartulina.</td></tr></table></td></tr>');
+        //ventana.document.write('</tfoot>');
+        ventana.document.write('<tbody>');
+        var tableId = document.getElementById('tableExpControl');
+        var tBody = tableId.getElementsByTagName('tbody')[0];
+        var tableRow = tBody.getElementsByTagName('tr');
+        for (var t = 0; t < tableRow.length; t++) {
+            ventana.document.write('<tr>' + tableRow[t].innerHTML + '</tr>');
         }
-</script>
+        //for (var t = 0; t < 60; t++) {
+        //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
+        //}
+        ventana.document.write('<tr><th colspan="6">&nbsp;</th></tr>');
+        ventana.document.write('<tr><th colspan="6"><table id="table" class="text-center" style="font-size:10px;width:100%;font-size:10px;"><thead><tr><td style="width: 33%">Entrega</td><td style="width: 34%">Responsable de la custodia</td><td style="width: 33%">Recibe</td></tr><tr><td>Nombre y firma</td><td>Nombre y firma</td><td>Nombre y firma</td></tr><tr><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td></tr></thead></table></th></tr>');
+        ventana.document.write('</tbody>');
+        ventana.document.write('</table></body>');
+        ventana.document.write('</html>');
+        ventana.document.close();
+        ventana.focus();
+        ventana.print();
+        ventana.close();
+        return true;
+    }
+    setTimeout(function () {
+        imprimirElemento();
+    }, 2000);
+    </script>
 }

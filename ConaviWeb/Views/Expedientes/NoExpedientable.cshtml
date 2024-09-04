@@ -185,9 +185,10 @@
                 "targets": 5,
                 "render": function (data, type, row) {
                     var fprimero = new Date(row.fechaElaboracion);
-                    var month = fprimero.getMonth() + 1;
-                    var day = fprimero.getDate();
-                    return (fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day);
+                    //var month = fprimero.getMonth() + 1;
+                    //var day = fprimero.getDate();
+                    //return (fprimero.getFullYear() + '/' + (month < 10 ? '0' : '') + month + '/' + (day < 10 ? '0' : '') + day);
+                    return fprimero.getFullYear();
                 }
             },
             { "name": "Observaciones", "data": "observaciones", "targets": 6 },
