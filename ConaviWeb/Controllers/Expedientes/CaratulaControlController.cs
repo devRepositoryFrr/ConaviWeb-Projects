@@ -41,11 +41,11 @@ namespace ConaviWeb.Controllers.Expedientes
             return Redirect("/CaratulaControl?id=" + caratula.IdExpediente);
         }
         [HttpPost]
-        public async Task<IActionResult> GetCaratulaExpedienteControl([FromForm] int id)
+        public async Task<IActionResult> GetCaratulaExpedienteControl([FromForm] int id, int legajo)
         {
             Caratula caratula = new();
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id);
+            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id, legajo);
             if (caratula == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");

@@ -30,6 +30,12 @@ namespace ConaviWeb.Controllers.Expedientes
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Areas");
         }
+        public IActionResult Puestos()
+        {
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
+            return View("../Expedientes/Puestos");
+        }
         [HttpGet]
         public async Task<IActionResult> ListaAjax()
         {
@@ -158,6 +164,63 @@ namespace ConaviWeb.Controllers.Expedientes
                 return Ok(alert);
             }
             return Ok(area);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ActivarPuesto(Area puesto)
+        {
+            var success = await _expedientesRepository.ActivarPuesto(puesto.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al activar el puesto");
+                return RedirectToAction("Puestos");
+            }
+            return RedirectToAction("Puestos");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DesactivarPuesto(Area puesto)
+        {
+            var success = await _expedientesRepository.DesactivarPuesto(puesto.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al desactivar el puesto");
+                return RedirectToAction("Puestos");
+            }
+            return RedirectToAction("Puestos");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ListaPuestos()
+        {
+            IEnumerable<Area> puestos = await _expedientesRepository.GetPuestosLista();
+            if (puestos == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
+                return Ok(alert);
+            }
+            return Json(new { data = puestos });
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdatePuesto(Area puesto)
+        {
+            var success = await _expedientesRepository.UpdatePuesto(puesto);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error en el registro del puesto");
+                return RedirectToAction("Puestos");
+            }
+            return RedirectToAction("Puestos");
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetPuestoAsync([FromForm] int id)
+        {
+            //Area area = new();
+            Area puesto = await _expedientesRepository.GetPuesto(id);
+            //area = await _expedientesRepository.GetArea(id);
+            if (puesto == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id no encontrado");
+                return Ok(alert);
+            }
+            return Ok(puesto);
         }
     }
 }

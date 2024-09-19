@@ -1,0 +1,36 @@
+﻿@model ConaviWeb.Model.Expedientes.Area
+<script src="~/js/jquery-1.11/jquery.min.js" type="text/javascript"></script>
+
+<form id="formUpdatePuesto" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="UpdatePuesto">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <div class='modal-header'>
+        <h4 id='titulo-modal' style="font-weight: 300">Registro de puesto o cargo</h4>
+    </div>
+    <div class='modal-body'>
+        <input id="idPuesto" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="label_descripcion">Descripción:</label>
+                    <input type="text" id="label_descripcion" asp-for="Descripcion" class="form-control" required />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span> Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-send"></span> Enviar
+        </button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#formUpdatePuesto").submit(function (e) {
+            
+        });
+    });
+</script>

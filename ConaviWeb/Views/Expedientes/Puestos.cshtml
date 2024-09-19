@@ -1,0 +1,215 @@
+﻿@model ConaviWeb.Model.Expedientes.Area
+@{
+    ViewData["Title"] = "Catalogo de puestos";
+}
+@{
+    @await Html.PartialAsync("../Expedientes/BotonesCatalogos");
+}
+@*************************************************************************************************************************************************************@
+@* Tabla de control para el catálogo de puestos *@
+<div class="row">
+    <div class="col-md-12" id="alertAjax">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <h3 class="text-center">Catálogo de puestos</h3>
+    </div>
+</div>
+<hr />
+<div id="divListaPuestos">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="formTable">
+                <table id="tablePuestos" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Descripción
+                            </th>
+                            <th>
+                                &nbsp;
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+<button id="btn_add_puesto" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalEdit">
+    <span class="glyphicon glyphicon-plus"></span> Agregar cargo
+</button>
+
+<!-- Modal Update Cargo-->
+<div class="modal fade fade-" style="z-index:1041" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_UpdatePuesto")
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Activar Puesto -->
+<div class="modal fade fade-" style="z-index:1041" id="modalActivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_ActivarPuesto")
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal Desactivar Puesto -->
+<div class="modal fade fade-" style="z-index:1041" id="modalDesactivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @{
+                @await Html.PartialAsync("../Expedientes/_DesactivarPuesto")
+            }
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var table;
+        $(document).ready(function () {
+            $("#spinner").hide();
+            showAlert();
+            showTable();
+            $('#modalEdit').on('hidden.bs.modal', function (e) {
+                $(this).find('#formUpdatePuesto')[0].reset();
+                $(e.currentTarget).find('#idPuesto').val();
+            });
+            $('#modalActivar').on('show.bs.modal', function (e) {
+                var serieId = $(e.relatedTarget).data('book-id');
+                $(e.currentTarget).find('#idPuesto').val(serieId);
+            });
+            $('#modalDesactivar').on('show.bs.modal', function (e) {
+                var serieId = $(e.relatedTarget).data('book-id');
+                $(e.currentTarget).find('#idPuesto').val(serieId);
+            });
+            $('#modalEdit').on('show.bs.modal', function (e) {
+                var bookId = $(e.relatedTarget).data('book-id');
+                if (!isNaN(bookId)) {
+                    $.ajax({
+                        url: "@Url.Action("GetPuesto", "Catalogos")", // Url
+                        data: {
+                            // Datos / Parámetros
+                            Id: bookId
+                        },
+                        type: "post"  // Verbo HTTP
+                    }).done(function (result) {
+                        $('#idPuesto').val(result.id);
+                        $('#label_descripcion').val(result.descripcion);
+                    })
+                    // Se ejecuta si se produjo un error.
+                    .fail(function (xhr, status, error) {
+                        // Mostramos un mensaje de error.
+                        //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                        // Escondemos el Ajax Loader
+                        //$("#AjaxLoader").hide("slow");
+
+                        // Habilitamos el botón de Submit
+                        //$("#SubmitBtn").prop("disabled", false);
+                    })
+                    // Hacer algo siempre, haya sido exitosa o no.
+                    .always(function () {
+
+                    });
+                    //$(e.currentTarget).find('#idSerie').val(bookId);
+                }
+            });
+        });
+        function showTable() {
+            var urlTipo = "";
+            urlTipo = "/Catalogos/ListaPuestos";
+            $("#spinner").show();
+            //$("#divTable").show();
+            table = $('#tablePuestos').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": false,
+                "destroy": true,
+                "scrollY": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            { "name": "Id", "data": "id", "targets": 0},
+            { "name": "Descripción", "data": "descripcion", "targets": 1 },
+            {
+                "targets": 2,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = '<a data-book-id="' + row.id +'" title="Editar" class="gold" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-edit"></span></a>';
+                    if (row.estatus == 'activo') ret += '<br><a class="gold" data-book-id="' + row.id +'" title="Desactivar" data-toggle="modal" data-target="#modalDesactivar" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-eye-close"></span></a>';
+                    else ret += '<br><a class="gold" data-book-id="' + row.id +'" data-toggle="modal" data-target="#modalActivar" style="cursor:pointer; font-size:20px;" title="Activar"><span class="glyphicon glyphicon-eye-open"></span></a>';
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+        ];
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+            }, 6000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 12000);
+        }
+    </script>
+}

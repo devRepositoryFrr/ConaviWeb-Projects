@@ -32,7 +32,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<IEnumerable<Expediente>> GetExpedientesInventarioTP(int id, int id_inventario);
         Task<IEnumerable<Expediente>> GetExpedientesTPByIdInv(int id);
         //Task<Expediente> GetExpedienteTP(int id);
-        Task<Caratula> GetCaratulaExpedienteTP(int id);
+        Task<Caratula> GetCaratulaExpedienteTP(int id, int legajo);
         //Task<bool> DropExpediente(int id);
         Task<bool> InsertInventarioControl(Inventario inventario);
         Task<bool> InsertExpedienteInventarioControl(Expediente expediente);
@@ -42,7 +42,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<IEnumerable<Expediente>> GetExpedientesInventarioControlByIdInv(int id);
         Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int id_area);
         Task<Expediente> GetExpedienteControl(int id);
-        Task<Caratula> GetCaratulaExpedienteControl(int id);
+        Task<Caratula> GetCaratulaExpedienteControl(int id, int legajo);
         Task<bool> DropExpedienteControl(int id);
         Task<bool> SendValExpedienteControl(int id);
         Task<bool> VoBoExpedienteControl(int id);
@@ -68,12 +68,17 @@ namespace ConaviWeb.Data.Expedientes
         Task<IEnumerable<Expediente>> GetExpedientesNoExpedientables(int id, int id_inventario);
         Task<IEnumerable<Expediente>> GetExpedientesNoExpedientablesByIdInv(int id);
         Task<Expediente> GetNoExpedientable(int id);
-        Task<Caratula> GetCaratulaNoExpedientable(int id);
+        Task<Caratula> GetCaratulaNoExpedientable(int id, int legajo);
         Task<IEnumerable<Area>> GetAreasLista();
         Task<bool> DropExpedienteNoExpedientable(int id);
         Task<bool> UpdateArea(Area area);
         Task<Area> GetArea(int id);
         Task<bool> ActivarArea(int id);
         Task<bool> DesactivarArea(int id);
+        Task<IEnumerable<Area>> GetPuestosLista();
+        Task<bool> UpdatePuesto(Area area);
+        Task<Area> GetPuesto(int id);
+        Task<bool> ActivarPuesto(int id);
+        Task<bool> DesactivarPuesto(int id);
     }
 }

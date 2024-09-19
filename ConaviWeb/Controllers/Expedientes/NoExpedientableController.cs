@@ -115,10 +115,10 @@ namespace ConaviWeb.Controllers.Expedientes
             return Ok(expediente);
         }
         [HttpPost]
-        public async Task<IActionResult> GetCaratulaNoExpedientable([FromForm] int id)
+        public async Task<IActionResult> GetCaratulaNoExpedientable([FromForm] int id, int legajo)
         {
             //Caratula caratula = new();
-            Caratula caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
+            Caratula caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id, legajo);
             //caratula = await _expedienteRepository.GetCaratulaNoExpedientable(id);
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             if (caratula == null)
