@@ -92,5 +92,25 @@ namespace ConaviWeb.Data.Reporteador
 
             return await db.QueryFirstOrDefaultAsync<PevC4>(sql, new { Id = id });
         }
+        public async Task<PevSol> GetPMV24C2(string id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                    call prod_pmv_2024.sp_get_pmv_pdf_solventa(@Id);
+                       ";
+
+            return await db.QueryFirstOrDefaultAsync<PevSol>(sql, new { Id = id });
+        }
+        public async Task<IEnumerable<string>> GetPMV24C2Ids(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        SELECT id_unico FROM prod_pmv_2024.pmv_solventa so where so.cve_bajal = 'A' and YEAR(uploaded_at) >= 2024 and MONTH(uploaded_at) = @Id;
+                       ";
+
+            return await db.QueryAsync<string>(sql, new { Id = id });
+        }
     }
 }
