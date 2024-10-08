@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ConaviWeb.Model.Expedientes;
+using ConaviWeb.Model;
 using ConaviWeb.Data.Expedientes;
 using ConaviWeb.Services;
 using static ConaviWeb.Models.AlertsViewModel;
 using ConaviWeb.Model.Request;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using ConaviWeb.Commons;
+using ConaviWeb.Model.Response;
 
 namespace ConaviWeb.Controllers.Expedientes
 {
@@ -35,6 +39,18 @@ namespace ConaviWeb.Controllers.Expedientes
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Puestos");
+        }
+        public async Task<IActionResult> UsuariosAsync()
+        {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+            var idUserArea = await _expedientesRepository.GetIdUserArea(user.Area);
+            var catArea = await _expedientesRepository.GetAreas();
+            ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave"));
+            var catCargos = await _expedientesRepository.GetPuestosLista();
+            ViewBag.CargoCatalogo = (new SelectList(catCargos, "Descripcion", "Descripcion"));
+            if (TempData.ContainsKey("Alert"))
+                ViewBag.Alert = TempData["Alert"].ToString();
+            return View("../Expedientes/Usuarios");
         }
         [HttpGet]
         public async Task<IActionResult> ListaAjax()
@@ -221,6 +237,61 @@ namespace ConaviWeb.Controllers.Expedientes
                 return Ok(alert);
             }
             return Ok(puesto);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ActivarUsuario(User usuario)
+        {
+            var success = await _expedientesRepository.ActivarUsuario(usuario.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al activar usuario");
+                return RedirectToAction("Usuarios");
+            }
+            return RedirectToAction("Usuarios");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DesactivarUsuario(User usuario)
+        {
+            var success = await _expedientesRepository.DesactivarUsuario(usuario.Id);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al desactivar usuario");
+                return RedirectToAction("Usuarios");
+            }
+            return RedirectToAction("Usuarios");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ListaUsuarios()
+        {
+            IEnumerable<User> usuarios = await _expedientesRepository.GetUsuariosLista();
+            if (usuarios == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
+                return Ok(alert);
+            }
+            return Json(new { data = usuarios });
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUsuario(User usuario)
+        {
+            var success = await _expedientesRepository.UpdateUsuario(usuario);
+            if (!success)
+            {
+                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error en el registro del usuario");
+                return RedirectToAction("Usuarios");
+            }
+            return RedirectToAction("Usuarios");
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetUsuarioAsync([FromForm] int id)
+        {
+            User usuario = await _expedientesRepository.GetUsuario(id);
+            if (usuario == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id no encontrado");
+                return Ok(alert);
+            }
+            return Ok(usuario);
         }
     }
 }

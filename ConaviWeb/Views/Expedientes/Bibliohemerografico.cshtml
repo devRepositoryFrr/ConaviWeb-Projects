@@ -74,7 +74,7 @@
 </div>
 <br />
 <button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente">
-    <span class="glyphicon glyphicon-plus"></span> Agregar Expediente
+    <span class="fa fa-plus"></span> Agregar Expediente
 </button>
 @*formulario de expediente bibliohemerográfico*@
 <div id="divAddExpediente">
@@ -255,7 +255,7 @@
                     /*var ret = '<span style="cursor:pointer;" title="Carátula" class="glyphicon glyphicon-file" aria-hidden="true" onclick="location.href=\'CaratulaControl?id='+ data.id +'\'"></span>';*/
                     var ret = "";
                     if (row.esEditable == 'editable') {
-                        ret += (row.estatus == 'Registro') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>' : '';
+                        ret += (row.estatus == 'Registro') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-pencil-square-o" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-trash-o" aria-hidden="true"></span></a>' : '';
                         //ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación') ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Enviar a revisión" class="glyphicon glyphicon-check" aria-hidden="true"></span></a>' : '';
                         //ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
                         //ret += (row.estatus == 'Aceptado') ? '<span style="color: #b8925f;" title="Validado" class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>' : '';

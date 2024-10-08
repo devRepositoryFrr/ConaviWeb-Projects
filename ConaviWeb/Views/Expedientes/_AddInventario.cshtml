@@ -6,7 +6,7 @@
     <div class="row form-group">
         <div class="col-md-8">
             <label class="control-label">Nombre de la Unidad Administrativa:</label>
-            <select asp-for="IdArea" id="slctArea" class="form-control" asp-items="@ViewBag.AreaCatalogo" required>
+            <select asp-for="IdPuesto" id="slctPuesto" class="form-control" asp-items="@ViewBag.AreaCatalogo" required>
                 <option value="">--Seleccione--</option>
             </select>
         </div>
@@ -30,10 +30,10 @@
     <div class="row">
         <div class="col-md-12">
             <button type="submit" id="btn_save_inv" class="btn btn-default btn-sm pull-right active">
-                <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
+                <span class="fa fa-save"></span> Guardar
             </button>
             <button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de Transferencia Primaria al Archivo de Concentración" onclick="sendToFormat()">
-                <span class="glyphicon glyphicon-print"></span> Formato
+                <span class="fa fa-print"></span> Formato
             </button>
         </div>
     </div>

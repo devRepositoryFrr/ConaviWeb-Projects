@@ -23,25 +23,34 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> IndexAsync()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var idUserArea = await _expedienteRepository.GetIdUserArea(user.Area);
-            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
+            var idUserPuesto = await _expedienteRepository.GetIdUserPuesto(user.Cargo);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Cargo);
             ViewBag.IdInv = inventario != null ? inventario.Id : 0;
             var cat = await _expedienteRepository.GetTiposSoporte();
             ViewData["Catalogo"] = cat;
             var catTipoDoc = await _expedienteRepository.GetTiposDocumentales();
             ViewData["CatTipoDoc"] = catTipoDoc;
-            var catArea = await _expedienteRepository.GetAreas();
-            ViewBag.AreaCatalogo = new SelectList(catArea, "Id", "Clave", idUserArea);
+            //var catArea = await _expedienteRepository.GetAreas();
+            //ViewBag.AreaCatalogo = new SelectList(catArea, "Id", "Clave", idUserArea);
             var catClave = await _expedienteRepository.GetCodigosExp();
             ViewData["ClaveInterna"] = catClave;
             ViewBag.NombreR = inventario != null ? inventario.NombreResponsableAT : "";
             //ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion.ToString("dd/MM/yyyy") : "";
             ViewBag.FechaElab = inventario != null ? inventario.FechaElaboracion : "";
             ViewBag.FechaTrans = inventario != null ? inventario.FechaTransferencia : "";
-            if (user.Id == 212 || user.Id == 323)
+            int rol = (int)user.Rol;
+            if (rol == 15)
+            {
+                var catPuesto = await _expedienteRepository.GetPuestosLista();
+                ViewBag.AreaCatalogo = (new SelectList(catPuesto, "Id", "Descripcion", idUserPuesto));
                 ViewData["btnShowValidacion"] = true;
+            }
             else
+            {
+                var catPuesto = await _expedienteRepository.GetPuestoUser(idUserPuesto);
+                ViewBag.AreaCatalogo = new SelectList(catPuesto, "Id", "Descripcion", idUserPuesto);
                 ViewData["btnShowValidacion"] = false;
+            }
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/NoExpedientable");
@@ -77,7 +86,7 @@ namespace ConaviWeb.Controllers.Expedientes
         public async Task<IActionResult> ExpedientesNoExpedientables()
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            var inventario = await _expedienteRepository.GetInventarioControl(user.Area);
+            var inventario = await _expedienteRepository.GetInventarioControl(user.Cargo);
 
             IEnumerable<Expediente> expedientes = new List<Expediente>();
             expedientes = await _expedienteRepository.GetExpedientesNoExpedientables(user.Id, inventario!=null ? inventario.Id : 0);

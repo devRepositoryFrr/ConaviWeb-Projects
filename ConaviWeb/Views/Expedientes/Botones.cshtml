@@ -10,9 +10,3 @@
 <a class="btn btn-sm btn-primary" target="_self" href="@Url.Action("Index","Noexpedientable")" title="Inventario de Documentación no Expedientable transferible al Archivo de Concentración">
     No expedientable
 </a>
-@if (ViewData["btnShowValidacion"].ToString() == "True")
-{
-    <a id="btn-validacion" class="btn btn-sm btn-primary" target="_self" href="@Url.Action("Index","InventarioValidacion")" title="Validación de expedientes">
-        Validación
-    </a>
-}

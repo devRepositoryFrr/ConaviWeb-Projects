@@ -196,8 +196,8 @@
                 "targets": 7,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaNoExpedientable?id=' + data.id + '" target="_blank"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>';
-                    ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
+                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaNoExpedientable?id=' + data.id + '" target="_blank"><span class="fa fa-file-text-o" aria-hidden="true"></span></a>';
+                    //ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a>' : '';
                     //if (row.esEditable == 'editable') {
                     //    ret += '<a data-exp-id=' + row.id +' class="gold" type="button" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Eliminar" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
                     //    ret += '<span style="cursor:pointer;" title="Enviar a revisión" class="gold glyphicon glyphicon-check" aria-hidden="true"></span>';

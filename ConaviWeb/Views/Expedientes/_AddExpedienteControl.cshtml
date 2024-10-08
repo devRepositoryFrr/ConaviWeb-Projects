@@ -76,17 +76,17 @@
                             <input type="number" asp-for="NoPartes" id="text_partes" placeholder="..." class="form-control" min="1" />
                         </div>
                         <div class="col-md-3 datepicker-group">
-                            <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>
+                            <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración:</label>
                             <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" placeholder="aaaa/mm/dd" readonly />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
-                            <span class="glyphicon glyphicon-remove"></span> Cerrar
+                            <span class="fa fa-times"></span> Cerrar
                         </button>
                         <button type="submit" class="btn btn-sm btn-primary active">
-                            <span class="glyphicon glyphicon-send"></span> Enviar
+                            <span class="fa fa-paper-plane-o"></span> Enviar
                         </button>
                     </div>
                 </div>
@@ -95,9 +95,6 @@
     </div>
 </div>
 @*Fin del formulario para el alta de expediente*@
-
-@*<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>*@
 
 <script type="text/javascript">
     $(document).ready(function () {

@@ -73,12 +73,20 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> DropExpedienteNoExpedientable(int id);
         Task<bool> UpdateArea(Area area);
         Task<Area> GetArea(int id);
+        Task<IEnumerable<Area>> GetAreaUser(int id);
         Task<bool> ActivarArea(int id);
         Task<bool> DesactivarArea(int id);
         Task<IEnumerable<Area>> GetPuestosLista();
         Task<bool> UpdatePuesto(Area area);
+        Task<int> GetIdUserPuesto(string puesto);
+        Task<IEnumerable<Area>> GetPuestoUser(int id);
         Task<Area> GetPuesto(int id);
         Task<bool> ActivarPuesto(int id);
         Task<bool> DesactivarPuesto(int id);
+        Task<IEnumerable<User>> GetUsuariosLista();
+        Task<bool> UpdateUsuario(User usuario);
+        Task<User> GetUsuario(int id);
+        Task<bool> ActivarUsuario(int id);
+        Task<bool> DesactivarUsuario(int id);
     }
 }

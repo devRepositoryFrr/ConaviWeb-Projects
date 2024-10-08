@@ -174,17 +174,17 @@ namespace ConaviWeb.Data.Expedientes
             return result > 0;
         }
 
-        public async Task<Inventario> GetInventarioTP(string area)
+        public async Task<Inventario> GetInventarioTP(string puesto)
         {
             var db = DbConnection();
 
             var sql = @"
                         select itr.id Id, itr.fecha_elaboracion FechaElaboracion, itr.fecha_transferencia FechaTransferencia, itr.nombre_responsable_archivo_tramite NombreResponsableAT
                         from prod_control_exp.inventario_transferencia itr
-                        join prod_control_exp.cat_areas ca on itr.id_area = ca.id
-                        where ca.descripcion = @Area";
+                        join prod_control_exp.cat_puestos cp on itr.id_puesto = cp.id
+                        where cp.descripcion = @Puesto";
 
-            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Area = area });
+            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Puesto = puesto });
         }
         public async Task<bool> InsertInventarioTP(Inventario inventario)
         {
@@ -196,11 +196,11 @@ namespace ConaviWeb.Data.Expedientes
             //            VALUES (@IdArea, @FechaElaboracion, @FechaTransferencia, @NombreResponsable)
             //            ON DUPLICATE KEY UPDATE id_area = @IdArea, fecha_elaboracion = @FechaElaboracion, fecha_transferencia = @FechaTransferencia, nombre_responsable_archivo_tramite = @NombreResponsable;";
             var sql = @"
-                        UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_area = @IdArea;";
+                        UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_puesto = @IdPuesto;";
 
             var result = await db.ExecuteAsync(sql, new
             {
-                IdArea = inventario.IdArea,
+                IdPuesto = inventario.IdPuesto,
                 //FechaElaboracion = inventario.FechaElaboracion,
                 //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
                 FechaTransferencia = inventario.FechaTransferencia,
@@ -351,12 +351,12 @@ namespace ConaviWeb.Data.Expedientes
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, et.numero_legajos Legajos, if(et.numero_legajos>1,crt.fojas,ifnull(crt.fojas,et.numero_fojas)) Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, if(et.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(et.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(et.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(et.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, et.id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-                            ,ca.descripcion Area, et.estatus Estatus
+                            ,cp.descripcion Area, et.estatus Estatus
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_tp
                         from prod_control_exp.expediente_control et
                         join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on et.id_inventario_control = itf.id
-                        join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itf.id_puesto = cp.id
                         join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 1 ORDER BY ets.fecha_ultimo, ets.id) cons on et.id = cons.id
                         left join prod_control_exp.caratula crt on et.id = crt.id_expediente_control and crt.legajo = @Legajo
                         where et.id = @Id";
@@ -420,26 +420,31 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }
-        public async Task<Inventario> GetInventarioControl(string area)
+        public async Task<Inventario> GetInventarioControl(string puesto)
         {
             var db = DbConnection();
 
+            //var sql = @"
+            //            select itr.id Id, itr.id_area IdArea, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
+            //            from prod_control_exp.inventario_control itr
+            //            join prod_control_exp.cat_areas ca on itr.id_area = ca.id
+            //            where ca.descripcion = @Area";
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
+                        select itr.id Id, itr.id_puesto IdPuesto, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
                         from prod_control_exp.inventario_control itr
-                        join prod_control_exp.cat_areas ca on itr.id_area = ca.id
-                        where ca.descripcion = @Area";
+                        join prod_control_exp.cat_puestos cp on itr.id_puesto = cp.id
+                        where cp.descripcion = @Puesto";
 
-            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Area = area });
+            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Puesto = puesto });
         }
         public async Task<Inventario> GetInventarioControlById(int id)
         {
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega,'%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
+                        select itr.id Id, itr.id_puesto IdPuesto, cp.descripcion NombreUnidadAdministrativa, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega,'%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
                         from prod_control_exp.inventario_control itr
-                        join prod_control_exp.cat_areas ca on itr.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itr.id_puesto = cp.id
                         where itr.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Id = id });
@@ -450,13 +455,13 @@ namespace ConaviWeb.Data.Expedientes
 
             var sql = @"
                         INSERT INTO prod_control_exp.inventario_control
-                        (id_area, responsable_archivo_tramite, fecha_elaboracion, fecha_entrega)
-                        VALUES (@IdArea, @NombreResponsable, @FechaElaboracion, @FechaEntrega)
-                        ON DUPLICATE KEY UPDATE id_area = @IdArea, responsable_archivo_tramite = @NombreResponsable, fecha_elaboracion = @FechaElaboracion, fecha_entrega = @FechaEntrega;";
+                        (id_puesto, responsable_archivo_tramite, fecha_elaboracion, fecha_entrega)
+                        VALUES (@IdPuesto, @NombreResponsable, @FechaElaboracion, @FechaEntrega)
+                        ON DUPLICATE KEY UPDATE id_puesto = @IdPuesto, responsable_archivo_tramite = @NombreResponsable, fecha_elaboracion = @FechaElaboracion, fecha_entrega = @FechaEntrega;";
 
             var result = await db.ExecuteAsync(sql, new
             {
-                IdArea = inventario.IdArea,
+                IdPuesto = inventario.IdPuesto,
                 NombreResponsable = inventario.NombreResponsableAT,
                 //FechaElaboracion = inventario.FechaElaboracion.ToString("yyyy-MM-dd"),
                 FechaElaboracion = inventario.FechaElaboracion,
@@ -588,7 +593,7 @@ namespace ConaviWeb.Data.Expedientes
                         order by ec.fecha_ultimo, ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { IdInv = id });
         }
-        public async Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int idArea)
+        public async Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int idPuesto)
         {
             var db = DbConnection();
             var sql = @"
@@ -596,10 +601,10 @@ namespace ConaviWeb.Data.Expedientes
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.inventario_control ic on ec.id_inventario_control = ic.id
                         join prod_control_exp.cat_serie_documental csd on ec.id_expediente = csd.id
-                        join (select ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets join prod_control_exp.inventario_control ic2 on ets.id_inventario_control = ic2.id and ic2.id_area = @IdArea WHERE ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
-                        where ic.id_area = @IdArea and ec.estatus = 2 AND ec.migrado_tp = 0 and ec.migrado_ne = 0
+                        join (select ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets join prod_control_exp.inventario_control ic2 on ets.id_inventario_control = ic2.id and ic2.id_puesto = @IdPuesto WHERE ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
+                        where ic.id_puesto = @IdPuesto and ec.estatus = 2 AND ec.migrado_tp = 0 and ec.migrado_ne = 0
                         order by ec.fecha_ultimo, ec.id;";
-            return await db.QueryAsync<Expediente>(sql, new { IdArea = idArea });
+            return await db.QueryAsync<Expediente>(sql, new { IdPuesto = idPuesto });
         }
         public async Task<Expediente> GetExpedienteControl(int id)
         {
@@ -608,11 +613,11 @@ namespace ConaviWeb.Data.Expedientes
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, nombre Nombre, ec.observaciones Observaciones, ec.numero_fojas Fojas, ec.numero_legajos Legajos, date_format(ec.fecha_primero,'%Y/%m/%d') FechaPrimeroAntiguo, date_format(ec.fecha_ultimo,'%Y/%m/%d') FechaUltimoReciente, ec.anios_resguardo AniosResguardo, ec.id_tipo_documental IdTipoDocumental, ec.id_tipo_soporte IdTipoSoporte, ec.numero_partes NoPartes, date_format(ec.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, id_inventario_control IdInventario
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-                            ,ca.descripcion Area, ec.estatus Estatus
+                            ,cp.descripcion Area, ec.estatus Estatus
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
-                        join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itf.id_puesto = cp.id
                         join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets WHERE ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         where ec.id = @Id";
 
@@ -625,12 +630,12 @@ namespace ConaviWeb.Data.Expedientes
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(ec.numero_legajos>1,crt.fojas,ifnull(crt.fojas,ec.numero_fojas)) Fojas, ec.numero_legajos Legajos, if(ec.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(ec.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(ec.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(ec.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-                            ,ca.descripcion Area
+                            ,cp.descripcion Area
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_control
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
-                        join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itf.id_puesto = cp.id
                         join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_tp = 0 AND ets.migrado_ne = 0 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_control and legajo = @Legajo
                         where ec.id = @Id";
@@ -669,26 +674,26 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new { Id = id, Obs = obs });
             return result > 0;
         }
-        public async Task<Inventario> GetInventarioBibliohemerografico(string area)
+        public async Task<Inventario> GetInventarioBibliohemerografico(string puesto)
         {
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
+                        select itr.id Id, itr.id_puesto IdPuesto, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
                         from prod_control_exp.inventario_bibliohemerografico itr
-                        join prod_control_exp.cat_areas ca on itr.id_area = ca.id
-                        where ca.descripcion = @Area";
+                        join prod_control_exp.cat_puestos cp on itr.id_puesto = cp.id
+                        where cp.descripcion = @Puesto";
 
-            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Area = area });
+            return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Puesto = puesto });
         }
         public async Task<Inventario> GetInventarioBiblioById(int id)
         {
             var db = DbConnection();
 
             var sql = @"
-                        select itr.id Id, itr.id_area IdArea, ca.descripcion NombreUnidadAdministrativa, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
+                        select itr.id Id, itr.id_puesto IdPuesto, cp.descripcion NombreUnidadAdministrativa, itr.nombre_responsable NombreResponsableAT, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, date_format(itr.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion
                         from prod_control_exp.inventario_bibliohemerografico itr
-                        join prod_control_exp.cat_areas ca on itr.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itr.id_puesto = cp.id
                         where itr.id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Id = id });
@@ -699,13 +704,13 @@ namespace ConaviWeb.Data.Expedientes
 
             var sql = @"
                         INSERT INTO prod_control_exp.inventario_bibliohemerografico
-                        (id_area, nombre_responsable, fecha_transferencia, fecha_elaboracion)
-                        VALUES (@IdArea, @NombreResponsable, @FechaTransferencia, @FechaElaboracion)
+                        (id_puesto, nombre_responsable, fecha_transferencia, fecha_elaboracion)
+                        VALUES (@IdPuesto, @NombreResponsable, @FechaTransferencia, @FechaElaboracion)
                         ON DUPLICATE KEY UPDATE nombre_responsable = @NombreResponsable, fecha_transferencia = @FechaTransferencia, fecha_elaboracion = @FechaElaboracion;";
 
             var result = await db.ExecuteAsync(sql, new
             {
-                IdArea = inventario.IdArea,
+                IdPuesto = inventario.IdPuesto,
                 NombreResponsable = inventario.NombreResponsableAT,
                 //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
                 FechaTransferencia = inventario.FechaTransferencia,
@@ -866,11 +871,11 @@ namespace ConaviWeb.Data.Expedientes
             //            VALUES (@IdArea, @NombreResponsable, @FechaElaboracion, @FechaTransferencia)
             //            ON DUPLICATE KEY UPDATE nombre_responsable = @NombreResponsable, fecha_elaboracion = @FechaElaboracion, fecha_transferencia = @FechaTransferencia;";
             var sql = @"
-                        UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_area = @IdArea;";
+                        UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_puesto = @IdPuesto;";
 
             var result = await db.ExecuteAsync(sql, new
             {
-                IdArea = inventario.IdArea,
+                IdPuesto = inventario.IdPuesto,
                 //NombreResponsable = inventario.NombreResponsableAT,
                 //FechaElaboracion = inventario.FechaElaboracion,
                 //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
@@ -951,11 +956,11 @@ namespace ConaviWeb.Data.Expedientes
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, date_format(ec.fecha_elaboracion,'%Y/%m/%d') FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-	                        ,ca.descripcion Area
+	                        ,cp.descripcion Area
                         from prod_control_exp.expediente_no_expedientable ec
                         join prod_control_exp.cat_serie_documental cs on ec.id = cs.id
                         join prod_control_exp.inventario_noexpedientable itf on ec.id_inventario_no_expedientable = itf.id
-                        join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itf.id_puesto = cp.id
                         join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_no_expedientable ets where ets.id_inventario_no_expedientable = (select id_inventario_no_expedientable from expediente_no_expedientable where id = @Id) ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         where ec.id = @Id";
 
@@ -1017,12 +1022,12 @@ namespace ConaviWeb.Data.Expedientes
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, if(ec.numero_legajos>1,crt.fojas,ifnull(crt.fojas,ec.numero_fojas)) Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, if(ec.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(ec.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(ec.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(ec.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, ec.id_inventario_control IdInventario
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-	                        ,ca.descripcion Area, ec.estatus Estatus
+	                        ,cp.descripcion Area, ec.estatus Estatus
                             ,crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, date_format(crt.fecha_clasificacion,'%Y/%m/%d') FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, date_format(crt.fecha_desclasificacion,'%Y/%m/%d') FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_noexp
                         from prod_control_exp.expediente_control ec
                         join prod_control_exp.cat_serie_documental cs on ec.id_expediente = cs.id
                         join prod_control_exp.inventario_control itf on ec.id_inventario_control = itf.id
-                        join prod_control_exp.cat_areas ca on itf.id_area = ca.id
+                        join prod_control_exp.cat_puestos cp on itf.id_puesto = cp.id
                         join (select ROW_NUMBER() over(order by ets.fecha_ultimo, ets.id) NoProg, ROW_NUMBER() over(partition by year(ets.fecha_ultimo) order by ets.fecha_ultimo, ets.id) Consecutivo, ets.id from prod_control_exp.expediente_control ets where ets.id_inventario_control = (select id_inventario_control from prod_control_exp.expediente_control where id = @Id) AND ets.migrado_ne = 1 ORDER BY ets.fecha_ultimo, ets.id) cons on ec.id = cons.id
                         left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_control and crt.legajo = @Legajo
                         where ec.id = @Id";
@@ -1079,6 +1084,17 @@ namespace ConaviWeb.Data.Expedientes
                         where id = @Id";
 
             return await db.QueryFirstOrDefaultAsync<Area>(sql, new { Id = id });
+        }
+        public async Task<IEnumerable<Area>> GetAreaUser(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        select id Id, descripcion Descripcion, estatus
+                        from prod_control_exp.cat_areas
+                        where id = @Id";
+
+            return await db.QueryAsync<Area>(sql, new { Id = id });
         }
         public async Task<bool> ActivarArea(int id)
         {
@@ -1143,6 +1159,25 @@ namespace ConaviWeb.Data.Expedientes
             });
             return result > 0;
         }
+        public async Task<int> GetIdUserPuesto(string puesto)
+        {
+            var db = DbConnection();
+            var sql = @"
+                        select id from prod_control_exp.cat_puestos where descripcion = @Puesto order by id;
+                       ";
+            return await db.QueryFirstOrDefaultAsync<int>(sql, new { Puesto = puesto });
+        }
+        public async Task<IEnumerable<Area>> GetPuestoUser(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        select id Id, descripcion Descripcion, estatus
+                        from prod_control_exp.cat_puestos
+                        where id = @Id";
+
+            return await db.QueryAsync<Area>(sql, new { Id = id });
+        }
         public async Task<Area> GetPuesto(int id)
         {
             var db = DbConnection();
@@ -1183,6 +1218,99 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new
             {
                 IdPuesto = id
+            });
+            return result > 0;
+        }
+        public async Task<IEnumerable<User>> GetUsuariosLista()
+        {
+            var db = DbConnection();
+            var sql = @"
+                        select u.id Id, concat(u.nombre, ' ', u.primer_apellido, ' ', u.segundo_apellido) Name, u.usuario SUser, ca.descripcion Signer, u.cargo Position, u.numero_empleado EmployeeNumber, u.rfc RFC, u.activo Active
+                        from qa_adms_conavi.usuario u
+                        join qa_adms_conavi.c_area ca on u.id_area = ca.id
+                        where u.id_rol in (15,16) -- and u.id <> 212
+                        order by u.id;";
+            return await db.QueryAsync<User>(sql, new { });
+        }
+        public async Task<bool> UpdateUsuario(User usuario)
+        {
+            var db = DbConnection();
+            var sql = @"";
+            if (usuario.Id == 0)
+            {
+                sql = @"
+                        INSERT INTO qa_adms_conavi.usuario (nombre, primer_apellido, segundo_apellido, usuario, password, id_rol, cargo, numero_empleado, rfc, grado_academico, id_area, email, update_pass) VALUES(upper(@Nombre), upper(@PApellido), upper(@SApellido), @UserName, sha2(@Password,256), if(@Rol = 1, 15, 16), @Cargo, @NumEmpleado, upper(@RFC), upper(@GradoAcademico), @IdArea, lower(@Email), b'0');";
+            }
+            else
+            {
+                sql = @"
+                        UPDATE qa_adms_conavi.usuario SET nombre = upper(@Nombre), primer_apellido = upper(@PApellido), segundo_apellido = upper(@SApellido), id_area = @IdArea, usuario = @UserName, cargo = @Cargo, numero_empleado = @NumEmpleado, rfc = upper(@RFC), grado_academico = upper(@GradoAcademico), email = lower(@Email), id_rol = if(@Rol = 1, 15, 16)";
+                if (!String.IsNullOrEmpty(usuario.Password))
+                {
+                    sql += @", password = sha2(@Password,256)";
+                }
+                sql += @"
+                        WHERE id = @IdUsuario;";
+            }
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                Nombre = usuario.Name,
+                PApellido = usuario.LName,
+                SApellido = usuario.SLName,
+                IdArea = usuario.IdSystem,
+                UserName = usuario.SUser,
+                Password = usuario.Password,
+                Cargo = usuario.Position,
+                NumEmpleado = usuario.EmployeeNumber,
+                RFC = usuario.RFC,
+                GradoAcademico = usuario.Degree,
+                Email = usuario.Email,
+                Rol = usuario.Rol,
+                IdUsuario = usuario.Id
+            });
+            return result > 0;
+        }
+        public async Task<User> GetUsuario(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        select id Id, nombre Name, primer_apellido LName, segundo_apellido SLName, usuario SUser, if(id_rol=15,1,2) Rol, cargo Position, id_area IdSystem, numero_empleado EmployeeNumber, rfc RFC, grado_academico Degree, email Email
+                        from qa_adms_conavi.usuario
+                        where id = @Id";
+
+            return await db.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
+        }
+        public async Task<bool> ActivarUsuario(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE qa_adms_conavi.usuario
+                        SET
+                        activo = 1
+                        WHERE id = @IdUsuario;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                IdUsuario = id
+            });
+            return result > 0;
+        }
+        public async Task<bool> DesactivarUsuario(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        UPDATE qa_adms_conavi.usuario
+                        SET
+                        activo = 2
+                        WHERE id = @IdUsuario;";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                IdUsuario = id
             });
             return result > 0;
         }

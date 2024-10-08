@@ -46,7 +46,7 @@
                             <center><label>Inventario de Transferencia Primaria al Archivo de Concentración</label></center>
                             <div class="col-md-4">
                                 <label class="control-label">Número de Fojas:</label>
-                                <input asp-for="Fojas" type="number" class="form-control" placeholder="..." min="0" />
+                                <input asp-for="Fojas" type="number" class="form-control" placeholder="..." min="1" />
                             </div>
                             <div class="col-md-6">
                                 <label class="control-label">Años de resguardo en el archivo de concentración:</label>
@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="control-label" for="text_partes">Número de partes:</label>
-                        <input type="number" asp-for="NoPartes" id="text_partes" placeholder="..." class="form-control" min="1" />
+                        <input type="number" asp-for="NoPartes" id="text_partes" placeholder="..." class="form-control" min="0" />
                     </div>
                     <div class="col-md-3 datepicker-group">
                         <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>

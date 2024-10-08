@@ -92,7 +92,7 @@
 </div>
 <br />
 <button id="btn_add_serie" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalEdit">
-    <span class="glyphicon glyphicon-plus"></span> Agregar serie documental
+    <span class="fa fa-plus"></span> Agregar serie documental
 </button>
 
 <!-- Modal Update Serie Documental-->
@@ -268,9 +268,9 @@
                 "targets": 13,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a class="gold" data-book-id="' + row.id +'" title="Editar" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-edit"></span></a>';
-                    if (row.estatus == 'activo') ret += '<a class="gold" data-book-id="' + row.id +'" data-toggle="modal" data-target="#modalDesactivar" title="Desactivar" style="cursor:pointer; font-size:20px;"><span class="glyphicon glyphicon-eye-close"></span></a>';
-                    else ret += '<a class="gold" data-book-id="' + row.id +'" style="cursor:pointer; font-size:20px;" title="Activar" data-toggle="modal" data-target="#modalActivar"><span class="glyphicon glyphicon-eye-open"></span></a>';
+                    var ret = '<a class="gold" data-book-id="' + row.id +'" title="Editar" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="fa fa-pencil-square-o"></span></a>';
+                    if (row.estatus == 'activo') ret += '<a class="gold" data-book-id="' + row.id +'" data-toggle="modal" data-target="#modalDesactivar" title="Desactivar" style="cursor:pointer; font-size:20px;"><span class="fa fa-eye-slash"></span></a>';
+                    else ret += '<a class="gold" data-book-id="' + row.id +'" style="cursor:pointer; font-size:20px;" title="Activar" data-toggle="modal" data-target="#modalActivar"><span class="fa fa-eye"></span></a>';
                     return ret;
                 },
                 "sortable": false,

@@ -1,15 +1,15 @@
-﻿@model ConaviWeb.Model.Expedientes.SerieDocumental
+﻿@model ConaviWeb.Model.User
 
-<form id="formActivarSerieDoc" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="ActivarSerieDoc">
+<form id="formDesactivarUsuario" enctype="multipart/form-data" method="post" asp-controller="Catalogos" asp-action="DesactivarUsuario">
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <div class='modal-header'>
-        <h4 id='titulo-modal' style="font-weight: 300">Activar Serie Documental</h4>
+        <h4 id='titulo-modal' style="font-weight: 300">Desactivar Usuario</h4>
     </div>
     <div class='modal-body'>
-        <input id="idSerieDoc" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <input id="idUsuario" asp-for="Id" type="text" class="form-control" style="display:none;">
         <div class="row">
             <div class="col-md-12">
-                <h3>¿Estás seguro de activar la serie documental?</h3>
+                <h3>¿Estás seguro de desactivar al usuario?</h3>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
             <span class="fa fa-times" aria-hidden="true"></span> Cancelar
         </button>
         <button type="submit" class="btn btn-sm btn-primary active">
-            <span class="fa fa-eye" aria-hidden="true"></span> Si, activar
+            <span class="fa fa-eye-slash" aria-hidden="true"></span> Si, desactivar
         </button>
     </div>
 </form>

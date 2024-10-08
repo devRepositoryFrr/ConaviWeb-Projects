@@ -62,7 +62,7 @@
 </div>
 <br />
 <button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente">
-    <span class="glyphicon glyphicon-plus"></span> Agregar Expediente
+    <span class="fa fa-plus"></span> Agregar Expediente
 </button>
 <div id="addExpediente">
     @{
@@ -344,14 +344,14 @@
                 "targets": 7,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank" style="font-size: 20px;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></a><br>';
+                    var ret = '<a style="cursor:pointer;" class="gold" title="Carátula" href="CaratulaControl?id=' + data.id + '" target="_blank" style="font-size: 20px;"><span class="fa fa-file-text-o" aria-hidden="true"></span></a><br>';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalVoBoExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="VoBo" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span></a>' : '';
                     //ret += row.estatus == 'Revisión' ? '<a data-exp-id=' + row.id + ' class="gold" type="button" data-toggle="modal" data-target="#showModalRevalidacionExpediente" style="font-size:20px;"><span style="cursor:pointer;" title="Revalidación" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>' : '';
                     if (row.esEditable == 'editable') {         //is editable for owner
-                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación' || row.estatus == 'Edición para migrar') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-edit" aria-hidden="true"></span></a><br><a data-exp-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Enviar a revisión" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="glyphicon glyphicon-check" aria-hidden="true"></span></a><br>' : '';
-                        ret += (row.migradoTP == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Transferencia Primaria al Archivo de Concentración" data-toggle="modal" data-target="#showModalMigrarTP" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-share" aria-hidden="true"></span></a><br>' : '';
-                        ret += (row.migradoNE == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Documentación No Expedientable" data-toggle="modal" data-target="#showModalMigrarNE" style="font-size: 20px;"><span  style="cursor:pointer;" class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a><br>' : '';
-                        ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f; font-size: 20px;" title="Enviado a revisión" class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></a><br>' : '';
+                        ret += (row.estatus == 'Registro' || row.estatus == 'Revalidación' || row.estatus == 'Edición para migrar') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Editar" data-toggle="modal" data-target="#modalExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-pencil-square-o" aria-hidden="true"></span></a><br><a data-exp-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-trash-o" aria-hidden="true"></span></a><br><a data-exp-id=' + row.id + ' class="gold" type="button" title="Enviar a revisión" data-toggle="modal" data-target="#showModalSendValExpediente" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-check-square-o" aria-hidden="true"></span></a><br>' : '';
+                        ret += (row.migradoTP == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Transferencia Primaria al Archivo de Concentración" data-toggle="modal" data-target="#showModalMigrarTP" style="font-size: 20px;"><span  style="cursor:pointer;" class="fa fa-share-square-o" aria-hidden="true"></span></a><br>' : '';
+                        ret += (row.migradoNE == 0 && row.estatus == 'Aceptado') ? '<a data-exp-id="' + row.id + '" class="gold" type="button" title="Migrar a Inventario de Documentación No Expedientable" data-toggle="modal" data-target="#showModalMigrarNE" style="font-size: 20px;"><span  style="cursor:pointer;" class="fa fa-external-link" aria-hidden="true"></span></a><br>' : '';
+                        ret += (row.estatus == 'Revisión') ? '<span style="color: #b8925f; font-size: 20px;" title="Enviado a revisión" class="fa fa-clock-o" aria-hidden="true"></span></a><br>' : '';
                     }
                     return ret;
                 },

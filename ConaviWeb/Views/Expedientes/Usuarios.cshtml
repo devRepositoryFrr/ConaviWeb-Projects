@@ -1,12 +1,12 @@
-﻿@model ConaviWeb.Model.Expedientes.Area
+﻿@model ConaviWeb.Model.User
 @{
-    ViewData["Title"] = "Catalogo de áreas";
+    ViewData["Title"] = "Catalogo de usuarios";
 }
 @{
     @await Html.PartialAsync("../Expedientes/BotonesCatalogos");
 }
 @*************************************************************************************************************************************************************@
-@* Tabla de control para el catálogo de areas *@
+@* Tabla de control para el catálogo de usuarios *@
 <div class="row">
     <div class="col-md-12" id="alertAjax">
         @Html.Raw(@ViewBag.Alert)
@@ -14,22 +14,34 @@
 </div>
 <div class="row form-group">
     <div class="col-md-12">
-        <h3 class="text-center">Catálogo de áreas</h3>
+        <h3 class="text-center">Catálogo de usuarios</h3>
     </div>
 </div>
 <hr />
-<div id="divListaAreas">
+<div id="divListaUsuarios">
     <div class="row">
         <div class="col-md-12">
             <form id="formTable">
-                <table id="tableAreas" class="table">
+                <table id="tableUsuarios" class="table">
                     <thead>
                         <tr>
                             <th>
                                 ID
                             </th>
                             <th>
-                                Descripción
+                                Nombre
+                            </th>
+                            <th>
+                                Area
+                            </th>
+                            <th>
+                                Cargo
+                            </th>
+                            <th>
+                                Usuario
+                            </th>
+                            <th>
+                                Número de empleado
                             </th>
                             <th>
                                 &nbsp;
@@ -44,38 +56,38 @@
     </div>
 </div>
 <br />
-<button id="btn_add_area" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalEdit">
-    <span class="fa fa-plus"></span> Agregar area
+<button id="btn_add_usuario" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalEdit">
+    <span class="fa fa-plus"></span> Agregar usuario
 </button>
 
-<!-- Modal Update Area-->
-<div class="modal fade fade-" style="z-index:1041" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Update Usuario-->
+<div class="modal fade fade-out" style="z-index:1041" id="modalEdit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
-                @await Html.PartialAsync("../Expedientes/_UpdateArea")
+                @await Html.PartialAsync("../Expedientes/_UpdateUsuario")
             }
         </div>
     </div>
 </div>
 
-<!-- Modal Activar Area -->
-<div class="modal fade fade-" style="z-index:1041" id="modalActivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Activar Usuario -->
+<div class="modal fade fade-out" style="z-index:1041" id="modalActivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
-                @await Html.PartialAsync("../Expedientes/_ActivarArea")
+                @await Html.PartialAsync("../Expedientes/_ActivarUsuario")
             }
         </div>
     </div>
 </div>
 
-<!-- Modal Desactivar Area -->
-<div class="modal fade fade-" style="z-index:1041" id="modalDesactivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal Desactivar Usuario -->
+<div class="modal fade fade-out" style="z-index:1041" id="modalDesactivar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             @{
-                @await Html.PartialAsync("../Expedientes/_DesactivarArea")
+                @await Html.PartialAsync("../Expedientes/_DesactivarUsuario")
             }
         </div>
     </div>
@@ -93,30 +105,40 @@
             showAlert();
             showTable();
             $('#modalEdit').on('hidden.bs.modal', function (e) {
-                $(this).find('#formUpdateArea')[0].reset();
-                $(e.currentTarget).find('#idArea').val();
+                $(this).find('#formUpdateUsuario')[0].reset();
+                $(e.currentTarget).find('#idUsuario').val();
             });
             $('#modalActivar').on('show.bs.modal', function (e) {
-                var serieId = $(e.relatedTarget).data('book-id');
-                $(e.currentTarget).find('#idArea').val(serieId);
+                var userId = $(e.relatedTarget).data('user-id');
+                $(e.currentTarget).find('#idUsuario').val(userId);
             });
             $('#modalDesactivar').on('show.bs.modal', function (e) {
-                var serieId = $(e.relatedTarget).data('book-id');
-                $(e.currentTarget).find('#idArea').val(serieId);
+                var userId = $(e.relatedTarget).data('user-id');
+                $(e.currentTarget).find('#idUsuario').val(userId);
             });
             $('#modalEdit').on('show.bs.modal', function (e) {
-                var bookId = $(e.relatedTarget).data('book-id');
-                if (!isNaN(bookId)) {
+                var userId = $(e.relatedTarget).data('user-id');
+                if (!isNaN(userId)) {
                     $.ajax({
-                        url: "@Url.Action("GetArea", "Catalogos")", // Url
+                        url: "@Url.Action("GetUsuario", "Catalogos")", // Url
                         data: {
                             // Datos / Parámetros
-                            Id: bookId
+                            Id: userId
                         },
                         type: "post"  // Verbo HTTP
                     }).done(function (result) {
-                        $('#idArea').val(result.id);
-                        $('#label_descripcion').val(result.descripcion);
+                        $('#idUsuario').val(result.id);
+                        $('#lbl_name').val(result.name);
+                        $('#lbl_papellido').val(result.lName);
+                        $('#lbl_sapellido').val(result.slName);
+                        $('#lbl_area option[value='+ result.idSystem +']').prop("selected", true);
+                        $('#lbl_cargo option[value="'+ result.position +'"]').prop("selected", true);
+                        $('#lbl_numEmpleado').val(result.employeeNumber);
+                        $('#lbl_username').val(result.sUser);
+                        $('#lbl_rfc').val(result.rfc);
+                        $('#lbl_grado_academico').val(result.degree);
+                        $('#lbl_email').val(result.email);
+                        $('#slc_rol option[value=' + result.rol + ']').prop('selected', true);
                     })
                     // Se ejecuta si se produjo un error.
                     .fail(function (xhr, status, error) {
@@ -139,10 +161,10 @@
         });
         function showTable() {
             var urlTipo = "";
-            urlTipo = "/Catalogos/ListaAreas";
+            urlTipo = "/Catalogos/ListaUsuarios";
             $("#spinner").show();
             //$("#divTable").show();
-            table = $('#tableAreas').DataTable({
+            table = $('#tableUsuarios').DataTable({
                 "proccessing": true,
                 "serverSide": false,
                 "ajax": {
@@ -189,14 +211,18 @@
         }
         var columns = [
             { "name": "Id", "data": "id", "targets": 0},
-            { "name": "Descripción", "data": "descripcion", "targets": 1 },
+            { "name": "Nombre", "data": "name", "targets": 1 },
+            { "name": "Area", "data": "signer", "targets": 2 },
+            { "name": "Cargo", "data": "position", "targets": 3 },
+            { "name": "Usuario", "data": "sUser", "targets": 4 },
+            { "name": "NumEmpleado", "data": "employeeNumber", "targets": 5 },
             {
-                "targets": 2,
+                "targets": 6,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a data-book-id="' + row.id +'" title="Editar" class="gold" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="fa fa-pencil-square-o"></span></a>';
-                    if (row.estatus == 'activo') ret += '<br><a class="gold" data-book-id="' + row.id +'" title="Desactivar" data-toggle="modal" data-target="#modalDesactivar" style="cursor:pointer; font-size:20px;"><span class="fa fa-eye-slash"></span></a>';
-                    else ret += '<br><a class="gold" data-book-id="' + row.id +'" data-toggle="modal" data-target="#modalActivar" style="cursor:pointer; font-size:20px;" title="Activar"><span class="fa fa-eye"></span></a>';
+                    var ret = '<a data-user-id="' + row.id +'" title="Editar" class="gold" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="fa fa-pencil-square-o"></span></a>';
+                    if (row.active == 'SI') ret += '<br><a class="gold" data-user-id="' + row.id +'" title="Desactivar" data-toggle="modal" data-target="#modalDesactivar" style="cursor:pointer; font-size:20px;"><span class="fa fa-eye-slash"></span></a>';
+                    else ret += '<br><a class="gold" data-user-id="' + row.id +'" data-toggle="modal" data-target="#modalActivar" style="cursor:pointer; font-size:20px;" title="Activar"><span class="fa fa-eye"></span></a>';
                     return ret;
                 },
                 "sortable": false,

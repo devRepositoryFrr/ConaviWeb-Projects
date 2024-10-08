@@ -49,10 +49,10 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="ftransferencia_archivo">Fecha de transferencia al Archivo de Concentración:</label>
+                    <label for="ftransferencia_inventario">Fecha de transferencia al Archivo de Concentración:</label>
                 </div>
                 <div class="col-md-6">
-                    <label id="ftransferencia_archivo" class="form-control"></label>
+                    <label id="ftransferencia_inventario" class="form-control"></label>
                 </div>
             </div>
         </div>
@@ -348,7 +348,7 @@
             ventana.document.write('<table style="font-size:10px;width:100%;" id="mainTable"><thead id="mainHeader" style="display: table-header-group;"><tr><th colspan="8"><table style="font-size:10px;"><tr><th width="38%"><img src="../img/encab2021.png" style="width: 100%; height:100%;" /></th><th style="text-align: right;"><label style="text-align: right;">SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />DEPARTAMENTO DE UNIDADES DOCUMENTALES</label></th></tr></table></th>');
             ventana.document.write('<tr><th colspan="8" style="text-align:center;padding:10px;"><label>Inventario de Documentación no Expedientable transferible al Archivo de Concentración</label></th></tr>');
             ventana.document.write('<tr><th colspan="8" style="text-align:right;padding:5px;"><span class="pageHeader"></span></th></tr>');
-            ventana.document.write('<tr><th colspan="8"><table width="100%" style="font-size:10px;"><tr><th><label>Nombre de la Unidad Administrativa generadora: </label></th><th><label>' + $('#unidadAdministrativa').text() + '</label></th></tr><tr><th><label for="felaboracion_inventario">Fecha de Elaboración del Inventario: ' + $('#felaboracion_inventario').text() + '</label></th><th><label>Fecha de transferencia al archivo de concentración: ' + $("#ftransferencia_archivo").text() + '</label></th></tr><tr><th><label>Nombre del responsable del archivo de trámite: </label></th><th><label>' + $("#responsableArchivo").text() + '</label></th></tr></table></th></tr>');
+            ventana.document.write('<tr><th colspan="8"><table width="100%" style="font-size:10px;"><tr><th><label>Nombre de la Unidad Administrativa generadora: </label></th><th><label>' + $('#unidadAdministrativa').text() + '</label></th></tr><tr><th><label for="felaboracion_inventario">Fecha de Elaboración del Inventario: ' + $('#felaboracion_inventario').text() + '</label></th><th><label>Fecha de transferencia al archivo de concentración: ' + $("#ftransferencia_inventario").text() + '</label></th></tr><tr><th><label>Nombre del responsable del archivo de trámite: </label></th><th><label>' + $("#responsableArchivo").text() + '</label></th></tr></table></th></tr>');
             ventana.document.write('<tr><th>No. Prog.</th><th>Cve del Expediente</th><th>Nombre del Expediente</th><th>Periodo</th><th>Cantidad en años de resguardo en el archivo de concentración</th><th>No. de Legajos</th><th>No. de Fojas</th><th>Observaciones</th></tr></thead>');
             ventana.document.write('<tbody>');
             var tableId = document.getElementById('tableExpTP');

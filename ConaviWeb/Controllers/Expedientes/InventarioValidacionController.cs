@@ -22,7 +22,9 @@ namespace ConaviWeb.Controllers.Expedientes
         }
         public async Task<IActionResult> IndexAsync()
         {
-            var catArea = await _expedienteRepository.GetAreas();
+            //var catArea = await _expedienteRepository.GetAreas();
+            //ViewData["AreaCatalogo"] = catArea;
+            var catArea = await _expedienteRepository.GetPuestosLista();
             ViewData["AreaCatalogo"] = catArea;
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var catSoporte = await _expedienteRepository.GetTiposSoporte();
@@ -31,9 +33,9 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewData["CatTipoDoc"] = catTipoDoc;
             var cat = await _expedienteRepository.GetCodigosExp();
             ViewData["Catalogo"] = cat;
-            //var id_inventario = await _expedienteRepository.GetIdInventario(user.Area);
-            //ViewBag.IdInv = id_inventario;
-            if (user.Id == 212 || user.Id == 323)
+            //if (user.Id == 212 || user.Id == 323)
+            int rol = (int)user.Rol;
+            if (rol == 15)
                 ViewData["btnShowValidacion"] = true;
             else
                 ViewData["btnShowValidacion"] = false;
@@ -56,12 +58,12 @@ namespace ConaviWeb.Controllers.Expedientes
         //    return Json(new { data = expedientes });
         //}
         [HttpPost]
-        public async Task<IActionResult> GetExpedientesControl([FromHeader] int slcArea)
+        public async Task<IActionResult> GetExpedientesControl([FromHeader] int slcPuesto)
         {
             //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             //var id_inventario = await _expedienteRepository.GetIdInventarioControl(user.Area);
 
-            IEnumerable<Expediente> expedientes = await _expedienteRepository.GetExpedientesValidacionInventarioControl(slcArea);
+            IEnumerable<Expediente> expedientes = await _expedienteRepository.GetExpedientesValidacionInventarioControl(slcPuesto);
 
             if (expedientes == null)
             {
