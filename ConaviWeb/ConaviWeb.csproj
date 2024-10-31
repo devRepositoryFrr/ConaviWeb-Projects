@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  <ExcludeFoldersFromDeployment>wwwroot\doc\**</ExcludeFoldersFromDeployment>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,12 @@
     <Content Remove="Views\Expedientes\_RevalidacionExpedienteBiblio.cshtml" />
     <Content Remove="Views\Expedientes\_VoBoExpedienteBiblio.cshtml" />
   </ItemGroup>
+  
+  <ItemGroup>
+  <Content Update="wwwroot\doc\**\*">
+    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+  </Content>
+</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="itext7" Version="7.2.0" />
