@@ -42,14 +42,14 @@ namespace ConaviWeb.Controllers.Expedientes
             if (rol == 15)
             {
                 var catPuesto = await _expedienteRepository.GetPuestosLista();
-                ViewBag.AreaCatalogo = (new SelectList(catPuesto, "Id", "Descripcion", idUserPuesto));
-                ViewData["btnShowValidacion"] = true;
+                ViewBag.AreaCatalogo = (new SelectList(catPuesto, "IdPuesto", "Puesto", idUserPuesto));
+                //ViewData["btnShowValidacion"] = true;
             }
             else
             {
                 var catPuesto = await _expedienteRepository.GetPuestoUser(idUserPuesto);
-                ViewBag.AreaCatalogo = new SelectList(catPuesto, "Id", "Descripcion", idUserPuesto);
-                ViewData["btnShowValidacion"] = false;
+                ViewBag.AreaCatalogo = new SelectList(catPuesto, "IdPuesto", "Puesto", idUserPuesto);
+                //ViewData["btnShowValidacion"] = false;
             }
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();

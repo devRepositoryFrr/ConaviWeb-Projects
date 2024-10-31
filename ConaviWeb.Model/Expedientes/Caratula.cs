@@ -35,6 +35,7 @@ namespace ConaviWeb.Model.Expedientes
         public string TecSelC { get; set; }
         public string TecSelM { get; set; }
         public string Area { get; set; }
+        public string Puesto { get; set; }
         public string EsEditable { get; set; }
         public string Estatus { get; set; }
         //los campos de la caratula
@@ -66,5 +67,6 @@ namespace ConaviWeb.Model.Expedientes
         public string CargoDesclasifica { get; set; }
         public string PartesReservando { get; set; }
         public string DatosTopograficos { get; set; }
+        public string TipoSoporteDocumental { get; set; }
     }
 }

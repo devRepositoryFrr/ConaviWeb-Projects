@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" id="div_btns_inv">
             <button type="submit" id="btn_save_inv" class="btn btn-primary btn-sm pull-right active">
                 <span class="fa fa-save"></span> Guardar
             </button>
@@ -47,7 +47,13 @@
             changeYear: true
         });
         $("#formInsertInventarioBibliohemerografico").submit(function (e) {
-
+            const fecha1 = new Date($("#felaboracion_inventario_biblio").val());
+            const fecha2 = new Date($("#ftransferencia_biblio").val());
+            if (fecha2 < fecha1) {
+                $("#alertAjax").append("<div class='alertaOp alert alert-warning' id='alerta'>La fecha de transferencia no debe ser menor a la fecha de elaboración!</div>");
+                showAlert();
+                return false;
+            }
         });
     });
 </script>

@@ -31,11 +31,27 @@
                         <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="aaaa/mm/dd" readonly />
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="control-label">Nombre del expediente:</label>
                         <input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." required />
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-3">
+                        <label class="control-label">Tipo de soporte documental:</label>
+                        <select class="form-control" id="idTipoSoporteDocumental" asp-for="IdTipoSoporteDocumental">
+                            <option value="1">Físico</option>
+                            <option value="2">Electrónico</option>
+                        </select>
+                        @*<input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." required />*@
+                    </div>
+                    <div class="col-md-3">
+                        <label class="control-label">Ubicación:</label>
+                        <input type="text" asp-for="Ubicacion" id="ubicacion" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Descripción:</label>
+                        <textarea asp-for="Descripcion" class="form-control" placeholder="..." rows="2"></textarea>
+                    </div>
+                    <div class="col-md-6">
                         <label class="control-label">Observaciones:</label>
                         <textarea asp-for="Observaciones" class="form-control" placeholder="..." rows="2"></textarea>
                     </div>
@@ -44,7 +60,7 @@
                     <div class="col-md-12">
                         <div class="row form-group">
                             <center><label>Inventario de Transferencia Primaria al Archivo de Concentración</label></center>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="control-label">Número de Fojas:</label>
                                 <input asp-for="Fojas" type="number" class="form-control" placeholder="..." min="1" />
                             </div>
@@ -74,7 +90,7 @@
                         <input type="number" asp-for="NoPartes" id="text_partes" placeholder="..." class="form-control" min="0" />
                     </div>
                     <div class="col-md-3 datepicker-group">
-                        <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración</label>
+                        <label class="control-label" for="felaboracion_nexp">Fecha de Elaboración:</label>
                         <input type="text" asp-for="FechaElaboracion" class="form-control" id="felaboracion_nexp" placeholder="aaaa/mm/dd" readonly />
                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                     </div>

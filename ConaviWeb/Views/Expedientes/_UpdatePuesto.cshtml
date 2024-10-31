@@ -7,12 +7,20 @@
         <h4 id='titulo-modal' style="font-weight: 300">Registro de puesto o cargo</h4>
     </div>
     <div class='modal-body'>
-        <input id="idPuesto" asp-for="Id" type="text" class="form-control" style="display:none;">
+        <input id="idPuesto" asp-for="IdPuesto" type="text" class="form-control" style="display:none;">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="label_descripcion">Descripción:</label>
-                    <input type="text" id="label_descripcion" asp-for="Descripcion" class="form-control" required />
+                    <input type="text" id="label_descripcion" asp-for="Puesto" class="form-control" required />
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="area_descripcion">Area:</label>
+                    <select asp-for="Id" id="id_area" class="form-control" asp-items="@ViewBag.AreaCatalogo" required>
+                        <option value="">--Seleccione--</option>
+                    </select>
                 </div>
             </div>
         </div>

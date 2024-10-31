@@ -7,7 +7,7 @@
     @await Html.PartialAsync("../Expedientes/Botones");
 }
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12" id="alertAjax">
         @Html.Raw(@ViewBag.Alert)
     </div>
 </div>
@@ -84,21 +84,100 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
         var table;
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
                 $("#btn_save_inv").remove();
-                //$("#btn_fto").prop("disabled", true);
                 $("#btn_fto").remove();
-            } else {
-                //$("#btn_fto").prop("disabled", false);
             }
             showTable();
             $('#showModalTrashExpediente').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('exp-id');
                 $(e.currentTarget).find('#idExpediente').val(expId);
+            });
+            $("#slctPuesto").on("change", function () {
+                $.ajax({
+                    url: "@Url.Action("GetInventarioControl", "InventarioControl")", // Url
+                    data: {
+                        // Datos / Parámetros
+                        puesto: $("#" + this.id + " option:selected").text()
+                    },
+                    type: "post"  // Verbo HTTP
+                }).done(function (result) {
+                    if (result.id != null) {
+                        $('#hd_id_inventario').val(result.id);
+                        $('#text_responsableAT').val(result.nombreResponsableAT);
+                        $('#ftransferencia_inventario_nexp').val(result.fechaTransferencia != null ? result.fechaTransferencia.substring(0, 4) + '/' + result.fechaTransferencia.substring(5, 7) + '/' + result.fechaTransferencia.substring(8, 10) : '');
+                        $('#felaboracion_inventario_nexp').val(result.fechaElaboracion != null ? result.fechaElaboracion.substring(0, 4) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(8, 10) : '');
+                        $("#btn_fto").length ? '' : $("#div_btns_inv").append('<button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de acervo blibliohemerográfico" onclick="sendToFormat()"><span class="fa fa-print"></span> Formato</button>');
+                        
+                        var urlTipo = "";
+                        urlTipo = "/NoExpedientable/GetExpedientesNoExpedientablesByIdInv";
+                        table = $('#table').DataTable({
+                            "proccessing": true,
+                            "serverSide": false,
+                            "ajax": {
+                                url: urlTipo,
+                                data: { Id: result.id },
+                                type: 'POST',
+                                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                                complete: function () {
+                                    $("#spinner").hide();
+                                }
+                            },
+                            "columnDefs": columns,
+                            "order": [[0, "desc"]],
+                            "autoWidth": true,
+                            "destroy": true,
+                            "scrollY": true,
+                            "scrollCollapse": true,
+                            "paging": true,
+                            "info": true,
+                            "buttons": ['excel'],
+                            "scrollX": true,
+                            "fixedColumns": true,
+                            "ordering": false,
+                            "language": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Último",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                }
+                            }
+                        });
+                    } else {
+                        $("#alertAjax").append(result);
+                        showAlert();
+                        $('#hd_id_inventario').val('0');
+                        $('#text_responsableAT, #ftransferencia_inventario_nexp, #felaboracion_inventario_nexp').val('');
+                        $("#btn_fto").remove();
+                        $('#table').DataTable().clear().destroy();
+                    }
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
             });
         });
         function showTable() {
@@ -210,8 +289,8 @@
         ];
         function showAlert() {
             setTimeout(function () {
-                $("#alerta").fadeOut(1500);
-            }, 3000);
+                $("#alerta").slideToggle(1500);
+            }, 4000);
             setTimeout(function () {
                 $("#alerta").remove();
             }, 6000);
@@ -221,5 +300,5 @@
             if (!isNaN(id) && id > 0)
                 window.open("/NoExpedientableFto?id=" + id, "_blank");
         }
-    </script>
+</script>
 }

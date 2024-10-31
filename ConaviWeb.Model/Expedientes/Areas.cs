@@ -13,5 +13,7 @@ namespace ConaviWeb.Model.Expedientes
         public int IdResponsable { get; set; }
         public string Responsable { get; set; }
         public string estatus { get; set; }
+        public int IdPuesto { get; set; }
+        public string Puesto { get; set; }
     }
 }

@@ -45,14 +45,14 @@ namespace ConaviWeb.Controllers.Expedientes
             if (rol == 15)
             {
                 var catArea = await _expedienteRepository.GetPuestosLista();
-                ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Descripcion", idUserPuesto));
-                ViewData["btnShowValidacion"] = true;
+                ViewBag.AreaCatalogo = (new SelectList(catArea, "IdPuesto", "Puesto", idUserPuesto));
+                //ViewData["btnShowValidacion"] = true;
             }
             else
             {
                 var catArea = await _expedienteRepository.GetPuestoUser(idUserPuesto);
-                ViewBag.AreaCatalogo = new SelectList(catArea, "Id", "Descripcion", idUserPuesto);
-                ViewData["btnShowValidacion"] = false;
+                ViewBag.AreaCatalogo = new SelectList(catArea, "IdPuesto", "Puesto", idUserPuesto);
+                //ViewData["btnShowValidacion"] = false;
             }
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
@@ -114,8 +114,13 @@ namespace ConaviWeb.Controllers.Expedientes
         [HttpPost]
         public async Task<IActionResult> GetExpedientesControlByIdInv([FromForm] int id)
         {
+            var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             IEnumerable<Expediente> expedientes = new List<Expediente>();
-            expedientes = await _expedienteRepository.GetExpedientesInventarioControlByIdInv(id);
+            //expedientes = await _expedienteRepository.GetExpedientesInventarioControlByIdInv(id);
+            if (id != 0)
+            {
+                expedientes = await _expedienteRepository.GetExpedientesInventarioControl(user.Id, id);
+            }
 
             if (expedientes == null)
             {
@@ -123,6 +128,18 @@ namespace ConaviWeb.Controllers.Expedientes
                 return Ok(alert);
             }
             return Json(new { data = expedientes });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetInventarioControl([FromForm] string puesto)
+        {
+            Inventario inventario = new();
+            inventario = await _expedienteRepository.GetInventarioControl(puesto);
+            if (inventario == null)
+            {
+                var alert = AlertService.ShowAlert(Alerts.Danger, "Id de inventario no encontrado");
+                return Ok(alert);
+            }
+            return Ok(inventario);
         }
         [HttpPost]
         public async Task<IActionResult> GetInventarioControlById([FromForm] int id)

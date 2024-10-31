@@ -48,7 +48,6 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> VoBoExpedienteControl(int id);
         Task<bool> RevalidacionExpedienteControl(int id, string obs);
         Task<int> sePuedeMigrarExpediente(int id, int tipo);
-        //Task<int> sePuedeMigrarExpedienteInvNE(int id);
         Task<bool> MigrarExpedienteInvTP(int id);
         Task<bool> MigrarExpedienteInvNE(int id);
         Task<bool> InsertInventarioBibliohemerografico(Inventario inventario);
@@ -77,6 +76,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<bool> ActivarArea(int id);
         Task<bool> DesactivarArea(int id);
         Task<IEnumerable<Area>> GetPuestosLista();
+        Task<IEnumerable<Area>> GetPuestosListaValidacion();
         Task<bool> UpdatePuesto(Area area);
         Task<int> GetIdUserPuesto(string puesto);
         Task<IEnumerable<Area>> GetPuestoUser(int id);
