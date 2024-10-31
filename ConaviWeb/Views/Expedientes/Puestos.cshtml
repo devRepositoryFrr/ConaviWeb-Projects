@@ -32,6 +32,9 @@
                                 Descripción
                             </th>
                             <th>
+                                Area
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -115,8 +118,9 @@
                         },
                         type: "post"  // Verbo HTTP
                     }).done(function (result) {
-                        $('#idPuesto').val(result.id);
-                        $('#label_descripcion').val(result.descripcion);
+                        $('#idPuesto').val(result.idPuesto);
+                        $('#label_descripcion').val(result.puesto);
+                        $('#id_area option[value="'+ result.id +'"]').prop('selected', true);
                     })
                     // Se ejecuta si se produjo un error.
                     .fail(function (xhr, status, error) {
@@ -188,15 +192,16 @@
             });
         }
         var columns = [
-            { "name": "Id", "data": "id", "targets": 0},
-            { "name": "Descripción", "data": "descripcion", "targets": 1 },
+            { "name": "Id", "data": "idPuesto", "targets": 0},
+            { "name": "Descripción", "data": "puesto", "targets": 1 },
+            { "name": "Area", "data": "descripcion", "targets": 2 },
             {
-                "targets": 2,
+                "targets": 3,
                 "data": null,
                 "render": function (data, type, row, meta) {
-                    var ret = '<a data-book-id="' + row.id +'" title="Editar" class="gold" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="fa fa-pencil-square-o"></span></a>';
-                    if (row.estatus == 'activo') ret += '<br><a class="gold" data-book-id="' + row.id +'" title="Desactivar" data-toggle="modal" data-target="#modalDesactivar" style="cursor:pointer; font-size:20px;"><span class="fa fa-eye-slash"></span></a>';
-                    else ret += '<br><a class="gold" data-book-id="' + row.id +'" data-toggle="modal" data-target="#modalActivar" style="cursor:pointer; font-size:20px;" title="Activar"><span class="fa fa-eye"></span></a>';
+                    var ret = '<a data-book-id="' + row.idPuesto +'" title="Editar" class="gold" data-toggle="modal" data-target="#modalEdit" style="cursor:pointer; font-size:20px;"><span class="fa fa-pencil-square-o"></span></a>';
+                    if (row.estatus == 'activo') ret += '<br><a class="gold" data-book-id="' + row.idPuesto +'" title="Desactivar" data-toggle="modal" data-target="#modalDesactivar" style="cursor:pointer; font-size:20px;"><span class="fa fa-eye-slash"></span></a>';
+                    else ret += '<br><a class="gold" data-book-id="' + row.idPuesto +'" data-toggle="modal" data-target="#modalActivar" style="cursor:pointer; font-size:20px;" title="Activar"><span class="fa fa-eye"></span></a>';
                     return ret;
                 },
                 "sortable": false,

@@ -24,7 +24,7 @@ namespace ConaviWeb.Controllers.Expedientes
         {
             //var catArea = await _expedienteRepository.GetAreas();
             //ViewData["AreaCatalogo"] = catArea;
-            var catArea = await _expedienteRepository.GetPuestosLista();
+            var catArea = await _expedienteRepository.GetPuestosListaValidacion();
             ViewData["AreaCatalogo"] = catArea;
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var catSoporte = await _expedienteRepository.GetTiposSoporte();

@@ -11,6 +11,7 @@
                 <input type="hidden" id="hd_id_inventario_expediente" asp-for="IdInventario" value="@ViewBag.IdInv" />
                 <input type="hidden" id="hd_id_expediente" asp-for="Id" value="0" />
                 <div class="modal-body">
+                    <div id="alert-modal"></div>
                     <div class="row form-group">
                         <div class="col-md-3">
                             <label class="control-label" for="text_clave_interna">Clave interna:</label>
@@ -32,15 +33,29 @@
                             <input type="text" asp-for="FechaUltimoReciente" id="fultimo_reciente" class="form-control" placeholder="aaaa/mm/dd" readonly required />
                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="control-label">Nombre del expediente:</label>
                             <input asp-for="Nombre" type="text" class="form-control" placeholder="nombre del expediente..." required />
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-3">
+                            <label class="control-label">Tipo de soporte documental:</label>
+                            <select class="form-control" id="idTipoSoporteDocumental" asp-for="IdTipoSoporteDocumental">
+                                <option value="1">Físico</option>
+                                <option value="2">Electrónico</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label">Ubicación:</label>
+                            <input type="text" class="form-control" id="ubicacion" asp-for="Ubicacion" placeholder="..." />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label">Descripción:</label>
+                            <textarea asp-for="Descripcion" class="form-control" placeholder="..." rows="2"></textarea>
+                        </div>
+                        <div class="col-md-6">
                             <label class="control-label">Observaciones:</label>
                             <textarea asp-for="Observaciones" class="form-control" placeholder="..." rows="2"></textarea>
                         </div>
-
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
@@ -109,7 +124,13 @@
             changeYear: true
         });
         $("#formInsertExpedienteControl").submit(function (e) {
-
+            const fecha1 = new Date($("#fprimero_antiguo").val());
+            const fecha2 = new Date($("#fultimo_reciente").val());
+            if (fecha2 < fecha1) {
+                $("#alert-modal").append("<div class='alertaOp alert alert-warning' id='alerta-modal'>La fecha del último documento no debe ser menor que la del primero!</div>");
+                showAlertModal();
+                return false;
+            }
         });
     });
 </script>

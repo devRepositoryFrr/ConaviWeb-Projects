@@ -34,8 +34,10 @@ namespace ConaviWeb.Controllers.Expedientes
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Areas");
         }
-        public IActionResult Puestos()
+        public async Task<IActionResult> PuestosAsync()
         {
+            var catArea = await _expedientesRepository.GetAreas();
+            ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave"));
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Puestos");
@@ -47,7 +49,7 @@ namespace ConaviWeb.Controllers.Expedientes
             var catArea = await _expedientesRepository.GetAreas();
             ViewBag.AreaCatalogo = (new SelectList(catArea, "Id", "Clave"));
             var catCargos = await _expedientesRepository.GetPuestosLista();
-            ViewBag.CargoCatalogo = (new SelectList(catCargos, "Descripcion", "Descripcion"));
+            ViewBag.CargoCatalogo = (new SelectList(catCargos, "Puesto", "Puesto"));
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Expedientes/Usuarios");
@@ -182,9 +184,9 @@ namespace ConaviWeb.Controllers.Expedientes
             return Ok(area);
         }
         [HttpPost]
-        public async Task<IActionResult> ActivarPuesto(Area puesto)
+        public async Task<IActionResult> ActivarPuesto(Area element)
         {
-            var success = await _expedientesRepository.ActivarPuesto(puesto.Id);
+            var success = await _expedientesRepository.ActivarPuesto(element.IdPuesto);
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al activar el puesto");
@@ -193,9 +195,9 @@ namespace ConaviWeb.Controllers.Expedientes
             return RedirectToAction("Puestos");
         }
         [HttpPost]
-        public async Task<IActionResult> DesactivarPuesto(Area puesto)
+        public async Task<IActionResult> DesactivarPuesto(Area element)
         {
-            var success = await _expedientesRepository.DesactivarPuesto(puesto.Id);
+            var success = await _expedientesRepository.DesactivarPuesto(element.IdPuesto);
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error al desactivar el puesto");
@@ -215,9 +217,9 @@ namespace ConaviWeb.Controllers.Expedientes
             return Json(new { data = puestos });
         }
         [HttpPost]
-        public async Task<IActionResult> UpdatePuesto(Area puesto)
+        public async Task<IActionResult> UpdatePuesto(Area element)
         {
-            var success = await _expedientesRepository.UpdatePuesto(puesto);
+            var success = await _expedientesRepository.UpdatePuesto(element);
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrió un error en el registro del puesto");

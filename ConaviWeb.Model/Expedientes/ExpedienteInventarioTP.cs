@@ -29,11 +29,8 @@ namespace ConaviWeb.Model.Expedientes
         public int? NoPartes { get; set; }
         public string Observaciones { get; set; }
         public DateTime FechaRegistro { get; set; }
-        //[DataType(DataType.Date)]
         public string FechaPrimeroAntiguo { get; set; }
-        //[DataType(DataType.Date)]
         public string FechaUltimoReciente { get; set; }
-        //[DataType(DataType.Date)]
         public string FechaElaboracion { get; set; }
         public int IdInventario { get; set; }
         public string VigDocValA { get; set; }
@@ -51,5 +48,10 @@ namespace ConaviWeb.Model.Expedientes
         public int MigradoTP { get; set; }
         public int MigradoNE { get; set; }
         public string ObservacionesRevalidacion { get; set; }
+        public string Ubicacion { get; set; }
+        public string Descripcion { get; set; }
+        public int IdTipoSoporteDocumental { get; set; }
+        public string TipoSoporteDocumental { get; set; }
+        public int Cds { get; set; }
     }
 }

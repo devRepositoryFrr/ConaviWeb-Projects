@@ -14,6 +14,7 @@ namespace ConaviWeb.Model.Expedientes
         public int IdPuesto { get; set; }
         public int IdUser { get; set; }
         public string NombreUnidadAdministrativa { get; set; }
+        public string NombrePuesto { get; set; }
         //[DataType(DataType.Date)]
         public string FechaElaboracion { get; set; }
         //[DataType(DataType.Date)]

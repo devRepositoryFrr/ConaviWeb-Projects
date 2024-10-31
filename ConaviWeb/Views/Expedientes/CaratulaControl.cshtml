@@ -16,11 +16,17 @@
         </div>
     </div>
     <div class="row form-group">
-        <div class="col-sm-4">
-            <label class="control-label">Nombre de la Unidad administrativa productora de la documentación:</label>
+        <div class="col-sm-2">
+            <label class="control-label">Nombre de la Unidad Administrativa:</label>
         </div>
-        <div class="col-sm-8">
-            <input id="areaDescripcion" type="text" class="form-control" disabled />
+        <div class="col-sm-4">
+            <div id="areaDescripcion" class="form-control" style="min-height: 39px; height: 100%" readonly></div>
+        </div>
+        <div class="col-sm-2">
+            <label class="control-label">Nombre del área generadora de la documentación:</label>
+        </div>
+        <div class="col-sm-4" style="min-height: 39px; height: 100%">
+            <div id="puestoDescripcion" class="form-control" style="min-height: 39px; height: 100%" readonly></div>
         </div>
     </div>
     <div class="row">
@@ -91,44 +97,53 @@
         <div class="col-sm-3">
             <input type="number" asp-for="Fojas" class="form-control" min="1" required />
         </div>
-        <div class="col-sm-3">
-            <label class="control-label">Número de legajo:</label>
+        <div class="col-sm-2">
+            <label class="control-label">Número de legajo y de CD's:</label>
         </div>
-        <div class="col-sm-3">
-            <select id="Legajos" asp-for="Legajos" class="form-control" onchange="changedLegajo(this.value)"></select>
+        <div class="col-sm-4">
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="legajos">Legajos:</label>
+                </div>
+                <div class="col-sm-3">
+                    <select id="Legajos" asp-for="Legajos" class="form-control" onchange="changedLegajo(this.value)"></select>
+                </div>
+                <div class="col-sm-3">
+                    <label for="numero_cds">CD's o USB:</label>
+                </div>
+                <div class="col-sm-3">
+                    <input type="number" id="numero_cds" asp-for="Cds" class="form-control" min="0" />
+                </div>
+            </div>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-sm-3">
             <label class="control-label">Cantidad de documentos:</label>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <label class="control-label">Originales:</label>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <input type="number" id="originales" asp-for="DocOriginales" class="form-control" min="0" />
                 </div>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <label class="control-label">Copias:</label>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <input type="number" id="copias" asp-for="DocCopias" class="form-control" min="0" />
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="row">
                 <div class="col-sm-6">
-                    <label class="control-label">Cantidad de Cd´s:</label>
+                    <label class="control-label">Tipo de soporte documental:</label>
                 </div>
                 <div class="col-sm-6">
-                    <input type="number" id="numero_cds" asp-for="Cds" class="form-control" min="0" />
+                    <div class="form-control" id="tipo_soporte" readonly></div>
                 </div>
             </div>
         </div>
@@ -205,7 +220,14 @@
     <div class="row form-group">
         <div class="col-md-12">
             <h5 class="text-center">Descripción del asunto o asuntos contenidos en el expediente:</h5>
-            <textarea class="form-control" id="descripcion" asp-for="DescripcionAsunto" rows="3" placeholder="..."></textarea>
+            <div class="form-control" style="min-height: 39px; height:100%;" id="descripcion" readonly>...</div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <h5 class="text-center">Observaciones:</h5>
+            @*<textarea class="form-control" id="observaciones" asp-for="Observaciones" rows="3" placeholder="..."></textarea>*@
+            <div class="form-control" style="min-height: 39px; height:100%;" id="observaciones" readonly></div>
         </div>
     </div>
     <div class="row form-group">
@@ -262,7 +284,7 @@
                     <label class="control-label">Datos topográficos (ubicación física del expediente)</label>
                 </div>
                 <div class="col-sm-6">
-                    <textarea class="form-control" asp-for="DatosTopograficos" id="info_topografico" placeholder="..."></textarea>
+                    <div class="form-control" id="info_topografico" style="min-height: 39px; height:100%;" readonly></div>
                 </div>
             </div>
         </div>
@@ -316,7 +338,8 @@
                 if (result.idExpediente != null) {
                     $('#idExpediente').val(idExpediente);
                     $('#txtCodigo').text(result.codigo);
-                    $('#areaDescripcion').val(result.area);
+                    $('#areaDescripcion').text(result.area);
+                    $('#puestoDescripcion').text(result.puesto);
                     $('#tituloExpediente').text(result.nombre);
                     $('#claveCompleta').text(result.codigo + '-' + result.consecutivo + '/' + result.periodo);
                     $('#fprimer_documento').val(result.fechaPrimeroAntiguo!=null ? result.fechaPrimeroAntiguo.substring(0, 4) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(8, 10) : '');
@@ -331,12 +354,14 @@
                     }
                     $('#originales').val(result.docOriginales);
                     $('#copias').val(result.docCopias);
+                    $('#tipo_soporte').text(result.tipoSoporteDocumental);
                     $('#numero_cds').val(result.cds);
                     $('#tec_sel_libre').val(result.tecnicasSeleccion);
                     $('#caracter_publica').val(result.publica != null ? result.publica : (result.confidencial == null && result.reservada == null) ? 'X' : '');
                     $('#caracter_confidencial').val(result.confidencial);
                     $('#caracter_reservada').val(result.reservada);
-                    $('#descripcion').val(result.descripcionAsunto);
+                    $('#descripcion').text(result.descripcionAsunto);
+                    $('#observaciones').text(result.observaciones);
                     $('#fclasificacion_expediente').val(result.fechaClasificacion != null ? result.fechaClasificacion.substring(0, 4) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(8, 10) : '');
                     $('#periodo_reserva').val(result.periodoReserva);
                     $('#fundamento_legal').val(result.fundamentoLegal);
@@ -344,7 +369,7 @@
                     $('#fdesclasificacion_expediente').val(result.fechaDesclasificacion != null ? result.fechaDesclasificacion.substring(0, 4) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(8, 10) : '');
                     $('#info_desclasifica').val(result.nombreDesclasifica);
                     $('#info_reservada').val(result.partesReservando);
-                    $('#info_topografico').val(result.datosTopograficos);
+                    $('#info_topografico').text(result.datosTopograficos != null ? result.datosTopograficos : '');
                     $('#vig_doc_val_a').val(result.vigDocValA);
                     $('#vig_doc_val_l').val(result.vigDocValL);
                     $('#vig_doc_val_fc').val(result.vigDocValFC);
@@ -406,7 +431,8 @@
                 if (result.idExpediente != null) {
                     $('#idExpediente').val(idExpediente);
                     $('#txtCodigo').text(result.codigo);
-                    $('#areaDescripcion').val(result.area);
+                    $('#areaDescripcion').text(result.area);
+                    $('#puestoDescripcion').text(result.puesto);
                     $('#tituloExpediente').text(result.nombre);
                     $('#claveCompleta').text(result.codigo + '-' + result.consecutivo + '/' + result.periodo);
                     $('#fprimer_documento').val(result.fechaPrimeroAntiguo != null ? result.fechaPrimeroAntiguo.substring(0, 4) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(8, 10) : '').text(result.fechaPrimeroAntiguo != null ? result.fechaPrimeroAntiguo.substring(0, 4) + '/' + result.fechaPrimeroAntiguo.substring(5, 7) + '/' + result.fechaPrimeroAntiguo.substring(8, 10) : '');
@@ -419,7 +445,7 @@
                     $('#caracter_publica').val(result.publica != null ? result.publica : (result.confidencial == null && result.reservada == null) ? 'X' : '').text(result.publica != null ? result.publica : (result.confidencial == null && result.reservada == null) ? 'X' : '');
                     $('#caracter_confidencial').val(result.confidencial).text(result.confidencial!=null ? result.confidencial : '');
                     $('#caracter_reservada').val(result.reservada).text(result.reservada!=null ? result.reservada : '');
-                    $('#descripcion').val(result.descripcionAsunto).text(result.descripcionAsunto!=null ? result.descripcionAsunto : '');
+                    //$('#descripcion').text(result.descripcionAsunto!=null ? result.descripcionAsunto : '');
                     $('#fclasificacion_expediente').val(result.fechaClasificacion != null ? result.fechaClasificacion.substring(0, 4) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(8, 10) : '').text(result.fechaClasificacion != null ? result.fechaClasificacion.substring(0, 4) + '/' + result.fechaClasificacion.substring(5, 7) + '/' + result.fechaClasificacion.substring(8, 10) : '');
                     $('#periodo_reserva').val(result.periodoReserva).text(result.periodoReserva!=null ? result.periodoReserva : '');
                     $('#fundamento_legal').val(result.fundamentoLegal).text(result.fundamentoLegal!=null ? result.fundamentoLegal : '');
@@ -427,7 +453,7 @@
                     $('#fdesclasificacion_expediente').val(result.fechaDesclasificacion != null ? result.fechaDesclasificacion.substring(0, 4) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(8, 10) : '').text(result.fechaDesclasificacion != null ? result.fechaDesclasificacion.substring(0, 4) + '/' + result.fechaDesclasificacion.substring(5, 7) + '/' + result.fechaDesclasificacion.substring(8, 10) : '');
                     $('#info_desclasifica').val(result.nombreDesclasifica).text(result.nombreDesclasifica!=null ? result.nombreDesclasifica : '');
                     $('#info_reservada').val(result.partesReservando).text(result.partesReservando!=null ? result.partesReservando : '');
-                    $('#info_topografico').val(result.datosTopograficos).text(result.datosTopograficos!=null ? result.datosTopograficos : '');
+                    //$('#info_topografico').val(result.datosTopograficos).text(result.datosTopograficos!=null ? result.datosTopograficos : '');
                     $('#vig_doc_val_a').val(result.vigDocValA).text(result.vigDocValA!=null ? result.vigDocValA : '');
                     $('#vig_doc_val_l').val(result.vigDocValL).text(result.vigDocValL!=null ? result.vigDocValL : '');
                     $('#vig_doc_val_fc').val(result.vigDocValFC).text(result.vigDocValFC!=null ? result.vigDocValFC : '');
@@ -467,11 +493,11 @@
             var ventana = window.open('', 'PRINT', 'height=600,width=800');
             ventana.document.write('<html><head><title>Carátula ' + $("#claveCompleta").text() + '_id.' + idExpediente + '</title><link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">');
             ventana.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">');
-            ventana.document.write('<style type="text/css">thead,th{padding: 5px;} table,td{ padding: 5px; border: 1px solid #000;}</style></head><body style="font-size:9px !important;">');
+            ventana.document.write('<style type="text/css">@@page {size: portrait;} thead,th{padding: 2px;} table,td{padding: 2px; border: 1px solid #000;} tr{height:20px;}</style></head><body style="font-size:9px !important;">');
             ventana.document.write('<table style="font-size:9px;width:100%;" id="mainTable"><thead id="mainHeader" style="display: table-header-group;"><tr><th colspan="3"><img src="../img/encab2021.png" style="width: 100%; height:100%;" /></th><th colspan="3" style="text-align:right;"><label>SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />DEPARTAMENTO DE UNIDADES DOCUMENTALES</label></th></tr></thead>');
             ventana.document.write('<tbody>');
             ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Carátula de descripción del expediente</label></td></tr>');
-            ventana.document.write('<tr><td colspan="2"><label>Nombre de la Unidad administrativa productora de la documentación:</label></td><td colspan="4" style="text-align: center;">' + $("#areaDescripcion").val()+'</td></tr>');
+            ventana.document.write('<tr><td><label>Nombre de la Unidad Administrativa:</label></td><td colspan="2" style="text-align: center;">' + $("#areaDescripcion").text() +'</td><td><label>Nombre del área generadora de la documentación:</label></td><td colspan="2" style="text-align: center;">' + $("#puestoDescripcion").text()+'</td></tr>');
             ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Datos de la Clave de clasificación por asunto</label></td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Fondo:</label></td><td colspan="4" align="center">CONAVI</td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Sección, serie y subserie documental:</label></td><td colspan="4" align="center">' + $("#txtCodigo").text() + '</td></tr>');
@@ -479,8 +505,8 @@
             ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Datos del expediente</label></td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Título del expediente:</label></td><td colspan="4">' + $("#tituloExpediente").text() + '</td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Fecha del primer documento del expediente:</label></td><td colspan="2">' + $("#fprimer_documento").val() + '</td><td><label>Fecha del último documento del expediente</label></td><td>' + $("#fprimer_documento").val()+'</td></tr>');
-            ventana.document.write('<tr><td colspan="2"><label>Número de fojas por expediente o legajo:</label></td><td colspan="2">' + $("#Fojas").val() + '</td><td><label>Número de legajo:</label></td><td>' + $("#Legajos").val()+'</td></tr>');
-            ventana.document.write('<tr><td colspan="2"><label>Cantidad de documentos en:</label></td><td><label>Originales: </label> ' + $("#originales").val() + ' </td><td><label>Copias: </label> ' + $("#copias").val() + ' </td><td><label>Cantidad de Cd´s: </label></td><td>' + $("#numero_cds").val()+'</td></tr>');
+            ventana.document.write('<tr><td colspan="2"><label>Número de fojas por expediente o legajo:</label></td><td colspan="2">' + $("#Fojas").val() + '</td><td><label>Número de legajo y de CD´s:</label></td><td>Legajos: (' + $("#Legajos").val() + ') CD´s o USB: (' + $("#numero_cds").val() +')</td></tr>');
+            ventana.document.write('<tr><td colspan="2"><label>Cantidad de documentos en:</label></td><td><label>Originales: </label> ' + $("#originales").val() + ' </td><td><label>Copias: </label> ' + $("#copias").val() + ' </td><td><label>Tipo de soporte documental: </label></td><td>' + $("#tipo_soporte").text()+'</td></tr>');
             ventana.document.write('<tr><td colspan="3"><label>Valores de la serie documental que indica el Catálogo de disposición documental (A= administrativo; L=legal; F= fiscal y C=contable):</label></td><td colspan="2"><label>Número de años de conservación en los diferentes tipos de archivos que se indica en el Catálogo de disposición documental (AT= archivo trámite y AC= archivo concentración).</label></td><td><label>Técnicas de selección de la documentación (E= eliminación; C=conservación y M= muestreo)</label></td></tr>');
             ventana.document.write('<tr><td><label>Administrativo</label></td><td><label>Legal</label></td><td><label>Contable/Fiscal</label></td><td><label>Trámite</label></td><td><label>Concentración</label></td><td>' + $("#tec_sel_e").val() + '</td></tr>');
             ventana.document.write('<tr align="center"><td>' + $("#vig_doc_val_a").val() + '</td><td>' + $("#vig_doc_val_l").val() + '</td><td>' + $("#vig_doc_val_fc").val() + '</td><td>' + $("#vig_doc_pla_con_at").val() + '</td><td>' + $("#vig_doc_pla_con_ac").val() + '</td><td>' + $("#tec_sel_libre").val() +'</td></tr>');
@@ -488,14 +514,16 @@
             ventana.document.write('<tr><td colspan="2"><label>Pública</label></td><td><label>Confidencial</label></td><td colspan="3"><label>Reservada cuando surja de una solicitud de información</label></td></tr>');
             ventana.document.write('<tr align="center"><td colspan="2">' + $("#caracter_publica").val() + '</td><td>' + $("#caracter_confidencial").val() + '</td><td colspan="3">' + $("#caracter_reservada").val() +'</td></tr>');
             ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Descripción del asunto o asuntos contenidos en el expediente:</label></td></tr>');
-            ventana.document.write('<tr><td colspan="6" style="height:130px;">' + $("#descripcion").val() +'</td></tr>');
+            ventana.document.write('<tr><td colspan="6" style="height:90px;">' + $("#descripcion").text() + '</td></tr>');
+            ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Observaciones:</label></td></tr>');
+            ventana.document.write('<tr><td colspan="6" style="height:90px;">' + $("#observaciones").text() +'</td></tr>');
             ventana.document.write('<tr><td colspan="6" style="text-align:center;"><label>Clasificación y desclasificación de la información (ESTOS APARTADOS SÓLO SE LLENAN EN CASO DE QUE UN EXPEDIENTE HAYA SIDO SOLICITADO PARA DAR RESPUESTA A UNA SOLICITUD DE INFORMACIÓN DEL INAI)</label></td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Fecha de clasificación:</label></td><td><label>Periodo de reserva:</label></td><td colspan="3"><label>Fundamento legal:</label></td></tr>');
             ventana.document.write('<tr><td colspan="2">' + $("#fclasificacion_expediente").val() + '</td><td>' + $("#periodo_reserva").val() + '</td><td colspan="3">' + $("#fundamento_legal").val() + '</td></tr>');
             ventana.document.write('<tr><td colspan="2"><label>Ampliación del periodo de reserva:</label></td><td><label>Fecha de desclasificación:</label></td><td colspan="2"><label>Nombre, rúbrica y cargo del servidor público que desclasifica.</label></td><td><label>Indicar las partes o secciones reservadas o confidenciales que se están reservando.</label></td></tr>');
             ventana.document.write('<tr><td colspan="2">' + $("#ampliacion_periodo_reserva").val() + '</td><td>' + $("#fdesclasificacion_expediente").val() + '</td><td colspan="2">' + $("#info_desclasifica").val() + '</td><td>' + $("#info_reservada").val() +'</td></tr>');
             ventana.document.write('<tr><td colspan="3"><label>Nombre y rúbrica del titular de la Unidad Administrativa en caso de clasificar la información</label></td><td colspan="3">' + $("#info_titular_area").val() +'</td></tr>');
-            ventana.document.write('<tr><td colspan="2"><label>Datos topográficos (ubicación física del expediente)</label></td><td colspan="2">' + $("#info_topografico").val() + '</td><td><label>Nombre de quien hace la captura de esta carátula</label></td><td>' + $("#info_captura").val() +'</td></tr>');
+            ventana.document.write('<tr><td colspan="2"><label>Datos topográficos (ubicación física del expediente)</label></td><td colspan="2">' + $("#info_topografico").text() + '</td><td><label>Nombre de quien hace la captura de esta carátula</label></td><td>' + $("#info_captura").val() +'</td></tr>');
             ventana.document.write('</tbody>');
             ventana.document.write('</table></body>');
             ventana.document.write('</html>');

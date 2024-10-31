@@ -61,9 +61,11 @@
     </div>
 </div>
 <br />
-<button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente">
-    <span class="fa fa-plus"></span> Agregar Expediente
-</button>
+<div id="div_btn_addExp">
+    <button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente">
+        <span class="fa fa-plus"></span> Agregar Expediente
+    </button>
+</div>
 <div id="addExpediente">
     @{
         @await Html.PartialAsync("../Expedientes/_AddExpedienteControl")
@@ -135,15 +137,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
         var table;
         $(document).ready(function () {
             showAlert();
             if ($("#hd_id_inventario").val() == 0) {
-                //$("#formInsertInventarioControl").show();
-                //$("#btn_add_exp").prop("disabled", true);
                 $("#btn_add_exp").remove();
-                //$("#btn_fto").prop("disabled", true);
                 $("#btn_fto").remove();
             }
             showTable();
@@ -192,6 +191,9 @@
                                 $('#slctClaveExp option[value="' + result.idExpediente + '"]').prop('selected', true);
                                 $('#Legajos').val(result.legajos);
                                 $('#Nombre').val(result.nombre);
+                                $('#idTipoSoporteDocumental option:contains("' + result.tipoSoporteDocumental + '")').prop('selected', true);
+                                $('#ubicacion').val(result.ubicacion);
+                                $('#Descripcion').val(result.descripcion);
                                 $('#Observaciones').val(result.observaciones);
                                 var fprimero = new Date(result.fechaPrimeroAntiguo);
                                 var month = fprimero.getMonth() + 1;
@@ -245,6 +247,97 @@
                     });
                     //$(e.currentTarget).find('#idSerie').val(bookId);
                 }
+            });
+            $("#slctCargos").on("change", function () {
+                $.ajax({
+                    url: "@Url.Action("GetInventarioControl", "InventarioControl")", // Url
+                    data: {
+                        // Datos / Parámetros
+                        puesto: $("#" + this.id + " option:selected").text()
+                    },
+                    type: "post"  // Verbo HTTP
+                }).done(function (result) {
+                    if (result.id != null) {
+                        $('#hd_id_inventario, #hd_id_inventario_expediente').val(result.id);
+                        $('#NombreResponsableAT').val(result.nombreResponsableAT);
+                        $('#fentrega_documento').val(result.fechaEntrega != null ? result.fechaEntrega.substring(0, 4) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(8, 10) : '');
+                        $('#felaboracion_inventario').val(result.fechaElaboracion != null ? result.fechaElaboracion.substring(0, 4) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(8, 10) : '');
+                        $("#btn_fto").length ? '' : $("#div_btns_inv").append('<button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de acervo blibliohemerográfico" onclick="sendToFormat()"><span class="fa fa-print"></span> Formato</button>');
+                        $("#btn_add_exp").length ? '' : $("#div_btn_addExp").append('<button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente"><span class="fa fa-plus"></span> Agregar Expediente</button>');
+
+                        var urlTipo = "";
+                        urlTipo = "/InventarioControl/GetExpedientesControlByIdInv";
+                        table = $('#tableExpedientesControl').DataTable({
+                            "proccessing": true,
+                            "serverSide": false,
+                            "ajax": {
+                                url: urlTipo,
+                                data: { Id: result.id },
+                                type: 'POST',
+                                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                                complete: function () {
+                                    $("#spinner").hide();
+                                }
+                            },
+                            "columnDefs": columns,
+                            "order": [[0, "desc"]],
+                            "autoWidth": true,
+                            "destroy": true,
+                            "scrollY": true,
+                            "scrollCollapse": true,
+                            "paging": true,
+                            "info": true,
+                            "buttons": ['excel'],
+                            "scrollX": true,
+                            "fixedColumns": true,
+                            "ordering": false,
+                            "language": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Último",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                }
+                            }
+                        });
+                    } else {
+                        $("#alertAjax").append(result);
+                        showAlert();
+                        $('#hd_id_inventario, #hd_id_inventario_expediente').val('0');
+                        $('#NombreResponsableAT, #fentrega_documento, #felaboracion_inventario').val('');
+                        $("#btn_fto").remove();
+                        $("#btn_add_exp").remove();
+                        $('#tableExpedientesControl').DataTable().clear().destroy();
+                        //$('#tableExpedientesControl').DataTable().destroy();
+                    }
+                })
+                // Se ejecuta si se produjo un error.
+                .fail(function (xhr, status, error) {
+                    // Mostramos un mensaje de error.
+                    //$("#ErrorAlert").show("slow").delay(2000).hide("slow");
+
+                    // Escondemos el Ajax Loader
+                    //$("#AjaxLoader").hide("slow");
+
+                    // Habilitamos el botón de Submit
+                    //$("#SubmitBtn").prop("disabled", false);
+                })
+                // Hacer algo siempre, haya sido exitosa o no.
+                .always(function () {
+
+                });
             });
         });
         function showTable() {
@@ -361,10 +454,18 @@
         ];
         function showAlert() {
             setTimeout(function () {
-                $("#alerta").fadeOut(1500);
-            }, 3000);
+                $("#alerta").slideToggle(1500);
+            }, 4000);
             setTimeout(function () {
                 $("#alerta").remove();
+            }, 6000);
+        }
+        function showAlertModal() {
+            setTimeout(function () {
+                $("#alerta-modal").slideToggle(1500);
+            }, 4000);
+            setTimeout(function () {
+                $("#alerta-modal").remove();
             }, 6000);
         }
         function sendToFormat() {
@@ -372,5 +473,5 @@
             if (!isNaN(id) && id>0)
                 window.open("/InventarioControl/ICFormato?id=" + id, "_blank");
         }
-    </script>
+</script>
 }
