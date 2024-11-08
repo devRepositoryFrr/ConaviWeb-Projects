@@ -40,6 +40,9 @@ namespace ConaviWeb.Controllers.Expedientes
             ViewBag.IdInv = inventario!=null ? inventario.Id : 0;
             ViewBag.FechaElab = inventario!=null ? inventario.FechaElaboracion : "";
             ViewBag.FechaEnt = inventario!=null ? inventario.FechaEntrega : "";
+            ViewBag.Ubicacion = inventario!=null ? inventario.Ubicacion : "";
+            ViewBag.Peso = inventario!=null ? inventario.PesoElectronico : 0;
+            ViewBag.Almacenamiento = inventario!=null ? inventario.Almacenamiento : "";
             int rol = (int) user.Rol;
             //if (user.Id == 212 || user.Id == 323)
             if (rol == 15)

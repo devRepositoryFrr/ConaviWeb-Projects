@@ -189,7 +189,7 @@
                     <thead>
                         <tr>
                             <td colspan="4">
-                                El presente inventario consta de ________ fojas y ampara la cantidad de _______ expedientes de los años _______ ubicados en ________ . Para los expedientes con documentos electrónicos, ampara la cantidad de ______ (KB, MB, entre otros) almacenados en _______.
+                                El presente inventario consta de <u id="fojas"></u> fojas y ampara la cantidad de <u id="expedientes"></u> expedientes de los años <u id="anios"></u> ubicados en <u id="Ubicacion"></u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u id="PesoElectronicos"></u> (KB, MB, entre otros) almacenados en <u id="Almacenamiento"></u>.
                             </td>
                         </tr>
                         <tr>
@@ -259,6 +259,9 @@
                     //$('#responsableArchivo').text(result.nombreResponsableAT);
                     $('#fechaElaboracion').text(result.fechaElaboracion != null ? result.fechaElaboracion.substring(8, 10) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(0, 4) : '');
                     //$('#fechaEntrega').text(result.fechaEntrega != null ? result.fechaEntrega.substring(8, 10) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(0, 4) : '');
+                    $('#Ubicacion').text(result.ubicacion != null ? result.ubicacion : '');
+                    $('#PesoElectronicos').text(result.pesoElectronico);
+                    $('#Almacenamiento').text(result.almacenamiento != null ? result.almacenamiento : '');
 
                     var urlTipo = "";
                     urlTipo = "/InventarioControl/GetExpedientesControlByIdInv";
@@ -272,6 +275,20 @@
                             headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
                             complete: function () {
                                 $("#spinner").hide();
+                                var tableId = document.getElementById('tableExpControl');
+                                var tBody = tableId.getElementsByTagName('tbody')[0];
+                                var tableRow = tBody.getElementsByTagName('tr');
+                                var fojas_tot = 0;
+                                for (var t = 0; t < tableRow.length; t++) {
+                                    const a = parseInt(tableRow[t].cells[8].innerText);
+                                    fojas_tot += isNaN(a) ? 0 : a;
+                                }
+                                const anio_inicial = tableRow[0].cells[4].innerHTML;
+                                const anio_final = tableRow[tableRow.length - 1].cells[5].innerHTML;
+                                const anios = anio_inicial == anio_final ? anio_final : anio_inicial + '-' + anio_final;
+                                $('#fojas').text(fojas_tot);
+                                $('#expedientes').text(tableRow.length);
+                                $('#anios').text(anios);
                             }
                         },
                         "columnDefs": columns,
@@ -310,7 +327,7 @@
                 } else {
                     $("#alertAjax").append(result);
                     showAlert();
-                }
+                }  
             })
             // Se ejecuta si se produjo un error.
             .fail(function (xhr, status, error) {
@@ -325,7 +342,7 @@
             })
             // Hacer algo siempre, haya sido exitosa o no.
             .always(function () {
-
+                
             });
         });
         var columns = [
@@ -428,10 +445,13 @@
                 fojas_tot += isNaN(a) ? 0 : a;
                 ventana.document.write('<tr>' + tableRow[t].innerHTML + '</tr>');
             }
+            const anio_inicial = tableRow[0].cells[4].innerHTML;
+            const anio_final = tableRow[tableRow.length - 1].cells[5].innerHTML;
+            const anios = anio_inicial == anio_final ? anio_final : anio_inicial + '-' + anio_final;
             //for (var t = 0; t < 60; t++) {
             //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
             //}
-            ventana.document.write('<tr><td colspan="19">El presente inventario consta de <u>&nbsp;' + fojas_tot + '&nbsp;</u> fojas y ampara la cantidad de <u>&nbsp;' + tableRow.length +'&nbsp;</u> expedientes de los años _______ ubicados en ________ . Para los expedientes con documentos electrónicos, ampara la cantidad de ______ (KB, MB, entre otros) almacenados en _______ .</td></tr>');
+            ventana.document.write('<tr><td colspan="19">El presente inventario consta de <u>&nbsp;' + fojas_tot + '&nbsp;</u> fojas y ampara la cantidad de <u>&nbsp;' + tableRow.length + '&nbsp;</u> expedientes de los años <u>&nbsp;' + anios + '&nbsp;</u> ubicados en <u>' + $('#Ubicacion').text() + '</u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u>' + $('#PesoElectronicos').text() + '</u> (MB) almacenados en <u>' + $('#Almacenamiento').text() + '</u> .</td></tr>');
             ventana.document.write('<tr><td colspan="19" style="padding:0px;"><table style="font-size:10px;width:100%;"><tr><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Elaboró</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Validó/Entrega</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Autorizó</td><td class="text-center" width="25%" style="border:0px;">Recibe</td></tr>');
             ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-bottom:1px solid black;"><br /><br /><br /><br /></td></tr>');
             ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;" style="border:0px;">Nombre, cargo y firma del servidor público que elaboró el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Área generadora quien valida el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Departamento de Unidades Documentales</td><td class="text-center" style="border:0px;">Nombre y firma de la persona que recibe el cargo.</td></tr></table></td></tr>');

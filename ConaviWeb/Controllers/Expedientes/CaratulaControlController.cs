@@ -45,13 +45,14 @@ namespace ConaviWeb.Controllers.Expedientes
         {
             Caratula caratula = new();
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id, legajo);
+            caratula = await _expedienteRepository.GetCaratulaExpedienteControl(id, legajo, user.Id);
             if (caratula == null)
             {
                 var alert = AlertService.ShowAlert(Alerts.Danger, "Id de expediente no encontrado");
                 return Ok(alert);
             }
-            caratula.UserName = user.Name;
+            if(caratula.UserName == null)
+                caratula.UserName = user.Name;
             return Ok(caratula);
         }
     }

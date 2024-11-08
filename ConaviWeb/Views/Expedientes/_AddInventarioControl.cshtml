@@ -16,9 +16,8 @@
             <input type="text" asp-for="FechaElaboracion" value="@ViewBag.FechaElab" id="felaboracion_inventario" class="form-control" placeholder="aaaa/mm/dd" readonly required />
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
         </div>
-    </div>
-
-    <div class="row form-group">
+    @*</div>
+    <div class="row form-group">*@
         <div class="col-md-8 form-group">
             <label class="control-label">Nombre del responsable del archivo de trámite:</label>
             <input type="text" asp-for="NombreResponsableAT" class="form-control" value="@ViewBag.NombreResponsable" required />
@@ -28,6 +27,20 @@
             <input type="text" asp-for="FechaEntrega" value="@ViewBag.FechaEnt" id="fentrega_documento" class="form-control" readonly placeholder="aaaa/mm/dd"/>
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             <small><p class="help-block">En caso de una entrega-recepción se anota la última fecha del documento.</p></small>
+        </div>
+    @*</div>
+    <div class="row form-group">*@
+        <div class="col-md-4">
+            <label class="control-label">Ubicación de los expedientes:</label>
+            <input type="text" class="form-control" asp-for="Ubicacion" value="@ViewBag.Ubicacion" />
+        </div>
+        <div class="col-md-4">
+            <label class="control-label">Tamaño de documentos electrónicos:</label>
+            <input type="number" class="form-control" asp-for="PesoElectronico" value="@ViewBag.Peso" />
+        </div>
+        <div class="col-md-4">
+            <label class="control-label">Almacenados en:</label>
+            <input type="text" class="form-control" asp-for="Almacenamiento" value="@ViewBag.Almacenamiento" />
         </div>
     </div>
     <div class="row">

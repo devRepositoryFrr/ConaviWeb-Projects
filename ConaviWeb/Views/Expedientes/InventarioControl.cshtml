@@ -262,6 +262,9 @@
                         $('#NombreResponsableAT').val(result.nombreResponsableAT);
                         $('#fentrega_documento').val(result.fechaEntrega != null ? result.fechaEntrega.substring(0, 4) + '/' + result.fechaEntrega.substring(5, 7) + '/' + result.fechaEntrega.substring(8, 10) : '');
                         $('#felaboracion_inventario').val(result.fechaElaboracion != null ? result.fechaElaboracion.substring(0, 4) + '/' + result.fechaElaboracion.substring(5, 7) + '/' + result.fechaElaboracion.substring(8, 10) : '');
+                        $('#Ubicacion').val(result.ubicacion);
+                        $('#PesoElectronico').val(result.pesoElectronico);
+                        $('#Almacenamiento').val(result.almacenamiento);
                         $("#btn_fto").length ? '' : $("#div_btns_inv").append('<button type="button" id="btn_fto" class="btn btn-sm btn-primary pull-right" title="Formato de Inventario de acervo blibliohemerográfico" onclick="sendToFormat()"><span class="fa fa-print"></span> Formato</button>');
                         $("#btn_add_exp").length ? '' : $("#div_btn_addExp").append('<button id="btn_add_exp" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modalExpediente"><span class="fa fa-plus"></span> Agregar Expediente</button>');
 
@@ -316,7 +319,7 @@
                         $("#alertAjax").append(result);
                         showAlert();
                         $('#hd_id_inventario, #hd_id_inventario_expediente').val('0');
-                        $('#NombreResponsableAT, #fentrega_documento, #felaboracion_inventario').val('');
+                        $('#NombreResponsableAT, #fentrega_documento, #felaboracion_inventario, #Ubicacion, #PesoElectronico, #Almacenamiento').val('');
                         $("#btn_fto").remove();
                         $("#btn_add_exp").remove();
                         $('#tableExpedientesControl').DataTable().clear().destroy();
