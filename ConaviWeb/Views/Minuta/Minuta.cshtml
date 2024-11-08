@@ -1,0 +1,321 @@
+﻿@model ConaviWeb.Model.Minuta.Minuta
+@{
+    // Layout = "_Layout";
+    ViewBag.Title = "Minuta";
+    <!-- Styles -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <!-- Bootstrap Javascript -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+}
+<br />
+<br />
+<form method="post" asp-action="CreateMinuta">
+    <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+    <h4>Crear Minuta</h4>
+    <hr class="red">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.Raw(@ViewBag.Alert)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tema"></label>
+        <input class="form-control" asp-for="Tema" />
+        <span asp-validation-for="Tema" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Asunto"></label>
+        <input class="form-control" asp-for="Asunto" />
+        <span asp-validation-for="Asunto" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-8"><h4 class="top-buffer">Participantes</h4></div>
+        <div class="col-md-4">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalPa">
+                <span class="fa fa-plus"></span>&ensp;Agregar Participante
+            </button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" id="tblPa">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Dirección</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tbPa">
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contexto"></label>
+        <textarea class="form-control" asp-for="Contexto" autocomplete="off" rows="3"> </textarea>
+        <span asp-validation-for="Contexto" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion"></label>
+        <textarea class="form-control" asp-for="Descripcion" autocomplete="off" rows="3"> </textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+    <div class="row">
+        <div class="col-md-10"><h4 class="top-buffer">Acuerdos</h4></div>
+        <div class="col-md-2">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalAc">
+                <span class="fa fa-plus"></span>&ensp;Agregar Acuerdo
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Modal Acuerdos -->
+    <div class="modal fade" id="ModalAc" tabindex="-1" role="dialog" aria-labelledby="ModalAcLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalAcLabel">Acuerdo</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="responsable">Responsable</label>
+                        <input class="form-control" id="responsable" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="acuerdo">Acuerdo</label>
+                        <input class="form-control" id="acuerdo" type="text">
+                    </div>
+                    <div class='form-group datepicker-group'>
+                        <label class='control-label' for='calendar'>Calendario</label>
+                        <input class='form-control' id='calendar' type='text'>
+                        <span class='glyphicon glyphicon-calendar' aria-hidden='true'></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="addAcu">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="tblAcu">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Responsable</th>
+                    <th>Acuerdo</th>
+                    <th>Fecha de término</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tbAcu">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Participantes -->
+    <div class="modal fade" id="ModalPa" tabindex="-1" role="dialog" aria-labelledby="ModalPaLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalPaLabel">Participante</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label" for="direccion">Dirección</label>
+                        <input class="form-control" id="direccion" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="nombre">Nombre</label>
+                        <input class="form-control" id="nombre" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email</label>
+                        <input class="form-control" id="email" type="text">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="addPa">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-sm pull-right" type="submit" id="btnSubmit"><span class="fa fa-floppy-o"></span>&ensp;Guardar Minuta</button>
+            @* <a href='@Url.Action("Index", "Login")' class="btn btn-danger"><span class="fa fa-arrow-left"></span>&ensp;Regresar</a> *@
+        </div>
+    </div>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    let lineNo = 1;
+    let lineNo1 = 1;
+    $(document).ready(function () {
+        showAlert();
+        $('#calendar').datepicker();
+
+        // Adding row on click to Add New Row button
+        $("#addAcu").click(function () {
+            resp = $("#responsable").val();
+            acu = $("#acuerdo").val();
+            fterm = $("#calendar").val();
+            markup = `
+                        <tr class="rowClass" id= acu${lineNo}>
+                        <th class="row-index text-center">${lineNo}</th>
+                        <td class="row-index text-center"><input class="resp" style='border:none; background-color: unset' name= 'Acuerdos[${lineNo - 1}].Responsable' value=${resp}></td>
+                        <td class="row-index text-center"><input class="desc" style='border:none; background-color: unset' name= 'Acuerdos[${lineNo - 1}].Descripcion' value=${acu}></td>
+                        <td class="row-index text-center"><input class="ft" style='border:none; background-color: unset' name= 'Acuerdos[${lineNo - 1}].Fecha_termino' value=${fterm}></td>
+                        <td class="text-center">
+                        <button class="btn btn-danger btn-sm remove"
+                        type="button"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                        </td>
+                        </tr>`;
+            tableBody = $("#tbAcu");
+            tableBody.append(markup);
+            // $('#calendar'+lineNo).datepicker();
+            lineNo++;
+
+        });
+
+        // Adding row on click to Add New Row button
+        $("#addPa").click(function () {
+            dir = $("#direccion").val();
+            nom = $("#nombre").val();
+            mail = $("#email").val();
+            markup = `
+                        <tr class="rowClass" id= acu${lineNo1}>
+                        <th class="row-index text-center">${lineNo1}</th>
+                        <td class="row-index text-center"><input class="dir" style='border:none; background-color: unset' name= 'Participantes[${lineNo1 - 1}].Direccion' value=${dir}></td>
+                        <td class="row-index text-center"><input class="nom" style='border:none; background-color: unset' name= 'Participantes[${lineNo1 - 1}].Nombre' value=${nom}></td>
+                        <td class="row-index text-center"><input class="em" style='border:none; background-color: unset' name= 'Participantes[${lineNo1 - 1}].Email' value=${mail}></td>
+                        <td class="text-center">
+                        <button class="btn btn-danger btn-sm remove"
+                        type="button"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                        </td>
+                        </tr>`;
+            tableBody = $("#tbPa");
+            tableBody.append(markup);
+            // $('#calendar'+lineNo1).datepicker();
+            lineNo1++;
+
+        });
+
+        $(".modal").on("hidden.bs.modal", function () {
+            $(".modal-body input").val("")
+        });
+
+        $('#multiple-select-field').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+        });
+
+        /*$("#btnSubmit").attr("disabled", true);
+        $("#ConfirmPassword").keyup(function () {
+            if ($("#Password").val() != $("#ConfirmPassword").val()) {
+                $("#msg").html("La contraseña no coincide").css("color", "#a94442");
+                $("#btnSubmit").attr("disabled", true);
+            } else {
+                $("#msg").html("La contraseña coincide").css("color", "#13322B");
+                $("#btnSubmit").attr("disabled", false);
+            }
+        });*/
+
+    });
+
+    // Removing Row on click to Remove button
+    $('#tbAcu').on('click', '.remove', function () {
+        $(this).parent('td.text-center').parent('tr.rowClass').remove();
+        lineNo--;
+        renumberRows()
+    })
+    function renumberRows() {
+        $('#tblAcu tbody tr').each(function (index) {
+            nu = index + 1;
+            reId = 'acu' + nu;
+            $(this).children('th:first').text(index + 1);
+        });
+        $("#tblAcu tbody tr .resp").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+        $("#tblAcu tbody tr .desc").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+        $("#tblAcu tbody tr .ft").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+    }
+
+    // Removing Row on click to Remove button
+    $('#tbPa').on('click', '.remove', function () {
+        $(this).parent('td.text-center').parent('tr.rowClass').remove();
+        lineNo1--;
+        renumberRows1()
+    })
+
+    function renumberRows1() {
+        $('#tblPa tbody tr').each(function (index) {
+            nu = index + 1;
+            reId = 'pa' + nu;
+            $(this).children('th:first').text(index + 1);
+        });
+        $("#tblPa tbody tr .dir").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+        $("#tblPa tbody tr .nom").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+        $("#tblPa tbody tr .em").each(function (index) {
+            this.name = this.name.replace(/[0-9]/g, index);
+            // console.log(this.name);
+        });
+    }
+
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 6000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 12000);
+
+    }
+</script> 

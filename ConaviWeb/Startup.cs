@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Net;
 using System.Text;
+using ConaviWeb.Data.Minuta;
 
 namespace ConaviWeb
 {
@@ -79,6 +80,7 @@ namespace ConaviWeb
             services.AddScoped<IExpedienteRepository, ExpedienteRepository>();
             services.AddScoped<INominaRepository, NominaRepository>();
             services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
+            services.AddScoped<IMinutaRepository, MinutaRepository>();
             var appSettingSection = Configuration.GetSection("AppSettings");
             //services.AddSingleton<HttpClient>();  Revisar el uso de esta inyección
             services.AddScoped<IProcessSignRepository, ProcessSignRepository>();
