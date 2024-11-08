@@ -42,7 +42,7 @@ namespace ConaviWeb.Data.Expedientes
         Task<IEnumerable<Expediente>> GetExpedientesInventarioControlByIdInv(int id);
         Task<IEnumerable<Expediente>> GetExpedientesValidacionInventarioControl(int id_area);
         Task<Expediente> GetExpedienteControl(int id);
-        Task<Caratula> GetCaratulaExpedienteControl(int id, int legajo);
+        Task<Caratula> GetCaratulaExpedienteControl(int id, int legajo, int idUser);
         Task<bool> DropExpedienteControl(int id);
         Task<bool> SendValExpedienteControl(int id);
         Task<bool> VoBoExpedienteControl(int id);
