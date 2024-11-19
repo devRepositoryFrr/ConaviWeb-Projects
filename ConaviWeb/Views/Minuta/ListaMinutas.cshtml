@@ -134,7 +134,7 @@
 
     // Formatting function for row details - modify as you need
     function format(details) {
-        //console.log(details);
+        console.log(details);
         var dataHeader = '';
         dataHeader += '<tr>' +
             '<th>Responsable</th>' +
@@ -177,7 +177,7 @@
                 complete: function (data) {
                     $("#spinner").hide();
                     details = data.responseJSON.data;
-                    //console.log(dataJSON);
+                    //console.log(data);
                 }
             },
             columns: [
