@@ -176,7 +176,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </form>
@@ -189,7 +189,7 @@
                     <thead>
                         <tr>
                             <td colspan="4">
-                                El presente inventario consta de <u id="fojas"></u> fojas y ampara la cantidad de <u id="expedientes"></u> expedientes de los años <u id="anios"></u> ubicados en <u id="Ubicacion"></u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u id="PesoElectronicos"></u> (KB, MB, entre otros) almacenados en <u id="Almacenamiento"></u>.
+                                El presente inventario consta de <input type="text" size="1" id="fojas" value="1" /> fojas y ampara la cantidad de <u id="expedientes"></u> expedientes de los años <u id="anios"></u> ubicados en <u id="Ubicacion"></u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u id="PesoElectronicos"></u> (KB, MB, entre otros) almacenados en <u id="Almacenamiento"></u>.
                             </td>
                         </tr>
                         <tr>
@@ -233,6 +233,7 @@
     </div>
     @*Fin del formulario para el alta de expediente*@
     <hr />
+    <button class="btn btn-primary form-control" onclick="imprimirElemento()">Imprimir</button>
 </div>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
@@ -286,7 +287,7 @@
                                 const anio_inicial = tableRow[0].cells[4].innerHTML;
                                 const anio_final = tableRow[tableRow.length - 1].cells[5].innerHTML;
                                 const anios = anio_inicial == anio_final ? anio_final : anio_inicial + '-' + anio_final;
-                                $('#fojas').text(fojas_tot);
+                                //$('#fojas').val(fojas_tot);
                                 $('#expedientes').text(tableRow.length);
                                 $('#anios').text(anios);
                             }
@@ -327,7 +328,7 @@
                 } else {
                     $("#alertAjax").append(result);
                     showAlert();
-                }  
+                }
             })
             // Se ejecuta si se produjo un error.
             .fail(function (xhr, status, error) {
@@ -342,7 +343,7 @@
             })
             // Hacer algo siempre, haya sido exitosa o no.
             .always(function () {
-                
+
             });
         });
         var columns = [
@@ -423,18 +424,20 @@
             var ventana = window.open('', 'PRINT', 'height=600,width=800');
             ventana.document.write('<html><head><title>InvControlArchTramite' + '_' + idInv + '</title><link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">');
             ventana.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">');
-            ventana.document.write('<style type="text/css">@@page { size: landscape; margin: 20px;} body: {counter-reset: page,pages;}#mainTable{page-break-after: always;} th{padding: 2px;} thead,td{padding: 2px; border: 1px solid #000;} table thead{counter-increment:page;}#mainHeader .pageHeader::before {counter-increment: pages;content: "Hoja " counter(page);}#mainHeader .pageHeader::after {content: " de " counter(pages) " del inventario";}</style></head><body style="font-size:10px !important;">');
-            ventana.document.write('<table style="font-size:10px;width:100%;" id="mainTable"><thead id="mainHeader" style="display: table-header-group;"><tr><th colspan="9" width="38%"><img src="../img/encab2021.png" style="width: 100%; height:100%;" /></th><th colspan="10" style="text-align: right;"><label style="text-align: right;">SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />DEPARTAMENTO DE UNIDADES DOCUMENTALES</label></th></tr>');
-            ventana.document.write('<tr><td colspan="19" style="text-align:center;"><label>Inventario general por expediente en el archivo de trámite</label></td></tr>');
-            ventana.document.write('<tr><td colspan="19" style="text-align:right;padding:5px;"><span class="pageHeader"></span></td></tr>');
+            //ventana.document.write('<style type="text/css">@@page { size: A4 landscape; margin: 20px; counter-reset: page pages;} /*#mainHeader{display: table-header-group;}*/ #mainTable{page-break-after: always;} th{padding: 2px;} thead,td{padding: 2px; border: 1px solid #000;} table thead{counter-increment:page;}#mainHeader .pageHeader{width:200px;}#mainHeader .pageHeader::before {counter-increment: pages;content: "Hoja " counter(page) " de " counter(pages) " del inventario";}</style>');
+            ventana.document.write('<style type="text/css">@@page { size: A4 landscape; margin: 20px; counter-reset: page pages;} th{padding: 2px;} thead,td{padding: 2px; border: 1px solid #000;}</style>');
+            ventana.document.write('</head>');
+            ventana.document.write('<table style="font-size:10px;width:100%;" id="mainTable"><thead id="mainHeader"><tr><th colspan="9" width="38%"><img src="../img/encab2021.png" style="width: 100%; height:100%;" /></th><th colspan="10" style="text-align: right;"><label style="text-align: right;">SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />DIRECCIÓN DE ADMINISTRACIÓN DE RECURSOS<br />DEPARTAMENTO DE UNIDADES DOCUMENTALES</label></th></tr>');
+            ventana.document.write('<tr><th colspan="19" style="text-align:center;"><label>Inventario general por expediente en el archivo de trámite</label></th></tr>');
+            ventana.document.write('<tr><td colspan="19" style="text-align:right;padding:5px;"><span id="pageHeader">Hoja 1 de '+ $("#fojas").val() +' del inventario</span></td></tr>');
             ventana.document.write('<tr><td colspan="19"><label>Fecha de Elaboración del Inventario: ' + $('#fechaElaboracion').text() + '</label></td></tr>');
             ventana.document.write('<tr><td colspan="19"><label>Fondo: CONAVI</label></td></tr>');
             ventana.document.write('<tr><td colspan="19"><label>Sección: Todas las secciones</label></td></tr>');
             ventana.document.write('<tr><td colspan="19"><label>Serie: Todas las series</label></td></tr>');
             ventana.document.write('<tr><td colspan="19"><label>Unidad Administrativa: ' + $('#areaDescripcion').text() + '</label></td></tr>');
-            ventana.document.write('<tr><td colspan="19"><label>Área generadora: ' + $("#puestoDescripcion").text() + '</label></td><tr>');
+            ventana.document.write('<tr><td colspan="19"><label>Área generadora: ' + $("#puestoDescripcion").text() + '</label></td><tr></thead>');
             ventana.document.write('<tr><td rowspan="2" class="text-center"><label>No.</label></td><td rowspan="2" class="text-center"><label>Código de clasificación archivística:</label></td><td rowspan="2" class="text-center"><label>Título del expediente</label></td><td rowspan="2" class="text-center"><label>Descripción del asunto que trata cada expediente</label></td><td colspan="2" class="text-center"><label>Fechas extremas</label></td><td rowspan="2" class="text-center"><label>N° de legajos</label></td><td rowspan="2" class="text-center"><label>N° de Cds y USB</label></td><td rowspan="2" class="text-center"><label>N° de fojas</label></td><td colspan="2" class="text-center"><label>Soporte documental</label></td><td colspan="3" class="text-center"><label>Valor documental</label></td><td colspan="3" class="text-center"><label>N° de años en el tipo de archivo</label></td><td rowspan="2" class="text-center"><label>Ubicación del documento</label></td><td rowspan="2" class="text-center"><label>Observaciones</label></td></tr>');
-            ventana.document.write('<tr><td class="text-center"><label>Año de apertura</label></td><td class="text-center"><label>Año de cierre</label></td><td class="text-center"><label>Físico</label></td><td class="text-center"><label>Electr.</label></td><td class="text-center"><label>A</label></td><td class="text-center"><label>L</label></td><td class="text-center"><label>F/C</label></td><td class="text-center"><label>AT</label></td><td class="text-center"><label>AC</label></td><td class="text-center"><label>Total de años</label></td></tr></tdead>');
+            ventana.document.write('<tr><td class="text-center"><label>Año de apertura</label></td><td class="text-center"><label>Año de cierre</label></td><td class="text-center"><label>Físico</label></td><td class="text-center"><label>Electr.</label></td><td class="text-center"><label>A</label></td><td class="text-center"><label>L</label></td><td class="text-center"><label>F/C</label></td><td class="text-center"><label>AT</label></td><td class="text-center"><label>AC</label></td><td class="text-center"><label>Total de años</label></td></tr>');
             ventana.document.write('<tbody>');
             var tableId = document.getElementById('tableExpControl');
             var tBody = tableId.getElementsByTagName('tbody')[0];
@@ -449,23 +452,25 @@
             const anio_final = tableRow[tableRow.length - 1].cells[5].innerHTML;
             const anios = anio_inicial == anio_final ? anio_final : anio_inicial + '-' + anio_final;
             //for (var t = 0; t < 60; t++) {
+            //    const a = parseInt(tableRow[0].cells[8].innerText);
+            //    fojas_tot += isNaN(a) ? 0 : a;
             //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
             //}
-            ventana.document.write('<tr><td colspan="19">El presente inventario consta de <u>&nbsp;' + fojas_tot + '&nbsp;</u> fojas y ampara la cantidad de <u>&nbsp;' + tableRow.length + '&nbsp;</u> expedientes de los años <u>&nbsp;' + anios + '&nbsp;</u> ubicados en <u>' + $('#Ubicacion').text() + '</u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u>' + $('#PesoElectronicos').text() + '</u> (MB) almacenados en <u>' + $('#Almacenamiento').text() + '</u> .</td></tr>');
+            ventana.document.write('<tr><td colspan="19">El presente inventario consta de <u>&nbsp;' + $("#fojas").val() + '&nbsp;</u> fojas y ampara la cantidad de <u>&nbsp;' + tableRow.length + '&nbsp;</u> expedientes de los años <u>&nbsp;' + anios + '&nbsp;</u> ubicados en <u>&nbsp;' + $('#Ubicacion').text() + '&nbsp;</u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u>&nbsp;' + $('#PesoElectronicos').text() + '&nbsp;</u> (MB) almacenados en <u>&nbsp;' + $('#Almacenamiento').text() + '&nbsp;</u> .</td></tr>');
             ventana.document.write('<tr><td colspan="19" style="padding:0px;"><table style="font-size:10px;width:100%;"><tr><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Elaboró</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Validó/Entrega</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Autorizó</td><td class="text-center" width="25%" style="border:0px;">Recibe</td></tr>');
             ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-bottom:1px solid black;"><br /><br /><br /><br /></td></tr>');
             ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;" style="border:0px;">Nombre, cargo y firma del servidor público que elaboró el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Área generadora quien valida el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Departamento de Unidades Documentales</td><td class="text-center" style="border:0px;">Nombre y firma de la persona que recibe el cargo.</td></tr></table></td></tr>');
             ventana.document.write('</tbody>');
-            ventana.document.write('</table></body>');
-            ventana.document.write('</html>');
+            ventana.document.write('</table>');
+            ventana.document.write('</body></html>');
             ventana.document.close();
             ventana.focus();
+            //ventana.onbeforeprint = (event) => { alert(ventana.document.getElementById("pageHeader").innerHTML); };
             ventana.print();
             ventana.close();
-            return true;
         }
-        setTimeout(function () {
-            imprimirElemento();
-        }, 2000);
+        //setTimeout(function () {
+        //    imprimirElemento();
+        //}, 2000);
     </script>
 }
