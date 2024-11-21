@@ -134,10 +134,13 @@
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<style type="text/css">
+    .modal-lg{ max-width:1100px; width:100%;}
+</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script>
+    <script>
         var table;
         $(document).ready(function () {
             showAlert();
@@ -476,5 +479,5 @@
             if (!isNaN(id) && id>0)
                 window.open("/InventarioControl/ICFormato?id=" + id, "_blank");
         }
-</script>
+    </script>
 }
