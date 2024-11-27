@@ -223,15 +223,19 @@
                         </tr>
                         <tr>
                             <td>
+                                <input type="text" id="txt_name_resp" class="form-control" placeholder="Responsable de la custodia" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" id="txt_name_entrega" class="form-control" placeholder="Persona que entrega" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" id="txt_name_recibe" class="form-control" placeholder="Responsable del archivo de concentración" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" id="txt_name_vobo" class="form-control" placeholder="Responsable del VoBo del departamento de unidades documentales" />
                                 Nombre y firma
                             </td>
                         </tr>
@@ -243,6 +247,7 @@
     @*fin del formulario de expediente bibliohemerográfico*@
     @*fin del formulario de acervo bobliohemerográfico*@
     <hr />
+    <button class="btn btn-primary form-control" onclick="imprimirElemento()">Imprimir</button>
 </div>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
@@ -386,7 +391,7 @@
             //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
             //}
             ventana.document.write('<tr><th colspan="11">&nbsp;</th></tr>');
-            ventana.document.write('<tr><th colspan="11"><table id="table" class="text-center" style="font-size:10px;width:100%;font-size:10px;"><thead><tr><td style="width: 25%">Responsable de la custodia</td><td style="width: 25%">Entrega</td><td style="width: 25%">Recibe Responsable del Archivo de Concentración</td><td style="width: 25%">Vo.Bo. del Departamento de Unidades Documentales</td></tr><tr><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td></tr><tr><td>Nombre y firma</td><td>Nombre y firma</td><td>Nombre y firma</td><td>Nombre y firma</td></tr></thead></table></th></tr>');
+            ventana.document.write('<tr><th colspan="11"><table id="table" class="text-center" style="font-size:10px;width:100%;font-size:10px;"><thead><tr><td style="width: 25%">Responsable de la custodia</td><td style="width: 25%">Entrega</td><td style="width: 25%">Recibe Responsable del Archivo de Concentración</td><td style="width: 25%">Vo.Bo. del Departamento de Unidades Documentales</td></tr><tr><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td></tr><tr><td>' + $('#txt_name_resp').val() + '</td><td>' + $('#txt_name_entrega').val() + '</td><td>' + $('#txt_name_recibe').val() + '</td><td>' + $('#txt_name_vobo').val() +'</td></tr></thead></table></th></tr>');
             ventana.document.write('</tbody>');
             ventana.document.write('</table></body>');
             ventana.document.write('</html>');
@@ -396,8 +401,8 @@
             ventana.close();
             return true;
         }
-        setTimeout(function () {
-            imprimirElemento();
-        }, 2000);
+        //setTimeout(function () {
+        //    imprimirElemento();
+        //}, 2000);
     </script>
 }

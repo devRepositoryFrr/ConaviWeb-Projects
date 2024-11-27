@@ -214,15 +214,22 @@
                         </tr>
                         <tr>
                             <td>
+                                <input type="text" id="txt_name_elab" class="form-control" placeholder="Nombre del servidor que elaboró el inventario" />
+                                <input type="text" id="txt_cargo_elab" class="form-control" placeholder="Cargo del servidor que elaboró el inventario" />
                                 Nombre, cargo y firma del servidor público que elaboró el inventario.
                             </td>
                             <td>
+                                <input type="text" id="txt_name_titular" class="form-control" placeholder="Nombre del Titular del Área generadora quien valida el inventario" />
+                                <input type="text" id="txt_cargo_titular" class="form-control" placeholder="Cargo del Titular del Área generadora quien valida el inventario" />
                                 Nombre, cargo y firma del Titular del Área generadora quien valida el inventario.
                             </td>
                             <td>
+                                <input type="text" id="txt_name_titular_dud" class="form-control" placeholder="Nombre del Titular del Departamento de Unidades Documentales" />
+                                <input type="text" id="txt_cargo_titular_dud" class="form-control" placeholder="Cargo del Titular del Departamento de Unidades Documentales" />
                                 Nombre, cargo y firma del Titular del Departamento de Unidades Documentales.
                             </td>
                             <td>
+                                <input type="text" id="txt_name_recibe" class="form-control" placeholder="Nombre de la persona que recibe el cargo" />
                                 Nombre y firma de la persona que recibe el cargo.
                             </td>
                         </tr>
@@ -457,9 +464,11 @@
             //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
             //}
             ventana.document.write('<tr><td colspan="19">El presente inventario consta de <u>&nbsp;' + $("#fojas").val() + '&nbsp;</u> fojas y ampara la cantidad de <u>&nbsp;' + tableRow.length + '&nbsp;</u> expedientes de los años <u>&nbsp;' + anios + '&nbsp;</u> ubicados en <u>&nbsp;' + $('#Ubicacion').text() + '&nbsp;</u> . Para los expedientes con documentos electrónicos, ampara la cantidad de <u>&nbsp;' + $('#PesoElectronicos').text() + '&nbsp;</u> (MB) almacenados en <u>&nbsp;' + $('#Almacenamiento').text() + '&nbsp;</u> .</td></tr>');
-            ventana.document.write('<tr><td colspan="19" style="padding:0px;"><table style="font-size:10px;width:100%;"><tr><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Elaboró</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Validó/Entrega</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;">Autorizó</td><td class="text-center" width="25%" style="border:0px;">Recibe</td></tr>');
-            ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-bottom:1px solid black;"><br /><br /><br /><br /></td></tr>');
-            ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;" style="border:0px;">Nombre, cargo y firma del servidor público que elaboró el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Área generadora quien valida el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Departamento de Unidades Documentales</td><td class="text-center" style="border:0px;">Nombre y firma de la persona que recibe el cargo.</td></tr></table></td></tr>');
+            ventana.document.write('<tr><td colspan="19" style="padding:0px;"><table style="font-size:10px;width:100%;"><tr><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;">Elaboró</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;">Validó/Entrega</td><td class="text-center" width="25%" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;">Autorizó</td><td class="text-center" width="25%" style="border:0px;border-bottom:1px solid black;">Recibe</td></tr>');
+            ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-right:1px solid black;border-bottom:1px solid black;"><br /><br /><br /><br /><br /></td><td class="text-center" style="border:0px;border-bottom:1px solid black;"><br /><br /><br /><br /><br /></td></tr>');
+            ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_name_elab ').val() + '</td><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_name_titular ').val() + '</td><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_name_titular_dud ').val() + '</td><td class="text-center" style="border:0px;">' + $('#txt_name_recibe ').val() +'</td></tr>');
+            ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_cargo_elab ').val() + '</td><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_cargo_titular ').val() + '</td><td class="text-center" style="border:0px;border-right:1px solid black;">' + $('#txt_cargo_titular_dud ').val() + '</td></tr></table></td></tr>');
+            //ventana.document.write('<tr><td class="text-center" style="border:0px;border-right:1px solid black;" style="border:0px;">Nombre, cargo y firma del servidor público que elaboró el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Área generadora quien valida el inventario.</td><td class="text-center" style="border:0px;border-right:1px solid black;">Nombre, cargo y firma del Titular del Departamento de Unidades Documentales</td><td class="text-center" style="border:0px;">Nombre y firma de la persona que recibe el cargo.</td></tr></table></td></tr>');
             ventana.document.write('</tbody>');
             ventana.document.write('</table>');
             ventana.document.write('</body></html>');
