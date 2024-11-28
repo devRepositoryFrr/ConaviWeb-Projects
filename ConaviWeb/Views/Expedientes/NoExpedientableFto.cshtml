@@ -133,15 +133,19 @@
                         </tr>
                         <tr>
                             <td>
+                                <input type="text" class="form-control" id="txt_name_resp" placeholder="Responsable de la custodia" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" class="form-control" id="txt_name_entrega" placeholder="Persona que entrega" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" class="form-control" id="txt_name_recibe" placeholder="Responsable del archivo de concentración" />
                                 Nombre y firma
                             </td>
                             <td>
+                                <input type="text" class="form-control" id="txt_name_vobo" placeholder="VoBo del depto. de unidades documentales" />
                                 Nombre y firma
                             </td>
                         </tr>
@@ -214,6 +218,7 @@
 @*fin del formulario de expediente de documentacion no expedientable*@
 @*fin del formulario de documentacion no expedientable*@
 <hr />
+<button class="btn btn-primary form-control" onclick="imprimirElemento()">Imprimir</button>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
@@ -384,7 +389,8 @@
             //    ventana.document.write('<tr>' + tableRow[0].innerHTML + '</tr>');
             //}
             ventana.document.write('<tr><th colspan="7">&nbsp;</th></tr>');
-            ventana.document.write('<tr><th colspan="7"><table id="table" class="text-center" style="font-size:10px;width:100%;font-size:10px;"><thead><tr><td style="width: 25%">Responsable de la custodia</td><td style="width: 25%">Entrega</td><td style="width: 25%">Recibe Responsable del Archivo de Concentración</td><td style="width: 25%">Vo.Bo. del Departamento de Unidades Documentales</td></tr><tr><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td></tr><tr><td>Nombre y firma</td><td>Nombre y firma</td><td>Nombre y firma</td><td>Nombre y firma</td></tr></thead></table></th></tr>');
+            ventana.document.write('<tr><th colspan="7"><table id="table" class="text-center" style="font-size:10px;width:100%;font-size:10px;"><thead><tr><td style="width: 25%">Responsable de la custodia</td><td style="width: 25%">Entrega</td><td style="width: 25%">Recibe Responsable del Archivo de Concentración</td><td style="width: 25%">Vo.Bo. del Departamento de Unidades Documentales</td></tr><tr><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td><td><br /><br /><br /><br />______________________________</td></tr><tr><td>' + $('#txt_name_resp').val() + '</td><td>' + $('#txt_name_entrega').val() + '</td><td>' + $('#txt_name_recibe').val() + '</td><td>' + $('#txt_name_vobo').val() + '</td></tr></thead></table></th></tr>');
+            ventana.document.write('<tr><th colspan="7">&nbsp;</th></tr>');
             ventana.document.write('<tr><td colspan="7"><table style="width:100%;font-size:8px;"><tr><td style="width: 25%; text-align:center; vertical-align:middle;">Tipos documentales</td><td style="width: 75%">1. Estudios, 2. Proyectos, 3. Investigaciones, 4. Manuales, 5. Presupuestos, 6. Estadísticas, 7. Fotografías, 8. Programas, 9. Planos, 10. Material cartográfico. 11 Informes, 12. Carpetas de Juntas de Gobierno,13. Actas administrativas, 14. Carpetas de Comités, 15. Carpetas de entrega-recepción.</td></tr><tr><td style="width: 25%; text-align: center">CLAVE:</td><td style="width: 75%; text-align:center;">TIPO DE SOPORTE:</td></tr><tr><td style="width: 25%">a) Microfilm:</td><td style="width: 75%">1.Rollos, 2. Magazines, 3. Carteras de plástico, 4. Micro fichas, 5. Tarjetas de apertura</td></tr><tr><td style="width: 25%; vertical-align: middle;">b) Audiovisuales:</td><td style="width: 75%">1. Videocasetes, 2. Fonocasetes, 3. Corto metraje, 4. Diapositiva, 5. Negativos, 6. Acetatos, 7. Filminas, 8. Discos ópticos, 9. Discos compactos, 10. Formato comprimido MP3, 11. Minidisco, 12. Cintas de carrete abierto, 13. Audiocasetes</td></tr><tr><td style="width: 25%">c) Materiales de computo:</td><td style="width: 75%">1. Cintas magnéticas, 2. Disquetes, 3. Tarjetas perforadas, 4. Discos magnéticos, 5. Tambores magnéticos, 6. Discos compactos.</td></tr><tr><td style="width: 25%">d) Papel:</td><td style="width: 75%">1. Papel bond, 2. Papel laminado, 3. Papel reciclable, 4. Cartulina.</td></tr></table></td></tr>');
             ventana.document.write('</tbody></table>');
             ventana.document.write('</body></html>');
@@ -394,8 +400,8 @@
             ventana.close();
             return true;
         }
-        setTimeout(function () {
-            imprimirElemento();
-        }, 2000);
+        //setTimeout(function () {
+        //    imprimirElemento();
+        //}, 2000);
     </script>
 }
