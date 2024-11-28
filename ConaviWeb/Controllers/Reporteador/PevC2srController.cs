@@ -42,9 +42,12 @@ namespace ConaviWeb.Controllers.Reporteador
 
         public async Task<IActionResult> GetAllBenef()
         {
-            string[] curps =  { "2204010177",
-"2204014391",
-"2204015158"
+            string[] curps =  { "2304023096",
+"2304023144",
+"2304024094",
+"2304024118",
+"2304024129",
+"2304035255"
 };
             foreach (var curp in curps)
             {
@@ -62,7 +65,7 @@ namespace ConaviWeb.Controllers.Reporteador
         {
             var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
             var fileName = beneficiario.CURPR + ".pdf";
-            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "ReporteadorCed_2024");
+            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "ReporteadorCed_esp");
             if (!Directory.Exists(pathPdf))
                 ProccessFileTools.CreateDirectory(pathPdf);
             var file = System.IO.Path.Combine(pathPdf, fileName);

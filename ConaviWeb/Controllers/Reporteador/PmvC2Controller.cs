@@ -36,7 +36,8 @@ namespace ConaviWeb.Controllers.Reporteador
         }
         public async Task<IActionResult> IndexAsync()
         {
-            await GetAllBenef();
+            //await GetAllBenef();
+            await GetAllBenef23();
             return Ok();
         }
         [HttpGet]
@@ -58,10 +59,27 @@ namespace ConaviWeb.Controllers.Reporteador
             
             return Ok();
         }
+        public async Task<IActionResult> GetAllBenef23()
+        {
+            string[] ids = {"2304023096",
+"2304023144",
+"2304024094",
+"2304024118",
+"2304024129",
+"2304035255"};
+                foreach (var id_unico in ids)
+                {
+                    var beneficiario = await _reporteadorRepository.GetPMVC2(id_unico);
+                    GenerateSavePDFAsync(beneficiario);
+                }
+
+
+            return Ok();
+        }
         public void GenerateSavePDFAsync(PevSol beneficiario)
         {
             var fileName = beneficiario.Id_unico + ".pdf";
-            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "PMVSOL",beneficiario.Mes, beneficiario.Estado);
+            var pathPdf = System.IO.Path.Combine(_environment.WebRootPath, "doc", "PMV23SOL",beneficiario.Mes, beneficiario.Estado);
             if (!Directory.Exists(pathPdf))
                 ProccessFileTools.CreateDirectory(pathPdf);
             var file = System.IO.Path.Combine(pathPdf, fileName);

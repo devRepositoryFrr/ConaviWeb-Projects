@@ -102,6 +102,16 @@ namespace ConaviWeb.Data.Reporteador
 
             return await db.QueryFirstOrDefaultAsync<PevSol>(sql, new { Id = id });
         }
+        public async Task<PevSol> GetPMVC2(string id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                    call prod_pmv.sp_get_pmv_pdf_solventa(@Id);
+                       ";
+
+            return await db.QueryFirstOrDefaultAsync<PevSol>(sql, new { Id = id });
+        }
         public async Task<IEnumerable<string>> GetPMV24C2Ids(int id)
         {
             var db = DbConnection();
