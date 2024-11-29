@@ -19,10 +19,98 @@ namespace ConaviWeb.Data.Minuta
         {
             _connectionString = connectionString;
         }
-
         protected MySqlConnection DbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);
+        }
+        public async Task<IEnumerable<Catalogo>> GetSector()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                id Clave, 
+                                descripcion AS Descripcion 
+                            FROM sedatu.c_sector;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<IEnumerable<Catalogo>> GetEntidad()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                clave Clave, 
+                                descripcion AS Descripcion 
+                            FROM sedatu.c_entidad;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<IEnumerable<Catalogo>> GetMunicipio()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                cv_mun Clave, 
+                                descripcion AS Descripcion 
+                            FROM sedatu.c_municipio;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<IEnumerable<Catalogo>> GetResponsable()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                id Clave, 
+                                nombre AS Descripcion 
+                            FROM sedatu.c_personal;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<IEnumerable<Catalogo>> GetGestion()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                id Clave, 
+                                descripcion AS Descripcion 
+                            FROM sedatu.c_gestion;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<bool> InsertReunion(Reunion reunion)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        CALL sedatu.sp_inserta_reunion(@Sector,@EntidadFed,@Municipio,@Asunto,@Fecha_sesion,@Solicitante,@Contacto,@Antecedentes,@Responsable,@Fecha_atencion,@Observaciones,@Gestion);";
+
+            var result = await db.ExecuteAsync(sql, new {
+                reunion.Sector,
+                reunion.EntidadFed,
+                reunion.Municipio,
+                reunion.Asunto,
+                reunion.Fecha_sesion,
+                reunion.Solicitante,
+                reunion.Contacto,
+                reunion.Antecedentes,
+                reunion.Responsable,
+                reunion.Fecha_atencion,
+                reunion.Observaciones,
+                reunion.Gestion
+            });
+            return result > 0;
+
         }
         public async Task<int> InsertMinuta(Model.Minuta.Minuta minuta)
         {
@@ -31,11 +119,10 @@ namespace ConaviWeb.Data.Minuta
             var sql = @"
                         CALL sedatu.sp_inserta_minuta(@Folio, @Tema, @Asunto, @Contexto, @Descripcion);";
 
-            var result = await db.QueryAsync<int>(sql, new { minuta.Folio, minuta.Tema, minuta.Asunto, minuta.Contexto, minuta.Descripcion});
+            var result = await db.QueryAsync<int>(sql, new { minuta.Folio, minuta.Tema, minuta.Asunto, minuta.Contexto, minuta.Descripcion });
             return result.FirstOrDefault();
 
         }
-
         public async Task<bool> InsertParticipantes(IEnumerable<Participante> participantes)
         {
             var db = DbConnection();

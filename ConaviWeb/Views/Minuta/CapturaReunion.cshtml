@@ -1,0 +1,198 @@
+﻿@model ConaviWeb.Model.Minuta.Reunion
+@{
+    // Layout = "_Layout";
+    ViewBag.Title = "Reunión";
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+}
+<div class="box-body">
+    <form id="formCat" method="post" asp-action="CrearCaptura">
+        <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+        <div class="row">
+            <div class="form-group">
+                <label class="col-sm-12 control-label" for="sector">Sector</label>
+                <div class="col-sm-12">
+                        <select class="form-control" id="sector" name="sector" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sector"], "Clave" , "Descripcion" ))" required="">
+                            <option value="">--- Seleccione ---</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="entidadFed">Entidad</label>
+                    <select class="form-control" id="entidadFed" name="entidadFed" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Entidad"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="municipio">Municipio</label>
+                    <select class="form-control" id="municipio" name="municipio" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Municipio"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="asunto">Asunto</label>
+                    <textarea rows="3" class="form-control" id="asunto" name="asunto" required=""></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group datepicker-group">
+                    <label class="control-label" for="fecha_sesion">Fecha de Sesión</label>
+                    <input class="form-control" id="fecha_sesion" name="fecha_sesion" type="text">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="solicitante">Solicitante</label>
+                    <textarea rows="3" class="form-control" id="solicitante" name="solicitante" required=""></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="contacto">Contacto</label>
+                    <textarea rows="3" class="form-control" id="contacto" name="contacto" required=""></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="antecedentes">Antecedentes</label>
+                    <textarea rows="3" class="form-control" id="antecedentes" name="antecedentes" required=""></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="responsable">Responsable</label>
+                    <select class="form-control" id="responsable" name="responsable" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Responsable"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group datepicker-group">
+                    <label class="control-label" for="fecha_atencion">Fecha de Atención</label>
+                    <input class="form-control" id="fecha_atencion" name="fecha_atencion" type="text">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <textarea rows="3" class="form-control" id="observaciones" name="observaciones" required=""></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="gestion">Gestión OS</label>
+                    <select class="form-control" id="gestion" name="gestion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Gestion"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+
+
+            <!-- <a class="btn btn-danger" href="https://ricpdf.sspc.gob.mx/acuerdos?Instruccion=1">Regresar</a> -->
+
+
+            <button class="btn btn-primary pull-right" type="submit" id="btnSubmit">Guardar</button>
+
+            <!--Se elimino id="btnSubmit" del boton, para que no generara el submit en el archivo acuerdos.js-->
+            <!-- <button "id="btnSubmit type="submit" class="btn btn-danger">Guardar</button> -->
+        </div>
+
+
+        <input name="tipo_ducumento" id="tipo_ducumento" type="hidden">
+
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    $(document).ready(function () {
+        showAlert();
+        $("#selectedRespInst").hide();
+        $("#selectedCorres").hide();
+        $('#fecha_sesion').datepicker();
+        $('#fecha_atencion').datepicker();
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+            closeOnSelect: false,
+        });
+        $("#responsable_institucional").on('select2:select', function (e) {
+            var data = e.params.data;
+            //console.log(data.id);
+            $("#selectedRespInst").val(function () {
+                if (this.value == "")
+                    return data.id
+                return this.value + "," + data.id;
+            });
+            console.log($("#selectedRespInst").val())
+        });
+        $("#corresponsables").on('select2:select', function (e) {
+            var data = e.params.data;
+            //console.log(data.id);
+            $("#selectedCorres").val(function () {
+                if (this.value == "")
+                    return data.id
+                return this.value + "," + data.id;
+            });
+            console.log($("#selectedCorres").val())
+        });
+        function showAlert() {
+
+            setTimeout(function () {
+                $("#alerta").fadeOut(1500);
+
+            }, 6000);
+
+
+            setTimeout(function () {
+
+                $("#alerta").remove();
+            }, 12000);
+
+        }
+    });
+</script>
