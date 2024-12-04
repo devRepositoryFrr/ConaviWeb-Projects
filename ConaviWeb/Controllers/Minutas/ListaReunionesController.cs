@@ -10,33 +10,33 @@ using System.Linq;
 
 namespace ConaviWeb.Controllers.Minutas
 {
-    [Route("ListaMinutas")]
-    public class ListaMinutasController : Controller
+    [Route("ListaReuniones")]
+    public class ListaReunionesController : Controller
     {
         private readonly IMinutaRepository _minutaRepository;
         private readonly IWebHostEnvironment _environment;
         private readonly IMailService _mailService;
-        public ListaMinutasController(IMinutaRepository minutaRepository, IWebHostEnvironment environment, IMailService mailService)
+        public ListaReunionesController(IMinutaRepository minutaRepository, IWebHostEnvironment environment, IMailService mailService)
         {
             _minutaRepository = minutaRepository;
             _environment = environment;
             _mailService = mailService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
-            return View("../Minuta/ListaMinutas");
+            return View("../Minuta/ListaReuniones");
         }
 
-        [HttpGet("GetMinutas")]
+        [HttpGet("GetReuniones")]
         public async Task<IActionResult> ListDetailFiles(int idPartition)
         {
-            var minutas = await _minutaRepository.GetMinutas();
+            var reuniones = await _minutaRepository.GetReuniones();
 
-            if (minutas != null)
+            if (reuniones != null)
             {
-                return Json(new { data = minutas });
+                return Json(new { data = reuniones });
             }
 
             return BadRequest();

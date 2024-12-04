@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace ConaviWeb.Model.Minuta
 {
-    public class Reunion
+    public class ReunionResponse
     {
         public int Id { get; set; }
-        public int Sector { get; set; }
+        public string Sector { get; set; }
         public string EntidadFed { get; set; }
         public string Municipio { get; set; }
+        public DateTime FechaSesion { get; set; }
+        public DateTime FechaAtencion { get; set; }
         public string Asunto { get; set; }
-        public DateTime Fecha_sesion { get; set; }
         public string Solicitante { get; set; }
-        public string Nombre { get; set; }
-        public string Telefono { get; set; }
-        public string Email { get; set; }
+        public string Contacto { get; set; }
         public string Antecedentes { get; set; }
-        public int Responsable { get; set; }
-        public DateTime Fecha_atencion { get; set; }
         public string Observaciones { get; set; }
-        public int Gestion { get; set; }
+        public string Responsable { get; set; }
+        public string Gestion { get; set; }
+        public string Estatus { get; set; }
+        public List<Participante> Participantes { get; set; }
+        public List<AcuerdoResponse> Acuerdos { get; set; }
     }
 }

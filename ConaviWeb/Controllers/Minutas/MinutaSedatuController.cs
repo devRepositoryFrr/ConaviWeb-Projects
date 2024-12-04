@@ -31,35 +31,35 @@ namespace ConaviWeb.Controllers.Minutas
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Minuta/Minuta");
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateMinutaAsync(Minuta minuta)
-        {
-            //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
-            //viaticos.IdUsuario = user.Id;
-            var date = DateTime.Now.ToString("ddMMyyyyss");
-            minuta.Folio = string.Concat("MI-", date);
-            var IdMinuta = await _minutaRepository.InsertMinuta(minuta);
-            foreach (var item in minuta.Participantes)
-            {
-                item.IdMinuta = IdMinuta;  
-            }
-            var PSuccess = await _minutaRepository.InsertParticipantes(minuta.Participantes);
-            foreach (var item in minuta.Acuerdos)
-            {
-                item.IdMinuta = IdMinuta;
-            }
-            var ASuccess = await _minutaRepository.InsertAcuerdos(minuta.Acuerdos);
+        //[HttpPost]
+        //public async Task<IActionResult> CreateMinutaAsync(Minuta minuta)
+        //{
+        //    //var user = HttpContext.Session.GetObject<UserResponse>("ComplexObject");
+        //    //viaticos.IdUsuario = user.Id;
+        //    var date = DateTime.Now.ToString("ddMMyyyyss");
+        //    minuta.Folio = string.Concat("MI-", date);
+        //    var IdMinuta = await _minutaRepository.InsertMinuta(minuta);
+        //    foreach (var item in minuta.Participantes)
+        //    {
+        //        item.IdMinuta = IdMinuta;  
+        //    }
+        //    var PSuccess = await _minutaRepository.InsertParticipantes(minuta.Participantes);
+        //    foreach (var item in minuta.Acuerdos)
+        //    {
+        //        item.IdMinuta = IdMinuta;
+        //    }
+        //    var ASuccess = await _minutaRepository.InsertAcuerdos(minuta.Acuerdos);
 
 
-            if (!PSuccess && !ASuccess)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la minuta");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se agrego la minuta con exito");
-            return RedirectToAction("Index");
+        //    if (!PSuccess && !ASuccess)
+        //    {
+        //        TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar la minuta");
+        //        return RedirectToAction("Index");
+        //    }
+        //    TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se agrego la minuta con exito");
+        //    return RedirectToAction("Index");
 
-        }
+        //}
         //[HttpGet]
         //public async Task<IActionResult> GetParticipantesAsync() {
         //    var participantes = await _minutaRepository.GetParticipantes();

@@ -1,0 +1,148 @@
+﻿@{
+    // Layout = "_Layout";
+    var reunion = ViewData["Reunion"] as ConaviWeb.Model.Minuta.ReunionResponse;
+    ViewBag.Title = "Detalle";
+}
+
+<div class="container">
+    <a href="@Url.Action("Index","ListaReuniones")" class="btn btn-primary btn-sm pull-right" style="margin-left: 1%">Regresar</a>
+    <h2>Información de la Reunión</h2>
+    <hr class="red" />
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+
+            <div class="row form-group">
+                <div class="col-sm-12 col-md-6">
+                    <span>
+
+                        <strong>
+                            Número de Reunión:
+                        </strong> @reunion.Id
+                    </span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <span><strong>Sector:</strong> @reunion.Sector</span>
+                </div>
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-sm-12 col-md-6">
+                    <span><strong>Entidad Federativa:</strong> @reunion.EntidadFed</span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <span><strong>Municipio / Alcaldía:</strong> @reunion.Municipio</span>
+                </div>
+            </div>
+
+
+            <div class="row form-group">
+                <div class="col-sm-12 col-md-6">
+                    <span>
+                        <strong>
+                            Fecha Solicitud:
+                        </strong> @reunion.FechaSesion
+                    </span>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <span><strong>Fecha Atención:</strong> @reunion.FechaAtencion</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="acuerdo">Asunto:</label>
+                <p>@reunion.Asunto</p>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row form-group">
+        <div class="col-sm-12 col-md-6">
+            <span>
+                <strong>
+                    Solicitante:
+                </strong> @reunion.Solicitante
+            </span>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <span><strong>Contacto:</strong> @reunion.Contacto</span>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="acuerdo">Antecedentes:</label>
+                <p>@reunion.Antecedentes</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="acuerdo">Observaciones:</label>
+                <p>@reunion.Observaciones</p>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <table class="table table-striped">
+        <caption><strong>Acuerdos</strong></caption>
+        <thead>
+            <tr>
+                <th>Reunión</th>
+                <th>Responsable</th>
+                <th>Fecha Termino</th>
+                <th>Descripción</th>
+                <th>Gestión</th>
+                <th>Estatus</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acuerdo in reunion.Acuerdos)
+            {
+                <tr>
+                    <td>@acuerdo.IdReunion</td>
+                    <td>@acuerdo.Responsable</td>
+                    <td>@acuerdo.Fecha_termino</td>
+                    <td>@acuerdo.Descripcion</td>
+                    <td>@acuerdo.Gestion</td>
+                    <td>@acuerdo.Estatus</td>
+                    <td><a type="button" class="btn btn-danger btn-xs" href="@Url.Action("DeleteAcuerdo", "Acuerdo", new { id = @acuerdo.Id, idReunion = acuerdo.IdReunion })">Borrar</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <div class="row form-group">
+        <div class="col-sm-12 col-md-6">
+            <span>
+                <strong>
+                    Responsable:
+                </strong> @reunion.Responsable
+            </span>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <span><strong>Gestion:</strong> @reunion.Gestion</span>
+
+        </div>
+    </div>
+    <hr />
+    <div class="row form-group">
+        <div class="col-md-12">
+            <span>
+                <strong>
+                    Estatus:
+                </strong> @reunion.Estatus
+            </span>
+        </div>
+    </div>
+</div>

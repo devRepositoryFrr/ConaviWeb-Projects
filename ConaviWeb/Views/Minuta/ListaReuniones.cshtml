@@ -1,0 +1,274 @@
+﻿@model ConaviWeb.Model.Minuta.Reunion
+@{
+    // Layout = "_Layout";
+    ViewBag.Title = "Reuniones";
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    // <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+}
+<a href="@Url.Action("Index","RepoCaptura")" class="btn btn-primary btn-sm pull-right">Captura Reunión</a>
+<br />
+<div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+<h4>Reuniones</h4>
+<hr class="red">
+<div class="form-group col-md-12">
+    @Html.Raw(@ViewBag.Alert)
+</div>
+<div class="form-group col-md-12">
+    <div id="spinner" class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<table id="tblMin" class="table table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Sector</th>
+            <th>
+                ENTIDAD FEDERATIVA
+            </th>
+            <th>
+                MUNICIPIO / ALCALDÍA
+            </th>
+            <th>
+                ASUNTO
+            </th>
+            <th>
+                ACCIONES
+            </th>
+        </tr>
+    </thead>
+</table>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script>
+    var table;
+    var details;
+    $(document).ready(function () {
+        $("#spinner").hide();
+        showAlert();
+        showTable();
+
+        // Add event listener for opening and closing details
+        //table.on('click', 'td.dt-control', function (e) {
+        //    let tr = e.target.closest('tr');
+        //    let row = table.row(tr);
+
+        //    if (row.child.isShown()) {
+        //        // This row is already open - close it
+        //        row.child.hide();
+        //    }
+        //    else {
+        //        // Open this row
+        //        row.child(format(row.data())).show();
+        //    }
+        //});
+
+    });
+
+    $(window).on('beforeunload', function () {
+        console.log("before");
+        $('.spinner').css('display', 'block');
+    });
+
+    function semaforo(ft) {
+        var pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+        var dt = new Date(ft.replace(pattern, '$3-$2-$1'));
+        var lday =
+            dt.getFullYear() + '/' + (
+
+                dt.getMonth() < 9 ? '0' : ''
+            ) + (dt.getMonth() + 1) + '/' + (
+                dt.getDate() < 10 ? '0' : ''
+            ) + dt.getDate();
+
+        var today = new Date();
+        var tday =
+            today.getFullYear() + '/' + (
+
+                today.getMonth() < 9 ? '0' : ''
+            ) + (today.getMonth() + 1) + '/' + (
+                today.getDate() < 10 ? '0' : ''
+            ) + today.getDate();
+
+        let date1 = new Date(tday);
+        let date2 = new Date(lday);
+        // Calculating the time difference
+        // of two dates
+        let Difference_In_Time =
+            date2.getTime() - date1.getTime();
+
+        // Calculating the no. of days between
+        // two dates
+        let Difference_In_Days =
+            Math.round
+                (Difference_In_Time / (1000 * 3600 * 24));
+        let color = '';
+        switch (true) {
+            case (Difference_In_Days < 0 && Difference_In_Days < 6):
+                color = 'table-danger';
+                break;
+            case (Difference_In_Days > 6 && Difference_In_Days < 15):
+                color = 'table-warning';
+                break;
+            case (Difference_In_Days > 15):
+                color = 'table-success';
+                break;
+        }
+        //console.log(color)
+        return (color);
+
+
+    }
+
+    // Formatting function for row details - modify as you need
+    //function format(details) {
+    //    console.log(details);
+    //    var dataHeader = '';
+    //    dataHeader += '<tr>' +
+    //        '<th>Responsable</th>' +
+    //        '<th>Acuerdo</th>' +
+    //        '<th>Fecha Termino</th>' +
+    //        '<th>Acciones</th>' +
+    //        '</tr>';
+    //    var dataRow = '';
+    //    $.each(details.acuerdos, function (index, a) {
+    //        //console.log(participantes);
+    //        let color = semaforo(a.fecha_termino);
+
+    //            //console.log(a);
+    //        dataRow +=
+    //            '<tr class = '+color+'>' +
+    //            '<td>' + a.responsable + '</td>' +
+    //            '<td>' + a.dAcuerdo + '</td>' +
+    //            '<td>' + a.fecha_termino + '</td>' +
+    //            '<td>' +
+    //            '<a href="DatatableJSDemo.html?id=' + a[3] + '"><i class="fa fa-pencil" aria-hidden="true"></i></a> | ' +
+    //            '<a href="DatatableJSDemo.html?did=' + a[3] + '"><i class="fa fa-trash-o" aria-hidden="true"></i></a>' +
+    //            '</td>' +
+    //            '</tr>';
+    //    });
+    //    return (
+    //        //dataHeader +
+    //        dataRow
+    //    );
+    //}
+
+    function showTable(data) {
+        //console.log(data)
+        $("#spinner").show();
+        table = new DataTable('#tblMin', {
+            "ajax": {
+                url: "@Url.Action("GetReuniones", "ListaReuniones")",
+                type: 'GET',
+                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                //success: function (data) { console.log(data) },
+                complete: function (data) {
+                    $("#spinner").hide();
+                    details = data.responseJSON.data;
+                    console.log(data);
+                }
+            },
+            fixedColumns: true,
+            language: {
+                    "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            }
+        },
+            columns: [
+                //{
+                //    className: 'dt-control',
+                //    orderable: false,
+                //    data: null,
+                //    defaultContent: ''
+                //},
+                { data: 'id' },
+                { data: 'sector' },
+                { data: 'entidadFed' },
+                { data: 'municipio' },
+                { data: 'asunto' },
+            ],
+            columnDefs: [
+                {
+                    className: "dt-center",
+                    width: 200,
+                    targets: 5,
+                    orderable: false,
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        let reunion = row.id;
+                        let urlAcu = '@Url.Action("CapturaAcuerdo", "Acuerdo")/' + reunion;
+                        let urlInf = '@Url.Action("DetalleReunion", "Reunion")/' + reunion;
+                        let botones = `
+                        <a type="button" class="btn btn-danger btn-xs" href=`+ urlAcu+`>Acuerdo</a> |
+                        <a type="button" class="btn btn-primary btn-xs" href=`+ urlInf +`>Ver</a>`;
+                        return botones;
+                    }
+                }
+            ],
+            order: [[1, 'asc']]
+        });
+
+    }
+
+    function showAlert() {
+
+        setTimeout(function () {
+            $("#alerta").fadeOut(1500);
+
+        }, 6000);
+
+
+        setTimeout(function () {
+
+            $("#alerta").remove();
+        }, 12000);
+
+    }
+</script>
+
+<style>
+    .table-success {
+        background-color: #d1e7dd !important;
+    }
+
+    .table-warning {
+        background-color: #fff3cd !important;
+    }
+
+    .table-danger {
+        background-color: #f8d7da !important;
+    }
+</style>

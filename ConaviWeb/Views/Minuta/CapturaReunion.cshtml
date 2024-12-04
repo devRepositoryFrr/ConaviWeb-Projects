@@ -17,15 +17,16 @@
     // <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 }
 <div class="box-body">
+    <a href="@Url.Action("Index","ListaReuniones")" class="btn btn-primary btn-sm pull-right" style="margin-left: 1%">Regresar</a>
     <form id="formCat" method="post" asp-action="CrearCaptura">
         <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
         <div class="row">
             <div class="form-group">
                 <label class="col-sm-12 control-label" for="sector">Sector</label>
                 <div class="col-sm-12">
-                        <select class="form-control" id="sector" name="sector" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sector"], "Clave" , "Descripcion" ))" required="">
-                            <option value="">--- Seleccione ---</option>
-                        </select>
+                    <select class="form-control" id="sector" name="sector" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sector"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -33,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="entidadFed">Entidad</label>
-                    <select class="form-control" id="entidadFed" name="entidadFed" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Entidad"], "Clave" , "Descripcion" ))" required="">
+                    <select class="form-control" id="entidadFed" name="entidadFed" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Entidad"], "Clave" , "Descripcion" ))" onchange="getMun(this)" required="">
                         <option value="">--- Seleccione ---</option>
                     </select>
                 </div>
@@ -43,8 +44,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="municipio">Municipio</label>
-                    <select class="form-control" id="municipio" name="municipio" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Municipio"], "Clave" , "Descripcion" ))" required="">
-                        <option value="">--- Seleccione ---</option>
+                    <select class="form-control" id="municipio" name="municipio" required="">
                     </select>
                 </div>
             </div>
@@ -72,10 +72,26 @@
                     <textarea rows="3" class="form-control" id="solicitante" name="solicitante" required=""></textarea>
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+        <h3>Contacto</h3>
+        <hr class="red">
+        <div class="row">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label for="contacto">Contacto</label>
-                    <textarea rows="3" class="form-control" id="contacto" name="contacto" required=""></textarea>
+                    <label for="nombre">Nombre</label>
+                    <input class="form-control" id="nombre" name="nombre" required="" type="text">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input class="form-control" id="telefono" name="telefono" required="" type="text">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" id="email" name="email" required="" type="text">
                 </div>
             </div>
         </div>
@@ -194,5 +210,21 @@
             }, 12000);
 
         }
+
+        
     });
+    function getMun(obj) {
+        var value = obj.value;
+        $.post("/RepoCaptura/GetMunicipios", { clave: value }, function (data) {
+            //debugger;
+            MunicipioDropDown("#municipio", data);
+        });
+    }
+    function MunicipioDropDown(dropDownId, list, selectedId) {
+        $(dropDownId).empty();
+        $(dropDownId).append("<option value=''>--- Seleccione ---</option>")
+        $.each(list, function (index, row) {
+            $(dropDownId).append("<option value='" + row.clave + "'>" + row.descripcion + "</option>")
+        });
+    }
 </script>
