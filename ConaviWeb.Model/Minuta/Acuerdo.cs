@@ -10,9 +10,10 @@ namespace ConaviWeb.Model.Minuta
     {
         public int IdReunion { get; set; }
         public string Responsable { get; set; }
-        public DateTime Fecha_termino { get; set; }
+        public DateTime FechaTermino { get; set; }
         public string Descripcion { get; set; }
         public string IdResponsable { get; set; }
         public int IdGestion { get; set; }
+        public int IdEstatus { get; set; }
     }
 }

@@ -10,21 +10,13 @@ namespace ConaviWeb.Model.Minuta
     public class Minuta
     {
         public int Id { get; set; }
-        public string Folio { get; set; }
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Tema")]
+        public int IdReunion { get; set; }
         public string Tema { get; set; }
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Asunto")]
         public string Asunto { get; set; }
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Contexto")]
+        public string Interno { get; set; }
+        public string Externo { get; set; }
         public string Contexto { get; set; }
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
-        public int Estatus { get; set; }
-        public List<Participante> Participantes { get; set; }
-        public List<Acuerdo> Acuerdos { get; set; }
-}
+        public DateTime FchCreate { get; set; }
+    }
 }

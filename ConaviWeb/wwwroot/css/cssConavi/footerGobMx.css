@@ -1,0 +1,32 @@
+@media (min-width: 768px) {
+    .main-footer {
+        text-align: left;
+    }
+}
+
+.main-footer {
+    background-color: #611232;
+    min-height: 56px;
+    color: #FFF;
+    padding: 0px 0 0px;
+    text-align: left;
+    font-weight: 300;
+    margin-top: 50px;
+}
+
+    .main-footer .list-info {
+        line-height: auto;
+        /* background-color: #12322B; */
+        /* background-image: url(https://framework-gb.cdn.gob.mx/landing/img/fondofooter3.svg); */
+        color: white;
+        background-size: cover;
+        background-position: bottom;
+        padding: 30px 10px 10px;
+        /* margin-bottom: 30px; */
+    }
+
+        .main-footer .list-info a {
+            color: #FFF;
+            font-size: 14px;
+            text-decoration: none;
+        }

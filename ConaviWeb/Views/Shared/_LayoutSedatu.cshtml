@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+          rel="stylesheet" />
+    <link href="~/css/cssConavi/footerGobMx.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/cssConavi/CalendarGobMx.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/cssConavi/ContentGobMx.css" rel="stylesheet" type="text/css" />
+    <title>@ViewData["Title"] - CONAVI</title>
+    <!-- Bootstrap Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
+    <script src="https://fastly.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+
+    @RenderSection("Scripts", required: false)
+</head>
+<body>
+    <!-- Example Code -->
+
+    <nav class="navbar fixed-top"  style="background-color: #611232;">
+        <div class="container">
+            <a class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar"
+                    aria-label="Toggle navigation" style="color: #FFF;border-color: #FFF;">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+
+            </a>
+            <a class="navbar-brand" href="#" style="color: #FFF;"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+
+            <div class="offcanvas offcanvas-start"
+                 tabindex="-1"
+                 id="offcanvasNavbar"
+                 aria-labelledby="offcanvasNavbarLabel" style="background: #545454;">
+                <div class="offcanvas-header">
+                    <img data-v-9e928f9a="" src="https://framework-gb.cdn.gob.mx/gobmx/img/logo_blanco.svg" href="/" alt="logo gobierno de méxico" class="logo_footer" style="max-width: 30%;">
+                    <a type="button"
+                            class="btn btn-close"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"></a>
+                </div>
+                <div class="offcanvas-body navbar-dark bg-dark">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Acuerdos
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaAcuerdos")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Acuerdos</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaAcuerdo")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Acuerdo</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Indicadores
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresAcuerdo")"><i class="fa fa-list" aria-hidden="true"></i> Acuerdos</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresReunion")"><i class="fa fa-list" aria-hidden="true"></i> Reuniones</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Minuta
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                @*<li><a class="dropdown-item" href="@Url.Action("Index","ListaReuniones")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Reuniones</a></li>*@
+                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaMinuta")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Minuta</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Reunión
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaReuniones")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Reuniones</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaReunion")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Reunión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- End Example Code -->
+    <div class="container" style="padding-top: 90px;">
+        @RenderBody()
+    </div>
+</body>
+<footer class="main-footer"><div class="list-info"><div class="container"><div class="row"><div class="col-sm-3"><img data-v-9e928f9a="" src="https://framework-gb.cdn.gob.mx/gobmx/img/logo_blanco.svg" href="/" alt="logo gobierno de méxico" class="logo_footer" style="max-width: 90%;"></div><div class="col-sm-3"><h5>Enlaces</h5><ul><li><a href="https://participa.gob.mx" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Participa</a></li><li><a href="https://www.gob.mx/publicaciones" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Publicaciones Oficiales</a></li><li><a href="http://www.ordenjuridico.gob.mx" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Marco Jurídico</a></li><li><a href="https://consultapublicamx.inai.org.mx/vut-web/" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Plataforma Nacional de Transparencia</a></li><li><a href="https://alertadores.funcionpublica.gob.mx/" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Alerta</a></li><li><a href="https://sidec.funcionpublica.gob.mx" target="_blank" rel="noopener" title="Enlace abre en ventana nueva">Denuncia</a></li></ul></div><div class="col-sm-3"><h5>¿Qué es gob.mx?</h5><p>Es el portal único de trámites, información y participación ciudadana. <a href="https://www.gob.mxque-es-gobmx">Leer más</a></p><ul><li><a href="https://datos.gob.mx">Portal de datos abiertos</a></li><li><a href="https://www.gob.mxaccesibilidad">Declaración de accesibilidad</a></li><li><a href="https://www.gob.mxprivacidadintegral">Aviso de privacidad integral</a></li><li><a href="https://www.gob.mxprivacidadsimplificado">Aviso de privacidad simplificado</a></li><li><a href="https://www.gob.mxterminos">Términos y Condiciones</a></li><li><a href="https://www.gob.mxterminos#medidas-seguridad-informacion">Política de seguridad</a></li><li><a href="https://www.gob.mxsitemap">Mapa de sitio</a></li></ul></div><div class="col-sm-3"><h5><a href="https://www.gob.mxtramites/ficha/presentacion-de-quejas-y-denuncias-en-la-sfp/SFP54">Denuncia contra servidores públicos</a></h5><h5>Síguenos en</h5><ul data-v-6b1f797a="" class="list-inline"><li><a data-v-6b1f797a="" id="Facebook" href="https://www.facebook.com/gobmexico" target="_blank" rel="noopener" title="enlace a facebook abre en una nueva ventana" class="sendEst share-info footer"><img alt="Facebook" src="https://framework-gb.cdn.gob.mx/landing/img/facebook.png"></a></li><li style="margin-left: 5px; margin-right: 5px;"><a data-v-6b1f797a="" id="Twitter" href="https://twitter.com/GobiernoMX" target="_blank" rel="noopener" title="Enlace a twitter abre en una nueva ventana" class="sendEst share-info footer"><img alt="Twitter" src="https://framework-gb.cdn.gob.mx/landing/img/twitter.png"></a></li><li style="margin-left: 5px; margin-right: 5px;"><a data-v-6b1f797a="" id="Instagram" href="https://www.instagram.com/gobmexico/" target="_blank" rel="noopener" title="Enlace a instagram abre en una nueva ventana" class="sendEst share-info footer"><img alt="Instagram" src="https://framework-gb.cdn.gob.mx/landing/img/instagram.png "></a></li><li style="margin-left: 5px; margin-right: 5px;"><a data-v-6b1f797a="" id="Youtube" href="https://www.youtube.com/gobiernodemexico" target="_blank" rel="noopener" title="Enlace a youtube abre en una nueva ventana" class="sendEst share-info footer"><img alt="Youtube" src="https://framework-gb.cdn.gob.mx/landing/img/youtube.png"></a></li></ul></div></div></div></div></footer>
+</html>
+
+<style>
+
+</style>

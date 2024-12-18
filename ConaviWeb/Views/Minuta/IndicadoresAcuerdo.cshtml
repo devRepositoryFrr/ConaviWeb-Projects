@@ -1,0 +1,243 @@
+﻿@model ConaviWeb.Model.Minuta.Reunion
+@{
+    Layout = "_LayoutSedatu";
+    ViewBag.Title = "Indicadores";
+
+}
+<h4>Indicadores Acuerdo</h4>
+<hr class="red">
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="form-group">
+            <strong>Gestión</strong>
+            <select class="form-control" id="gestion" name="gestion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Gestion"], "Clave" , "Descripcion" ))" onchange="getChart(this.value)" required="">
+                <option value="">GENERAL</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-md-4"></div>
+    <div class="col-md-8" id="chart-container"></div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            getChart(0);
+        });
+        function getChart(obj) {
+            $.ajax({
+                url: "/IndicadoresAcuerdo/GetIndAcuerdo",
+                data: { id: obj },
+                type: 'GET',
+                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                //success: function (data) { console.log(data) },
+                complete: function (data) {
+                    var proceso, pendiente, atendido;
+                    $.each(data.responseJSON.data, function (i, val) {
+                        //console.log(val.acuerdos)
+                        if (val.estatus === "En proceso") proceso = val.acuerdos;
+                        if (val.estatus === "Pendiente") pendiente = val.acuerdos;
+                        if (val.estatus === "Atendido") atendido = val.acuerdos;
+                        //$.each(val, function (i, r) {
+                        //    if (r.estatus === "En proceso") proceso = r.acuerdos;
+                        //    if (r.estatus === "Pendiente") pendiente = r.acuerdos;
+                        //    if (r.estatus === "Atendido") atendido = r.acuerdos;
+                        //});
+                        console.log(proceso);
+                    });
+
+                    //console.log(proceso);
+                    var dom = document.getElementById('chart-container');
+                    var myChart = echarts.init(dom, null, {
+                        renderer: 'canvas',
+                        useDirtyRect: false
+                    });
+                    var app = {};
+
+                    var option;
+
+                    const posList = [
+                        'left',
+                        'right',
+                        'top',
+                        'bottom',
+                        'inside',
+                        'insideTop',
+                        'insideLeft',
+                        'insideRight',
+                        'insideBottom',
+                        'insideTopLeft',
+                        'insideTopRight',
+                        'insideBottomLeft',
+                        'insideBottomRight'
+                    ];
+                    app.configParameters = {
+                        rotate: {
+                            min: -90,
+                            max: 90
+                        },
+                        align: {
+                            options: {
+                                left: 'left',
+                                center: 'center',
+                                right: 'right'
+                            }
+                        },
+                        verticalAlign: {
+                            options: {
+                                top: 'top',
+                                middle: 'middle',
+                                bottom: 'bottom'
+                            }
+                        },
+                        position: {
+                            options: posList.reduce(function (map, pos) {
+                                map[pos] = pos;
+                                return map;
+                            }, {})
+                        },
+                        distance: {
+                            min: 0,
+                            max: 100
+                        }
+                    };
+                    app.config = {
+                        rotate: 90,
+                        align: 'left',
+                        verticalAlign: 'middle',
+                        position: 'insideBottom',
+                        distance: 15,
+                        onChange: function () {
+                            const labelOption = {
+                                rotate: app.config.rotate,
+                                align: app.config.align,
+                                verticalAlign: app.config.verticalAlign,
+                                position: app.config.position,
+                                distance: app.config.distance
+                            };
+                            myChart.setOption({
+                                series: [
+                                    {
+                                        label: labelOption
+                                    },
+                                    {
+                                        label: labelOption
+                                    },
+                                    {
+                                        label: labelOption
+                                    }
+                                ]
+                            });
+                        }
+                    };
+                    const labelOption = {
+                        show: true,
+                        position: app.config.position,
+                        distance: app.config.distance,
+                        align: app.config.align,
+                        verticalAlign: app.config.verticalAlign,
+                        rotate: app.config.rotate,
+                        formatter: '{c}  {name|{a}}',
+                        fontSize: 16,
+                        rich: {
+                            name: {}
+                        }
+                    };
+                    option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        },
+                        legend: {
+                            data: ['Atendido', 'En proceso', 'Pendiente']
+                        },
+                        toolbox: {
+                            show: true,
+                            orient: 'vertical',
+                            left: 'right',
+                            top: 'center',
+                            feature: {
+                                mark: { show: true },
+                                dataView: { show: true, readOnly: false },
+                                magicType: { show: true, type: ['line', 'bar', 'stack'] },
+                                restore: { show: true },
+                                saveAsImage: { show: true }
+                            }
+                        },
+                        xAxis: [
+                            {
+                                type: 'category',
+                                axisTick: { show: false },
+                                data: ['2024']
+                            }
+                        ],
+                        yAxis: [
+                            {
+                                type: 'value'
+                            }
+                        ],
+                        series: [
+
+                            {
+                                name: 'Atendido',
+                                type: 'bar',
+                                label: labelOption,
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                itemStyle: { color: '#235B4E' },
+                                data: [atendido]
+                            },
+                            {
+                                name: 'En proceso',
+                                type: 'bar',
+                                label: labelOption,
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                itemStyle: { color: '#DDC9A3' },
+                                data: [proceso]
+                            },
+                            {
+                                name: 'Pendiente',
+                                type: 'bar',
+                                label: labelOption,
+                                emphasis: {
+                                    focus: 'series'
+                                },
+                                itemStyle: { color: '#9F2241' },
+                                data: [pendiente]
+                            }
+                        ]
+                    };
+
+                    if (option && typeof option === 'object') {
+                        myChart.setOption(option);
+                    }
+
+                    window.addEventListener('resize', myChart.resize);
+                }
+            });
+        }
+
+    </script>
+}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    #chart-container {
+        position: relative;
+        height: 50vh;
+        width: 80vh;
+        overflow: hidden;
+    }
+</style>

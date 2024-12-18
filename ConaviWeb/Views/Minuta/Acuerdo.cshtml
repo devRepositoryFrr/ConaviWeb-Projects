@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "_LayoutSedatu";
+    var acuerdo = ViewData["Acuerdo"] as ConaviWeb.Model.Minuta.AcuerdoResponse;
+    ViewBag.Title = "Detalle";
+}
+
+<h4>Información de la Reunión</h4>
+<hr class="red" />
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-6">
+                <span>
+
+                    <strong>
+                        Número de Acuerdo:
+                    </strong> @acuerdo.Id
+                </span>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <span><strong>Número de Reunion:</strong> @acuerdo.IdReunion</span>
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-6">
+                <span><strong>Responsable:</strong> @acuerdo.Responsable</span>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <span><strong>Fecha Termino:</strong> @acuerdo.FechaTermino</span>
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-sm-12 col-md-6">
+                <span>
+                    <strong>
+                        Gestión:
+                    </strong> @acuerdo.Gestion
+                </span>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <span><strong>Estatus:</strong> @acuerdo.Estatus</span>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <strong>Acuerdo:</strong>
+            <p>@acuerdo.Descripcion</p>
+        </div>
+    </div>
+</div>

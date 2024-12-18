@@ -12,11 +12,15 @@ namespace ConaviWeb.Model.Minuta
         public string Sector { get; set; }
         public string EntidadFed { get; set; }
         public string Municipio { get; set; }
-        public DateTime FechaSesion { get; set; }
-        public DateTime FechaAtencion { get; set; }
+        public string FechaSolicitud { get; set; }
+        public string FechaAtencion { get; set; }
         public string Asunto { get; set; }
-        public string Solicitante { get; set; }
-        public string Contacto { get; set; }
+        public string NombreSol { get; set; }
+        public string CargoSol { get; set; }
+        public string DependenciaSol { get; set; }
+        public string NombreCont { get; set; }
+        public string TelefonoCont { get; set; }
+        public string EmailCont { get; set; }
         public string Antecedentes { get; set; }
         public string Observaciones { get; set; }
         public string Responsable { get; set; }

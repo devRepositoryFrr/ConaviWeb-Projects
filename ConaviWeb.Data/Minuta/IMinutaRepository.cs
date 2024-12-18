@@ -15,13 +15,21 @@ namespace ConaviWeb.Data.Minuta
         public Task<IEnumerable<Catalogo>> GetMunicipio(string clave);
         public Task<IEnumerable<Catalogo>> GetResponsable();
         public Task<IEnumerable<Catalogo>> GetGestion();
+        public Task<IEnumerable<Catalogo>> GetEstatus();
         public Task<IEnumerable<Catalogo>> GetReunion(int id);
+        public Task<IEnumerable<Catalogo>> GetReunion();
         public Task<IEnumerable<Model.Minuta.ReunionResponse>> GetReuniones();
+        public Task<IEnumerable<Model.Minuta.AcuerdoResponse>> GetAcuerdos();
         public Task<bool> InsertReunion(Reunion reunion);
-        public Task<int> InsertMinuta(Model.Minuta.Minuta minuta);
+        public Task<bool> InsertMinuta(Model.Minuta.Minuta minuta);
         public Task<bool> InsertParticipantes(IEnumerable<Participante> participantes);
         public Task<bool> InsertAcuerdo(Acuerdo acuerdo);
         public Task<bool> DeleteAcuerdo(int id);
         public Task<ReunionResponse> GetReunionDetail(int id);
+        public Task<AcuerdoResponse> GetAcuerdoDetail(int id);
+        public Task<Model.Minuta.Minuta> GetMinuta(int id);
+        public Task<IEnumerable<Model.Minuta.AcuerdoResponse>> GetAcuerdos(int id);
+        public Task<IEnumerable<ReunionIndicadores>> GetIndReunion(int id);
+        public Task<IEnumerable<AcuerdoIndicadores>> GetIndAcuerdo(int id);
     }
 }

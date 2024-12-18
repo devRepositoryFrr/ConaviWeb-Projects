@@ -23,7 +23,7 @@ namespace ConaviWeb.Controllers.Minutas
             _environment = environment;
             _mailService = mailService;
         }
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult Index()
         {
             //var participantes = await _minutaRepository.GetParticipantes();
             //ViewData["Participantes"] = participantes;

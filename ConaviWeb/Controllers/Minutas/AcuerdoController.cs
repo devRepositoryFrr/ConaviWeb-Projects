@@ -1,5 +1,4 @@
 ﻿using ConaviWeb.Data.Minuta;
-using ConaviWeb.Model.Minuta;
 using ConaviWeb.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static ConaviWeb.Models.AlertsViewModel;
 
 namespace ConaviWeb.Controllers.Minutas
 {
@@ -15,49 +13,19 @@ namespace ConaviWeb.Controllers.Minutas
     {
         private readonly IMinutaRepository _minutaRepository;
         private readonly IWebHostEnvironment _environment;
-        public AcuerdoController(IMinutaRepository minutaRepository, IWebHostEnvironment environment)
+        private readonly IMailService _mailService;
+        public AcuerdoController(IMinutaRepository minutaRepository, IWebHostEnvironment environment, IMailService mailService)
         {
             _minutaRepository = minutaRepository;
             _environment = environment;
+            _mailService = mailService;
         }
-        [Route("CapturaAcuerdo/{id?}")]
-        public async Task<IActionResult> CapturaAcuerdoAsync(int id)
+        [Route("DetalleAcuerdo/{id?}")]
+        public async Task<IActionResult> DetalleAcuerdoAsync(int id)
         {
-            var reunion = await _minutaRepository.GetReunion(id);
-            var responsable = await _minutaRepository.GetResponsable();
-            var gestion = await _minutaRepository.GetGestion();
-            ViewData["Reunion"] = reunion;
-            ViewData["Responsable"] = responsable;
-            ViewData["Gestion"] = gestion;
-            if (TempData.ContainsKey("Alert"))
-                ViewBag.Alert = TempData["Alert"].ToString();
-            return View("../Minuta/CapturaAcuerdo");
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreateAcuerdoAsync(Acuerdo acuerdo)
-        {
-            var success = await _minutaRepository.InsertAcuerdo(acuerdo);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el acuerdo");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se agrego el acuerdo con exito");
-            return RedirectToAction("Index","ListaReuniones");
-
-        }
-        [Route("DeleteAcuerdo/{id?}/idReunion")]
-        public async Task<IActionResult> DeleteAcuerdoAsync(int id, int idReunion)
-        {
-            var success = await _minutaRepository.DeleteAcuerdo(id);
-            if (!success)
-            {
-                TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al borrar el acuerdo");
-                return RedirectToAction("Index");
-            }
-            TempData["Alert"] = AlertService.ShowAlert(Alerts.Success, "Se elimino el acuerdo con exito");
-            return RedirectToAction("DetalleReunion", "Reunion", new { id = idReunion });
-
+            var acuerdo = await _minutaRepository.GetAcuerdoDetail(id);
+            ViewData["Acuerdo"] = acuerdo;
+            return View("../Minuta/Acuerdo");
         }
     }
 }

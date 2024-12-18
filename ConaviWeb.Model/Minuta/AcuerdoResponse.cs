@@ -11,9 +11,10 @@ namespace ConaviWeb.Model.Minuta
         public int Id { get; set; }
         public int IdReunion { get; set; }
         public string Responsable { get; set; }
-        public DateTime Fecha_termino { get; set; }
+        public string FechaTermino { get; set; }
         public string Descripcion { get; set; }
         public string Gestion { get; set; }
+        public string Area { get; set; }
         public string Estatus { get; set; }
     }
 }

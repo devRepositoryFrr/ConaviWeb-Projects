@@ -22,7 +22,7 @@ namespace ConaviWeb.Controllers.Minutas
             _environment = environment;
             _mailService = mailService;
         }
-        public async Task<IActionResult> IndexAsync()
+        public IActionResult Index()
         {
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
@@ -30,7 +30,7 @@ namespace ConaviWeb.Controllers.Minutas
         }
 
         [HttpGet("GetReuniones")]
-        public async Task<IActionResult> ListDetailFiles(int idPartition)
+        public async Task<IActionResult> GetReuniones()
         {
             var reuniones = await _minutaRepository.GetReuniones();
 

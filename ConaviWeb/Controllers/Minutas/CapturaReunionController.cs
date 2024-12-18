@@ -13,11 +13,11 @@ using static ConaviWeb.Models.AlertsViewModel;
 
 namespace ConaviWeb.Controllers.Minutas
 {
-    public class RepoCapturaController : Controller
+    public class CapturaReunionController : Controller
     {
         private readonly IMinutaRepository _minutaRepository;
         private readonly IWebHostEnvironment _environment;
-        public RepoCapturaController(IMinutaRepository minutaRepository, IWebHostEnvironment environment)
+        public CapturaReunionController(IMinutaRepository minutaRepository, IWebHostEnvironment environment)
         {
             _minutaRepository = minutaRepository;
             _environment = environment;
@@ -29,11 +29,13 @@ namespace ConaviWeb.Controllers.Minutas
             //var municipio = await _minutaRepository.GetMunicipio();
             var responsable = await _minutaRepository.GetResponsable();
             var gestion = await _minutaRepository.GetGestion();
+            var estatus = await _minutaRepository.GetEstatus();
             ViewData["Sector"] = sector;
             ViewData["Entidad"] = entidad;
             //ViewData["Municipio"] = municipio;
             ViewData["Responsable"] = responsable;
             ViewData["Gestion"] = gestion;
+            ViewData["Estatus"] = estatus;
             if (TempData.ContainsKey("Alert"))
                 ViewBag.Alert = TempData["Alert"].ToString();
             return View("../Minuta/CapturaReunion");

@@ -1,10 +1,10 @@
-﻿@model ConaviWeb.Model.Minuta.Reunion
+﻿@model ConaviWeb.Model.Minuta.Acuerdo
 @{
     Layout = "_LayoutSedatu";
-    ViewBag.Title = "Reuniones";
+    ViewBag.Title = "Acuerdos";
    
 }
-<h4>Reuniones</h4>
+<h4>Acuerdos</h4>
 <hr class="red">
 <div class="form-group col-md-12">
     <div id="spinner" class="spinner-border text-primary" role="status">
@@ -16,29 +16,42 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>SECTOR</th>
             <th>
-                ENTIDAD FEDERATIVA
+                REUNIÓN
             </th>
             <th>
-                MUNICIPIO / ALCALDÍA
+                RESPONSABLE
             </th>
             <th>
-                ASUNTO
+                ÁREA
+            </th>
+            <th>
+                ACUERDO
+            </th>
+            <th>
+                FECHA TERMINO
             </th>
             <th>
                 ESTATUS
             </th>
             <th>
-                ACCIONES
+                GESTIÓN
+            </th>
+            <th>
+                MINUTA
+            </th>
+            <th>
+                ACCIÓN
             </th>
         </tr>
     </thead>
 </table>
 
 @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-
 <script>
     var table;
     var details;
@@ -156,14 +169,14 @@
         $("#spinner").show();
         table = new DataTable('#tblMin', {
             "ajax": {
-                url: "@Url.Action("GetReuniones", "ListaReuniones")",
+                url: "@Url.Action("GetAcuerdos", "ListaAcuerdos")",
                 type: 'GET',
                 headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
                 //success: function (data) { console.log(data) },
                 complete: function (data) {
                     $("#spinner").hide();
                     details = data.responseJSON.data;
-                    console.log(data);
+                    //console.log(data);
                 }
             },
             fixedColumns: true,
@@ -201,25 +214,59 @@
                 //    defaultContent: ''
                 //},
                 { data: 'id' },
-                { data: 'sector' },
-                { data: 'entidadFed' },
-                { data: 'municipio' },
-                { data: 'asunto' },
+                {
+                    data: 'idReunion',
+                    render: function (data, type, row, meta) {
+                        let url = '@Url.Action("DetalleReunion", "Reunion")/' + row.idReunion;
+                        data = '<a href="' + url + '" style="color:#611232;font-weight: bold;">' + data + '</a>';
+                        return data;
+                    } },
+                { data: 'responsable' },
+                { data: 'area' },
+                { data: 'descripcion' },
+                {
+                    data: 'fechaTermino',
+                    render: function (data, type, row, meta) {
+                        let url = '01/01/0001';
+                        if(data == url) data = 'N/A';
+                        return data;
+                    } },
                 { data: 'estatus' },
+                { data: 'gestion' },
+                { data: null },
             ],
             columnDefs: [
                 {
                     className: "dt-center",
-                    targets: 6,
+                    targets: 9,
                     orderable: false,
                     data: null,
                     render: function (data, type, row, meta) {
                         let reunion = row.id;
-                        let urlInf = '@Url.Action("DetalleReunion", "Reunion")/' + reunion;
+                        let urlInf = '@Url.Action("DetalleAcuerdo", "Acuerdo")/' + reunion;
+                        //let urlInf = '#';
                         let botones = `
-                        <a type="button" href=`+ urlInf +` style="color: #611232; font-size: 18px;"><i class="fa fa-info" aria-hidden="true"></a>`;
+                        <a type="button" href=`+ urlInf +` style="color: #611232; font-size: 18px;"><i class="fa fa-info" aria-hidden="true"></i></a>`;
                         return botones;
                     }
+                },
+                {
+                    className: "dt-center",
+                    targets: 8,
+                    orderable: false,
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        let reunion = row.idReunion;
+                        let urlInf = '@Url.Action("Download", "ReporteMinuta")/' + reunion;
+                        //let urlInf = '#';
+                        let botones = `
+                        <a type="button" href=`+ urlInf + ` style="color: #611232; font-size: 18px;"><i class="fa fa-download" aria-hidden="true"></i></a>`;
+                        return botones;
+                    }
+                },
+                {
+                    className: "text-center",
+                    targets: [0,1]
                 }
             ],
             order: [[0, 'asc']]

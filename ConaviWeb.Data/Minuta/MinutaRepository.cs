@@ -88,6 +88,19 @@ namespace ConaviWeb.Data.Minuta
 
             return await db.QueryAsync<Catalogo>(sql);
         }
+        public async Task<IEnumerable<Catalogo>> GetEstatus()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                id Clave, 
+                                descripcion AS Descripcion 
+                            FROM sedatu.c_estatus;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
         public async Task<IEnumerable<Catalogo>> GetReunion(int id)
         {
             var db = DbConnection();
@@ -102,23 +115,35 @@ namespace ConaviWeb.Data.Minuta
 
             return await db.QueryAsync<Catalogo>(sql, new { Id = id});
         }
+        public async Task<IEnumerable<Catalogo>> GetReunion()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            SELECT 
+                                id Clave, 
+                                CONCAT_WS(' - ',id,asunto) AS Descripcion 
+                            FROM sedatu.reunion;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
         public async Task<ReunionResponse> GetReunionDetail(int id)
         {
             var reunion = new ReunionResponse();
             var db = DbConnection();
             var results = await db.QueryMultipleAsync(
                 @"
-                            select r.id id,cs.descripcion sector,ce.descripcion EntidadFed,cm.descripcion Municipio,fch_sesion,fch_atencion,asunto,solicitante,CONCAT_WS('\n',r.nombre,r.telefono,r.email) contacto,antecedentes,observaciones,cp.nombre responsable ,cg.descripcion gestion,e.descripcion estatus
+                            select r.id id,cs.descripcion sector,ce.descripcion EntidadFed,cm.descripcion Municipio,DATE_FORMAT(fch_solicitud,'%d/%m/%Y') FechaSolicitud,DATE_FORMAT(fch_atencion,'%d/%m/%Y') FechaAtencion,asunto,nombre_sol nombreSol,cargo_sol cargoSol,dependencia_sol dependenciaSol,r.nombre_cont nombreCont,r.telefono_cont telefonoCont,r.email_cont emailCont,antecedentes,observaciones,cp.nombre responsable ,cg.descripcion gestion,e.descripcion estatus
                             from sedatu.reunion r
                             join sedatu.c_sector cs on cs.id = r.id_sector
                             join sedatu.c_entidad ce on ce.clave = r.cv_ef
                             join sedatu.c_municipio cm on cm.cv_ef = r.cv_ef and cm.cv_mun = r.cv_mun
                             left join sedatu.c_personal cp on cp.id = r.id_responsable
                             join sedatu.c_gestion cg on cg.id = r.id_gestion
-                            left join sedatu.acuerdo a on a.id_reunion = r.id
                             join sedatu.c_estatus e on e.id = r.estatus
                             WHERE r.id = @Id;
-                            select a.id,a.id_reunion IdReunion,a.responsable,a.fecha_termino,a.descripcion,cg.descripcion gestion,e.descripcion estatus from sedatu.acuerdo a 
+                            select a.id,a.id_reunion IdReunion,a.responsable,DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') FechaTermino,a.descripcion,cg.descripcion gestion,e.descripcion estatus from sedatu.acuerdo a 
                             join sedatu.reunion r on r.id = a.id_reunion 
                             join sedatu.c_gestion cg on cg.id = a.id_gestion
                             join sedatu.c_estatus e on e.id = a.estatus
@@ -129,42 +154,84 @@ namespace ConaviWeb.Data.Minuta
                         
             return reunion;
         }
+        public async Task<AcuerdoResponse> GetAcuerdoDetail(int id)
+        {
+            var reunion = new AcuerdoResponse();
+            var db = DbConnection();
+            var results = await db.QueryMultipleAsync(
+                @"
+                            select a.id,a.id_reunion IdReunion,a.responsable,DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') FechaTermino,a.descripcion,cg.descripcion gestion,e.descripcion estatus from sedatu.acuerdo a 
+                            join sedatu.reunion r on r.id = a.id_reunion 
+                            join sedatu.c_gestion cg on cg.id = a.id_gestion
+                            join sedatu.c_estatus e on e.id = a.estatus
+                            WHERE a.id = @Id AND cv_bajal = 1;
+                         ", new { Id = id });
+            reunion = await results.ReadFirstOrDefaultAsync<AcuerdoResponse>();
+
+            return reunion;
+        }
+        public async Task<Model.Minuta.Minuta> GetMinuta(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            select id, id_reunion, tema, asunto, interno, externo, contexto, descripcion, estatus, created_at FchCreate
+                            from sedatu.minuta
+                            where id_reunion = @Id;
+                         ";
+
+            return await db.QueryFirstOrDefaultAsync<Model.Minuta.Minuta>(sql, new { Id = id });
+        }
+        public async Task<IEnumerable<AcuerdoResponse>> GetAcuerdos(int id)
+        {
+            var lookup = new Dictionary<int, Model.Minuta.AcuerdoResponse>();
+            var db = DbConnection();
+            var sql = @"
+                            select a.id,id_reunion idReunion,responsable ,DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') fechaTermino ,a.descripcion,cg.descripcion gestion ,'' area,e.descripcion estatus
+                            from sedatu.acuerdo a
+                            join sedatu.c_gestion cg on cg.id = a.id_gestion 
+                            join sedatu.c_estatus e on e.id = a.estatus
+                            where id_reunion  = @Id;
+                           ";
+            return await db.QueryAsync<AcuerdoResponse>(sql, new { Id = id });
+        }
+
         public async Task<bool> InsertReunion(Reunion reunion)
         {
             var db = DbConnection();
 
             var sql = @"
-                        CALL sedatu.sp_inserta_reunion(@Sector,@EntidadFed,@Municipio,@Asunto,@Fecha_sesion,@Solicitante,@Nombre,@Telefono,@Email,@Antecedentes,@Responsable,@Fecha_atencion,@Observaciones,@Gestion);";
+                        CALL sedatu.sp_inserta_reunion(@Sector,@EntidadFed,@Municipio,@Asunto,@FechaSolicitud,@NombreSol,@CargoSol,@DependenciaSol,@NombreCont,@TelefonoCont,@EmailCont,@Antecedentes,@Responsable,@FechaAtencion,@Observaciones,@Gestion,@IdEstatus);";
 
             var result = await db.ExecuteAsync(sql, new {
                 reunion.Sector,
                 reunion.EntidadFed,
                 reunion.Municipio,
                 reunion.Asunto,
-                reunion.Fecha_sesion,
-                reunion.Solicitante,
-                reunion.Nombre,
-                reunion.Telefono,
-                reunion.Email,
+                reunion.FechaSolicitud,
+                reunion.NombreSol,
+                reunion.CargoSol,
+                reunion.DependenciaSol,
+                reunion.NombreCont,
+                reunion.TelefonoCont,
+                reunion.EmailCont,
                 reunion.Antecedentes,
                 reunion.Responsable,
-                reunion.Fecha_atencion,
+                reunion.FechaAtencion,
                 reunion.Observaciones,
-                reunion.Gestion
+                reunion.Gestion,
+                reunion.IdEstatus
             });
             return result > 0;
 
         }
-        public async Task<int> InsertMinuta(Model.Minuta.Minuta minuta)
+        public async Task<bool> InsertMinuta(Model.Minuta.Minuta minuta)
         {
             var db = DbConnection();
-
             var sql = @"
-                        CALL sedatu.sp_inserta_minuta(@Folio, @Tema, @Asunto, @Contexto, @Descripcion);";
-
-            var result = await db.QueryAsync<int>(sql, new { minuta.Folio, minuta.Tema, minuta.Asunto, minuta.Contexto, minuta.Descripcion });
-            return result.FirstOrDefault();
-
+                        INSERT INTO sedatu.minuta (id_reunion, tema, asunto, interno, externo, contexto, descripcion) VALUES(@IdReunion, @Tema, @Asunto, @Interno, @Externo, @Contexto, @Descripcion );";
+            var result = await db.ExecuteAsync(sql, minuta);
+            return result > 0;
         }
         public async Task<bool> InsertParticipantes(IEnumerable<Participante> participantes)
         {
@@ -174,12 +241,11 @@ namespace ConaviWeb.Data.Minuta
             var result = await db.ExecuteAsync(sql, participantes);
             return result > 0;
         }
-
         public async Task<bool> InsertAcuerdo(Acuerdo acuerdo)
         {
             var db = DbConnection();
             var sql = @"
-                        INSERT INTO sedatu.acuerdo (id_reunion, responsable, fecha_termino, descripcion, id_gestion) VALUES(@IdReunion, @IdResponsable, @Fecha_termino, @Descripcion, @IdGestion );";
+                        INSERT INTO sedatu.acuerdo (id_reunion, responsable, fecha_termino, descripcion, id_gestion, estatus) VALUES(@IdReunion, @IdResponsable, @FechaTermino, @Descripcion, @IdGestion, @IdEstatus);";
             var result = await db.ExecuteAsync(sql, acuerdo);
             return result > 0;
         }
@@ -188,13 +254,63 @@ namespace ConaviWeb.Data.Minuta
             var lookup = new Dictionary<int, Model.Minuta.ReunionResponse>();
             var db = DbConnection();
             var sql = @"
-                            select r.id id, cs.descripcion sector, ce.descripcion entidadFed, cm.descripcion municipio, r.asunto, r.solicitante
+                            select r.id id, cs.descripcion sector, ce.descripcion entidadFed, cm.descripcion municipio, r.asunto, r.nombre_sol nombreSol, e.descripcion estatus
                             from sedatu.reunion r 
                             join sedatu.c_sector cs on cs.id = r.id_sector 
                             join sedatu.c_entidad ce on ce.clave = r.cv_ef 
-                            join sedatu.c_municipio cm on cm.cv_ef = r.cv_ef and cm.cv_mun = r.cv_mun ;
+                            join sedatu.c_municipio cm on cm.cv_ef = r.cv_ef and cm.cv_mun = r.cv_mun
+                            join sedatu.c_estatus e on e.id = r.estatus;
                            ";
             return await db.QueryAsync<ReunionResponse>(sql);
+        }
+        public async Task<IEnumerable<AcuerdoResponse>> GetAcuerdos()
+        {
+            var lookup = new Dictionary<int, Model.Minuta.AcuerdoResponse>();
+            var db = DbConnection();
+            var sql = @"
+                            select a.id,id_reunion idReunion,responsable ,DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') fechaTermino ,a.descripcion,cg.descripcion gestion ,'' area,e.descripcion estatus
+                            from sedatu.acuerdo a
+                            join sedatu.c_gestion cg on cg.id = a.id_gestion 
+                            join sedatu.c_estatus e on e.id = a.estatus;
+                           ";
+            return await db.QueryAsync<AcuerdoResponse>(sql);
+        }
+        public async Task<IEnumerable<ReunionIndicadores>> GetIndReunion(int id)
+        {
+            var sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus 
+                            group by r.estatus;
+                           ";
+            var db = DbConnection();
+            if(id != 0) { 
+                sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus 
+                            where r.id_gestion = @Id
+                            group by r.estatus;
+                           ";
+            }
+            return await db.QueryAsync<ReunionIndicadores>(sql,new { Id = id});
+        }
+        public async Task<IEnumerable<AcuerdoIndicadores>> GetIndAcuerdo(int id)
+        {
+            var sql = @"
+                            select COUNT(a.id) acuerdos, e.descripcion estatus from sedatu.acuerdo a
+                            join sedatu.c_estatus e on e.id = a.estatus
+                            group by a.estatus;
+                           ";
+            var db = DbConnection();
+            if (id != 0)
+            {
+                sql = @"
+                            select COUNT(a.id) acuerdos, e.descripcion estatus from sedatu.acuerdo a
+                            join sedatu.c_estatus e on e.id = a.estatus
+                            where a.id_gestion = @Id
+                            group by a.estatus;
+                           ";
+            }
+            return await db.QueryAsync<AcuerdoIndicadores>(sql, new { Id = id });
         }
         public async Task<bool> DeleteAcuerdo(int id)
         {
