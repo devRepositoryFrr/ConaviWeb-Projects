@@ -5,6 +5,7 @@ using ConaviWeb.Data.RH;
 using ConaviWeb.Data.Shell;
 using ConaviWeb.Data.Sisevive;
 using ConaviWeb.Data.Expedientes;
+using ConaviWeb.Data.Levantamientos;
 using ConaviWeb.Model.Common;
 using ConaviWeb.Services;
 using ConaviWeb.Tools;
@@ -78,6 +79,7 @@ namespace ConaviWeb
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRHRepository, RHRepository>();
             services.AddScoped<IExpedienteRepository, ExpedienteRepository>();
+            services.AddScoped<ILevantamientoRepository, LevantamientoRepository>();
             services.AddScoped<INominaRepository, NominaRepository>();
             services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
             services.AddScoped<IMinutaRepository, MinutaRepository>();
