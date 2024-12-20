@@ -1,17 +1,15 @@
-﻿@{
+﻿@model ConaviWeb.Model.PrediosAdquisicion.Predio
+@{
     ViewData["Title"] = "Formato de homologación";
 }
-<div class="row">
-    <div class="col-md-12" id="alertAjax">
-        @Html.Raw(@ViewBag.Alert)
-    </div>
-</div>
-<div id="general">
-    <div class="row">
-        <div class="col-md-12 center-block">
-            <img src="../img/encab2021.png" class="img-responsive" />
-        </div>
-        @*<div class="col-md-7 text-right">
+<div id="predio">
+    <form id="formInsertFormatoHomologacion" enctype="multipart/form-data" method="post" asp-controller="Levantamiento" asp-action="InsertFormatoLevantamiento">
+        <input type="hidden" id="hd_id_predio" asp-for="Id" value="0" />
+        <div class="row">
+            <div class="col-md-12 center-block">
+                <img src="../img/encab2021.png" class="img-responsive" />
+            </div>
+            @*<div class="col-md-7 text-right">
                 <label>
                     SUBDIRECCIÓN GENERAL DE ADMINSTRACIÓN Y FINANCIAMIENTO<br />
                     COORDINACIÓN GENERAL DE ADMINISTRACIÓN<br />
@@ -19,1254 +17,1326 @@
                     DEPARTAMENTO DE UNIDADES DOCUMENTALES
                 </label>
             </div>*@
-    </div>
-    <br />
-    <div class="row" style="background-color: #9D2449; color: white;">
-        <div class="col-md-12 text-center">
-            <label>
-                FORMATO DE HOMOLOGACIÓN DE IDENTIFICACIÓN DE ELEMENTOS EN EL ENTORNO A LOS PREDIOS DE ADQUISICIÓN
-            </label>
         </div>
-    </div>
-    <div class="row form-group" style="background-color: #D4C19C;">
-        <div class="col-md-12 text-center">
-            <label>DATOS DEL PREDIO</label>
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-3">
-            <label for="fecha_recorrido">Fecha de recorrido:</label>
-        </div>
-        <div class="col-md-9 datepicker-group">
-            <input id="fecha_recorrido" class="form-control" />
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-3">
-            <label>Domicilio:</label>
-        </div>
-        <div class="col-md-6">
-            <input class="form-control" id="domicilio" />
-        </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Coordenadas geográficas</label>
-                </div>
-                <div class="col-md-2">
-                    <label>N</label>
-                </div>
-                <div class="col-md-4">
-                    <input class="form-control" type="text" id="c_norte" />
-                </div>
-                <div class="col-md-2">
-                    <label>O</label>
-                </div>
-                <div class="col-md-4">
-                    <input class="form-control" type="text" id="c_oeste" />
-                </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12" id="alertAjax">
+                @Html.Raw(@ViewBag.Alert)
             </div>
         </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-4">
-            <label>Estado:</label>
-            @*<label class="form-control">Todas los estados</label>*@
-            <select id="slctEstados" class="form-control" asp-items="@ViewBag.EstadoCatalogo" required onchange="getMunicipios(this.value)">
-                <option value="">--Seleccione--</option>
-            </select>
+        <div class="row" style="background-color: #9D2449; color: white;">
+            <div class="col-md-12 text-center">
+                <label>
+                    FORMATO DE HOMOLOGACIÓN DE IDENTIFICACIÓN DE ELEMENTOS EN EL ENTORNO A LOS PREDIOS DE ADQUISICIÓN
+                </label>
+            </div>
         </div>
-        <div class="col-md-4">
-            <label>Municipio:</label>
-            <select id="slctMunicipios" class="form-control" required onchange="getLocalidades(this.value)">
-                <option value="">--Seleccione--</option>
-            </select>
+        <div class="row form-group" style="background-color: #D4C19C;">
+            <div class="col-md-12 text-center">
+                <label>DATOS DEL PREDIO</label>
+            </div>
         </div>
-        <div class="col-md-4">
-            <label>Localidad:</label>
-            <select id="slctLocalidades" class="form-control" required >
-                <option value="">--Seleccione--</option>
-            </select>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="fecha_recorrido">Fecha de recorrido:</label>
+            </div>
+            <div class="col-md-5 datepicker-group">
+                <input id="fecha_recorrido" class="form-control" asp-for="FechaRecorrido" />
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+            </div>
         </div>
-    </div>
-    <div class="row" style="background-color: #D4C19C;">
-        <div class="col-md-12 text-center">
-            <label>CARACTERÍSTICAS DEL PREDIO</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <label>Seleccione aquello que cumpla con las características observadas</label>
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Predio</label>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="predio" class="radio" /> Lotificado</label>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Domicilio:</label>
+            </div>
+            <div class="col-md-5">
+                @*<input class="form-control" id="domicilio" asp-for="Domicilio" name="Domicilio" />*@
+                <textarea class="form-control" id="domicilio" asp-for="Domicilio"></textarea>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label>Coordenadas geográficas</label>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="predio" class="radio" /> En breña</label>
+                    <div class="col-md-1">
+                        <label>N</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="c_norte" asp-for="CoordN" />
+                    </div>
+                    <div class="col-md-1">
+                        <label>O</label>
+                    </div>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="c_oeste" asp-for="CoordO" />
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Localización</label>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="localizacion" class="radio" /> Dentro de la mancha</label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="localizacion" class="radio" /> En la periferia</label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="localizacion" class="radio" /> Fuera de la mancha urbana</label>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Estado:</label>
+                @*<label class="form-control">Todas los estados</label>*@
+                <select id="slctEstados" class="form-control" asp-for="CveEstado" asp-items="@ViewBag.EstadoCatalogo" data-val="true" data-val-required="Seleccione el estado" required onchange="getMunicipios(this.value)">
+                    <option value="">--Seleccione--</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Municipio:</label>
+                <select id="slctMunicipios" class="form-control" required onchange="getLocalidades(this.value)" asp-for="CveMunicipio">
+                    <option value="">--Seleccione--</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Localidad:</label>
+                <select id="slctLocalidades" class="form-control" asp-for="CveLocalidad" required>
+                    <option value="">--Seleccione--</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" style="background-color: #D4C19C;">
+            <div class="col-md-12 text-center">
+                <label>CARACTERÍSTICAS DEL PREDIO</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <label>Seleccione aquello que cumpla con las características observadas</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Predio</label>
                     </div>
                     <div class="col-md-12">
-                        <label>Distancia (m)<input type="text" class="form-control" /></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Acceso</label>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="acceso" class="radio" /> De terracería</label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="acceso" class="radio" /> Pavimentado</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-md-12">
-                    <label>Otros</label>
-                </div>
-                <div class="col-md-12">
-                    <div class="radio">
-                        <label><input type="radio" name="otros" class="radio" /> Infraestructura dentro del predio (agua, drenaje, alcantarillado, etc.)</label>
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveTipoPredio" value="1" id="cveTipoPredio" class="radio" /> Lotificado</label>
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <label>¿Cuáles?<input type="text" class="form-control" /></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row form-group">
-        <div class="col-md-12 text-center">
-            <label class="control-label">Conexión a servicios</label>
-        </div>
-    </div>
-    <hr />
-    <div class="row form-group">
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <label class="control-label">Electricidad</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="electricidad" class="radio" /> Conexión</label></div>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveTipoPredio" value="2" id="cveTipoPredio" class="radio" /> En breña</label>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <label class="control-label">Drenaje</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="drenaje" class="radio" /> Conexión a red municipal</label></div>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Localización</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveLocalizacion" value="1" class="radio" /> Dentro de la mancha</label>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveLocalizacion" value="2" class="radio" /> En la periferia</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveLocalizacion" value="3" class="radio" /> Fuera de la mancha urbana</label>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Distancia (m)<input type="number" min="1" asp-for="DistanciaLocalizacion" id="distanciaLocalizacion" class="form-control" /></label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="drenaje" class="radio" /> Fosa séptica</label></div>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Acceso</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveAcceso" value="1" class="radio" /> De terracería</label>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" asp-for="CveAcceso" value="2" class="radio" /> Pavimentado</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="drenaje" class="radio" /> Planta de tratamiento</label></div>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Otros</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="radio">
+                            <label><input type="radio" id="CaracteristicaOtro" value="1" asp-for="CveOtrasCaracteristicas" class="radio" /> Infraestructura dentro del predio (agua, drenaje, alcantarillado, etc.)</label>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                        <div class="col-md-12">
+                            <label>¿Cuáles?<input type="text" asp-for="CaracPredioOtro" id="otroCaracteristica" class="form-control" /></label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <label class="control-label">Agua potable</label>
-                </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <label class="control-label">Conexión a servicios</label>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="agua_potable" class="radio" /> Pozo</label></div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label class="control-label">Electricidad</label>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveElectricidad" value="1" class="radio" /> Conexión</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" asp-for="DistElectricidad" id="distanciaElectricidad" class="form-control" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="agua_potable" class="radio" /> Conexión a red municipal</label></div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label class="control-label">Drenaje</label>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveDrenaje" value="1" class="radio" /> Conexión a red municipal</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaDrenaje1" class="form-control" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="agua_potable" class="radio" /> Tanque elevado</label></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="radio"><label><input type="radio" name="agua_potable" class="radio" /> Tandeo</label></div>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Distancia(m)</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveDrenaje" value="2" class="radio" /> Fosa séptica</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaDrenaje2" class="form-control" />
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveDrenaje" value="3" class="radio" /> Planta de tratamiento</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaDrenaje3" class="form-control" />
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="DistDrenaje" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <label class="control-label">Agua potable</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveAguaPotable" value="1" class="radio" /> Pozo</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaAguaPotable1" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveAguaPotable" value="2" class="radio" /> Conexión a red municipal</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaAguaPotable2" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveAguaPotable" value="3" class="radio" /> Tanque elevado</label></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="radio"><label><input type="radio" asp-for="CveAguaPotable" value="4" class="radio" /> Tandeo</label></div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Distancia(m)</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" id="distanciaAguaPotable4" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="DistAguaPotable" />
+            </div>
+        </div>
+        <div class="row" style="background-color: #D4C19C;">
+            <div class="col-md-12 text-center">
+                <label>ELEMENTOS DEL ENTORNO (500 m)</label>
+            </div>
+        </div>
+        <div class="row form-group" style="background-color: #ECE4D4;">
+            <div class="col-md-12 text-center">
+                <label>ELEMENTOS CONSTRUCTIVOS</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Número de niveles construidos en el entorno</label>
+                <input type="number" asp-for="NivelesConstruidos" id="nivelesConstruidos" class="form-control" />
+            </div>
+            <div class="col-md-6 text-center">
+                <label>Materiales usados en las viviendas</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Naturales</label>
+                        <input type="text" asp-for="MaterialesNaturales" id="materialesNaturales" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Industrializados</label>
+                        <input type="text" asp-for="MaterialesIndustrializados" id="materialesIndustrializados" class="form-control" />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="background-color: #D4C19C;">
-        <div class="col-md-12 text-center">
-            <label>ELEMENTOS DEL ENTORNO (500 m)</label>
-        </div>
-    </div>
-    <div class="row form-group" style="background-color: #ECE4D4;">
-        <div class="col-md-12 text-center">
-            <label>ELEMENTOS CONSTRUCTIVOS</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <label>Número de niveles construidos en el entorno</label>
-            <input type="text" class="form-control" />
-        </div>
-        <div class="col-md-6 text-center">
-            <label>Materiales usados en las viviendas</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>Naturales</label>
-                    <input type="text" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <label>Industrializados</label>
-                    <input type="text" class="form-control" />
-                </div>
+        <div class="row" style="background-color: #ECE4D4;">
+            <div class="col-md-12 text-center">
+                <label>VIALIDADES Y ACCESOS</label>
             </div>
         </div>
-    </div>
-    <div class="row" style="background-color: #ECE4D4;">
-        <div class="col-md-12 text-center">
-            <label>VIALIDADES Y ACCESOS</label>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <label>Vialidades de conexión al predio</label>
+            </div>
+            <div class="col-md-3 text-center">
+                Distancia (m)
+            </div>
+            <div class="col-md-3 text-center">
+                Condiciones
+            </div>
+            <div class="col-md-3 text-center">
+                Materiales
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <label>Vialidades de conexión al predio</label>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio"><label><input type="radio" asp-for="TieneConexionVialidad" id="vialidad_predio_si" value="1" /> Si</label></div>
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+            <div class="col-md-1">
+                Buena
+            </div>
+            <div class="col-md-1">
+                Mala
+            </div>
+            <div class="col-md-1">
+                Regular
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+            </div>
         </div>
-        <div class="col-md-3 text-center">
-            Distancia (m)
-        </div>
-        <div class="col-md-3 text-center">
-            Condiciones
-        </div>
-        <div class="col-md-3 text-center">
-            Materiales
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="radio"><label><input type="radio" name="vialidad_predio" /> Si</label></div>
-        </div>
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-        <div class="col-md-1">
-            Buena
-        </div>
-        <div class="col-md-1">
-            Mala
-        </div>
-        <div class="col-md-1">
-            Regular
-        </div>
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
+        <div class="row">
+            <div class="col-md-1">
 
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoVialidadConexion" value="1"/> Federal</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="vialidad_distancia_1" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion1" asp-for="CondicionesVialidadConexion" formnovalidate value="1"/></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion1" asp-for="CondicionesVialidadConexion" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion1" asp-for="CondicionesVialidadConexion" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="vialidad_materiales_1" />
+            </div>
         </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_vialidad" /> Federal</label></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoVialidadConexion" value="2" /> Municipal</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="vialidad_distancia_2" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion2" asp-for="CondicionesVialidadConexion" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion2" asp-for="CondicionesVialidadConexion" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion2" asp-for="CondicionesVialidadConexion" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="vialidad_materiales_2" />
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_distancia_federal" />
+        <div class="row">
+            <div class="col-md-1">
+                <label>Tipo</label>
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoVialidadConexion" value="3" /> Primaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="vialidad_distancia_3" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion3" asp-for="CondicionesVialidadConexion" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion3" asp-for="CondicionesVialidadConexion" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion3" asp-for="CondicionesVialidadConexion" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="vialidad_materiales_3" class="form-control" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_federal" /></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoVialidadConexion" value="4" /> Secundaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="vialidad_distancia_4" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion4" asp-for="CondicionesVialidadConexion" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion4" asp-for="CondicionesVialidadConexion" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion4" asp-for="CondicionesVialidadConexion" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="vialidad_materiales_4" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_federal" /></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoVialidadConexion" value="5" /> Terciaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="vialidad_distancia_5" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion5" asp-for="CondicionesVialidadConexion" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion5" asp-for="CondicionesVialidadConexion" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesVialidadConexion5" asp-for="CondicionesVialidadConexion" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="vialidad_materiales_5" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_federal" /></div>
+        <input type="hidden" asp-for="DistanciaVialidadConexion" /><input type="hidden" asp-for="MaterialesVialidadConexion" />
+        <div class="row">
+            <div class="col-md-1">
+                <div class="radio"><label><input type="radio" asp-for="TieneConexionVialidad" id="vialidad_predio_no" value="2" /> No</label></div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_federal_materiales" />
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <label>
+                    Acceso al predio
+                </label>
+            </div>
+            <div class="col-md-3 text-center">
+                Distancia (m)
+            </div>
+            <div class="col-md-3 text-center">
+                Condiciones
+            </div>
+            <div class="col-md-3 text-center">
+                Materiales
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio"><label><input type="radio" asp-for="TieneAccesoPredio" id="acceso_predio_si" value="1" /> Si</label></div>
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+            <div class="col-md-1">
+                Buena
+            </div>
+            <div class="col-md-1">
+                Mala
+            </div>
+            <div class="col-md-1">
+                Regular
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+            </div>
         </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_vialidad" /> Municipal</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_distancia_municipal" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_municipal_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <label>Tipo</label>
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_vialidad" /> Primaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_distancia_primaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" id="vialidad_primaria_materiales" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_vialidad" /> Secundaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_distancia_secundaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_secundaria_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_vialidad" /> Terciaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_distancia_terciaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="vialidad_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="vialidad_terciaria_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <div class="radio"><label><input type="radio" name="vialidad_predio" /> No</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 text-center">
-            <label>
-                Acceso al predio
-            </label>
-        </div>
-        <div class="col-md-3 text-center">
-            Distancia (m)
-        </div>
-        <div class="col-md-3 text-center">
-            Condiciones
-        </div>
-        <div class="col-md-3 text-center">
-            Materiales
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="radio"><label><input type="radio" name="acceso_predio" /> Si</label></div>
-        </div>
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-        <div class="col-md-1">
-            Buena
-        </div>
-        <div class="col-md-1">
-            Mala
-        </div>
-        <div class="col-md-1">
-            Regular
-        </div>
-        <div class="col-md-3">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
+        <div class="row">
+            <div class="col-md-1">
 
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoAccesoPredio" value="1" /> Federal</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="acceso_distancia_1" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio1" asp-for="CondicionesAccesoPredio" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio1" asp-for="CondicionesAccesoPredio" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio1" asp-for="CondicionesAccesoPredio" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="acceso_materiales_1" />
+            </div>
         </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_acceso" /> Federal</label></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoAccesoPredio" value="2" /> Municipal</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="acceso_distancia_2" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio2" asp-for="CondicionesAccesoPredio" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio2" asp-for="CondicionesAccesoPredio" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio2" asp-for="CondicionesAccesoPredio" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="acceso_materiales_2" />
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_distancia_federal" />
+        <div class="row">
+            <div class="col-md-1">
+                <label>Tipo</label>
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoAccesoPredio" value="3" /> Primaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="acceso_distancia_3" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio3" asp-for="CondicionesAccesoPredio" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio3" asp-for="CondicionesAccesoPredio" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio3" asp-for="CondicionesAccesoPredio" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="acceso_materiales_3" class="form-control" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_federal" /></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoAccesoPredio" value="4" /> Secundaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="acceso_distancia_4" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio4" asp-for="CondicionesAccesoPredio" formnovalidate value="1" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio4" asp-for="CondicionesAccesoPredio" formnovalidate value="2" /></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio4" asp-for="CondicionesAccesoPredio" formnovalidate value="3" /></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="acceso_materiales_4" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_federal" /></div>
+        <div class="row">
+            <div class="col-md-1">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="radio"><label><input type="radio" asp-for="TipoAccesoPredio" value="5" /> Terciaria</label></div>
+            </div>
+            <div class="col-md-3">
+                <input type="number" class="form-control" id="acceso_distancia_5" />
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio5" asp-for="CondicionesAccesoPredio" formnovalidate value="1"/></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio5" asp-for="CondicionesAccesoPredio" formnovalidate value="2"/></div>
+            </div>
+            <div class="col-md-1 text-center">
+                <div class="radio"><input type="radio" id="condicionesAccesoPredio5" asp-for="CondicionesAccesoPredio" formnovalidate value="3"/></div>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="acceso_materiales_5" />
+            </div>
         </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_federal" /></div>
+        <input type="hidden" asp-for="DistanciaAccesoPredio" /><input type="hidden" asp-for="MaterialesAccesoPredio" />
+        <div class="row">
+            <div class="col-md-1">
+                <div class="radio"><label><input type="radio" asp-for="TieneAccesoPredio" id="acceso_predio_no" value="2" /> No</label></div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_federal_materiales" />
+        <div class="row" style="background-color: #ECE4D4;">
+            <div class="col-md-12 text-center">
+                <label>TRANSPORTE PÚBLICO</label>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_acceso" /> Municipal</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_distancia_municipal" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_municipal" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_municipal_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <label>Tipo</label>
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_acceso" /> Primaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_distancia_primaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_primaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" id="acceso_primaria_materiales" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_acceso" /> Secundaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_distancia_secundaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_secundaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_secundaria_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            &nbsp;
-        </div>
-        <div class="col-md-2">
-            <div class="radio"><label><input type="radio" name="tipo_acceso" /> Terciaria</label></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_distancia_terciaria" />
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-1 text-center">
-            <div class="radio"><input type="radio" name="acceso_condiciones_terciaria" /></div>
-        </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" id="acceso_terciaria_materiales" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <div class="radio"><label><input type="radio" name="acceso_predio" /> No</label></div>
-        </div>
-    </div>
-    <div class="row" style="background-color: #ECE4D4;">
-        <div class="col-md-12 text-center">
-            <label>TRANSPORTE PÚBLICO</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <label>
-                Para acceder al transporte público:
-            </label>
-        </div>
-        <div class="col-md-4 text-center">
-            Distancia (m)
-        </div>
-        <div class="col-md-4 text-center">
-            Condiciones
-            <div class="row">
-                <div class="col-md-4">
-                    Buenas
-                </div>
-                <div class="col-md-4">
-                    Malas
-                </div>
-                <div class="col-md-4">
-                    Regulares
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <label>
+                    Para acceder al transporte público:
+                </label>
+            </div>
+            <div class="col-md-4 text-center">
+                Distancia (m)
+            </div>
+            <div class="col-md-4 text-center">
+                Condiciones
+                <div class="row">
+                    <div class="col-md-4">
+                        Buenas
+                    </div>
+                    <div class="col-md-4">
+                        Malas
+                    </div>
+                    <div class="col-md-4">
+                        Regulares
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Acceso Inmediato</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="transporte_inmediato_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_inmediato_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_inmediato_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_inmediato_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Acceso Inmediato</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubAccesoInmediato" class="form-control" id="transporte_inmediato_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubAccesoInmediato" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubAccesoInmediato" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubAccesoInmediato" formnovalidate value="3" /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>A una distancia cómoda</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="transporte_comoda_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_comoda_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_comoda_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_comoda_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>A una distancia cómoda</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubComoda" class="form-control" id="transporte_comoda_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubComoda" formnovalidate value="1"  /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubComoda" formnovalidate value="2"  /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubComoda" formnovalidate value="3"  /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Lejano</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="transporte_lejano_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_lejano_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_lejano_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="transporte_lejano_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Lejano</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubLejano" class="form-control" id="transporte_lejano_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubLejano" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubLejano" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubLejano" formnovalidate value="3" /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <label>
-                Estructura
-            </label>
-        </div>
-        <div class="col-md-4 text-center">
-            Distancia (m)
-        </div>
-        <div class="col-md-4 text-center">
-            Condiciones
-            <div class="row">
-                <div class="col-md-4">
-                    Buenas
-                </div>
-                <div class="col-md-4">
-                    Malas
-                </div>
-                <div class="col-md-4">
-                    Regulares
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <label>
+                    Estructura
+                </label>
+            </div>
+            <div class="col-md-4 text-center">
+                Distancia (m)
+            </div>
+            <div class="col-md-4 text-center">
+                Condiciones
+                <div class="row">
+                    <div class="col-md-4">
+                        Buenas
+                    </div>
+                    <div class="col-md-4">
+                        Malas
+                    </div>
+                    <div class="col-md-4">
+                        Regulares
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Parada del sistema de transporte</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="estructura_parada_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_parada_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_parada_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_parada_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Parada del sistema de transporte</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubParada" class="form-control" id="estructura_parada_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubParada" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubParada" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubParada" formnovalidate value="3" /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Estación o Cetram</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="estructura_estacion_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_estacion_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_estacion_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_estacion_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Estación o Cetram</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubEstacionCetram" class="form-control" id="estructura_estacion_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubEstacionCetram" formnovalidate value="1"  /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubEstacionCetram" formnovalidate value="2"  /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubEstacionCetram" formnovalidate value="3"  /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Sitio de taxis</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="estructura_sitio_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Sitio de taxis</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubSitioTaxis" class="form-control" id="estructura_sitio_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubSitioTaxis" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubSitioTaxis" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubSitioTaxis" formnovalidate value="3" /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-            <label>Otro</label>
-        </div>
-        <div class="col-md-3">
-            <input type="text" id="estructura_otro" class="form-control" />
-        </div>
-        <div class="col-md-4">
-            <input type="text" class="form-control" id="estructura_sitio_distancia" />
-        </div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
-                </div>
-                <div class="col-md-4 text-center">
-                    <div class="radio"><input type="radio" name="estructura_sitio_condiciones" /></div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Otro</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" asp-for="TranPubOtro" id="estructura_otro" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <input type="number" asp-for="DistanciaTranPubOtro" class="form-control" id="estructura_sitio_distancia" />
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubOtro" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubOtro" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionesTranPubOtro" formnovalidate value="3" /></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="background-color: #ECE4D4;">
-        <div class="col-md-12 text-center">
-            <label>EQUIPAMIENTO URBANO Y SERVICIOS</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 text-center">
-            Equipamientos Urbanos identificados en un radio de 500 m (Inmuebles administrados por el Gobierno)
-        </div>
-        <div class="col-md-6 text-center">
-            Servicios Urbanos identificados en un radio de 500 m (Inmuebles administrados por particulares o privados)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            &nbsp;
-        </div>
-        <div class="col-md-2 text-center">
-            Nivel
-        </div>
-        <div class="col-md-2 text-center">
-            Distancia(m)
-        </div>
-        <div class="col-md-2">
-            &nbsp;
-        </div>
-        <div class="col-md-2 text-center">
-            Nivel
-        </div>
-        <div class="col-md-2 text-center">
-            Distancia(m)
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Educación
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_educacion_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_educacion_distancia" />
-        </div>
-        <div class="col-md-2">
-            Educación
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_educacion_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_educacion_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Salud
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_salud_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_salud_distancia" />
-        </div>
-        <div class="col-md-2">
-            Salud
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_salud_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_salud_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Recreación
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_recreacion_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_recreacion_distancia" />
-        </div>
-        <div class="col-md-2">
-            Recreación
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_recreacion_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_recreacion_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Cultura
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_cultura_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_cultura_distancia" />
-        </div>
-        <div class="col-md-2">
-            Cultura
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_cultura_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_cultura_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Servicios urbanos
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_servurb_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_servurb_distancia" />
-        </div>
-        <div class="col-md-2">
-            Otro <input type="text" class="form-control" id="servicio_otro" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_otro_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="servicio_otro_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Asistencia social
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_asistencia_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_asistencia_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            Otro <input type="text" class="form-control" id="equipamiento_otro" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_otro_nivel" />
-        </div>
-        <div class="col-md-2">
-            <input type="text" class="form-control" id="equipamiento_otro_distancia" />
-        </div>
-    </div>
-    <div class="row" style="background-color: #D4C19C;">
-        <div class="col-md-12 text-center">
-            <label>UBICACIÓN Y  DESCRIPCIÓN DEL ENTORNO FÍSICO DEL PREDIO</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            Seleccione aquello que cumpla con las características observadas
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2 text-center">
-            <label>Topografía del terreno</label>
-        </div>
-        <div class="col-md-2 text-center">
-            <label>Hidrografía</label>
-        </div>
-        <div class="col-md-3 text-center">
-            <label>Restricciones federales</label>
-        </div>
-        <div class="col-md-1">
-            <label>Distancia (m)</label>
-        </div>
-        <div class="col-md-2 text-center">
-            <label>Características del suelo</label>
-        </div>
-        <div class="col-md-2 text-center">
-            <label>Otras observaciones</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Pendientes suaves</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Ríos</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Ríos</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_rios_distancia" />
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Rocas</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Fracturas en el terreno</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Pendientes inclinadas</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Escurrimientos</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Corrientes intermitentes</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_rios_distancia" />
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Arenas y gravas</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Hundimientos</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Pendientes abruptas</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Arroyos</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Cuerpos de agua</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_cuerposagua_distancia" />
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Limos y arcillas</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Inestabilidad de laderas</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Planicies</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Lagos</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Líneas de alta tensión</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_lineasaltatension_distancia" />
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Relleno de escombro</label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Zonas inundables</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Cortes de suelo </label></div>
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Lagunas</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Vías ferreas</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_viasferreas_distancia" />
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Materia orgánica (capa vegetal)</label></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Vegetación al interior</label></div>
+        <div class="row" style="background-color: #ECE4D4;">
+            <div class="col-md-12 text-center">
+                <label>EQUIPAMIENTO URBANO Y SERVICIOS</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center">
+                Equipamientos Urbanos identificados en un radio de 500 m (Inmuebles administrados por el Gobierno)
+            </div>
+            <div class="col-md-6 text-center">
+                Servicios Urbanos identificados en un radio de 500 m (Inmuebles administrados por particulares o privados)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+            <div class="col-md-2 text-center">
+                Nivel
+            </div>
+            <div class="col-md-2 text-center">
+                Distancia(m)
+            </div>
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+            <div class="col-md-2 text-center">
+                Nivel
+            </div>
+            <div class="col-md-2 text-center">
+                Distancia(m)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Educación
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbEducacionNivel" class="form-control" id="equipamiento_educacion_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbEducacionDistancia" class="form-control" id="equipamiento_educacion_distancia" />
+            </div>
+            <div class="col-md-2">
+                Educación
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="ServUrbEducacionNivel" class="form-control" id="servicio_educacion_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="ServUrbEducacionDistancia" class="form-control" id="servicio_educacion_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Salud
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbSaludNivel" class="form-control" id="equipamiento_salud_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbSaludDistancia" class="form-control" id="equipamiento_salud_distancia" />
+            </div>
+            <div class="col-md-2">
+                Salud
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="ServUrbSaludNivel" class="form-control" id="servicio_salud_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="ServUrbSaludDistancia" class="form-control" id="servicio_salud_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Recreación
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbRecreacionNivel" class="form-control" id="equipamiento_recreacion_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbRecreacionDistancia" class="form-control" id="equipamiento_recreacion_distancia" />
+            </div>
+            <div class="col-md-2">
+                Recreación
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="ServUrbRecreacionNivel" class="form-control" id="servicio_recreacion_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="ServUrbRecreacionDistancia" class="form-control" id="servicio_recreacion_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Cultura
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbCulturaNivel" class="form-control" id="equipamiento_cultura_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbCulturaDistancia" class="form-control" id="equipamiento_cultura_distancia" />
+            </div>
+            <div class="col-md-2">
+                Cultura
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="ServUrbCulturaNivel" class="form-control" id="servicio_cultura_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="ServUrbCulturaDistancia" class="form-control" id="servicio_cultura_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Servicios urbanos
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbServUrbanosNivel" class="form-control" id="equipamiento_servurb_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbServUrbanosDistancia" class="form-control" id="equipamiento_servurb_distancia" />
+            </div>
+            <div class="col-md-2">
+                Otro <input type="text" asp-for="ServUrbOtro" class="form-control" id="servicio_otro" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="ServUrbOtroNivel" class="form-control" id="servicio_otro_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="ServUrbOtroDistancia" class="form-control" id="servicio_otro_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Asistencia social
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbAsistenciaSocialNivel" class="form-control" id="equipamiento_asistencia_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbAsistenciaSocialDistancia" class="form-control" id="equipamiento_asistencia_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                Otro <input type="text" asp-for="EqUrbOtro" class="form-control" id="equipamiento_otro" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" asp-for="EqUrbOtroNivel" class="form-control" id="equipamiento_otro_nivel" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" asp-for="EqUrbOtroDistancia" class="form-control" id="equipamiento_otro_distancia" />
+            </div>
+        </div>
+        <div class="row" style="background-color: #D4C19C;">
+            <div class="col-md-12 text-center">
+                <label>UBICACIÓN Y  DESCRIPCIÓN DEL ENTORNO FÍSICO DEL PREDIO</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                Seleccione aquello que cumpla con las características observadas
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 text-center">
+                <label>Topografía del terreno</label>
+            </div>
+            <div class="col-md-2 text-center">
+                <label>Hidrografía</label>
+            </div>
+            <div class="col-md-3 text-center">
+                <label>Restricciones federales</label>
+            </div>
+            <div class="col-md-1">
+                <label>Distancia (m)</label>
+            </div>
+            <div class="col-md-2 text-center">
+                <label>Características del suelo</label>
+            </div>
+            <div class="col-md-2 text-center">
+                <label>Otras observaciones</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="1" /> Pendientes suaves</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="1" /> Ríos</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="1" /> Ríos</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaRios" class="form-control" id="resfed_rios_distancia" />
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveCaracteristicasSuelo" value="1" /> Rocas</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="1" /> Fracturas en el terreno</label></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="2" /> Pendientes inclinadas</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="2" /> Escurrimientos</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="2" /> Corrientes intermitentes</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaCorrientes" class="form-control" id="resfed_corrientes_distancia" />
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveCaracteristicasSuelo" value="2" /> Arenas y gravas</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="2" /> Hundimientos</label></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="3" /> Pendientes abruptas</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="3" /> Arroyos</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="3" /> Cuerpos de agua</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaCuerposAgua" class="form-control" id="resfed_cuerposagua_distancia" />
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveCaracteristicasSuelo" value="3" /> Limos y arcillas</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="3" /> Inestabilidad de laderas</label></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="4" /> Planicies</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="4" /> Lagos</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="4" /> Líneas de alta tensión</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" class="form-control" asp-for="DistanciaLineasAltaTension" id="resfed_lineasaltatension_distancia" />
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveCaracteristicasSuelo" value="4" /> Relleno de escombro</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="4" /> Zonas inundables</label></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="5" /> Cortes de suelo </label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="5" /> Lagunas</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="5" /> Vías ferreas</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaViasFerreas" class="form-control" id="resfed_viasferreas_distancia" />
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveCaracteristicasSuelo" value="5" /> Materia orgánica (capa vegetal)</label></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="6" /> Vegetación al interior</label></div>
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="6" /> Manantiales</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="6" /> Carreteras</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaCarreteras" class="form-control" id="resfed_carreteras_distancia" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>%Estrato arbóreo</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="number" class="form-control" asp-for="EstratoArboreo" id="porc_arboreo" />
 
-        </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Manantiales</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Carreteras</label></div>
-        </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_carreteras_distancia" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="row">
-                <div class="col-md-6">
-                    <label>%Estrato arbóreo</label>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="porc_arboreo" />
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>%Estrato arbustivo</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="number" asp-for="EstratoArbustivo" class="form-control" id="porc_arbustivo" />
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>%Estrato arbustivo</label>
-                </div>
-                <div class="col-md-6">
-                    <input type="text" class="form-control" id="porc_arbustivo" />
-                </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="7" /> Acueducto</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="7" /> Ductos</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaDuctos" class="form-control" id="resfed_ductos_distancia" />
             </div>
         </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Acueducto</label></div>
+        <div class="row">
+            <div class="col-md-2">
+                &nbsp;
+            </div>
+            <div class="col-md-2">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveHidrografia" value="8" /> Canal</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="checkbox"><label><input type="checkbox" asp-for="CveRestriccionesFederales" value="8" /> Barrancas</label></div>
+            </div>
+            <div class="col-md-1">
+                <input type="number" asp-for="DistanciaBarrancas" class="form-control" id="resfed_barrancas_distancia" />
+            </div>
         </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Ductos</label></div>
+        <div class="row hidden">
+            <div class="col-md-12">
+                <input type="hidden" asp-for="TopografiaTerreno" />
+                <input type="hidden" asp-for="Hidrografia" />
+                <input type="hidden" asp-for="RestriccionesFederales" />
+                <input type="hidden" asp-for="CaracteristicasSuelo" />
+                <input type="hidden" asp-for="OtrasObservaciones" />
+            </div>
         </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_ductos_distancia" />
+        <div class="row">
+            <div class="col-md-6">
+                ¿Se considera que el predio es apto para el desarrollo de vivienda?
+            </div>
+            <div class="col-md-6">
+                Porcentaje estimado de superficie utilizable del predio para desarrollo de vivienda
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            &nbsp;
+        <div class="row">
+            <div class="col-md-3">
+                <div class="radio"><label><input type="radio" asp-for="PredioAptoVivienda" value="1" class="radio" /> Si</label></div>
+            </div>
+            <div class="col-md-3">
+                <div class="radio"><label><input type="radio" asp-for="PredioAptoVivienda" value="2" class="radio" /> No</label></div>
+            </div>
+            <div class="col-md-6">
+                <input type="number" asp-for="PorcentajeSuperficieUtillizable" class="form-control" id="porc_predio_utilizable" />
+            </div>
         </div>
-        <div class="col-md-2">
-            <div class="checkbox"><label><input type="checkbox" /> Canal</label></div>
+        <div class="row">
+            <div class="col-md-6">
+                Condiciones: <input type="text" asp-for="CondicionesPredioApto" class="form-control" id="condiciones_predio_apto" />
+            </div>
         </div>
-        <div class="col-md-3">
-            <div class="checkbox"><label><input type="checkbox" /> Barrancas</label></div>
+        <div class="row form-group" style="background-color: #D4C19C;">
+            <div class="col-md-12 text-center">
+                <label>OBSERVACIONES ADICIONALES QUE SE REQUIERA COMENTAR</label>
+            </div>
         </div>
-        <div class="col-md-1">
-            <input type="text" class="form-control" id="resfed_ductos_distancia" />
+        @*<div class="row">
+            <div class="col-md-4">
+                <label>Archivo complementario:</label>
+                <input type="file" class="form-control-file" />
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-md-12">
+                <textarea id="observaciones" asp-for="ObservacionesAdicionales" class="form-control"></textarea>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            ¿Se considera que el predio es apto para el desarrollo de vivienda?
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <label>Realizó recorrido (nombre completo)</label>
+                <input type="text" asp-for="NombreRealizoRecorrido" class="form-control" />
+            </div>
         </div>
-        <div class="col-md-6">
-            Porcentaje estimado de superficie utilizable del predio para desarrollo de vivienda
+        <div class="row">
+            <div class="col-md-12">
+                @*<button type="submit" class="btn btn-default btn-sm form-control">Enviar</button>*@
+                <button type="submit" class="btn btn-sm btn-primary active pull-right">
+                    <span class="fa fa-paper-plane-o"></span> Enviar
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="radio"><label><input type="radio" class="radio" name="predio_apto" /> Si</label></div>
-        </div>
-        <div class="col-md-3">
-            <div class="radio"><label><input type="radio" class="radio" name="predio_apto" /> No</label></div>
-        </div>
-        <div class="col-md-6">
-            <input type="text" class="form-control" id="porc_predio_utilizable" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            Condiciones: <input type="text" class="form-control" id="condiciones_predio_apto" />
-        </div>
-    </div>
-    <div class="row" style="background-color: #D4C19C;">
-        <div class="col-md-12 text-center">
-            <label>OBSERVACIONES ADICIONALES QUE SE REQUIERA COMENTAR</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label>Archivo complementario:</label>
-            <input type="file" class="form-control-file" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <textarea id="observaciones" class="form-control"></textarea>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <label>Realizó recorrido (nombre completo)</label>
-            <input type="text" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-default btn-sm form-control">Enviar</button>
-        </div>
-    </div>
 
-    @*Fin del formulario para el alta de formato de homologación*@
-    <hr />
+        @*Fin del formulario para el alta de formato de homologación*@
+        <hr />
+    </form>
 </div>
 
 <script src="https://framework-gb.cdn.gob.mx/assets/scripts/jquery-ui-datepicker.js"></script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const idPredio = urlParams.get('id');
+        if (idPredio != null) {
+            getPredio(idPredio);
+        }
         $(document).ready(function () {
+            $(".breadcrumb").append("<a href='/Levantamiento'>Lista de predios</a>");
             $('#fecha_recorrido').datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeYear: true
+            });
+            $("#formInsertFormatoHomologacion").submit(function (e) {
+                $("[name=DistDrenaje]").val($("#distanciaDrenaje" + $("[name=CveDrenaje]:checked").val()).val());
+                $("[name=DistAguaPotable]").val($("#distanciaAguaPotable" + $("[name=CveAguaPotable]:checked").val()).val());
+                $("[name=DistanciaVialidadConexion]").val($("#vialidad_distancia_" + $("[name=TipoVialidadConexion]:checked").val()).val());
+                $("[name=MaterialesVialidadConexion]").val($("#vialidad_materiales_" + $("[name=TipoVialidadConexion]:checked").val()).val());
+                $("[name=DistanciaAccesoPredio]").val($("#acceso_distancia_" + $("[name=TipoAccesoPredio]:checked").val()).val());
+                $("[name=MaterialesAccesoPredio]").val($("#acceso_materiales_" + $("[name=TipoAccesoPredio]:checked").val()).val());
+                var topografiaTerreno = '';
+                $("input[name=CveTopografiaTerreno]").each(function () {
+                    if (this.checked) {
+                        topografiaTerreno = topografiaTerreno + $(this).val() + ",";
+                    }
+                });
+                $("[name=TopografiaTerreno]").val(topografiaTerreno.slice(0,-1));
+                var hidrografia = '';
+                $("input[name=CveHidrografia]").each(function () {
+                    if (this.checked) {
+                        hidrografia = hidrografia + $(this).val() + ",";
+                    }
+                });
+                $("[name=Hidrografia]").val(hidrografia.slice(0, -1));
+                var restriccionesfed = '';
+                $("input[name=CveRestriccionesFederales]").each(function () {
+                    if (this.checked) {
+                        restriccionesfed = restriccionesfed + $(this).val() + ",";
+                    }
+                });
+                $("[name=RestriccionesFederales]").val(restriccionesfed.slice(0, -1));
+                var caracteristicasSuelo = '';
+                $("input[name=CveCaracteristicasSuelo]").each(function () {
+                    if (this.checked) {
+                        caracteristicasSuelo = caracteristicasSuelo + $(this).val() + ",";
+                    }
+                });
+                $("[name=CaracteristicasSuelo]").val(caracteristicasSuelo.slice(0, -1));
+                var otrasObservaciones = '';
+                $("input[name=CveOtrasObservaciones]").each(function () {
+                    if (this.checked) {
+                        otrasObservaciones = otrasObservaciones + $(this).val() + ",";
+                    }
+                });
+                $("[name=OtrasObservaciones]").val(otrasObservaciones.slice(0,-1));
+                //return false;
             });
         });
         function getMunicipios() {
@@ -1300,6 +1370,147 @@
                     $("#slctLocalidades").append("<option value = "+ item.clave +">"+ item.descripcion +"</option>");
                 });
             });
+        }
+        function getPredio(id) {
+            var data = new FormData();
+            data.append("idPredio", id);
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetFormatoLevantamiento", "Levantamiento")", // Url
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    $('#spinner').hide();
+                    if (result != null) {
+                        $("[name='Id']").val(result.id);
+                        $("#fecha_recorrido").val(result.fechaRecorrido);
+                        $("#domicilio").val(result.domicilio);
+                        $("#c_norte").val(result.coordN);
+                        $("#c_oeste").val(result.coordO);
+                        $("#slctEstados option[value=" + result.cveEstado + "]").prop("selected", true);
+                        $("#slctEstados").trigger("change");
+                        setTimeout(function () { $("#slctMunicipios option[value=" + result.cveMunicipio + "]").prop("selected", true); }, 1000);
+                        setTimeout(function () { $("#slctMunicipios").trigger("change"); }, 1000);
+                        setTimeout(function () { $("#slctLocalidades option[value=" + result.cveLocalidad + "]").prop("selected", true); }, 2000);
+                        $("[name='CveTipoPredio'][value='" + result.cveTipoPredio + "']").prop("checked", true);
+                        $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").prop("checked", true);
+                        $("[name='CveAcceso'][value='" + result.cveAcceso + "']").prop("checked", true);
+                        $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").prop("checked", true);
+                        $("[name='CaracPredioOtro']").val(result.caracPredioOtro);
+                        $("[name='CveElectricidad'][value='" + result.cveElectricidad + "']").prop("checked", true);
+                        $("[name='DistElectricidad']").val(result.distElectricidad);
+                        $("[name='CveDrenaje'][value='" + result.cveDrenaje + "']").prop("checked", true);
+                        $("#distanciaDrenaje" + result.cveDrenaje).val(result.distDrenaje);
+                        $("[name='CveAguaPotable'][value='" + result.cveAguaPotable + "']").prop("checked", true);
+                        $("#distanciaAguaPotable" + result.cveAguaPotable).val(result.distAguaPotable);
+                        $("#nivelesConstruidos").val(result.nivelesConstruidos);
+                        $("#materialesNaturales").val(result.materialesNaturales);
+                        $("#materialesIndustrializados").val(result.materialesIndustrializados);
+                        $("[name='TieneConexionVialidad'][value='" + result.tieneConexionVialidad + "']").prop("checked", true);
+                        if (result.tieneConexionVialidad == 1) {
+                            $("[name='TipoVialidadConexion'][value='" + result.tipoVialidadConexion + "']").prop("checked", true);
+                            $("#vialidad_distancia_" + result.tipoVialidadConexion).val(result.distanciaVialidadConexion);
+                            $("#condicionesVialidadConexion" + result.tipoVialidadConexion +"[value='" + result.condicionesVialidadConexion +"']").prop("checked", true);
+                            $("#vialidad_materiales_" + result.tipoVialidadConexion).val(result.materialesVialidadConexion);
+                        }
+                        $("[name='TieneAccesoPredio'][value='" + result.tieneAccesoPredio + "']").prop("checked", true);
+                        if (result.tieneAccesoPredio == 1) {
+                            $("[name='TipoAccesoPredio'][value='" + result.tipoAccesoPredio + "']").prop("checked", true);
+                            $("#acceso_distancia_" + result.tipoAccesoPredio).val(result.distanciaAccesoPredio);
+                            $("#condicionesAccesoPredio" + result.tipoAccesoPredio +"[value='" + result.condicionesAccesoPredio +"']").prop("checked", true);
+                            $("#acceso_materiales_" + result.tipoAccesoPredio).val(result.materialesAccesoPredio);
+                        }
+                        $("#transporte_inmediato_distancia").val(result.distanciaTranPubAccesoInmediato);
+                        $("[name='CondicionesTranPubAccesoInmediato'][value='" + result.condicionesTranPubAccesoInmediato + "']").prop("checked", true);
+                        $("#transporte_comoda_distancia").val(result.distanciaTranPubComoda);
+                        $("[name='CondicionesTranPubComoda'][value='" + result.condicionesTranPubComoda + "']").prop("checked", true);
+                        $("#transporte_lejano_distancia").val(result.distanciaTranPubLejano);
+                        $("[name='CondicionesTranPubLejano'][value='" + result.condicionesTranPubLejano + "']").prop("checked", true);
+                        $("#estructura_parada_distancia").val(result.distanciaTranPubParada);
+                        $("[name='CondicionesTranPubParada'][value='" + result.condicionesTranPubParada + "']").prop("checked", true);
+                        $("#estructura_estacion_distancia").val(result.distanciaTranPubEstacionCetram);
+                        $("[name='DistanciaTranPubEstacionCetram'][value='" + result.distanciaTranPubEstacionCetram + "']").prop("checked", true);
+                        $("#estructura_sitio_distancia").val(result.distanciaTranPubSitioTaxis);
+                        $("[name='CondicionesTranPubSitioTaxis'][value='" + result.condicionesTranPubSitioTaxis + "']").prop("checked", true);
+                        $("[name='TranPubOtro']").val(result.tranPubOtro);
+                        $("[name='DistanciaTranPubOtro']").val(result.distanciaTranPubOtro);
+                        $("[name='CondicionesTranPubOtro'][value='" + result.condicionesTranPubOtro + "']").prop("checked", true);
+                        $("[name='EqUrbEducacionNivel']").val(result.eqUrbEducacionNivel);
+                        $("[name='EqUrbEducacionDistancia']").val(result.eqUrbEducacionDistancia);
+                        $("[name='EqUrbSaludNivel']").val(result.eqUrbSaludNivel);
+                        $("[name='EqUrbSaludDistancia']").val(result.eqUrbSaludDistancia);
+                        $("[name='EqUrbRecreacionNivel']").val(result.eqUrbRecreacionNivel);
+                        $("[name='EqUrbRecreacionDistancia']").val(result.eqUrbRecreacionDistancia);
+                        $("[name='EqUrbCulturaNivel']").val(result.eqUrbCulturaNivel);
+                        $("[name='EqUrbCulturaDistancia']").val(result.eqUrbCulturaDistancia);
+                        $("[name='EqUrbServUrbanosNivel']").val(result.eqUrbServUrbanosNivel);
+                        $("[name='EqUrbServUrbanosDistancia']").val(result.eqUrbServUrbanosDistancia);
+                        $("[name='EqUrbAsistenciaSocialNivel']").val(result.eqUrbAsistenciaSocialNivel);
+                        $("[name='EqUrbAsistenciaSocialDistancia']").val(result.eqUrbAsistenciaSocialDistancia);
+                        $("[name='EqUrbOtro']").val(result.eqUrbOtro);
+                        $("[name='EqUrbOtroNivel']").val(result.eqUrbOtroNivel);
+                        $("[name='EqUrbOtroDistancia']").val(result.eqUrbOtroDistancia);
+                        $("[name='ServUrbEducacionNivel']").val(result.servUrbEducacionNivel);
+                        $("[name='ServUrbEducacionDistancia']").val(result.servUrbEducacionDistancia);
+                        $("[name='ServUrbSaludNivel']").val(result.servUrbSaludNivel);
+                        $("[name='ServUrbSaludDistancia']").val(result.servUrbSaludDistancia);
+                        $("[name='ServUrbRecreacionNivel']").val(result.servUrbRecreacionNivel);
+                        $("[name='ServUrbRecreacionDistancia']").val(result.servUrbRecreacionDistancia);
+                        $("[name='ServUrbCulturaNivel']").val(result.servUrbCulturaNivel);
+                        $("[name='ServUrbCulturaDistancia']").val(result.servUrbCulturaDistancia);
+                        $("[name='ServUrbOtro']").val(result.ServUrbOtro);
+                        $("[name='ServUrbOtroNivel']").val(result.ServUrbOtroNivel);
+                        $("[name='ServUrbOtroDistancia']").val(result.ServUrbOtroDistancia);
+                        let topografia = result.cveTopografiaTerreno.split(",");
+                        topografia.forEach(function (currentValue) {
+                            $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").prop("checked", true);
+                        });
+                        $("[name='EstratoArboreo']").val(result.estratoArboreo);
+                        $("[name='EstratoArbustivo']").val(result.estratoArbustivo);
+                        let hidrografia = result.cveHidrografia.split(",");
+                        hidrografia.forEach(function (currentValue) {
+                            $("[name='CveHidrografia'][value=" + currentValue + "]").prop("checked", true);
+                        });
+                        let restricciones = result.cveRestriccionesFederales.split(",");
+                        restricciones.forEach(function (currentValue) {
+                            $("[name='CveRestriccionesFederales'][value=" + currentValue + "]").prop("checked", true);
+                        });
+                        $("[name='DistanciaRios']").val(result.distanciaRios);
+                        $("[name='DistanciaCorrientes']").val(result.distanciaCorrientes);
+                        $("[name='DistanciaCuerposAgua']").val(result.distanciaCuerposAgua);
+                        $("[name='DistanciaLineasAltaTension']").val(result.distanciaLineasAltaTension);
+                        $("[name='DistanciaViasFerreas']").val(result.distanciaViasFerreas);
+                        $("[name='DistanciaCarreteras']").val(result.distanciaCarreteras);
+                        $("[name='DistanciaDuctos']").val(result.distanciaDuctos);
+                        $("[name='DistanciaBarrancas']").val(result.distanciaBarrancas);
+                        let caracteristicas = result.cveCaracteristicasSuelo.split(",");
+                        caracteristicas.forEach(function (currentValue) {
+                            $("[name='CveCaracteristicasSuelo'][value=" + currentValue + "]").prop("checked", true);
+                        });
+                        let otrasobs = result.cveOtrasObservaciones.split(",");
+                        otrasobs.forEach(function (currentValue) {
+                            $("[name='CveOtrasObservaciones'][value=" + currentValue + "]").prop("checked", true);
+                        });
+                        $("[name='PredioAptoVivienda'][value='" + result.predioAptoVivienda + "']").prop("checked", true);
+                        $("[name='CondicionesPredioApto']").val(result.condicionesPredioApto);
+                        $("[name='PorcentajeSuperficieUtillizable']").val(result.porcentajeSuperficieUtillizable);
+                        $("[name='ObservacionesAdicionales']").val(result.observacionesAdicionales);
+                        $("[name='NombreRealizoRecorrido']").val(result.nombreRealizoRecorrido);
+                    } else {
+                        $("#alert").html(data.message).fadeIn("slow");
+                        showAlert();
+                    }
+                }
+            });
+        }
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").slideToggle(1500);
+            }, 4000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
         }
     </script>
 }

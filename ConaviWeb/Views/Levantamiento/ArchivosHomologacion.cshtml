@@ -1,8 +1,9 @@
-﻿@{
+﻿@model ConaviWeb.Model.PrediosAdquisicion.Predio
+@{
     ViewData["Title"] = "Archivos homologación";
 }
 <div class="row">
-    <div class="col-md-12" id="alertAjax">
+    <div class="col-md-12" id="alert">
         @Html.Raw(@ViewBag.Alert)
     </div>
 </div>
@@ -28,6 +29,7 @@
             </label>
         </div>
     </div>
+    <input type="hidden" asp-for="Id" id="idPredio" />
     <div class="row form-group" style="background-color: #56242A;color:white;">
         <div class="col-md-12 text-center">
             <label>DOCUMENTACIÓN LEGAL</label>
@@ -35,58 +37,58 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Escritura de propiedad o documento de acreditación</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Escritura de propiedad o documento de acreditación</label><label id="div_file1"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file1" name="file1"/>
+            <button class="btn btn-default btn-sm" onclick="Upload(1)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Autorización de subdivisión del predio</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Autorización de subdivisión del predio</label><label id="div_file2"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file2"/>
+            <button class="btn btn-default btn-sm" onclick="Upload(2)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Autorización de fusión del predio</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Autorización de fusión del predio</label><label id="div_file3"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file3" />
+            <button class="btn btn-default btn-sm" onclick="Upload(3)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Apeo y deslinde</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Apeo y deslinde</label><label id="div_file4"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file4" />
+            <button class="btn btn-default btn-sm" onclick="Upload(4)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>5. Pago de impuesto predial vigente</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>5. Pago de impuesto predial vigente</label><label id="div_file5"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file5" />
+            <button class="btn btn-default btn-sm" onclick="Upload(5)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>6. Certificado libertad de gravamen</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>6. Certificado libertad de gravamen</label><label id="div_file6"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file6" />
+            <button class="btn btn-default btn-sm" onclick="Upload(6)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>7. Alineamiento y número oficial</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>7. Alineamiento y número oficial</label><label id="div_file7"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file7" />
+            <button class="btn btn-default btn-sm" onclick="Upload(7)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>8. Certificado, constacia, licencia de uso de suelo</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>8. Certificado, constacia, licencia de uso de suelo</label><label id="div_file8"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file8" />
+            <button class="btn btn-default btn-sm" onclick="Upload(8)">Enviar</button>
         </div>
     </div>
     <div class="row" style="background-color: #56242A;color:white;">
@@ -101,30 +103,30 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Levantamiento topográfico con curvas de nivel georreferenciado</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Levantamiento topográfico con curvas de nivel georreferenciado</label><label id="div_file9"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file9" />
+            <button class="btn btn-default btn-sm" onclick="Upload(9)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Mecánica de suelos</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Mecánica de suelos</label><label id="div_file10"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file10" />
+            <button class="btn btn-default btn-sm" onclick="Upload(10)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Estudio hidrológico</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Estudio hidrológico</label><label id="div_file11"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file11" />
+            <button class="btn btn-default btn-sm" onclick="Upload(11)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Estudio geológico, geotécnico y geofísico</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Estudio geológico, geotécnico y geofísico</label><label id="div_file12"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file12" />
+            <button class="btn btn-default btn-sm" onclick="Upload(12)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -134,58 +136,58 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Constancia de Alineamiento y Asignación de Número Oficial</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Constancia de Alineamiento y Asignación de Número Oficial</label><label id="div_file13"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file13" />
+            <button class="btn btn-default btn-sm" onclick="Upload(13)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Constancia, licencia o certificado de Uso de Suelo</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Constancia, licencia o certificado de Uso de Suelo</label><label id="div_file14"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file14" />
+            <button class="btn btn-default btn-sm" onclick="Upload(14)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Autorización de Factibilidad de los Servicios de Agua Potable, Alcantarillado Sanitario y Pluvial</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Autorización de Factibilidad de los Servicios de Agua Potable, Alcantarillado Sanitario y Pluvial</label><label id="div_file15"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file15" />
+            <button class="btn btn-default btn-sm" onclick="Upload(15)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Licencia de Lotificación / condominio</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Licencia de Lotificación / condominio</label><label id="div_file16"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file16" />
+            <button class="btn btn-default btn-sm" onclick="Upload(16)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>5. Cambio de Uso Suelo</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>5. Cambio de Uso Suelo</label><label id="div_file17"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file17" />
+            <button class="btn btn-default btn-sm" onclick="Upload(17)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>6. Licencia de Construcción</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>6. Licencia de Construcción</label><label id="div_file18"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file18" />
+            <button class="btn btn-default btn-sm" onclick="Upload(18)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>7. Autorización de proyecto para conexiones hidraúlicas y sanitarias</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>7. Autorización de proyecto para conexiones hidraúlicas y sanitarias</label><label id="div_file19"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file19" />
+            <button class="btn btn-default btn-sm" onclick="Upload(19)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>8. Solicitud para la condonación de pago de derechos</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>8. Solicitud para la condonación de pago de derechos</label><label id="div_file20"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file20" />
+            <button class="btn btn-default btn-sm" onclick="Upload(20)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -195,37 +197,37 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Dictamen de Impacto Urbano</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Dictamen de Impacto Urbano</label><label id="div_file21"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file21" />
+            <button class="btn btn-default btn-sm" onclick="Upload(21)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Dictamen de Impacto Vial</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Dictamen de Impacto Vial</label><label id="div_file22"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file22" />
+            <button class="btn btn-default btn-sm" onclick="Upload(22)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Dictamen técnico en materia ambiental</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Dictamen técnico en materia ambiental</label><label id="div_file23"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file23" />
+            <button class="btn btn-default btn-sm" onclick="Upload(23)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Certificación de predio</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Certificación de predio</label><label id="div_file24"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file24" />
+            <button class="btn btn-default btn-sm" onclick="Upload(24)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>5. Permiso Carretero</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>5. Permiso Carretero</label><label id="div_file25"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file25" />
+            <button class="btn btn-default btn-sm" onclick="Upload(25)">Enviar</button>
         </div>
     </div>
     <div class="row" style="background-color: #56242A;color:white;">
@@ -240,16 +242,16 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Opinión técnica (Municipal)</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Opinión técnica (Municipal)</label><label id="div_file26"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file26" />
+            <button class="btn btn-default btn-sm" onclick="Upload(26)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Dictamen de Análisis y Evaluación de Riesgos (Estatal)</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Dictamen de Análisis y Evaluación de Riesgos (Estatal)</label><label id="div_file27"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file27" />
+            <button class="btn btn-default btn-sm" onclick="Upload(27)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -259,37 +261,37 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Evaluación de Impacto Ambiental</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Evaluación de Impacto Ambiental</label><label id="div_file28"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file28" />
+            <button class="btn btn-default btn-sm" onclick="Upload(28)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1.1 Cambio de Uso Suelo</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1.1 Cambio de Uso Suelo</label><label id="div_file29"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file29" />
+            <button class="btn btn-default btn-sm" onclick="Upload(29)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1.2 Conformación de fraccionamientos, conjuntos habitacionales y nuevos centros de población</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1.2 Conformación de fraccionamientos, conjuntos habitacionales y nuevos centros de población</label><label id="div_file30"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file30" />
+            <button class="btn btn-default btn-sm" onclick="Upload(30)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1.3 Descarga de aguas residuales tratadas</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1.3 Descarga de aguas residuales tratadas</label><label id="div_file31"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file31" />
+            <button class="btn btn-default btn-sm" onclick="Upload(31)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1.4 Deforestación</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1.4 Deforestación</label><label id="div_file32"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file32" />
+            <button class="btn btn-default btn-sm" onclick="Upload(32)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -299,30 +301,30 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Concesión para el aprovechamiento de aguas nacionales, subterráneas o superficiales</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Concesión para el aprovechamiento de aguas nacionales, subterráneas o superficiales</label><label id="div_file33"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file33" />
+            <button class="btn btn-default btn-sm" onclick="Upload(33)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Autorización para la descarga de aguas residuales tratadas</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Autorización para la descarga de aguas residuales tratadas</label><label id="div_file34"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file34" />
+            <button class="btn btn-default btn-sm" onclick="Upload(34)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Delimitacion de zona federal</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Delimitacion de zona federal</label><label id="div_file35"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file35" />
+            <button class="btn btn-default btn-sm" onclick="Upload(35)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Delimitación de restricción</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Delimitación de restricción</label><label id="div_file36"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file36" />
+            <button class="btn btn-default btn-sm" onclick="Upload(36)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -332,9 +334,9 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Visto Bueno de Obra en Áreas de Monumentos Arqueológicos</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Visto Bueno de Obra en Áreas de Monumentos Arqueológicos</label><label id="div_file37"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file37" />
+            <button class="btn btn-default btn-sm" onclick="Upload(37)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -344,30 +346,30 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Cercania, cruce o delimitación con zona federal</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Cercania, cruce o delimitación con zona federal</label><label id="div_file38"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file38" />
+            <button class="btn btn-default btn-sm" onclick="Upload(38)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Cercania, cruce o delimitación con cuerpos de agua</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Cercania, cruce o delimitación con cuerpos de agua</label><label id="div_file39"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file39" />
+            <button class="btn btn-default btn-sm" onclick="Upload(39)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Cercania, cruce o delimitación con vías de comunicación </label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Cercania, cruce o delimitación con vías de comunicación </label><label id="div_file40"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file40" />
+            <button class="btn btn-default btn-sm" onclick="Upload(40)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Cercania, cruce o delimitación con líneas de transmisión</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Cercania, cruce o delimitación con líneas de transmisión</label><label id="div_file41"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file41" />
+            <button class="btn btn-default btn-sm" onclick="Upload(41)">Enviar</button>
         </div>
     </div>
     <div class="row form-group" style="background-color: #9D2449; color: white;">
@@ -377,51 +379,51 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Factibilidad del Servicio de Energía Eléctrica</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Factibilidad del Servicio de Energía Eléctrica</label><label id="div_file42"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file42" />
+            <button class="btn btn-default btn-sm" onclick="Upload(42)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Solicitud de presupuesto de obra de electrificación</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Solicitud de presupuesto de obra de electrificación</label><label id="div_file43"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file43" />
+            <button class="btn btn-default btn-sm" onclick="Upload(43)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2.1 Contratación de proyecto por CFE o terceros</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2.1 Contratación de proyecto por CFE o terceros</label><label id="div_file44"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file44" />
+            <button class="btn btn-default btn-sm" onclick="Upload(44)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2.2 Autorización de proyecto de obra eléctrica</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2.2 Autorización de proyecto de obra eléctrica</label><label id="div_file45"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file45" />
+            <button class="btn btn-default btn-sm" onclick="Upload(45)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2.3 Cierre de obra</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2.3 Cierre de obra</label><label id="div_file46"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file46" />
+            <button class="btn btn-default btn-sm" onclick="Upload(46)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2.4 Libranza</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2.4 Libranza</label><label id="div_file47"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file47" />
+            <button class="btn btn-default btn-sm" onclick="Upload(47)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2.5 Acta entrega recepción y término de obra</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2.5 Acta entrega recepción y término de obra</label><label id="div_file48"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file48" />
+            <button class="btn btn-default btn-sm" onclick="Upload(48)">Enviar</button>
         </div>
     </div>
     <div class="row" style="background-color: #56242A;color:white;">
@@ -431,40 +433,107 @@
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>1. Solicitud de termino de obra</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>1. Solicitud de termino de obra</label><label id="div_file49"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file"id="file49" />
+            <button class="btn btn-default btn-sm" onclick="Upload(49)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>2. Constitución de régimen en condominio</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>2. Constitución de régimen en condominio</label><label id="div_file50"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file50" />
+            <button class="btn btn-default btn-sm" onclick="Upload(50)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>3. Individualización de servicios urbanos</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>3. Individualización de servicios urbanos</label><label id="div_file51"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file51" />
+            <button class="btn btn-default btn-sm" onclick="Upload(51)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>4. Formalización de la donación reglamentaria</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>4. Formalización de la donación reglamentaria</label><label id="div_file52"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file52" />
+            <button class="btn btn-default btn-sm" onclick="Upload(52)">Enviar</button>
         </div>
     </div>
     <div class="row form-group">
         <div class="col-md-12">
-            <label>5. Municipalización de vialidades, infraestructuras, mobiliario urbano, áreas verdes y espacios públicos</label>
-            <input type="file" class="form-control-file" />
-            <button class="btn btn-default btn-sm">Enviar</button>
+            <label>5. Municipalización de vialidades, infraestructuras, mobiliario urbano, áreas verdes y espacios públicos</label><label id="div_file53"></label>
+            <input type="file" accept=".docx,.xlsx,.pdf" class="form-control-file" id="file53" />
+            <button class="btn btn-default btn-sm" onclick="Upload(53)">Enviar</button>
         </div>
     </div>
 
     @*Fin del formulario para el alta de formato de homologación*@
     <hr />
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        const urlParams = new URLSearchParams(window.location.search);
+        const idPredio = urlParams.get('id');
+        //const search = urlParams.get('sh');
+        $(document).ready(function () {
+            showAlert();
+            $(".breadcrumb").append("<a href='/Levantamiento'>Lista de predios</a>");
+            $("input:file").each(function () {
+                GetFile(this.id.slice(4));
+            });
+        });
+        function showAlert() {
+            setTimeout(function () {
+                $("#alerta").slideToggle(1500);
+            }, 4000);
+            setTimeout(function () {
+                $("#alerta").remove();
+            }, 6000);
+        }
+        function Upload(idFile) {
+            $('#spinner').show();
+            var data = new FormData();
+            let json = JSON.stringify({ idPredio: idPredio, idFile: idFile });
+            data.append("json", json);
+            data.append('file', $("#file" + idFile)[0].files[0]);
+            //var path = files[0].webkitRelativePath;
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("Upload", "Levantamiento")", // Url
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#spinner').hide();
+                    $("#alert").html(data.message).fadeIn("slow");
+                    GetFile(idFile);
+                    showAlert();
+                }
+            });
+        }
+        function GetFile(idFile) {
+            $('#spinner').show();
+            var data = new FormData();
+            //let json = JSON.stringify({ idPredio: idPredio, idFile: idFile });
+            data.append("idPredio", idPredio);
+            data.append("idFile", idFile);
+            //data.append('file', $("#file" + idFile)[0].files[0]);
+            //var path = files[0].webkitRelativePath;
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetFile", "Levantamiento")", // Url
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    $('#spinner').hide();
+                    if (result.data != null)
+                        $("#div_file" + idFile).html(" <a href='/doc/PrediosAdquisicion/" + idPredio + "/" + idFile + "/" + result.data.descripcion + "' target='_blank'>(" + result.data.descripcion + ")</a>");
+                    //$("#alert").html(data.message).fadeIn("slow");
+                    //showAlert();
+                }
+            });
+        }
+    </script>
+}
