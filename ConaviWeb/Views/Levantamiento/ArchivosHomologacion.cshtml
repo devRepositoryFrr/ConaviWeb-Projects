@@ -29,7 +29,7 @@
             </label>
         </div>
     </div>
-    <input type="hidden" asp-for="Id" id="idPredio" />
+    <input type="hidden" asp-for="Id" id="idPredio" value="0" />
     <div class="row form-group" style="background-color: #56242A;color:white;">
         <div class="col-md-12 text-center">
             <label>DOCUMENTACIÓN LEGAL</label>
@@ -475,13 +475,14 @@
     <script type="text/javascript">
         const urlParams = new URLSearchParams(window.location.search);
         const idPredio = urlParams.get('id');
-        //const search = urlParams.get('sh');
         $(document).ready(function () {
             showAlert();
-            $(".breadcrumb").append("<a href='/Levantamiento'>Lista de predios</a>");
-            $("input:file").each(function () {
-                GetFile(this.id.slice(4));
-            });
+            $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/Levantamiento'>Lista de predios</a></li>");
+            if (idPredio != 0 && idPredio != null) {
+                $("input:file").each(function () {
+                    GetFile(this.id.slice(4));
+                });
+            }
         });
         function showAlert() {
             setTimeout(function () {
@@ -497,7 +498,6 @@
             let json = JSON.stringify({ idPredio: idPredio, idFile: idFile });
             data.append("json", json);
             data.append('file', $("#file" + idFile)[0].files[0]);
-            //var path = files[0].webkitRelativePath;
             $.ajax({
                 type: "post",
                 url: "@Url.Action("Upload", "Levantamiento")", // Url
@@ -515,11 +515,8 @@
         function GetFile(idFile) {
             $('#spinner').show();
             var data = new FormData();
-            //let json = JSON.stringify({ idPredio: idPredio, idFile: idFile });
             data.append("idPredio", idPredio);
             data.append("idFile", idFile);
-            //data.append('file', $("#file" + idFile)[0].files[0]);
-            //var path = files[0].webkitRelativePath;
             $.ajax({
                 type: "post",
                 url: "@Url.Action("GetFile", "Levantamiento")", // Url
@@ -530,8 +527,6 @@
                     $('#spinner').hide();
                     if (result.data != null)
                         $("#div_file" + idFile).html(" <a href='/doc/PrediosAdquisicion/" + idPredio + "/" + idFile + "/" + result.data.descripcion + "' target='_blank'>(" + result.data.descripcion + ")</a>");
-                    //$("#alert").html(data.message).fadeIn("slow");
-                    //showAlert();
                 }
             });
         }

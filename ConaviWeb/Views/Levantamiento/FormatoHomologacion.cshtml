@@ -20,7 +20,7 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-12" id="alertAjax">
+            <div class="col-md-12" id="alert">
                 @Html.Raw(@ViewBag.Alert)
             </div>
         </div>
@@ -1289,7 +1289,7 @@
             getPredio(idPredio);
         }
         $(document).ready(function () {
-            $(".breadcrumb").append("<a href='/Levantamiento'>Lista de predios</a>");
+            $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/Levantamiento'>Lista de predios</a></li>");
             $('#fecha_recorrido').datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeYear: true
@@ -1382,7 +1382,7 @@
                 contentType: false,
                 success: function (result) {
                     $('#spinner').hide();
-                    if (result != null) {
+                    if (result.id != null) {
                         $("[name='Id']").val(result.id);
                         $("#fecha_recorrido").val(result.fechaRecorrido);
                         $("#domicilio").val(result.domicilio);
@@ -1459,9 +1459,9 @@
                         $("[name='ServUrbRecreacionDistancia']").val(result.servUrbRecreacionDistancia);
                         $("[name='ServUrbCulturaNivel']").val(result.servUrbCulturaNivel);
                         $("[name='ServUrbCulturaDistancia']").val(result.servUrbCulturaDistancia);
-                        $("[name='ServUrbOtro']").val(result.ServUrbOtro);
-                        $("[name='ServUrbOtroNivel']").val(result.ServUrbOtroNivel);
-                        $("[name='ServUrbOtroDistancia']").val(result.ServUrbOtroDistancia);
+                        $("[name='ServUrbOtro']").val(result.servUrbOtro);
+                        $("[name='ServUrbOtroNivel']").val(result.servUrbOtroNivel);
+                        $("[name='ServUrbOtroDistancia']").val(result.servUrbOtroDistancia);
                         let topografia = result.cveTopografiaTerreno.split(",");
                         topografia.forEach(function (currentValue) {
                             $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").prop("checked", true);
@@ -1498,7 +1498,7 @@
                         $("[name='ObservacionesAdicionales']").val(result.observacionesAdicionales);
                         $("[name='NombreRealizoRecorrido']").val(result.nombreRealizoRecorrido);
                     } else {
-                        $("#alert").html(data.message).fadeIn("slow");
+                        $("#alert").html(result).fadeIn("slow");
                         showAlert();
                     }
                 }
@@ -1506,10 +1506,10 @@
         }
         function showAlert() {
             setTimeout(function () {
-                $("#alerta").slideToggle(1500);
+                $("#alert").slideToggle(1500);
             }, 4000);
             setTimeout(function () {
-                $("#alerta").remove();
+                $("#alert").remove();
             }, 6000);
         }
     </script>

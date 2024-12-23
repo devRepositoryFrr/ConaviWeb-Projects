@@ -45,11 +45,6 @@ namespace ConaviWeb.Controllers.Levantamiento
         {
             IEnumerable<Catalogo> municipios = new List<Catalogo>();
             municipios = await _levantamientoRepository.GetMunicipios(cveedo);
-            //if (municipios == null)
-            //{
-            //    var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
-            //    return Ok(alert);
-            //}
             return Json(new { data = municipios });
         }
         [HttpPost]
@@ -57,11 +52,6 @@ namespace ConaviWeb.Controllers.Levantamiento
         {
             IEnumerable<Catalogo> localidades = new List<Catalogo>();
             localidades = await _levantamientoRepository.GetLocalidades(cveedo, cvemun);
-            //if (municipios == null)
-            //{
-            //    var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
-            //    return Ok(alert);
-            //}
             return Json(new { data = localidades });
         }
         [HttpPost]
@@ -72,14 +62,7 @@ namespace ConaviWeb.Controllers.Levantamiento
             predio.IdUser = 21;
 
             var success = false;
-            //if (predio.Id == 0)
-            //{
-                success = await _levantamientoRepository.InsertFormatoLevantamiento(predio);
-            //}
-            //else
-            //{
-            //    success = await _levantamientoRepository.UpdateFormatoLevantamiento(predio);
-            //}
+            success = await _levantamientoRepository.InsertFormatoLevantamiento(predio);
             if (!success)
             {
                 TempData["Alert"] = AlertService.ShowAlert(Alerts.Danger, "Ocurrio un error al registrar el formato");
@@ -215,11 +198,6 @@ namespace ConaviWeb.Controllers.Levantamiento
         {
             Catalogo file = new Catalogo();
             file = await _levantamientoRepository.GetFile(idPredio, idFile);
-            //if (municipios == null)
-            //{
-            //    var alert = AlertService.ShowAlert(Alerts.Danger, "Sin registros");
-            //    return Ok(alert);
-            //}
             return Json(new { data = file });
         }
     }

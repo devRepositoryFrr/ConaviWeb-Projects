@@ -3,7 +3,7 @@
     ViewData["Title"] = "Predios";
 }
 <div class="row">
-    <div class="col-md-12" id="alertAjax">
+    <div class="col-md-12" id="alert">
         @Html.Raw(@ViewBag.Alert)
     </div>
 </div>
@@ -98,7 +98,8 @@
     <script type="text/javascript">
         var table;
         $(document).ready(function () {
-            showAlert();
+            $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/'>Inicio</a></li>");
+            //showAlert();
             showTable();
             $('#showModalTrashPredio').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('pred-id');
@@ -180,26 +181,13 @@
                 "className": 'text-center'
             },
         ];
-        function showAlert() {
-            setTimeout(function () {
-                $("#alerta").slideToggle(1500);
-            }, 4000);
-            setTimeout(function () {
-                $("#alerta").remove();
-            }, 6000);
-        }
-        //function showAlertModal() {
+        //function showAlert() {
         //    setTimeout(function () {
-        //        $("#alerta-modal").slideToggle(1500);
+        //        $("#alert").slideToggle(1500);
         //    }, 4000);
         //    setTimeout(function () {
-        //        $("#alerta-modal").remove();
+        //        $("#alert").remove();
         //    }, 6000);
-        //}
-        //function sendToFormat() {
-        //    var id = $("#hd_id_inventario").val();
-        //    if (!isNaN(id) && id>0)
-        //        window.open("/InventarioControl/ICFormato?id=" + id, "_blank");
         //}
 </script>
 }
