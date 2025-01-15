@@ -200,12 +200,6 @@
                 "sPrevious": "Anterior"
             }
             },
-            createdRow: function (row, data, dataIndex) {
-                var status = data.estatus;
-                if (status == 'En proceso') $(row).addClass('table-warning');
-                if (status == 'Pendiente') $(row).addClass('table-danger');
-                if (status == 'Atendido') $(row).addClass('table-success');
-            },
             columns: [
                 //{
                 //    className: 'dt-control',
@@ -277,6 +271,15 @@
                 {
                     className: "text-center",
                     targets: [0,1]
+                },
+                {
+                    "targets": 6, // first CELL That will be checked,
+                    "createdCell": function (td, cellData, data, row, col) {
+                        var status = data.estatus;
+                        if (status == 'En proceso') $(td).addClass('table-warning');
+                        if (status == 'Pendiente') $(td).addClass('table-danger');
+                        if (status == 'Atendido') $(td).addClass('table-success');
+                    }
                 }
             ],
             order: [[0, 'asc']]
