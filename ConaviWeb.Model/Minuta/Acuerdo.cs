@@ -12,7 +12,8 @@ namespace ConaviWeb.Model.Minuta
         public string Responsable { get; set; }
         public DateTime FechaTermino { get; set; }
         public string Descripcion { get; set; }
-        public string IdResponsable { get; set; }
+        public string Interno { get; set; }
+        public string Externo { get; set; }
         public int IdGestion { get; set; }
         public int IdEstatus { get; set; }
     }

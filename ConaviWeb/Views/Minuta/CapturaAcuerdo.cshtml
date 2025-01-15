@@ -12,7 +12,7 @@
 <form id="formCat" method="post" asp-action="CreateAcuerdo">
     <div class="row  mb-3">
         <div class="form-group">
-            <label class="form-label"  class="col-sm-12 control-label" for="sector">Reunión</label>
+            <label class="form-label" class="col-sm-12 control-label" for="sector">Reunión</label>
             <div class="col-sm-12">
                 <select class="form-control" id="idReunion" name="idReunion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Reuniones"], "Clave" , "Descripcion" ))" required="">
                     <option value="">--- Seleccione ---</option>
@@ -20,29 +20,36 @@
             </div>
         </div>
     </div>
-
+    <h5>Responsable</h5>
+    <hr class="red">
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="form-label"  for="responsable">Responsable</label>
+                <label class="form-label" for="responsable">Interno</label>
                 <select class="form-control select2 select2-hidden-accessible" id="responsable" name="responsable" multiple="" data-placeholder="Seleccione Responsable Institucional" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Responsable"], "Clave" , "Descripcion" ))" required="" aria-hidden="true">
                 </select>
             </div>
         </div>
-        <input type="text" id="idResponsable" name="idResponsable">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label" for="externo">Extreno</label>
+                <input class="form-control" id="externo" name="externo" required="" type="text">
+            </div>
+        </div>
+        <input type="text" id="interno" name="interno">
+    </div>
+    <div class="row  mb-3">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label" for="descripcion">Acuerdo</label>
+                <textarea rows="3" class="form-control" id="descripcion" name="descripcion" required=""></textarea>
+            </div>
+        </div>
         <div class="col-md-6">
             <label class="form-label" for="fechaTermino">Fecha de Termino</label>
             <div class="input-group">
                 <div class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></div>
                 <input type="text" id="fechaTermino" name="fechaTermino" class="form-control" autocomplete="off">
-            </div>
-        </div>
-    </div>
-    <div class="row  mb-3">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label class="form-label"  for="descripcion">Acuerdo</label>
-                <textarea rows="3" class="form-control" id="descripcion" name="descripcion" required=""></textarea>
             </div>
         </div>
     </div>
@@ -63,10 +70,10 @@
                 </select>
             </div>
         </div>
-        </div>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-outline-primary" type="submit" id="btnSubmit">Guardar</button>
-        </div>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-outline-primary" type="submit" id="btnSubmit">Guardar</button>
+    </div>
 </form>
 @section Scripts {
     @{
@@ -77,7 +84,7 @@
     $(document).ready(function () {
         showAlert();
         $('#fechaTermino').datepicker();
-        $("#idResponsable").hide();
+        $("#interno").hide();
         $('.select2').select2({
             theme: "bootstrap-5",
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -87,12 +94,12 @@
         $("#responsable").on('select2:select', function (e) {
             var data = e.params.data;
             //console.log(data);
-            $("#idResponsable").val(function () {
+            $("#interno").val(function () {
                 if (this.value == "")
                     return data.text
                 return this.value + " , " + data.text;
             });
-            console.log($("#idResponsable").val())
+            console.log($("#interno").val())
         });
 
         function showAlert() {

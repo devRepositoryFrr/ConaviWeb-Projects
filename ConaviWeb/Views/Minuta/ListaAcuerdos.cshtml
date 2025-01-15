@@ -221,7 +221,7 @@
                         data = '<a href="' + url + '" style="color:#611232;font-weight: bold;">' + data + '</a>';
                         return data;
                     } },
-                { data: 'responsable' },
+                { data: null },
                 { data: 'area' },
                 { data: 'descripcion' },
                 {
@@ -257,12 +257,22 @@
                     data: null,
                     render: function (data, type, row, meta) {
                         let reunion = row.idReunion;
-                        let urlInf = '@Url.Action("Download", "ReporteMinuta")/' + reunion;
+                        let urlInf = '@Url.Action("Download", "CapturaMinuta")/' + reunion;
                         //let urlInf = '#';
                         let botones = `
                         <a type="button" href=`+ urlInf + ` style="color: #611232; font-size: 18px;"><i class="fa fa-download" aria-hidden="true"></i></a>`;
                         return botones;
                     }
+                },
+                {
+                    "render": function (data, type, row) {
+                        let interno = row["interno"] == null ? "" : row["interno"];
+                        let externo = row["externo"] == null ? "" : " | " + row["externo"];
+                        var result = interno + '  ' + externo;
+                        console.log(result);
+                        return result;
+                    },
+                    "targets": 2,
                 },
                 {
                     className: "text-center",

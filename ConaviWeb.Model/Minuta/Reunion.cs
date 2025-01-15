@@ -10,6 +10,7 @@ namespace ConaviWeb.Model.Minuta
     {
         public int Id { get; set; }
         public int Sector { get; set; }
+        public int Modalidad { get; set; }
         public string EntidadFed { get; set; }
         public string Municipio { get; set; }
         public string Asunto { get; set; }

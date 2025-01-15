@@ -82,6 +82,35 @@ namespace ConaviWeb.Data.Reporteador
 
             return await db.QueryAsync<PevCartaPMV>(sql, new { Id = id });
         }
+        public async Task<IEnumerable<PevCartaPMV25>> GetCartasPMV25(int id)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        select 
+                                id_unico,
+                                txtNombre,
+                                txtPrimer_apellido,
+                                txtSegundo_apellido,
+                                curp,
+                                fecha,
+                                nu_cuenta,
+                                linea_apoyo,
+                                monto,
+                                cmbClave_estado,
+                                cmbClave_municipio,
+                                cmbClave_localidad,
+                                txtCalle,
+                                txtNum_int,
+                                txtNum_ext,
+                                colonia,
+                                cp,
+                                txtTelefono,
+                                txtTelefono_alterno from prod_pmv_2025.pmv_cartas_25 pc;
+                       ";
+
+            return await db.QueryAsync<PevCartaPMV25>(sql, new { Id = id });
+        }
         public async Task<PevC4> GetPMV24C4(string id)
         {
             var db = DbConnection();

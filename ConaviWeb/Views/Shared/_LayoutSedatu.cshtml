@@ -61,24 +61,11 @@
                                role="button"
                                data-bs-toggle="dropdown"
                                aria-expanded="false">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i> Acuerdos
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Reunión
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaAcuerdos")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Acuerdos</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaAcuerdo")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Acuerdo</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
-                               href="#"
-                               role="button"
-                               data-bs-toggle="dropdown"
-                               aria-expanded="false">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i> Indicadores
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresAcuerdo")"><i class="fa fa-list" aria-hidden="true"></i> Acuerdos</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresReunion")"><i class="fa fa-list" aria-hidden="true"></i> Reuniones</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaReuniones")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Reuniones</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaReunion")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Reunión</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -100,11 +87,24 @@
                                role="button"
                                data-bs-toggle="dropdown"
                                aria-expanded="false">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i> Reunión
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Acuerdos
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaReuniones")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Reuniones</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaReunion")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Reunión</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","ListaAcuerdos")"><i class="fa fa-list" aria-hidden="true"></i> Listado de Acuerdos</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","CapturaAcuerdo")"><i class="fa fa-file-text-o" aria-hidden="true"></i> Captura Acuerdo</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i> Indicadores
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresAcuerdo")"><i class="fa fa-list" aria-hidden="true"></i> Acuerdos</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Index","IndicadoresReunion")"><i class="fa fa-list" aria-hidden="true"></i> Reuniones</a></li>
                             </ul>
                         </li>
                     </ul>

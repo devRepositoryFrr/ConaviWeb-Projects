@@ -15,7 +15,7 @@
         <div class="form-group">
             <label class="form-label" class="col-sm-12 control-label" for="sector">Reunión</label>
             <div class="col-sm-12">
-                <select class="form-control" id="idReunion" name="idReunion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Reuniones"], "Clave" , "Descripcion" ))" required="">
+                <select class="form-control" id="idReunion" name="idReunion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Reuniones"], "Clave" , "Descripcion" ))" onchange="getReunion(this)" required="">
                     <option value="">--- Seleccione ---</option>
                 </select>
             </div>
@@ -24,28 +24,32 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="form-label" for="tema">Tema</label>
-                <input class="form-control" id="tema" name="tema" required="" type="text">
+                <label class="form-label" class="col-sm-12 control-label" for="tema">Tema</label>
+                <div class="col-sm-12">
+                    <select class="form-control" id="idTema" name="idTema" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Temas"], "Clave" , "Descripcion" ))" required="">
+                        <option value="">--- Seleccione ---</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="asunto">Asunto</label>
-                <textarea row mb-3s="3" class="form-control" id="asunto" name="asunto" required=""></textarea>
+                <textarea rows="5" class="form-control" id="asunto" name="asunto" required=""></textarea>
             </div>
         </div>
     </div>
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="form-label" for="contexto">Contexto</label>
-                <textarea row mb-3s="3" class="form-control" id="contexto" name="contexto" required=""></textarea>
+                <label class="form-label" for="contexto">Antecedentes</label>
+                <textarea rows="5" class="form-control" id="contexto" name="contexto" required=""></textarea>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="descripcion">Descripción</label>
-                <textarea row mb-3s="3" class="form-control" id="descripcion" name="descripcion" required=""></textarea>
+                <textarea rows="5" class="form-control" id="descripcion" name="descripcion" required=""></textarea>
             </div>
         </div>
     </div>
@@ -82,6 +86,8 @@
     $(document).ready(function () {
         showAlert();
         $("#interno").hide();
+        $("#asunto").prop("disabled", true);
+        $("#contexto").prop("disabled", true);
         $('.select2').select2({
             theme: "bootstrap-5",
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -96,10 +102,24 @@
                     return data.text
                 return this.value + " , " + data.text;
             });
-            console.log($("#interno").val())
+            //console.log($("#interno").val())
         });
     });
-
+    function getReunion(obj) {
+        var value = obj.value;
+        $.post("/CapturaMinuta/GetReunion", { idReunion: value }, function (data) {
+            //debugger;
+            FillReuinon(data);
+            //console.log(data);
+        });
+    }
+    function FillReuinon(data) {
+        $("#asunto").empty();
+        $("#contexto").empty();
+        $("#asunto").text(data.asunto);
+        $("#contexto").text(data.antecedentes);
+        
+    }
     function showAlert() {
 
         setTimeout(function () {

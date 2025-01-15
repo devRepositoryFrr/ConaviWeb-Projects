@@ -17,6 +17,8 @@
         <tr>
             <th>#</th>
             <th>SECTOR</th>
+            <th>RESPONSABLE</th>
+            <th>DEPENDENCIA</th>
             <th>
                 ENTIDAD FEDERATIVA
             </th>
@@ -28,6 +30,9 @@
             </th>
             <th>
                 ESTATUS
+            </th>
+            <th>
+                FECHA
             </th>
             <th>
                 ACCIONES
@@ -187,12 +192,12 @@
                 "sPrevious": "Anterior"
             }
             },
-            createdRow: function (row, data, dataIndex) {
-                var status = data.estatus;
-                if (status == 'En proceso') $(row).addClass('table-warning');
-                if (status == 'Pendiente') $(row).addClass('table-danger');
-                if (status == 'Atendido') $(row).addClass('table-success');
-            },
+            //createdRow: function (row, data, dataIndex) {
+            //    var status = data.estatus;
+            //    if (status == 'En proceso') $(row).addClass('table-warning');
+            //    if (status == 'Pendiente') $(row).addClass('table-danger');
+            //    if (status == 'Atendido') $(row).addClass('table-success');
+            //},
             columns: [
                 //{
                 //    className: 'dt-control',
@@ -202,15 +207,18 @@
                 //},
                 { data: 'id' },
                 { data: 'sector' },
+                { data: 'nombreSol' },
+                { data: 'dependenciaSol' },
                 { data: 'entidadFed' },
                 { data: 'municipio' },
                 { data: 'asunto' },
                 { data: 'estatus' },
+                { data: 'fechaSolicitud' },
             ],
             columnDefs: [
                 {
                     className: "dt-center",
-                    targets: 6,
+                    targets: 9,
                     orderable: false,
                     data: null,
                     render: function (data, type, row, meta) {
@@ -220,7 +228,15 @@
                         <a type="button" href=`+ urlInf +` style="color: #611232; font-size: 18px;"><i class="fa fa-info" aria-hidden="true"></a>`;
                         return botones;
                     }
-                }
+                }, {
+                    "targets": 7, // first CELL That will be checked,
+                    "createdCell": function (td, cellData, data, row, col) {
+                        var status = data.estatus;
+                        if (status == 'En proceso') $(td).addClass('table-warning');
+                        if (status == 'Pendiente') $(td).addClass('table-danger');
+                        if (status == 'Atendido') $(td).addClass('table-success');
+                    }
+                },
             ],
             order: [[0, 'asc']]
         });

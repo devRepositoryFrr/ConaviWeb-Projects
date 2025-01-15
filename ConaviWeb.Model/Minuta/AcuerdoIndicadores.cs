@@ -11,5 +11,7 @@ namespace ConaviWeb.Model.Minuta
         public int Acuerdos { get; set; }
         public string Estatus { get; set; }
         public string Anio { get; set; }
+        public int NuMes { get; set; }
+        public string Mes { get; set; }
     }
 }

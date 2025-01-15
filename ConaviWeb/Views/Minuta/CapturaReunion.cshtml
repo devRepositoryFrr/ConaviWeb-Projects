@@ -12,7 +12,7 @@
 <form id="formCat" method="post" asp-action="CrearCaptura">
     <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
     <div class="row mb-3 mb-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="sector">Sector</label>
                 <select class="form-control" id="sector" name="sector" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Sector"], "Clave" , "Descripcion" ))" required="">
@@ -20,11 +20,21 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label" for="gestion">Gestión OS</label>
                 <select class="form-control" id="gestion" name="gestion" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Gestion"], "Clave" , "Descripcion" ))" required="">
                     <option value="">--- Seleccione ---</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="form-label" for="modalidad">Modalidad</label>
+                <select class="form-control" id="modalidad" name="modalidad" required="">
+                    <option value=0>--- Seleccione ---</option>
+                    <option value=1>Presencial</option>
+                    <option value=2>Virtual</option>
                 </select>
             </div>
         </div>
@@ -35,6 +45,7 @@
                 <label class="form-label" for="entidadFed">Entidad</label>
                 <select class="form-control" id="entidadFed" name="entidadFed" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Entidad"], "Clave" , "Descripcion" ))" onchange="getMun(this)" required="">
                     <option value="">--- Seleccione ---</option>
+                    <option value="99">No Aplica</option>
                 </select>
             </div>
         </div>
@@ -55,20 +66,20 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <label class="form-label" for="asunto">Asunto</label>
-                <textarea row mb-3s="3" class="form-control" id="asunto" name="asunto" required=""></textarea>
+                <textarea rows="5" class="form-control" id="asunto" name="asunto" required=""></textarea>
             </div>
         </div>
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="solicitante">Solicitante</label>
                 <textarea row mb-3s="3" class="form-control" id="solicitante" name="solicitante" required=""></textarea>
             </div>
-        </div>
+        </div>*@
     </div>
-    <h5>Solicitante</h5>
+    <h5>Quién solicita la reunión</h5>
     <hr class="red">
     <div class="row mb-3">
         <div class="col-md-4">
@@ -79,19 +90,19 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label class="form-label" for="cargoSol">Cargo</label>
+                <label class="form-label" for="cargoSol">Cargo / Puesto</label>
                 <input class="form-control" id="cargoSol" name="cargoSol" required="" type="text">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label class="form-label" for="dependenciaSol">Dependencia</label>
+                <label class="form-label" for="dependenciaSol">Institución</label>
                 <input class="form-control" id="dependenciaSol" name="dependenciaSol" required="" type="text">
             </div>
         </div>
     </div>
     <hr>
-    <h5>Contacto</h5>
+    <h5>Datos de contacto</h5>
     <hr class="red">
     <div class="row mb-3">
         <div class="col-md-4">
@@ -123,16 +134,24 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="responsable">Responsable</label>
                 <select class="form-control" id="responsable" name="responsable" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Responsable"], "Clave" , "Descripcion" ))" required="">
                     <option value="">--- Seleccione ---</option>
                 </select>
             </div>
-        </div>
+        </div>*@
         <div class="col-md-6">
-            <label class="form-label" for="fechaAtencion">Fecha de Atención</label>
+            <div class="form-group">
+                <label class="form-label" for="idEstatus">Estatus</label>
+                <select class="form-control" id="idEstatus" name="idEstatus" asp-items="@(new SelectList((System.Collections.IEnumerable)ViewData["Estatus"], "Clave" , "Descripcion" ))" required="">
+                    <option value="">--- Seleccione ---</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6" id="div_fch">
+            <label class="form-label" for="fechaAtencion">Fecha de Reunión</label>
             <div class="input-group">
                 <div class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></div>
                 <input type="text" id="fechaAtencion" name="fechaAtencion" class="form-control" autocomplete="off">
@@ -143,11 +162,11 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label class="form-label" for="observaciones">Observaciones</label>
-                <textarea row mb-3s="3" class="form-control" id="observaciones" name="observaciones" required=""></textarea>
+                <textarea rows="5" class="form-control" id="observaciones" name="observaciones" required=""></textarea>
             </div>
         </div>
     </div>
-    <div class="row mb-3">
+    @*<div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label" for="idEstatus">Estatus</label>
@@ -156,7 +175,7 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div>*@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button class="btn btn-outline-primary" type="submit" id="btnSubmit">Guardar</button>
     </div>
@@ -173,6 +192,11 @@
         showAlert();
         $('#fechaSolicitud').datepicker();
         $('#fechaAtencion').datepicker();
+        $('#div_fch').hide();
+        $("#idEstatus").on("change", function () {
+            let estatus = $("#idEstatus").val();
+            estatus == 1 ? $('#div_fch').show() : $('#div_fch').hide(); $('#fechaAtencion').val("");
+        });
     });
 
     function showAlert() {
