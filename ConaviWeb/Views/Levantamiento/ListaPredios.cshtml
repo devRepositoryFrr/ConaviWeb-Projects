@@ -1,0 +1,193 @@
+﻿@model ConaviWeb.Model.PrediosAdquisicion.Predio
+@{
+    ViewData["Title"] = "Predios";
+}
+<div class="row">
+    <div class="col-md-12" id="alert">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+@*Lista de predios de adquisición registrados*@
+<div class="row">
+    <div class="col-md-12 form-group">
+        <h3 class="text-center">Gestión de Predios de Adquisición</h3>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="tablePredios" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Fecha recorrido
+                        </th>
+                        <th>
+                            Domicilio
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                            Municipio
+                        </th>
+                        <th>
+                            Localidad
+                        </th>
+                        <th>
+                            Realizó recorrido
+                        </th>
+                        <th>
+                            Predio apto para desarrollo
+                        </th>
+                        <th>
+                            Condiciones
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<br />
+<div id="div_btn_addPredio">
+    <button id="btn_add_predio" class="btn btn-default btn-sm pull-right" onclick="location.href='@Url.Action("Predios","Levantamiento")'">
+        <span class="fa fa-plus"></span> Agregar Predio
+    </button>
+</div>
+<!-- Modal Drop Predio -->
+<div class="modal fade fade-in" style="z-index:1041" id="showModalTrashPredio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formDropPredio" enctype="multipart/form-data" method="post" asp-controller="Levantamiento" asp-action="DropPredio">
+                <div class="alert alert-danger" asp-validation-summary="ModelOnly"><button class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>
+                <div class='modal-header'>
+                    <h4 id='titulo-modal' style="font-weight: 300">Eliminar Predio</h4>
+                </div>
+                <div class='modal-body'>
+                    <input id="idPredio" asp-for="Id" type="text" class="form-control" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>¿Estás seguro de eliminar el registro del predio?</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">
+                        <span class="fa fa-times" aria-hidden="true"></span> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-sm btn-primary active">
+                        <span class="fa fa-trash-o" aria-hidden="true"></span> Si, eliminar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        var table;
+        $(document).ready(function () {
+            $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/'>Inicio</a></li>");
+            //showAlert();
+            showTable();
+            $('#showModalTrashPredio').on('show.bs.modal', function (e) {
+                var expId = $(e.relatedTarget).data('pred-id');
+                $(e.currentTarget).find('#idPredio').val(expId);
+            });
+        });
+        function showTable() {
+            var urlTipo = "";
+            urlTipo = "/Levantamiento/PrediosAdquisicion";
+            table = $('#tablePredios').DataTable({
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'GET',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columns,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                "buttons": ['excel'],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+        }
+        var columns = [
+            { "name": "FechaRecorrido", "data": "fechaRecorrido", "targets": 0},
+            { "name": "Domicilio", "data": "domicilio", "targets": 1},
+            { "name": "Estado", "data": "estado", "targets": 2 },
+            { "name": "Municipio", "data": "municipio", "targets": 3 },
+            { "name": "Localidad", "data": "localidad", "targets": 4 },
+            { "name": "NombreRealizoRecorrido", "data": "nombreRealizoRecorrido", "targets": 5 },
+            {
+                "targets": 6,
+                "data": null,
+                "render": function (data, type, row) {
+                    return row.predioAptoVivienda == 1 ? 'Si' : 'No';
+                }
+            },
+            { "name": "Condiciones", "data": "condicionesPredioApto", "targets": 7 },
+            {
+                "targets": 8,
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    var ret = '<a href="/Levantamiento/Predios?id=' + data.id + '" data-pred-id="' + row.id + '" class="gold" type="button" title="Editar" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-pencil-square-o" aria-hidden="true"></span></a><br><a data-pred-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashPredio" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-trash-o" aria-hidden="true"></span></a>';
+                    ret += '<br><a href="/Levantamiento/HomologacionFiles?id=' + data.id + '" class="gold" type="button" title="Cargar archivos" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-files-o" aria-hidden="true"></span></a>';
+                    return ret;
+                },
+                "sortable": false,
+                "className": 'text-center'
+            },
+        ];
+        //function showAlert() {
+        //    setTimeout(function () {
+        //        $("#alert").slideToggle(1500);
+        //    }, 4000);
+        //    setTimeout(function () {
+        //        $("#alert").remove();
+        //    }, 6000);
+        //}
+</script>
+}
