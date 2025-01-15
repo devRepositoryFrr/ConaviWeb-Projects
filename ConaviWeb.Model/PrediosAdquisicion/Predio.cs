@@ -10,10 +10,13 @@ namespace ConaviWeb.Model.PrediosAdquisicion
     {
         //Datos del Predio
         public int Id { get; set; }
+        public int IdSedatu { get; set; }
+        public string NombrePredio { get; set; }
         public string FechaRecorrido { get; set; }
         public string Domicilio { get; set; }
         public string CoordN { get; set; }
         public string CoordO { get; set; }
+        public string Kmz { get; set; }
         public string CveEstado { get; set; }
         public string Estado { get; set; }
         public string CveMunicipio { get; set; }
@@ -21,6 +24,7 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string CveLocalidad { get; set; }
         public string Localidad { get; set; }
         //Características
+        public string UsoSuelo { get; set; }
         public int CveTipoPredio { get; set; }
         public string TipoPredio { get; set; }
         public int CveAcceso { get; set; }
@@ -49,11 +53,19 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string DistanciaVialidadConexion { get; set; }
         public int? CondicionesVialidadConexion { get; set; } 
         public string MaterialesVialidadConexion { get; set; }
+        public int? TipoVialidadNivel { get; set; }
+        public string DistanciaVialidadNivel { get; set; }
+        public int? CondicionesVialidadNivel { get; set; } 
+        public string MaterialesVialidadNivel { get; set; }
         public YesOrNo TieneAccesoPredio { get; set; }
         public int? TipoAccesoPredio { get; set; }
         public string DistanciaAccesoPredio { get; set; }
         public int? CondicionesAccesoPredio { get; set; }
         public string MaterialesAccesoPredio { get; set; }
+        public int? TipoAccesoPredioNivel { get; set; }
+        public string DistanciaAccesoPredioNivel { get; set; }
+        public int? CondicionesAccesoPredioNivel { get; set; }
+        public string MaterialesAccesoPredioNivel { get; set; }
         //Transporte público
         public string DistanciaTranPubAccesoInmediato { get; set; }
         public int? CondicionesTranPubAccesoInmediato { get; set; }
@@ -113,18 +125,21 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string DistanciaViasFerreas { get; set; }
         public string DistanciaCarreteras { get; set; }
         public string DistanciaDuctos { get; set; }
+        public string DistanciaGaseras { get; set; }
         public string DistanciaBarrancas { get; set; }
         public string CveCaracteristicasSuelo { get; set; }
         public string CaracteristicasSuelo { get; set; }
         public string CveOtrasObservaciones { get; set; }
         public string OtrasObservaciones { get; set; }
         public YesOrNo PredioAptoVivienda { get;set; }
-        public string CondicionesPredioApto { get; set; }
+        public string ObservacionesPredioApto { get; set; }
         public string PorcentajeSuperficieUtillizable { get; set; }
         //Observaciones adicionales
         public string ObservacionesAdicionales { get; set; }
         public string NombreRealizoRecorrido { get; set; }
+        public string CorreoElectronico { get; set; }
         public int IdUser { get; set; }
+        public int Calificacion { get; set; }
     }
     public enum YesOrNo { Si = 1, No = 2 }
 }

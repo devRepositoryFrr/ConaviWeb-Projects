@@ -45,6 +45,9 @@
                             Condiciones
                         </th>
                         <th>
+                            Calificación
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -168,9 +171,10 @@
                     return row.predioAptoVivienda == 1 ? 'Si' : 'No';
                 }
             },
-            { "name": "Condiciones", "data": "condicionesPredioApto", "targets": 7 },
+            { "name": "Condiciones", "data": "observacionesPredioApto", "targets": 7 },
+            { "name": "Calificacion", "data": "calificacion", "targets": 8 },
             {
-                "targets": 8,
+                "targets": 9,
                 "data": null,
                 "render": function (data, type, row, meta) {
                     var ret = '<a href="/Levantamiento/Predios?id=' + data.id + '" data-pred-id="' + row.id + '" class="gold" type="button" title="Editar" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-pencil-square-o" aria-hidden="true"></span></a><br><a data-pred-id="' + row.id + '" class="gold" type="button" title="Eliminar" data-toggle="modal" data-target="#showModalTrashPredio" style="font-size:20px;"><span style="cursor:pointer;" class="fa fa-trash-o" aria-hidden="true"></span></a>';
