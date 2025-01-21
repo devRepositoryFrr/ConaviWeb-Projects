@@ -32,6 +32,8 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public int CveLocalizacion { get; set; }
         public string Localizacion { get; set; }
         public string DistanciaLocalizacion { get; set; }
+        public string CveOtrasCaracteristicas { get; set; }
+        public string CaracPredioOtro { get; set; }
         public int CveElectricidad { get; set; }
         public string Electricidad { get; set; }
         public string DistElectricidad { get; set; }
@@ -41,47 +43,58 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public int CveAguaPotable { get; set; }
         public string AguaPotable { get; set; }
         public string DistAguaPotable { get; set; }
-        public string CveOtrasCaracteristicas { get; set; }
-        public string CaracPredioOtro { get; set; }
         //Elementos del Entorno(500m)
         public int? NivelesConstruidos { get; set; }
         public string MaterialesNaturales { get; set; }
         public string MaterialesIndustrializados { get; set; }
         //Vialidades y accesos
         public YesOrNo TieneConexionVialidad { get; set; }
-        public int? TipoVialidadConexion { get; set; }
+        public int? CveTipoVialidadConexion { get; set; }
+        public string TipoVialidadConexion { get; set; }
         public string DistanciaVialidadConexion { get; set; }
-        public int? CondicionesVialidadConexion { get; set; } 
+        public int? CveCondicionVialidadConexion { get; set; } 
+        public string CondicionVialidadConexion { get; set; } 
         public string MaterialesVialidadConexion { get; set; }
-        public int? TipoVialidadNivel { get; set; }
+        public int? CveTipoVialidadNivel { get; set; }
+        public string TipoVialidadNivel { get; set; }
         public string DistanciaVialidadNivel { get; set; }
-        public int? CondicionesVialidadNivel { get; set; } 
+        public int? CveCondicionVialidadNivel { get; set; } 
+        public string CondicionVialidadNivel { get; set; } 
         public string MaterialesVialidadNivel { get; set; }
         public YesOrNo TieneAccesoPredio { get; set; }
-        public int? TipoAccesoPredio { get; set; }
+        public int? CveTipoAccesoPredio { get; set; }
+        public string TipoAccesoPredio { get; set; }
         public string DistanciaAccesoPredio { get; set; }
-        public int? CondicionesAccesoPredio { get; set; }
+        public int? CveCondicionAccesoPredio { get; set; }
+        public string CondicionAccesoPredio { get; set; }
         public string MaterialesAccesoPredio { get; set; }
-        public int? TipoAccesoPredioNivel { get; set; }
+        public int? CveTipoAccesoPredioNivel { get; set; }
+        public string TipoAccesoPredioNivel { get; set; }
         public string DistanciaAccesoPredioNivel { get; set; }
-        public int? CondicionesAccesoPredioNivel { get; set; }
+        public int? CveCondicionAccesoPredioNivel { get; set; }
+        public string CondicionAccesoPredioNivel { get; set; }
         public string MaterialesAccesoPredioNivel { get; set; }
         //Transporte público
         public string DistanciaTranPubAccesoInmediato { get; set; }
-        public int? CondicionesTranPubAccesoInmediato { get; set; }
+        public int? CveCondicionTranPubAccesoInmediato { get; set; }
+        public string CondicionTranPubAccesoInmediato { get; set; }
         public string DistanciaTranPubComoda { get; set; }
-        public int? CondicionesTranPubComoda { get; set; }
+        public int? CveCondicionTranPubComoda { get; set; }
+        public string CondicionTranPubComoda { get; set; }
         public string DistanciaTranPubLejano { get; set; }
-        public int? CondicionesTranPubLejano { get; set; }
+        public int? CveCondicionTranPubLejano { get; set; }
+        public string CondicionTranPubLejano { get; set; }
         public string DistanciaTranPubParada { get; set; }
-        public int? CondicionesTranPubParada { get; set; }
+        public int? CveCondicionTranPubParada { get; set; }
+        public string CondicionTranPubParada { get; set; }
         public string DistanciaTranPubEstacionCetram { get; set; }
-        public int? CondicionesTranPubEstacionCetram { get; set; }
+        public int? CondicionTranPubEstacionCetram { get; set; }
         public string DistanciaTranPubSitioTaxis { get; set; }
-        public int? CondicionesTranPubSitioTaxis { get; set; }
+        public int? CondicionTranPubSitioTaxis { get; set; }
         public string TranPubOtro { get; set; }
         public string DistanciaTranPubOtro { get; set; }
-        public int? CondicionesTranPubOtro { get; set; }
+        public int? CveCondicionTranPubOtro { get; set; }
+        public string CondicionTranPubOtro { get; set; }
         //Equipamiento Urbano y Servicios
         public string EqUrbEducacionNivel { get; set; }
         public string EqUrbEducacionDistancia { get; set; }
@@ -112,25 +125,59 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         //Ubicación y Descripción del entorno físico del predio
         public string CveTopografiaTerreno { get; set; }
         public string TopografiaTerreno { get; set; }
+        public string PendientesSuaves { get; set; }
+        public string PendientesInclinadas { get; set; }
+        public string PendientesAbruptas { get; set; }
+        public string Planicies { get; set; }
+        public string CortesdeSuelo { get; set; }
+        public string VegetacionInterior { get; set; }
         public string EstratoArboreo { get; set; }
         public string EstratoArbustivo { get; set; }
         public string CveHidrografia { get; set; }
         public string Hidrografia { get; set; }
+        public string HRios { get; set; }
+        public string Escurrimientos { get; set; }
+        public string Arroyos { get; set; }
+        public string Lagos { get; set; }
+        public string Lagunas { get; set; }
+        public string Manantiales { get; set; }
+        public string OjoAgua { get; set; }
+        public string Humedales { get; set; }
+        public string Acueducto { get; set; }
+        public string Canal { get; set; }
         public string CveRestriccionesFederales { get; set; }
         public string RestriccionesFederales { get; set; }
         public string DistanciaRios { get; set; }
+        public string Rios { get; set; }
         public string DistanciaCorrientes { get; set; }
+        public string CorrientesIntermitentes { get; set; }
         public string DistanciaCuerposAgua { get; set; }
+        public string CuerposdeAgua { get; set; }
         public string DistanciaLineasAltaTension { get; set; }
+        public string LineasAltaTension { get; set; }
         public string DistanciaViasFerreas { get; set; }
+        public string ViasFerreas { get; set; }
         public string DistanciaCarreteras { get; set; }
+        public string Carreteras { get; set; }
         public string DistanciaDuctos { get; set; }
+        public string Ductos { get; set; }
         public string DistanciaGaseras { get; set; }
+        public string Gaseras { get; set; }
         public string DistanciaBarrancas { get; set; }
+        public string Barrancas { get; set; }
         public string CveCaracteristicasSuelo { get; set; }
         public string CaracteristicasSuelo { get; set; }
+        public string Rocas { get; set; }
+        public string ArenasGravas { get; set; }
+        public string LimosArcillas { get; set; }
+        public string RellenoEscombro { get; set; }
+        public string MateriaOrganica { get; set; }
         public string CveOtrasObservaciones { get; set; }
         public string OtrasObservaciones { get; set; }
+        public string FracturasTerreno { get; set; }
+        public string Hundimientos { get; set; }
+        public string InestabilidadLaderas { get; set; }
+        public string ZonasInundables { get; set; }
         public YesOrNo PredioAptoVivienda { get;set; }
         public string ObservacionesPredioApto { get; set; }
         public string PorcentajeSuperficieUtillizable { get; set; }
@@ -138,8 +185,11 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string ObservacionesAdicionales { get; set; }
         public string NombreRealizoRecorrido { get; set; }
         public string CorreoElectronico { get; set; }
+        public string ReporteFotografico { get; set; }
         public int IdUser { get; set; }
         public int Calificacion { get; set; }
+        public string FechaRegistro { get; set; }
+        public string FechaUltimaActualizacion { get; set; }
     }
     public enum YesOrNo { Si = 1, No = 2 }
 }
