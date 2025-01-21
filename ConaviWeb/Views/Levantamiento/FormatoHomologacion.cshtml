@@ -1271,16 +1271,12 @@
                 <input type="file" class="form-control-file" id="repFoto" accept=".pdf" />
                 <button type="button" class="btn btn-default btn-sm" onclick="Upload()"><span class="fa fa-upload"></span> Cargar archivo</button>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                @*<button type="submit" class="btn btn-default btn-sm form-control">Enviar</button>*@
+            <div class="col-sm-8">
                 <button type="submit" class="btn btn-sm btn-primary active pull-right">
                     <span class="fa fa-paper-plane-o"></span> Enviar
                 </button>
             </div>
         </div>
-
         @*Fin del formulario para el alta de formato de homologación*@
         <hr />
     </form>
@@ -1632,25 +1628,27 @@
             }
         }
         function Upload() {
-            $('#spinner').show();
-            var data = new FormData();
-            let idSedatu = $("#idSedatu").val();
-            let json = JSON.stringify({ idPredio: idPredio, idSedatu: idSedatu });
-            data.append("json", json);
-            data.append('file', $("#repFoto")[0].files[0]);
-            $.ajax({
-                type: "post",
-                url: "@Url.Action("UploadRepFoto", "Levantamiento")", // Url
-                data: data,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    $('#spinner').hide();
-                    $("#alertFile").html(data.message).fadeIn("slow");
-                    GetFile();
-                    showAlertFile();
-                }
-            });
+            if ($("#repFoto")[0].files[0] != null) {
+                $('#spinner').show();
+                var data = new FormData();
+                let idSedatu = $("#idSedatu").val();
+                let json = JSON.stringify({ idPredio: idPredio, idSedatu: idSedatu });
+                data.append("json", json);
+                data.append('file', $("#repFoto")[0].files[0]);
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("UploadRepFoto", "Levantamiento")", // Url
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        $('#spinner').hide();
+                        $("#alertFile").html(data.message).fadeIn("slow");
+                        GetFile();
+                        showAlertFile();
+                    }
+                });
+            }
         }
         function GetFile() {
             $('#spinner').show();
