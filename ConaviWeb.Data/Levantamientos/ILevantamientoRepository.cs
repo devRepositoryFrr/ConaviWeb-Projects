@@ -16,8 +16,13 @@ namespace ConaviWeb.Data.Levantamientos
         Task<bool> InsertFormatoLevantamiento(Predio predio);
         Task<Predio> GetFormatoLevantamiento(int id);
         Task<IEnumerable<Predio>> GetPrediosAdquisicion();
+        Task<IEnumerable<Predio>> GetFullPrediosAdquisicion();
         Task<bool> DropPredio(int id);
         Task<bool> InsertFilePredio(string idPredio, string idFile, string filename, string extension);
+        Task<bool> InsertRepFoto(string idPredio, string filename);
         Task<Catalogo> GetFile(int idPredio, int idFile);
+        Task<Catalogo> GetRepFoto(int idPredio);
+        Task<bool> ValidarArchivo(string idPredio, int idFile);
+        Task<bool> RechazarArchivo(int idPredio, int idFile);
     }
 }

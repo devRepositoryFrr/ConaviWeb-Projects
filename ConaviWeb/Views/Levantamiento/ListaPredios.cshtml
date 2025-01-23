@@ -63,6 +63,424 @@
     <button id="btn_add_predio" class="btn btn-default btn-sm pull-right" onclick="location.href='@Url.Action("Predios","Levantamiento")'">
         <span class="fa fa-plus"></span> Agregar Predio
     </button>
+    <div id="btn-place"></div>
+</div>
+<br />
+<div class="row hidden">
+    <div class="col-md-12">
+        <form id="formTable">
+            <table id="tableFullPredios" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            IdSedatu
+                        </th>
+                        <th>
+                            NombrePredio
+                        </th>
+                        <th>
+                            FechaRecorrido
+                        </th>
+                        <th>
+                            Domicilio
+                        </th>
+                        <th>
+                            Kmz
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>
+                            Municipio
+                        </th>
+                        <th>
+                            Localidad
+                        </th>
+                        <th>
+                            UsoSuelo
+                        </th>
+                        <th>
+                            TipoPredio
+                        </th>
+                        <th>
+                            Localizacion
+                        </th>
+                        <th>
+                            DistanciaLocalizacion
+                        </th>
+                        <th>
+                            CaracPredioOtro
+                        </th>
+                        <th>
+                            Electricidad
+                        </th>
+                        <th>
+                            DistElectricidad
+                        </th>
+                        <th>
+                            Drenaje
+                        </th>
+                        <th>
+                            DistDrenaje
+                        </th>
+                        <th>
+                            AguaPotable
+                        </th>
+                        <th>
+                            DistAguaPotable
+                        </th>
+                        <th>
+                            NivelesConstruidos
+                        </th>
+                        <th>
+                            MaterialesNaturales
+                        </th>
+                        <th>
+                            MaterialesIndustrializados
+                        </th>
+                        <th>
+                            TieneConexionVialidad
+                        </th>
+                        <th>
+                            TipoVialidadConexion
+                        </th>
+                        <th>
+                            DistanciaVialidadConexion
+                        </th>
+                        <th>
+                            CondicionVialidadConexion
+                        </th>
+                        <th>
+                            MaterialesVialidadConexion
+                        </th>
+                        <th>
+                            TipoVialidadNivel
+                        </th>
+                        <th>
+                            DistanciaVialidadNivel
+                        </th>
+                        <th>
+                            CondicionVialidadNivel
+                        </th>
+                        <th>
+                            MaterialesVialidadNivel
+                        </th>
+                        <th>
+                            TieneAccesoPredio
+                        </th>
+                        <th>
+                            TipoAccesoPredio
+                        </th>
+                        <th>
+                            DistanciaAccesoPredio
+                        </th>
+                        <th>
+                            CondicionAccesoPredio
+                        </th>
+                        <th>
+                            MaterialesAccesoPredio
+                        </th>
+                        <th>
+                            TipoAccesoPredioNivel
+                        </th>
+                        <th>
+                            DistanciaAccesoPredioNivel
+                        </th>
+                        <th>
+                            CondicionAccesoPredioNivel
+                        </th>
+                        <th>
+                            MaterialesAccesoPredioNivel
+                        </th>
+                        <th>
+                            DistanciaTranPubAccesoInmediato
+                        </th>
+                        <th>
+                            CondicionTranPubAccesoInmediato
+                        </th>
+                        <th>
+                            DistanciaTranPubComoda
+                        </th>
+                        <th>
+                            CondicionTranPubComoda
+                        </th>
+                        <th>
+                            DistanciaTranPubLejano
+                        </th>
+                        <th>
+                            CondicionTranPubLejano
+                        </th>
+                        <th>
+                            DistanciaMedioTransporte
+                        </th>
+                        <th>
+                            CondicionMedioTransporte
+                        </th>
+                        <th>
+                            TranPubOtro
+                        </th>
+                        <th>
+                            DistanciaTranPubOtro
+                        </th>
+                        <th>
+                            CondicionTranPubOtro
+                        </th>
+                        <th>
+                            EqUrbEducacionNivel
+                        </th>
+                        <th>
+                            EqUrbEducacionDistancia
+                        </th>
+                        <th>
+                            EqUrbSaludNivel
+                        </th>
+                        <th>
+                            EqUrbSaludDistancia
+                        </th>
+                        <th>
+                            EqUrbServUrbanosNivel
+                        </th>
+                        <th>
+                            EqUrbServUrbanosDistancia
+                        </th>
+                        <th>
+                            EqUrbRecreacionNivel
+                        </th>
+                        <th>
+                            EqUrbRecreacionDistancia
+                        </th>
+                        <th>
+                            EqUrbCulturaNivel
+                        </th>
+                        <th>
+                            EqUrbCulturaDistancia
+                        </th>
+                        <th>
+                            EqUrbAsistenciaSocialNivel
+                        </th>
+                        <th>
+                            EqUrbAsistenciaSocialDistancia
+                        </th>
+                        <th>
+                            EqUrbOtro
+                        </th>
+                        <th>
+                            EqUrbOtroNivel
+                        </th>
+                        <th>
+                            EqUrbOtroDistancia
+                        </th>
+                        <th>
+                            ServUrbEducacionNivel
+                        </th>
+                        <th>
+                            ServUrbEducacionDistancia
+                        </th>
+                        <th>
+                            ServUrbSaludNivel
+                        </th>
+                        <th>
+                            ServUrbSaludDistancia
+                        </th>
+                        <th>
+                            ServUrbRecreacionNivel
+                        </th>
+                        <th>
+                            ServUrbRecreacionDistancia
+                        </th>
+                        <th>
+                            ServUrbCulturaNivel
+                        </th>
+                        <th>
+                            ServUrbCulturaDistancia
+                        </th>
+                        <th>
+                            ServUrbOtro
+                        </th>
+                        <th>
+                            ServUrbOtroNivel
+                        </th>
+                        <th>
+                            ServUrbOtroDistancia
+                        </th>
+                        <th>
+                            PendientesSuaves
+                        </th>
+                        <th>
+                            PendientesInclinadas
+                        </th>
+                        <th>
+                            PendientesAbruptas
+                        </th>
+                        <th>
+                            Planicies
+                        </th>
+                        <th>
+                            CortesSuelo
+                        </th>
+                        <th>
+                            VegetacionInterior
+                        </th>
+                        <th>
+                            EstratoArboreo
+                        </th>
+                        <th>
+                            EstratoArbustivo
+                        </th>
+                        <th>
+                            Ríos
+                        </th>
+                        <th>
+                            Escurrimientos
+                        </th>
+                        <th>
+                            Arroyos
+                        </th>
+                        <th>
+                            Lagos
+                        </th>
+                        <th>
+                            Lagunas
+                        </th>
+                        <th>
+                            Manantiales
+                        </th>
+                        <th>
+                            OjodeAgua
+                        </th>
+                        <th>
+                            Humedales
+                        </th>
+                        <th>
+                            Acueducto
+                        </th>
+                        <th>
+                            Canal
+                        </th>
+                        @*RestriccionesFederales*@
+                        <th>
+                            Rios
+                        </th>
+                        <th>
+                            DistanciaRios
+                        </th>
+                        <th>
+                            CorrientesIntermitentes
+                        </th>
+                        <th>
+                            DistanciaCorrientes
+                        </th>
+                        <th>
+                            CuerposAgua
+                        </th>
+                        <th>
+                            DistanciaCuerposAgua
+                        </th>
+                        <th>
+                            LineasAltaTension
+                        </th>
+                        <th>
+                            DistanciaLineasAltaTension
+                        </th>
+                        <th>
+                            ViasFerreas
+                        </th>
+                        <th>
+                            DistanciaViasFerreas
+                        </th>
+                        <th>
+                            Carreteras
+                        </th>
+                        <th>
+                            DistanciaCarreteras
+                        </th>
+                        <th>
+                            Ductos
+                        </th>
+                        <th>
+                            DistanciaDuctos
+                        </th>
+                        <th>
+                            Gaseras
+                        </th>
+                        <th>
+                            DistanciaGaseras
+                        </th>
+                        <th>
+                            Barrancas
+                        </th>
+                        <th>
+                            DistanciaBarrancas
+                        </th>
+                        @*CaracteristicasdelSuelo*@
+                        <th>
+                            Rocas
+                        </th>
+                        <th>
+                            ArenasGravas
+                        </th>
+                        <th>
+                            LimosArcillas
+                        </th>
+                        <th>
+                            RellenoEscombro
+                        </th>
+                        <th>
+                            MateriaOrganica
+                        </th>
+                        @*OtrasCaarcateristicas*@
+                        <th>
+                            FracurasTerreno
+                        </th>
+                        <th>
+                            Hundimientos
+                        </th>
+                        <th>
+                            InestabilidadLaderas
+                        </th>
+                        <th>
+                            ZonasInundables
+                        </th>
+                        <th>
+                            PredioAptoVivienda
+                        </th>
+                        <th>
+                            ObservacionesPredioApto
+                        </th>
+                        <th>
+                            PorcentajeSuperficieUtillizable
+                        </th>
+                        <th>
+                            ObservacionesAdicionales
+                        </th>
+                        <th>
+                            NombreRealizoRecorrido
+                        </th>
+                        <th>
+                            CorreoElectronico
+                        </th>
+                        <th>
+                            ReporteFotografico
+                        </th>
+                        <th>
+                            Calificacion
+                        </th>
+                        <th>
+                            FechaRegistro
+                        </th>
+                        <th>
+                            FechaUltimaActualizacion
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
 <!-- Modal Drop Predio -->
 <div class="modal fade fade-in" style="z-index:1041" id="showModalTrashPredio" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -95,7 +513,22 @@
 </div>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+@*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>*@
+
+@*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />*@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.0/css/buttons.dataTables.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+@*<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>*@
+<script src="https://cdn.datatables.net/buttons/1.4.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.0/js/buttons.print.min.js"></script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script type="text/javascript">
@@ -104,6 +537,7 @@
             $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/'>Inicio</a></li>");
             //showAlert();
             showTable();
+            showFullTable();
             $('#showModalTrashPredio').on('show.bs.modal', function (e) {
                 var expId = $(e.relatedTarget).data('pred-id');
                 $(e.currentTarget).find('#idPredio').val(expId);
@@ -185,6 +619,237 @@
                 "className": 'text-center'
             },
         ];
+        function showFullTable() {
+            var urlTipo = "";
+            urlTipo = "/Levantamiento/FullPrediosAdquisicion";
+            table = $('#tableFullPredios').DataTable({
+                "dom": "Bfrtip",
+                "proccessing": true,
+                "serverSide": false,
+                "ajax": {
+                    url: urlTipo,
+                    type: 'POST',
+                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    complete: function () {
+                        $("#spinner").hide();
+                    }
+                },
+                "columnDefs": columnsFull,
+                "order": [[0, "desc"]],
+                "autoWidth": true,
+                "destroy": true,
+                "scrollY": true,
+                "scrollCollapse": true,
+                "paging": true,
+                "info": true,
+                buttons: [
+                    {
+                        text: '<span class="fa fa-file-excel-o" aria-hidden="true"></span> Exportar a Excel',
+                        extend: 'excel',
+                        exportOptions: {
+                            orthogonal: 'export'
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            // Loop over all cells in sheet
+                            $('row c', sheet).each(function () {
+                                // if cell starts with http
+                                if ($('is t', this).text().indexOf("http") === 0) {
+                                    // (2.) change the type to `str` which is a formula
+                                    $(this).attr('t', 'str');
+                                    //append the formula
+                                    $(this).append('<f>' + 'HYPERLINK("' + $('is t', this).text() + '","' + $('is t', this).text() + '")' + '</f>');
+                                    //remove the inlineStr
+                                    $('is', this).remove();
+                                    // (3.) underline
+                                    $(this).attr('s', '4');
+                                }
+                            });
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "fixedColumns": true,
+                "ordering": false,
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    }
+                }
+            });
+            $('#btn-place').html(table.buttons().container());
+            $('a.buttons-excel').removeClass("dt-button").addClass("btn btn-default btn-sm pull-right");
+        }
+        var columnsFull = [
+            { "name": "Id", "data": "id", "targets": 0 },
+            { "name": "IdSedatu", "data": "idSedatu", "targets": 1 },
+            { "name": "NombrePredio", "data": "nombrePredio", "targets": 2 },
+            { "name": "FechaRecorrido", "data": "fechaRecorrido", "targets": 3 },
+            { "name": "Domicilio", "data": "domicilio", "targets": 4 },
+            { "name": "Kmz", "data": "kmz", "targets": 5 },
+            { "name": "Estado", "data": "estado", "targets": 6 },
+            { "name": "Municipio", "data": "municipio", "targets": 7 },
+            { "name": "Localidad", "data": "localidad", "targets": 8 },
+            { "name": "UsoSuelo", "data": "usoSuelo", "targets": 9 },
+            { "name": "TipoPredio", "data": "tipoPredio", "targets": 10 },
+            { "name": "Localizacion", "data": "localizacion", "targets": 11 },
+            { "name": "DistanciaLocalizacion", "data": "distanciaLocalizacion", "targets": 12 },
+            { "name": "CaracPredioOtro", "data": "caracPredioOtro", "targets": 13 },
+            { "name": "Electricidad", "data": "electricidad", "targets": 14 },
+            { "name": "DistElectricidad", "data": "distElectricidad", "targets": 15 },
+            { "name": "Drenaje", "data": "drenaje", "targets": 16 },
+            { "name": "DistDrenaje", "data": "distDrenaje", "targets": 17 },
+            { "name": "AguaPotable", "data": "aguaPotable", "targets": 18 },
+            { "name": "DistAguaPotable", "data": "distAguaPotable", "targets": 19 },
+            { "name": "NivelesConstruidos", "data": "nivelesConstruidos", "targets": 20 },
+            { "name": "MaterialesNaturales", "data": "materialesNaturales", "targets": 21 },
+            { "name": "MaterialesIndustrializados", "data": "materialesIndustrializados", "targets": 22 },
+            {
+                "name": "TieneConexionVialidad", "data": "tieneConexionVialidad", "targets": 23,
+                "render": function (data, type, row, meta) {
+                    var ret = data == 1 ? 'SI' : 'NO';
+                    return ret;
+                },
+            },
+            { "name": "TipoVialidadConexion", "data": "tipoVialidadConexion", "targets": 24 },
+            { "name": "DistanciaVialidadConexion", "data": "distanciaVialidadConexion", "targets": 25 },
+            { "name": "CondicionVialidadConexion", "data": "condicionVialidadConexion", "targets": 26 },
+            { "name": "MaterialesVialidadConexion", "data": "materialesVialidadConexion", "targets": 27 },
+            { "name": "TipoVialidadNivel", "data": "tipoVialidadNivel", "targets": 28 },
+            { "name": "DistanciaVialidadNivel", "data": "distanciaVialidadNivel", "targets": 29 },
+            { "name": "CondicionVialidadNivel", "data": "condicionVialidadNivel", "targets": 30 },
+            { "name": "MaterialesVialidadNivel", "data": "materialesVialidadNivel", "targets": 31 },
+            {
+                "name": "TieneAccesoPredio", "data": "tieneAccesoPredio", "targets": 32,
+                "render": function (data) {
+                    return data == 1 ? 'SI' : 'NO'
+                }
+            },
+            { "name": "TipoAccesoPredio", "data": "tipoAccesoPredio", "targets": 33 },
+            { "name": "DistanciaAccesoPredio", "data": "distanciaAccesoPredio", "targets": 34 },
+            { "name": "CondicionAccesoPredio", "data": "condicionAccesoPredio", "targets": 35 },
+            { "name": "MaterialesAccesoPredio", "data": "materialesAccesoPredio", "targets": 36 },
+            { "name": "TipoAccesoPredioNivel", "data": "tipoAccesoPredioNivel", "targets": 37 },
+            { "name": "DistanciaAccesoPredioNivel", "data": "distanciaAccesoPredioNivel", "targets": 38 },
+            { "name": "CondicionAccesoPredioNivel", "data": "condicionAccesoPredioNivel", "targets": 39 },
+            { "name": "MaterialesAccesoPredioNivel", "data": "materialesAccesoPredioNivel", "targets": 40 },
+            { "name": "DistanciaTranPubAccesoInmediato", "data": "distanciaTranPubAccesoInmediato", "targets": 41 },
+            { "name": "CondicionTranPubAccesoInmediato", "data": "condicionTranPubAccesoInmediato", "targets": 42 },
+            { "name": "DistanciaTranPubComoda", "data": "distanciaTranPubComoda", "targets": 43 },
+            { "name": "CondicionTranPubComoda", "data": "condicionTranPubComoda", "targets": 44 },
+            { "name": "DistanciaTranPubLejano", "data": "distanciaTranPubLejano", "targets": 45 },
+            { "name": "CondicionTranPubLejano", "data": "condicionTranPubLejano", "targets": 46 },
+            { "name": "DistanciaTranPubParada", "data": "distanciaTranPubParada", "targets": 47 },
+            { "name": "CondicionTranPubParada", "data": "condicionTranPubParada", "targets": 48 },
+            { "name": "TranPubOtro", "data": "tranPubOtro", "targets": 49 },
+            { "name": "DistanciaTranPubOtro", "data": "distanciaTranPubOtro", "targets": 50 },
+            { "name": "CondicionTranPubOtro", "data": "condicionTranPubOtro", "targets": 51 },
+            { "name": "EqUrbEducacionNivel", "data": "eqUrbEducacionNivel", "targets": 52 },
+            { "name": "EqUrbEducacionDistancia", "data": "eqUrbEducacionDistancia", "targets": 53 },
+            { "name": "EqUrbSaludNivel", "data": "eqUrbSaludNivel", "targets": 54 },
+            { "name": "EqUrbSaludDistancia", "data": "eqUrbSaludDistancia", "targets": 55 },
+            { "name": "EqUrbServUrbanosNivel", "data": "eqUrbServUrbanosNivel", "targets": 56 },
+            { "name": "EqUrbServUrbanosDistancia", "data": "eqUrbServUrbanosDistancia", "targets": 57 },
+            { "name": "EqUrbRecreacionNivel", "data": "eqUrbRecreacionNivel", "targets": 58 },
+            { "name": "EqUrbRecreacionDistancia", "data": "eqUrbRecreacionDistancia", "targets": 59 },
+            { "name": "EqUrbCulturaNivel", "data": "eqUrbCulturaNivel", "targets": 60 },
+            { "name": "EqUrbCulturaDistancia", "data": "eqUrbCulturaDistancia", "targets": 61 },
+            { "name": "EqUrbAsistenciaSocialNivel", "data": "eqUrbAsistenciaSocialNivel", "targets": 62 },
+            { "name": "EqUrbAsistenciaSocialDistancia", "data": "eqUrbAsistenciaSocialDistancia", "targets": 63 },
+            { "name": "EqUrbOtro", "data": "eqUrbOtro", "targets": 64 },
+            { "name": "EqUrbOtroNivel", "data": "eqUrbOtroNivel", "targets": 65 },
+            { "name": "EqUrbOtroDistancia", "data": "eqUrbOtroDistancia", "targets": 66 },
+            { "name": "ServUrbEducacionNivel", "data": "servUrbEducacionNivel", "targets": 67 },
+            { "name": "ServUrbEducacionDistancia", "data": "servUrbEducacionDistancia", "targets": 68 },
+            { "name": "ServUrbSaludNivel", "data": "servUrbSaludNivel", "targets": 69 },
+            { "name": "ServUrbSaludDistancia", "data": "servUrbSaludDistancia", "targets": 70 },
+            { "name": "ServUrbRecreacionNivel", "data": "servUrbRecreacionNivel", "targets": 71 },
+            { "name": "ServUrbRecreacionDistancia", "data": "servUrbRecreacionDistancia", "targets": 72 },
+            { "name": "ServUrbCulturaNivel", "data": "servUrbCulturaNivel", "targets": 73 },
+            { "name": "ServUrbCulturaDistancia", "data": "servUrbCulturaDistancia", "targets": 74 },
+            { "name": "ServUrbOtro", "data": "servUrbOtro", "targets": 75 },
+            { "name": "ServUrbOtroNivel", "data": "servUrbOtroNivel", "targets": 76 },
+            { "name": "ServUrbOtroDistancia", "data": "servUrbOtroDistancia", "targets": 77 },
+            { "name": "PendientesSuaves", "data": "pendientesSuaves", "targets": 78 },
+            { "name": "PendientesInclinadas", "data": "pendientesInclinadas", "targets": 79 },
+            { "name": "PendientesAbruptas", "data": "pendientesAbruptas", "targets": 80 },
+            { "name": "Planicies", "data": "planicies", "targets": 81 },
+            { "name": "CortesdeSuelo", "data": "cortesdeSuelo", "targets": 82 },
+            { "name": "VegetacionInterior", "data": "vegetacionInterior", "targets": 83 },
+            { "name": "EstratoArboreo", "data": "estratoArboreo", "targets": 84 },
+            { "name": "EstratoArbustivo", "data": "estratoArbustivo", "targets": 85 },
+            { "name": "HRios", "data": "hRios", "targets": 86 },
+            { "name": "Escurrimientos", "data": "escurrimientos", "targets": 87 },
+            { "name": "Arroyos", "data": "arroyos", "targets": 88 },
+            { "name": "Lagos", "data": "lagos", "targets": 89 },
+            { "name": "Lagunas", "data": "lagunas", "targets": 90 },
+            { "name": "Manantiales", "data": "manantiales", "targets": 91 },
+            { "name": "OjoAgua", "data": "ojoAgua", "targets": 92 },
+            { "name": "Humedales", "data": "humedales", "targets": 93 },
+            { "name": "Acueducto", "data": "acueducto", "targets": 94 },
+            { "name": "Canal", "data": "canal", "targets": 95 },
+            { "name": "Rios", "data": "rios", "targets": 96 },
+            { "name": "DistanciaRios", "data": "distanciaRios", "targets": 97 },
+            { "name": "CorrientesIntermitentes", "data": "corrientesIntermitentes", "targets": 98 },
+            { "name": "DistanciaCorrientes", "data": "distanciaCorrientes", "targets": 99 },
+            { "name": "CuerposdeAgua", "data": "cuerposdeAgua", "targets": 100 },
+            { "name": "DistanciaCuerposAgua", "data": "distanciaCuerposAgua", "targets": 101 },
+            { "name": "LineasAltaTension", "data": "lineasAltaTension", "targets": 102 },
+            { "name": "DistanciaLineasAltaTension", "data": "distanciaLineasAltaTension", "targets": 103 },
+            { "name": "ViasFerreas", "data": "viasFerreas", "targets": 104 },
+            { "name": "DistanciaViasFerreas", "data": "distanciaViasFerreas", "targets": 105 },
+            { "name": "Carreteras", "data": "carreteras", "targets": 106 },
+            { "name": "DistanciaCarreteras", "data": "distanciaCarreteras", "targets": 107},
+            { "name": "Ductos", "data": "ductos", "targets": 108 },
+            { "name": "DistanciaDuctos", "data": "distanciaDuctos", "targets": 109 },
+            { "name": "Gaseras", "data": "gaseras", "targets": 110 },
+            { "name": "DistanciaGaseras", "data": "distanciaGaseras", "targets": 111 },
+            { "name": "Barrancas", "data": "barrancas", "targets": 112 },
+            { "name": "DistanciaBarrancas", "data": "distanciaBarrancas", "targets": 113 },
+            { "name": "Rocas", "data": "rocas", "targets": 114 },
+            { "name": "ArenasGravas", "data": "arenasGravas", "targets": 115 },
+            { "name": "LimosArcillas", "data": "limosArcillas", "targets": 116 },
+            { "name": "RellenoEscombro", "data": "rellenoEscombro", "targets": 117 },
+            { "name": "MateriaOrganica", "data": "materiaOrganica", "targets": 118 },
+            { "name": "FracturasTerreno", "data": "fracturasTerreno", "targets": 119 },
+            { "name": "Hundimientos", "data": "hundimientos", "targets": 120 },
+            { "name": "InestabilidadLaderas", "data": "inestabilidadLaderas", "targets": 121 },
+            { "name": "ZonasInundables", "data": "zonasInundables", "targets": 122 },
+            {
+                "name": "PredioAptoVivienda", "data": "predioAptoVivienda", "targets": 123,
+                "render": function (data) {
+                    return data == 1 ? 'SI' : 'NO'                }
+            },
+            { "name": "ObservacionesPredioApto", "data": "observacionesPredioApto", "targets": 124 },
+            { "name": "PorcentajeSuperficieUtillizable", "data": "porcentajeSuperficieUtillizable", "targets": 125 },
+            { "name": "ObservacionesAdicionales", "data": "observacionesAdicionales", "targets": 126 },
+            { "name": "NombreRealizoRecorrido", "data": "nombreRealizoRecorrido", "targets": 127 },
+            { "name": "CorreoElectronico", "data": "correoElectronico", "targets": 128 },
+            {
+                "name": "ReporteFotografico", "data": null, "targets": 129,
+                "render": function (data) {
+                    return data.reporteFotografico != null ? "<a target='blank' href='https://" + window.location.host + "/doc/PrediosAdquisicion/RepFoto/" + data.id + "/" + data.idSedatu + "/" + data.reporteFotografico + "'>https://" + window.location.host + "/doc/PrediosAdquisicion/RepFoto/" + data.id + "/" + data.idSedatu + "/" + data.reporteFotografico + "</a>" : '';
+                }
+            },
+            { "name": "Calificacion", "data": "calificacion", "targets": 130 },
+            { "name": "FechaRegistro", "data": "fechaRegistro", "targets": 131 },
+            { "name": "FechaUltimaActualizacion", "data": "fechaUltimaActualizacion", "targets": 132 },
+        ];
         //function showAlert() {
         //    setTimeout(function () {
         //        $("#alert").slideToggle(1500);
@@ -193,5 +858,5 @@
         //        $("#alert").remove();
         //    }, 6000);
         //}
-</script>
+    </script>
 }
