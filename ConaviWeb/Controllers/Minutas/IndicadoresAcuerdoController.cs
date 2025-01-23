@@ -22,7 +22,7 @@ namespace ConaviWeb.Controllers.Minutas
         public async Task<IActionResult> IndexAsync()
         {
             var gestion = await _minutaRepository.GetGestion();
-            IEnumerable<Catalogo> meses = await _minutaRepository.GetMeses();
+            IEnumerable<Catalogo> meses = await _minutaRepository.GetMesesAcu();
             string [] mes = {"", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
             foreach(Catalogo m in meses)
             {

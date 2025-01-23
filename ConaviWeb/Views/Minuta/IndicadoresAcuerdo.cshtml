@@ -35,9 +35,7 @@
         }
 <script>
         $(document).ready(function () {
-            //getChart();
             getChartPie();
-            getChartMonth();
         });
 
     function getChartPie() {
@@ -52,16 +50,9 @@
                 complete: function (data) {
                     var proceso, pendiente, atendido;
                     $.each(data.responseJSON.data, function (i, val) {
-                        //console.log(val.acuerdos)
                         if (val.estatus === "En proceso") proceso = val.acuerdos;
                         if (val.estatus === "Pendiente") pendiente = val.acuerdos;
                         if (val.estatus === "Atendido") atendido = val.acuerdos;
-                        //$.each(val, function (i, r) {
-                        //    if (r.estatus === "En proceso") proceso = r.acuerdos;
-                        //    if (r.estatus === "Pendiente") pendiente = r.acuerdos;
-                        //    if (r.estatus === "Atendido") atendido = r.acuerdos;
-                        //});
-                        //console.log(proceso);
                     });
                 var dom = document.getElementById('chart-container');
                 var myChart = echarts.init(dom, null, {
@@ -106,207 +97,8 @@
                     window.addEventListener('resize', myChart.resize);
                     }
                 });
+        getChartMonth();
             }
-    function getChart() {
-                let gestion = $("#gestion").val();
-                let mes = $("#mes").val();
-
-            $.ajax({
-                url: "/IndicadoresAcuerdo/GetIndAcuerdo",
-                data: { id: gestion, clave:mes },
-                type: 'GET',
-                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
-                //success: function (data) { console.log(data) },
-                complete: function (data) {
-                    var proceso, pendiente, atendido;
-                    $.each(data.responseJSON.data, function (i, val) {
-                        //console.log(val.acuerdos)
-                        if (val.estatus === "En proceso") proceso = val.acuerdos;
-                        if (val.estatus === "Pendiente") pendiente = val.acuerdos;
-                        if (val.estatus === "Atendido") atendido = val.acuerdos;
-                        //$.each(val, function (i, r) {
-                        //    if (r.estatus === "En proceso") proceso = r.acuerdos;
-                        //    if (r.estatus === "Pendiente") pendiente = r.acuerdos;
-                        //    if (r.estatus === "Atendido") atendido = r.acuerdos;
-                        //});
-                        console.log(proceso);
-                    });
-
-                    //console.log(proceso);
-                    var dom = document.getElementById('chart-container');
-                    var myChart = echarts.init(dom, null, {
-                        renderer: 'canvas',
-                        useDirtyRect: false
-                    });
-                    var app = {};
-
-                    var option;
-
-                    const posList = [
-                        'left',
-                        'right',
-                        'top',
-                        'bottom',
-                        'inside',
-                        'insideTop',
-                        'insideLeft',
-                        'insideRight',
-                        'insideBottom',
-                        'insideTopLeft',
-                        'insideTopRight',
-                        'insideBottomLeft',
-                        'insideBottomRight'
-                    ];
-                    app.configParameters = {
-                        rotate: {
-                            min: -90,
-                            max: 90
-                        },
-                        align: {
-                            options: {
-                                left: 'left',
-                                center: 'center',
-                                right: 'right'
-                            }
-                        },
-                        verticalAlign: {
-                            options: {
-                                top: 'top',
-                                middle: 'middle',
-                                bottom: 'bottom'
-                            }
-                        },
-                        position: {
-                            options: posList.reduce(function (map, pos) {
-                                map[pos] = pos;
-                                return map;
-                            }, {})
-                        },
-                        distance: {
-                            min: 0,
-                            max: 100
-                        }
-                    };
-                    app.config = {
-                        rotate: 90,
-                        align: 'left',
-                        verticalAlign: 'middle',
-                        position: 'insideBottom',
-                        distance: 15,
-                        onChange: function () {
-                            const labelOption = {
-                                rotate: app.config.rotate,
-                                align: app.config.align,
-                                verticalAlign: app.config.verticalAlign,
-                                position: app.config.position,
-                                distance: app.config.distance
-                            };
-                            myChart.setOption({
-                                series: [
-                                    {
-                                        label: labelOption
-                                    },
-                                    {
-                                        label: labelOption
-                                    },
-                                    {
-                                        label: labelOption
-                                    }
-                                ]
-                            });
-                        }
-                    };
-                    const labelOption = {
-                        show: true,
-                        position: app.config.position,
-                        distance: app.config.distance,
-                        align: app.config.align,
-                        verticalAlign: app.config.verticalAlign,
-                        rotate: app.config.rotate,
-                        formatter: '{c}  {name|{a}}',
-                        fontSize: 16,
-                        rich: {
-                            name: {}
-                        }
-                    };
-                    option = {
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {
-                                type: 'shadow'
-                            }
-                        },
-                        legend: {
-                            data: ['Atendido', 'En proceso', 'Pendiente']
-                        },
-                        toolbox: {
-                            show: true,
-                            orient: 'vertical',
-                            left: 'right',
-                            top: 'center',
-                            feature: {
-                                mark: { show: true },
-                                dataView: { show: true, readOnly: false },
-                                magicType: { show: true, type: ['line', 'bar', 'stack'] },
-                                restore: { show: true },
-                                saveAsImage: { show: true }
-                            }
-                        },
-                        xAxis: [
-                            {
-                                type: 'category',
-                                axisTick: { show: false },
-                                data: [$("#gestion option:selected").text()]
-                            }
-                        ],
-                        yAxis: [
-                            {
-                                type: 'value'
-                            }
-                        ],
-                        series: [
-
-                            {
-                                name: 'Atendido',
-                                type: 'bar',
-                                label: labelOption,
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                itemStyle: { color: '#235B4E' },
-                                data: [atendido]
-                            },
-                            {
-                                name: 'En proceso',
-                                type: 'bar',
-                                label: labelOption,
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                itemStyle: { color: '#DDC9A3' },
-                                data: [proceso]
-                            },
-                            {
-                                name: 'Pendiente',
-                                type: 'bar',
-                                label: labelOption,
-                                emphasis: {
-                                    focus: 'series'
-                                },
-                                itemStyle: { color: '#9F2241' },
-                                data: [pendiente]
-                            }
-                        ]
-                    };
-
-                    if (option && typeof option === 'object') {
-                        myChart.setOption(option);
-                    }
-
-                    window.addEventListener('resize', myChart.resize);
-                }
-            });
-    }
     function getChartMonth() {
                 let gestion = $("#gestion").val();
                 let mes = $("#mes").val();
@@ -319,20 +111,64 @@
                 //success: function (data) { console.log(data) },
                 complete: function (data) {
                     var mes = [];
-                    var proceso = [];
-                    var pendiente = [];
-                    var atendido = [];
-                    $.each(data.responseJSON.data, function (i, val) {
-                        console.log(val)
-                        mes.push(val.mes);
-                        mes = Array.from(new Set(mes.map(obj => JSON.stringify(obj))))
-                            .map(e => JSON.parse(e));
-                        if (val.estatus === "Atendido") atendido.push(val.acuerdos);
-                        if (val.estatus === "En proceso") proceso.push(val.acuerdos);
-                        if (val.estatus === "Pendiente") pendiente.push(val.acuerdos);
+                    var atendido = {"mes":[],"acuerdos":[]};
+                    var proceso = {"mes":[],"acuerdos":[]};
+                    var pendiente = {"mes":[],"acuerdos":[]};
+                    var estatus = "";
+                    var iter = 0;
+                    let d = data.responseJSON.data;
+                    let seriesHeader = mes;
+                    //console.log(d[0])
+                    let datas = [];
+                    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                    const groupByMes = Object.groupBy(data.responseJSON.data, data => {
+                        return data.mes;
                     });
-
-                    //console.log(proceso);
+                    $.each(groupByMes, function (i, arr) {
+                        mes.push(i);   
+                    });
+                    $.each(d, function (i, val) {
+                        //console.log(mes[i]);
+                        //if (val.mes == mes[i]) {
+                        if (val.estatus === "Atendido") {
+                            atendido.acuerdos.push(val.acuerdos)
+                            atendido.mes.push(val.mes)
+                        }
+                        if (val.estatus === "Pendiente") {
+                            pendiente.acuerdos.push(val.acuerdos)
+                            pendiente.mes.push(val.mes)
+                        }
+                        if (val.estatus === "En proceso") {
+                            proceso.acuerdos.push(val.acuerdos)
+                            proceso.mes.push(val.mes)
+                        }
+                        //}
+                    });
+                    $.each(mes, function (i, val) {
+                        //console.log(val)
+                        if (atendido.mes.indexOf(val) === -1) {
+                            atendido.acuerdos.splice(i, 0, 0);
+                            atendido.mes.splice(i, 0, val);
+                        }
+                    });
+                    $.each(mes, function (i, val) {
+                        //console.log(val)
+                        if (proceso.mes.indexOf(val) === -1) {
+                            proceso.acuerdos.splice(i, 0, 0);
+                            proceso.mes.splice(i, 0, val);
+                        }
+                    });
+                    $.each(mes, function (i, val) {
+                        //console.log(val)
+                        if (pendiente.mes.indexOf(val) === -1) {
+                            pendiente.acuerdos.splice(i, 0, 0);
+                            pendiente.mes.splice(i, 0, val);
+                        }
+                    });
+                    
+                    console.log(atendido);
+                    console.log(proceso);
+                    console.log(pendiente);
                     var dom = document.getElementById('chart-container-m');
                     var myChart = echarts.init(dom, null, {
                         renderer: 'canvas',
@@ -341,45 +177,58 @@
                     var app = {};
 
                     var option;
-                    console.log(atendido);
+                    //console.log(atendido);
                     option = {
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {
+                                type: 'shadow'
+                            }
+                        },
                         legend: {
                             top: '5%',
                             left: 'center',
                             selectedMode: false
                         },
-                        xAxis: { data: mes },
-                        yAxis: {},
+                        xAxis: {
+                            type: 'category',
+                            data: seriesHeader},
+                        yAxis: {
+                            type: 'value'
+                        },
+                        legend: {
+                            data: ['Atendido', 'En proceso', 'Pendiente']
+                        },
                         series: [
                             {
-                                name: 'Atendido',
-                                type: 'bar',
-                                stack: 'total',
-                                label: {
-                                    show: true
-                                },
-                                data: atendido,
-                                itemStyle: {color: '#235B4E'}
+                            name: 'Atendido',
+                            type: 'bar',
+                            emphasis: {
+                                focus: 'series'
+                            },
+                                itemStyle: { color: '#235B4E' },
+                                data: atendido.acuerdos,
+                                stack: "stackbar"
                             },
                             {
-                                name: 'Proceso',
-                                type: 'bar',
-                                stack: 'total',
-                                label: {
-                                    show: true
-                                },
-                                data: proceso,
-                                itemStyle: {color: '#DDC9A3'}
+                            name: 'En proceso',
+                            type: 'bar',
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            itemStyle: { color: '#DDC9A3' },
+                                data: proceso.acuerdos,
+                                stack: "stackbar"
                             },
                             {
                                 name: 'Pendiente',
                                 type: 'bar',
-                                stack: 'total',
-                                label: {
-                                    show: true
+                                emphasis: {
+                                    focus: 'series'
                                 },
-                                data: pendiente,
-                                itemStyle: {color: '#9F2241'}
+                                itemStyle: { color: '#9F2241' },
+                                data: pendiente.acuerdos,
+                                stack: "stackbar"
                             }
                         ]
                     };

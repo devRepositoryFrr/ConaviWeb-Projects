@@ -88,12 +88,22 @@ namespace ConaviWeb.Data.Minuta
 
             return await db.QueryAsync<Catalogo>(sql);
         }
-        public async Task<IEnumerable<Catalogo>> GetMeses()
+        public async Task<IEnumerable<Catalogo>> GetMesesAcu()
         {
             var db = DbConnection();
 
             var sql = @"
                             select EXTRACT( YEAR_MONTH FROM `created_at` ) clave  from sedatu.acuerdo a group by clave;
+                         ";
+
+            return await db.QueryAsync<Catalogo>(sql);
+        }
+        public async Task<IEnumerable<Catalogo>> GetMesesReu()
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                            select EXTRACT( YEAR_MONTH FROM fch_carga ) clave  from sedatu.reunion r group by clave;
                          ";
 
             return await db.QueryAsync<Catalogo>(sql);
@@ -317,6 +327,37 @@ namespace ConaviWeb.Data.Minuta
                            ";
             }
             return await db.QueryAsync<ReunionIndicadores>(sql,new { Id = id});
+        }
+        public async Task<IEnumerable<ReunionIndicadores>> GetIndReunionMes(int id, string clave)
+        {
+            //var mes = clave != null ? "and EXTRACT( YEAR_MONTH FROM `created_at` ) = " + clave : "";
+            var sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus 
+                            group by r.estatus, numes;";
+            var db = DbConnection();
+            if (id != 0 && clave != null)
+            {
+                sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus 
+                            where r.id_gestion = @Id and  EXTRACT( YEAR_MONTH FROM `created_at` ) = @Clave group by r.estatus, numes;";
+            }
+            else if (id != 0 && clave == null)
+            {
+                sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus 
+                            where r.id_gestion = @Id group by r.estatus, numes;";
+            }
+            else if (id == 0 && clave != null)
+            {
+                sql = @"
+                            select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
+                            join sedatu.c_estatus e on e.id = r.estatus
+                            where  EXTRACT( YEAR_MONTH FROM fch_carga ) = @Clave group by r.estatus, numes;";
+            }
+            return await db.QueryAsync<ReunionIndicadores>(sql, new { Id = id, Clave = clave });
         }
         public async Task<IEnumerable<AcuerdoIndicadores>> GetIndAcuerdo(int id, string clave)
         {
