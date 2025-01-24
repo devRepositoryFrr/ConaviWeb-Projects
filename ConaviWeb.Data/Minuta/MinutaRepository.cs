@@ -330,7 +330,6 @@ namespace ConaviWeb.Data.Minuta
         }
         public async Task<IEnumerable<ReunionIndicadores>> GetIndReunionMes(int id, string clave)
         {
-            //var mes = clave != null ? "and EXTRACT( YEAR_MONTH FROM `created_at` ) = " + clave : "";
             var sql = @"
                             select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
                             join sedatu.c_estatus e on e.id = r.estatus 
@@ -341,7 +340,7 @@ namespace ConaviWeb.Data.Minuta
                 sql = @"
                             select COUNT(r.id) reuniones, e.descripcion estatus,MONTH(fch_carga) numes from sedatu.reunion r
                             join sedatu.c_estatus e on e.id = r.estatus 
-                            where r.id_gestion = @Id and  EXTRACT( YEAR_MONTH FROM `created_at` ) = @Clave group by r.estatus, numes;";
+                            where r.id_gestion = @Id and  EXTRACT( YEAR_MONTH FROM fch_carga ) = @Clave group by r.estatus, numes;";
             }
             else if (id != 0 && clave == null)
             {
