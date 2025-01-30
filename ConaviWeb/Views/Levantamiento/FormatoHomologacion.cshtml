@@ -771,22 +771,91 @@
         <div class="row">
             <div class="col-sm-4">
                 <label>
-                    Colectivo, Combi, Mototaxi, Central Camionera
+                    Colectivo
                 </label>
             </div>
             <div class="col-sm-4">
-                <input type="number" min="1" asp-for="DistanciaTranPubParada" class="form-control" id="estructura_parada_distancia" />
+                <input type="number" min="1" asp-for="DistanciaTranPubColectivo" class="form-control" id="transporte_colectivo_distancia" />
             </div>
             <div class="col-sm-4">
                 <div class="row">
                     <div class="col-sm-4 text-center">
-                        <div class="radio"><input type="radio" asp-for="CondicionTranPubParada" formnovalidate value="1" /></div>
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubColectivo" formnovalidate value="1" /></div>
                     </div>
                     <div class="col-sm-4 text-center">
-                        <div class="radio"><input type="radio" asp-for="CondicionTranPubParada" formnovalidate value="2" /></div>
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubColectivo" formnovalidate value="2" /></div>
                     </div>
                     <div class="col-sm-4 text-center">
-                        <div class="radio"><input type="radio" asp-for="CondicionTranPubParada" formnovalidate value="3" /></div>
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubColectivo" formnovalidate value="3" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>
+                    Combi
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <input type="number" min="1" asp-for="DistanciaTranPubCombi" class="form-control" id="transporte_combi_distancia" />
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCombi" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCombi" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCombi" formnovalidate value="3" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>
+                    Mototaxi
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <input type="number" min="1" asp-for="DistanciaTranPubMototaxi" class="form-control" id="transporte_mototaxi_distancia" />
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubMototaxi" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubMototaxi" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubMototaxi" formnovalidate value="3" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>
+                    Central Camionera
+                </label>
+            </div>
+            <div class="col-sm-4">
+                <input type="number" min="1" asp-for="DistanciaTranPubCentral" class="form-control" id="transporte_central_distancia" />
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCentral" formnovalidate value="1" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCentral" formnovalidate value="2" /></div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="radio"><input type="radio" asp-for="CondicionTranPubCentral" formnovalidate value="3" /></div>
                     </div>
                 </div>
             </div>
@@ -1014,11 +1083,11 @@
                     </div>
                     <div class="col-sm-12">
                         <label for="EstratoArboreo">%Estrato arbóreo</label>
-                        <input type="number" min="1" class="form-control" asp-for="EstratoArboreo" id="porc_arboreo" disabled />
+                        <input type="number" min="1" max="100" class="form-control" asp-for="EstratoArboreo" id="porc_arboreo" disabled />
                     </div>
                     <div class="col-sm-12">
                         <label for="EstratoArbustivo">%Estrato arbustivo</label>
-                        <input type="number" min="1" asp-for="EstratoArbustivo" class="form-control" id="porc_arbustivo" disabled />
+                        <input type="number" min="1" max="100" asp-for="EstratoArbustivo" class="form-control" id="porc_arbustivo" disabled />
                     </div>
                 </div>
             </div>
@@ -1207,6 +1276,14 @@
                         <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="4" /> Zonas inundables</label></div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="checkbox"><label><input type="checkbox" asp-for="CveOtrasObservaciones" value="99" /> Otro</label></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" asp-for="OtraObservacion" disabled />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row hidden">
@@ -1234,7 +1311,7 @@
                 <div class="radio"><label><input type="radio" asp-for="PredioAptoVivienda" value="2" class="radio" /> No</label></div>
             </div>
             <div class="col-sm-6">
-                <input type="number" min="1" asp-for="PorcentajeSuperficieUtillizable" class="form-control" id="porc_predio_utilizable" />
+                <input type="number" min="1" max="100" asp-for="PorcentajeSuperficieUtillizable" class="form-control" id="porc_predio_utilizable" />
             </div>
         </div>
         <div class="row">
@@ -1340,6 +1417,9 @@
             });
             $("[name='CveRestriccionesFederales']").on("change", function (e) {
                 this.checked ? $("[id^='resfed_" + this.value + "']").prop("disabled", false) : $("[id^='resfed_" + this.value +"']").prop("disabled", true).val("");
+            });
+            $("[name='CveOtrasObservaciones'][value=99]").on("change", function (e) {
+                this.checked ? $("[name='OtraObservacion']").prop("disabled", false) : $("[name='OtraObservacion']").prop("disabled", true).val("");
             });
             $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/Levantamiento'>Lista de predios</a></li>");
             $('#fecha_recorrido').datepicker({
@@ -1455,17 +1535,21 @@
                         setTimeout(function () { $("#slctLocalidades option[value=" + result.cveLocalidad + "]").prop("selected", true); }, 2000);
                         $("[name='UsoSuelo']").val(result.usoSuelo);
                         $("[name='CveTipoPredio'][value='" + result.cveTipoPredio + "']").prop("checked", true);
-                        $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").prop("checked", true).trigger("change");
-                        $("[name='DistanciaLocalizacion']").val(result.distanciaLocalizacion);
+                        $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").prop("checked", true);
                         $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").trigger("change");
+                        $("[name='DistanciaLocalizacion']").val(result.distanciaLocalizacion);
                         //$("[name='CveAcceso'][value='" + result.cveAcceso + "']").prop("checked", true);
-                        $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").prop("checked", true).trigger("change");
+                        $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").prop("checked", true);
+                        $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").trigger("change");
                         $("[name='CaracPredioOtro']").val(result.caracPredioOtro);
-                        $("[name='CveElectricidad'][value='" + result.cveElectricidad + "']").prop("checked", true).trigger("change");
+                        $("[name='CveElectricidad'][value='" + result.cveElectricidad + "']").prop("checked", true);
+                        $("[name='CveElectricidad'][value='" + result.cveElectricidad + "']").trigger("change");
                         $("[name='DistElectricidad']").val(result.distElectricidad);
-                        $("[name='CveDrenaje'][value='" + result.cveDrenaje + "']").prop("checked", true).trigger("change");
+                        $("[name='CveDrenaje'][value='" + result.cveDrenaje + "']").prop("checked", true);
+                        $("[name='CveDrenaje'][value='" + result.cveDrenaje + "']").trigger("change");
                         $("#distanciaDrenaje" + result.cveDrenaje).val(result.distDrenaje);
-                        $("[name='CveAguaPotable'][value='" + result.cveAguaPotable + "']").prop("checked", true).trigger("change");
+                        $("[name='CveAguaPotable'][value='" + result.cveAguaPotable + "']").prop("checked", true);
+                        $("[name='CveAguaPotable'][value='" + result.cveAguaPotable + "']").trigger("change");
                         $("#distanciaAguaPotable" + result.cveAguaPotable).val(result.distAguaPotable);
                         $("#nivelesConstruidos").val(result.nivelesConstruidos);
                         $("#materialesNaturales").val(result.materialesNaturales);
@@ -1473,11 +1557,13 @@
                         $("[name='TieneConexionVialidad'][value='" + result.tieneConexionVialidad + "']").prop("checked", true);
                         if (result.tieneConexionVialidad == 1) {
                             showTipoVialidad(1);
-                            $("[name='TipoVialidadConexion'][value='" + result.tipoVialidadConexion + "']").prop("checked", true).trigger("change");
+                            $("[name='TipoVialidadConexion'][value='" + result.tipoVialidadConexion + "']").prop("checked", true);
+                            $("[name='TipoVialidadConexion'][value='" + result.tipoVialidadConexion + "']").trigger("change");
                             $("#vialidad_distancia_" + result.tipoVialidadConexion).val(result.distanciaVialidadConexion);
                             $("#condicionesVialidadConexion" + result.tipoVialidadConexion + "[value='" + result.condicionVialidadConexion + "']").prop("checked", true);
                             $("#vialidad_materiales_" + result.tipoVialidadConexion).val(result.materialesVialidadConexion);
-                            $("[name='TipoVialidadNivel'][value='" + result.tipoVialidadNivel + "']").prop("checked", true).trigger("change");
+                            $("[name='TipoVialidadNivel'][value='" + result.tipoVialidadNivel + "']").prop("checked", true);
+                            $("[name='TipoVialidadNivel'][value='" + result.tipoVialidadNivel + "']").trigger("change");
                             $("#vialidad_distancia_nivel_" + result.tipoVialidadNivel).val(result.distanciaVialidadNivel);
                             $("#condicionesVialidadNivel" + result.tipoVialidadNivel + "[value='" + result.condicionVialidadNivel + "']").prop("checked", true);
                             $("#vialidad_materiales_nivel_" + result.tipoVialidadNivel).val(result.materialesVialidadNivel);
@@ -1487,11 +1573,13 @@
                         $("[name='TieneAccesoPredio'][value='" + result.tieneAccesoPredio + "']").prop("checked", true);
                         if (result.tieneAccesoPredio == 1) {
                             showTipoAcceso(1);
-                            $("[name='TipoAccesoPredio'][value='" + result.tipoAccesoPredio + "']").prop("checked", true).trigger("change");
+                            $("[name='TipoAccesoPredio'][value='" + result.tipoAccesoPredio + "']").prop("checked", true);
+                            $("[name='TipoAccesoPredio'][value='" + result.tipoAccesoPredio + "']").trigger("change");
                             $("#acceso_distancia_" + result.tipoAccesoPredio).val(result.distanciaAccesoPredio);
                             $("#condicionesAccesoPredio" + result.tipoAccesoPredio + "[value='" + result.condicionAccesoPredio + "']").prop("checked", true);
                             $("#acceso_materiales_" + result.tipoAccesoPredio).val(result.materialesAccesoPredio);
-                            $("[name='TipoAccesoPredioNivel'][value='" + result.tipoAccesoPredioNivel + "']").prop("checked", true).trigger("change");
+                            $("[name='TipoAccesoPredioNivel'][value='" + result.tipoAccesoPredioNivel + "']").prop("checked", true);
+                            $("[name='TipoAccesoPredioNivel'][value='" + result.tipoAccesoPredioNivel + "']").trigger("change");
                             $("#acceso_distancia_nivel_" + result.tipoAccesoPredioNivel).val(result.distanciaAccesoPredioNivel);
                             $("#condicionesAccesoPredioNivel" + result.tipoAccesoPredioNivel + "[value='" + result.condicionAccesoPredioNivel + "']").prop("checked", true);
                             $("#acceso_materiales_nivel_" + result.tipoAccesoPredioNivel).val(result.materialesAccesoPredioNivel);
@@ -1504,8 +1592,14 @@
                         $("[name='CondicionTranPubComoda'][value='" + result.condicionTranPubComoda + "']").prop("checked", true);
                         $("#transporte_lejano_distancia").val(result.distanciaTranPubLejano);
                         $("[name='CondicionTranPubLejano'][value='" + result.condicionTranPubLejano + "']").prop("checked", true);
-                        $("#estructura_parada_distancia").val(result.distanciaTranPubParada);
-                        $("[name='CondicionTranPubParada'][value='" + result.condicionTranPubParada + "']").prop("checked", true);
+                        $("[name='DistanciaTranPubColectivo']").val(result.distanciaTranPubColectivo);
+                        $("[name='CondicionTranPubColectivo'][value='" + result.condicionTranPubColectivo + "']").prop("checked", true);
+                        $("[name='DistanciaTranPubCombi']").val(result.distanciaTranPubCombi);
+                        $("[name='CondicionTranPubCombi'][value='" + result.condicionTranPubCombi + "']").prop("checked", true);
+                        $("[name='DistanciaTranPubMototaxi']").val(result.distanciaTranPubMototaxi);
+                        $("[name='CondicionTranPubMototaxi'][value='" + result.condicionTranPubMototaxi + "']").prop("checked", true);
+                        $("[name='DistanciaTranPubCentral']").val(result.distanciaTranPubCentral);
+                        $("[name='CondicionTranPubCentral'][value='" + result.condicionTranPubCentral + "']").prop("checked", true);
                         $("[name='TranPubOtro']").val(result.tranPubOtro);
                         $("[name='DistanciaTranPubOtro']").val(result.distanciaTranPubOtro);
                         $("[name='CondicionTranPubOtro'][value='" + result.condicionTranPubOtro + "']").prop("checked", true);
@@ -1537,7 +1631,8 @@
                         $("[name='ServUrbOtroDistancia']").val(result.servUrbOtroDistancia);
                         let topografia = result.cveTopografiaTerreno.split(",");
                         topografia.forEach(function (currentValue) {
-                            $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").prop("checked", true).trigger("change");
+                            $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").prop("checked", true);
+                            $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").trigger("change");
                         });
                         $("[name='EstratoArboreo']").val(result.estratoArboreo);
                         $("[name='EstratoArbustivo']").val(result.estratoArbustivo);
@@ -1550,7 +1645,8 @@
                         if (result.cveRestriccionesFederales != null) {
                             let restricciones = result.cveRestriccionesFederales.split(",");
                             restricciones.forEach(function (currentValue) {
-                                $("[name='CveRestriccionesFederales'][value=" + currentValue + "]").prop("checked", true).trigger("change");
+                                $("[name='CveRestriccionesFederales'][value=" + currentValue + "]").prop("checked", true);
+                                $("[name='CveRestriccionesFederales'][value=" + currentValue + "]").trigger("change");
                             });
                         }
                         $("[name='DistanciaRios']").val(result.distanciaRios);
@@ -1571,8 +1667,10 @@
                             let otrasobs = result.cveOtrasObservaciones.split(",");
                             otrasobs.forEach(function (currentValue) {
                                 $("[name='CveOtrasObservaciones'][value=" + currentValue + "]").prop("checked", true);
+                                $("[name='CveOtrasObservaciones'][value=" + currentValue + "]").trigger("change");
                             });
                         }
+                        $("[name='OtraObservacion']").val(result.otraObservacion);
                         $("[name='PredioAptoVivienda'][value='" + result.predioAptoVivienda + "']").prop("checked", true);
                         $("[name='ObservacionesPredioApto']").val(result.observacionesPredioApto);
                         $("[name='PorcentajeSuperficieUtillizable']").val(result.porcentajeSuperficieUtillizable);
