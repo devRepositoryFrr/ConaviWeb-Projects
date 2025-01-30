@@ -84,13 +84,18 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string DistanciaTranPubLejano { get; set; }
         public int? CveCondicionTranPubLejano { get; set; }
         public string CondicionTranPubLejano { get; set; }
-        public string DistanciaTranPubParada { get; set; }
-        public int? CveCondicionTranPubParada { get; set; }
-        public string CondicionTranPubParada { get; set; }
-        public string DistanciaTranPubEstacionCetram { get; set; }
-        public int? CondicionTranPubEstacionCetram { get; set; }
-        public string DistanciaTranPubSitioTaxis { get; set; }
-        public int? CondicionTranPubSitioTaxis { get; set; }
+        public string DistanciaTranPubColectivo { get; set; }
+        public int? CveCondicionTranPubColectivo { get; set; }
+        public string CondicionTranPubColectivo { get; set; }
+        public string DistanciaTranPubCombi { get; set; }
+        public int? CveCondicionTranPubCombi { get; set; }
+        public string CondicionTranPubCombi { get; set; }
+        public string DistanciaTranPubMototaxi { get; set; }
+        public int? CveCondicionTranPubMototaxi { get; set; }
+        public string CondicionTranPubMototaxi { get; set; }
+        public string DistanciaTranPubCentral { get; set; }
+        public int? CveCondicionTranPubCentral { get; set; }
+        public string CondicionTranPubCentral { get; set; }
         public string TranPubOtro { get; set; }
         public string DistanciaTranPubOtro { get; set; }
         public int? CveCondicionTranPubOtro { get; set; }
@@ -174,6 +179,7 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string MateriaOrganica { get; set; }
         public string CveOtrasObservaciones { get; set; }
         public string OtrasObservaciones { get; set; }
+        public string OtraObservacion { get; set; }
         public string FracturasTerreno { get; set; }
         public string Hundimientos { get; set; }
         public string InestabilidadLaderas { get; set; }
