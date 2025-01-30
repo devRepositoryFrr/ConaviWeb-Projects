@@ -106,7 +106,7 @@ namespace ConaviWeb.Data.Reporteador
                                 colonia,
                                 cp,
                                 txtTelefono,
-                                txtTelefono_alterno from prod_pmv_2025.pmv_cartas_25 pc where id_unico in ('2504005029');
+                                txtTelefono_alterno from prod_pmv_2025.pmv_cartas_25 pc where id_unico in ('2504012529');
                        ";
 
             return await db.QueryAsync<PevCartaPMV25>(sql, new { Id = id });

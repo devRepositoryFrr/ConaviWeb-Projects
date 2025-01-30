@@ -229,6 +229,16 @@ namespace ConaviWeb.Data.Minuta
                            ";
             return await db.QueryAsync<AcuerdoResponse>(sql, new { Id = id });
         }
+        public async Task<ReunionTitular> GetRTitular(int id)
+        {
+            var db = DbConnection();
+            var sql = @"
+                            select id,id_tema tema,responsable,id_modalidad modalidad,liga,asunto,id_sector sector,nombreSol,cargoSol,instSol,objetivo,lugar,sala,tiempo,celular radioCel,p_sedatu pSedatu,p_externo pExterno,accesos radioAD,l_accesos accesoD,orden,insumos,estatus,fch_carga 
+                            from sedatu.reunion_titular rt
+                            where id  = @Id;
+                           ";
+            return await db.QueryFirstOrDefaultAsync<ReunionTitular>(sql, new { Id = id });
+        }
 
         public async Task<bool> InsertReunion(Reunion reunion)
         {
@@ -256,6 +266,43 @@ namespace ConaviWeb.Data.Minuta
                 reunion.Observaciones,
                 reunion.Gestion,
                 reunion.IdEstatus
+            });
+            return result > 0;
+
+        }
+        public async Task<bool> InsertReunion(ReunionTitular reunion)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        INSERT INTO sedatu.reunion_titular
+                        (id_tema, responsable, id_modalidad, liga, asunto, id_sector, nombreSol, cargoSol, instSol, objetivo, lugar, sala, tiempo, celular, p_sedatu pSedatu, p_externo pExterno, accesos, l_accesos, orden, insumos)
+                        VALUES
+                        (@Tema,@Responsable,@Modalidad,@Liga,@Asunto,@Sector,@NombreSol,@CargoSol,@InstSol,@Objetivo,@Lugar,@Sala,@Tiempo,@RadioCel,@PSedatu,@PExterno,@radioAD,@AccesoD,@Orden,@Insumos);";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                reunion.Tema,
+                reunion.Responsable,
+                reunion.Modalidad,
+                reunion.Liga,
+                reunion.Asunto,
+                reunion.Sector,
+                reunion.NombreSol,
+                reunion.CargoSol,
+                reunion.InstSol,
+                reunion.Objetivo,
+                reunion.Lugar,
+                reunion.Sala,
+                reunion.Tiempo,
+                reunion.RadioCel,
+                reunion.PSedatu,
+                reunion.PExterno,
+                reunion.RadioAD,
+                reunion.AccesoD,
+                reunion.Orden,
+                reunion.Insumos
+
             });
             return result > 0;
 
