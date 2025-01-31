@@ -106,13 +106,13 @@ namespace ConaviWeb.Controllers.Minutas
                 .SetFont(Bold)
                 .SetFontSize(14);
             doc.Add(titulo);
-            
+
             Paragraph pf = new Paragraph();
             pf.SetFixedPosition(740, 500, 200);
             Text tf = new Text("Folio    ");
             tf.SetFontSize(10).SetFont(Bold);
             pf.Add(tf);
-            Text tf1 = new Text("S00"+reunion.Id);
+            Text tf1 = new Text("S00" + reunion.Id);
             tf1.SetFontSize(10);
             tf1.SetUnderline();
             pf.Add(tf1);
@@ -181,7 +181,7 @@ namespace ConaviWeb.Controllers.Minutas
             t10.SetFontSize(8);
             t10.SetUnderline();
             p5.Add(t10);
-            table.AddCell(new Cell(1,3).Add(p5));
+            table.AddCell(new Cell(1, 3).Add(p5));
 
             Paragraph p6 = new Paragraph();
             Text t11 = new Text("Sector: ");
@@ -233,7 +233,7 @@ namespace ConaviWeb.Controllers.Minutas
             t20.SetFontSize(8);
             t20.SetUnderline();
             p10.Add(t20);
-            table.AddCell(new Cell(1,4).Add(p10));
+            table.AddCell(new Cell(1, 4).Add(p10));
 
             RemoveBorder(table);
             doc.Add(table);
@@ -287,7 +287,7 @@ namespace ConaviWeb.Controllers.Minutas
 
             Table tablePart = new Table(new float[2]).UseAllAvailableWidth();
             tablePart.SetMarginBottom(5);
-            
+
             Paragraph tituloP = new Paragraph("Participantes")
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetCharacterSpacing(1)
@@ -303,17 +303,17 @@ namespace ConaviWeb.Controllers.Minutas
 
             var json = JsonConvert.DeserializeObject<List<PSedatu>>(reunion.PSedatu);
             //dynamic json = JsonConvert.DeserializeObject(reunion.PSedatu);
-            if (json.Any()) { 
-            foreach (var v in json)
-            {
-                
+            if (json.Any()) {
+                foreach (var v in json)
+                {
+
                     tableP.AddCell(new Paragraph(v.num + ") " + v.name))
                         .SetFont(fonte)
                         .SetFontSize(8)
                         .SetTextAlignment(TextAlignment.LEFT)
                         .SetVerticalAlignment(VerticalAlignment.MIDDLE);
 
-            }
+                }
             }
             //doc.Add(tableP);
             Table tablePE = new Table(new float[1]).SetWidth(UnitValue.CreatePercentValue(100));
@@ -356,7 +356,7 @@ namespace ConaviWeb.Controllers.Minutas
             t30.SetUnderline();
             p15.Add(t30);
             doc.Add(p15);
-
+            if (reunion.RadioAD != "NO") { 
             Table tableAD = new Table(new float[2]).SetWidth(UnitValue.CreatePercentValue(100));
             tableAD.SetMarginBottom(5);
             tableAD.AddCell(new Cell().Add(new Paragraph("Nombre").SetFontSize(10)
@@ -370,24 +370,24 @@ namespace ConaviWeb.Controllers.Minutas
 
             var jsonAD = JsonConvert.DeserializeObject<List<AccesoD>>(reunion.AccesoD);
             //dynamic json = JsonConvert.DeserializeObject(reunion.PSedatu);
-            if (jsonAD.Any()) { 
-            foreach (var v in jsonAD)
-            {
+            if (jsonAD.Any()) {
+                foreach (var v in jsonAD)
+                {
 
-                tableAD.AddCell(new Paragraph(v.num +") "+ v.name))
-                    .SetFont(fonte)
-                    .SetFontSize(8)
-                    .SetTextAlignment(TextAlignment.LEFT)
-                    .SetVerticalAlignment(VerticalAlignment.MIDDLE);
-                tableAD.AddCell(new Paragraph(v.contacto))
-                    .SetFont(fonte)
-                    .SetFontSize(8)
-                    .SetTextAlignment(TextAlignment.LEFT)
-                    .SetVerticalAlignment(VerticalAlignment.MIDDLE);
-            }
+                    tableAD.AddCell(new Paragraph(v.num + ") " + v.name))
+                        .SetFont(fonte)
+                        .SetFontSize(8)
+                        .SetTextAlignment(TextAlignment.LEFT)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE);
+                    tableAD.AddCell(new Paragraph(v.contacto))
+                        .SetFont(fonte)
+                        .SetFontSize(8)
+                        .SetTextAlignment(TextAlignment.LEFT)
+                        .SetVerticalAlignment(VerticalAlignment.MIDDLE);
+                }
             }
             doc.Add(tableAD);
-
+        }
             Paragraph tituloOD = new Paragraph("Orden del día:")
                 .SetTextAlignment(TextAlignment.LEFT)
                 .SetCharacterSpacing(1)
@@ -526,14 +526,14 @@ namespace ConaviWeb.Controllers.Minutas
             }
         }
         [Route("DownRT/{id?}")]
-        public IActionResult DownRT(int id)
+        public async Task<IActionResult> DownRTAsync(int id)
         {
             // Since this is just and example, I am using a local file located inside wwwroot
             // Afterwards file is converted into a stream
             var path = System.IO.Path.Combine(_environment.WebRootPath, "doc", "RTitular", "reunion_S00" + id + ".pdf");
             if (!System.IO.File.Exists(path))
             {
-                _ = ReunionPdfAsync(id);
+                await ReunionPdfAsync(id);
                 //return RedirectToAction("Index", "ListaAcuerdos");
             }
             var fs = new FileStream(path, FileMode.Open);
