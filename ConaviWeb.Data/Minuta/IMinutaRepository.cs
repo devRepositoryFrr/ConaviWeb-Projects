@@ -24,6 +24,7 @@ namespace ConaviWeb.Data.Minuta
         public Task<IEnumerable<Model.Minuta.ReunionResponse>> GetReuniones();
         public Task<IEnumerable<Model.Minuta.AcuerdoResponse>> GetAcuerdos();
         public Task<ReunionTitular> GetRTitular(int id);
+        public Task<IEnumerable<ReunionTitular>> GetRTitulares();
         public Task<bool> InsertReunion(Reunion reunion);
         public Task<bool> InsertReunion(ReunionTitular reunion);
         public Task<bool> InsertMinuta(Model.Minuta.Minuta minuta);

@@ -233,11 +233,25 @@ namespace ConaviWeb.Data.Minuta
         {
             var db = DbConnection();
             var sql = @"
-                            select id,id_tema tema,responsable,id_modalidad modalidad,liga,asunto,id_sector sector,nombreSol,cargoSol,instSol,objetivo,lugar,sala,tiempo,celular radioCel,p_sedatu pSedatu,p_externo pExterno,accesos radioAD,l_accesos accesoD,orden,insumos,estatus,fch_carga 
+                            select rt.id,ct.descripcion tema,responsable,modalidad,liga,asunto,cs.descripcion sector,nombreSol,cargoSol,instSol,objetivo,lugar,sala,tiempo,celular radioCel,p_sedatu pSedatu,p_externo pExterno,accesos radioAD,l_accesos accesoD,orden,insumos,estatus,fch_carga FchCarga
                             from sedatu.reunion_titular rt
-                            where id  = @Id;
+                            join sedatu.c_tema ct on ct.id = rt.id_tema 
+                            join sedatu.c_sector cs on cs.id = rt.id_sector
+                            where rt.id  = @Id;
                            ";
             return await db.QueryFirstOrDefaultAsync<ReunionTitular>(sql, new { Id = id });
+        }
+
+        public async Task<IEnumerable<ReunionTitular>> GetRTitulares()
+        {
+            var db = DbConnection();
+            var sql = @"
+                            select rt.id,ct.descripcion tema,responsable,modalidad,liga,asunto,cs.descripcion sector,nombreSol,cargoSol,instSol,objetivo,lugar,sala,tiempo,celular radioCel,p_sedatu pSedatu,p_externo pExterno,accesos radioAD,l_accesos accesoD,orden,insumos,estatus,fch_carga FchCarga
+                            from sedatu.reunion_titular rt
+                            join sedatu.c_tema ct on ct.id = rt.id_tema 
+                            join sedatu.c_sector cs on cs.id = rt.id_sector;
+                           ";
+            return await db.QueryAsync<ReunionTitular>(sql, new { });
         }
 
         public async Task<bool> InsertReunion(Reunion reunion)
@@ -276,7 +290,7 @@ namespace ConaviWeb.Data.Minuta
 
             var sql = @"
                         INSERT INTO sedatu.reunion_titular
-                        (id_tema, responsable, id_modalidad, liga, asunto, id_sector, nombreSol, cargoSol, instSol, objetivo, lugar, sala, tiempo, celular, p_sedatu pSedatu, p_externo pExterno, accesos, l_accesos, orden, insumos)
+                        (id_tema, responsable, modalidad, liga, asunto, id_sector, nombreSol, cargoSol, instSol, objetivo, lugar, sala, tiempo, celular, p_sedatu, p_externo, accesos, l_accesos, orden, insumos)
                         VALUES
                         (@Tema,@Responsable,@Modalidad,@Liga,@Asunto,@Sector,@NombreSol,@CargoSol,@InstSol,@Objetivo,@Lugar,@Sala,@Tiempo,@RadioCel,@PSedatu,@PExterno,@radioAD,@AccesoD,@Orden,@Insumos);";
 

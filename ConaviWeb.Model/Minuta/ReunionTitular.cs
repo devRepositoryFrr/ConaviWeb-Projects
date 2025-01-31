@@ -11,7 +11,7 @@ namespace ConaviWeb.Model.Minuta
         public int Id { get; set; }
         public string Tema { get; set; }
         public string Responsable { get; set; }
-        public int Modalidad { get; set; }
+        public string Modalidad { get; set; }
         public string Liga { get; set; }
         public string Asunto { get; set; }
         public string Sector { get; set; }
