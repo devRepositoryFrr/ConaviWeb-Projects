@@ -57,3 +57,81 @@
         </div>
     </div>
 </div>
+<strong for="evidencia" class="form-label">Evidencia archivo</strong>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Subido</th>
+            <th>Registró</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var archivo in (IEnumerable<ConaviWeb.Model.Minuta.ArchivoAcuerdo>)ViewData["Archivo"])
+        {
+            <tr>
+                <td>@archivo.Fecha</td>
+                <td>@archivo.Usuario</td>
+                <td align="center">
+                    <button class="btn btn-sm btn-outline-success" onclick="window.location.href = '@Url.Action("downAAcuerdo","Acuerdo",new{archivo =  archivo.NombreArchivo})';" type="button" id="btnVer">Ver</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="window.location.href = '@Url.Action("Index","ListaAcuerdos")';" type="button" id="btnDlt">Eliminar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="mb-3">
+    <input class="form-control" type="file" id="evidencia">
+</div>
+<form>
+    <div class="mb-3">
+        <label class="form-label" for="estatus">Estatus</label>
+        <select class="form-control" id="estatus" name="estatus">
+            <option value="1">En proceso</option>
+            <option value="2">Pendiente</option>
+            <option value="3">Atendido</option>
+        </select>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-outline-danger" onclick="window.location.href = '@Url.Action("Index","ListaAcuerdos")';" type="button" id="btnRetur">Regresar</button>
+        <button class="btn btn-outline-primary" type="submit" id="btnSubmit">Guardar</button>
+    </div>
+</form>
+@section Scripts {
+}
+<script>
+    $(document).ready(function () {
+        var data = @Html.Raw(Json.Serialize(ViewData["Acuerdo"]));
+        $("#estatus").val(data.idEstatus).change();
+        console.log(data);
+        $("form").submit(function (event) {
+            var form_data = new FormData();
+            var file_data = $("#evidencia").prop("files")[0];
+
+            form_data.append("file", file_data);
+            form_data.append("estatus", $("#estatus").val());
+            form_data.append("acuerdo", data.id);
+
+            for (var value of form_data.values()) {
+                console.log(value);
+            }
+
+            $.ajax({
+
+                cache: false,
+                contentType: false,
+                data: form_data,
+                dataType: 'JSON',
+                enctype: 'multipart/form-data',
+                processData: false,
+                method: "POST",
+                url: '@Url.Action("UpdateAcuerdo","Acuerdo")',
+                success: function (data) {
+                    location.reload();
+                    //console.log(data);
+                }
+            });
+            //event.preventDefault();
+        });
+    });
+</script>

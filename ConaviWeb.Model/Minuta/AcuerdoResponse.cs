@@ -10,6 +10,7 @@ namespace ConaviWeb.Model.Minuta
     {
         public int Id { get; set; }
         public int IdReunion { get; set; }
+        public int IdEstatus { get; set; }
         public string Interno { get; set; }
         public string Externo { get; set; }
         public string FechaTermino { get; set; }
@@ -17,5 +18,6 @@ namespace ConaviWeb.Model.Minuta
         public string Gestion { get; set; }
         public string Area { get; set; }
         public string Estatus { get; set; }
+        public IEnumerable<ArchivoAcuerdo> Archivo { get; set; }
     }
 }

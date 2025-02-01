@@ -193,14 +193,17 @@ namespace ConaviWeb.Data.Minuta
             var db = DbConnection();
             var results = await db.QueryMultipleAsync(
                 @"
-                            select a.id,a.id_reunion IdReunion, a.interno, a.externo, DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') FechaTermino,a.descripcion,cg.descripcion gestion,e.descripcion estatus from sedatu.acuerdo a 
+                            select a.id,a.id_reunion IdReunion, a.interno, a.externo, DATE_FORMAT(a.fecha_termino,'%d/%m/%Y') FechaTermino,a.descripcion,cg.descripcion gestion,e.descripcion estatus, a.estatus idEstatus from sedatu.acuerdo a 
                             join sedatu.reunion r on r.id = a.id_reunion 
                             join sedatu.c_gestion cg on cg.id = a.id_gestion
                             join sedatu.c_estatus e on e.id = a.estatus
                             WHERE a.id = @Id AND cv_bajal = 1;
+                            select id,id_acuerdo idAcuerdo,archivo NombreArchivo,created_by Usuario,created_at Fecha,estatus
+                            from sedatu.archivo_acuerdo
+                            WHERE id_acuerdo = @Id AND estatus = 1;
                          ", new { Id = id });
             reunion = await results.ReadFirstOrDefaultAsync<AcuerdoResponse>();
-
+            reunion.Archivo = (List<ArchivoAcuerdo>)await results.ReadAsync<ArchivoAcuerdo>();
             return reunion;
         }
         public async Task<Model.Minuta.Minuta> GetMinuta(int id)
@@ -253,7 +256,24 @@ namespace ConaviWeb.Data.Minuta
                            ";
             return await db.QueryAsync<ReunionTitular>(sql, new { });
         }
+        public async Task<bool> InsertArchivoAcuerdo(ArchivoAcuerdo archivo)
+        {
+            var db = DbConnection();
 
+            var sql = @"
+                        INSERT INTO sedatu.archivo_acuerdo (id_acuerdo, archivo, created_by)
+                        VALUES (@IdAcuerdo,@NombreArchivo,@Usuario);
+                    ";
+
+            var result = await db.ExecuteAsync(sql, new
+            {
+                archivo.IdAcuerdo,
+                archivo.NombreArchivo,
+                archivo.Usuario
+            });
+            return result > 0;
+
+        }
         public async Task<bool> InsertReunion(Reunion reunion)
         {
             var db = DbConnection();
@@ -475,6 +495,18 @@ namespace ConaviWeb.Data.Minuta
                        ";
 
             var result = await db.ExecuteAsync(sql,new { Id = id});
+            return result > 0;
+
+        }
+        public async Task<bool> UpdateEstatusAcuerdo(int acuerdo, int estatus)
+        {
+            var db = DbConnection();
+
+            var sql = @"
+                        update sedatu.acuerdo set estatus = @Estatus where id = @Id;
+                       ";
+
+            var result = await db.ExecuteAsync(sql, new { Id = acuerdo, Estatus = estatus });
             return result > 0;
 
         }

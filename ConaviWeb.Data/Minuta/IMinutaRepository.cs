@@ -30,7 +30,9 @@ namespace ConaviWeb.Data.Minuta
         public Task<bool> InsertMinuta(Model.Minuta.Minuta minuta);
         public Task<bool> InsertParticipantes(IEnumerable<Participante> participantes);
         public Task<bool> InsertAcuerdo(Acuerdo acuerdo);
+        public Task<bool> InsertArchivoAcuerdo(ArchivoAcuerdo archivo);
         public Task<bool> DeleteAcuerdo(int id);
+        public Task<bool> UpdateEstatusAcuerdo(int acuerdo, int estatus);
         public Task<ReunionResponse> GetReunionDetail(int id);
         public Task<AcuerdoResponse> GetAcuerdoDetail(int id);
         public Task<Model.Minuta.Minuta> GetMinuta(int id);
