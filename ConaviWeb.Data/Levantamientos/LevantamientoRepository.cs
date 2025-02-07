@@ -310,8 +310,14 @@ namespace ConaviWeb.Data.Levantamientos
                             if(find_in_set(4,topografia_terreno) > 0,'SI','NO') Planicies,
                             if(find_in_set(5,topografia_terreno) > 0,'SI','NO') CortesdeSuelo,
                             if(find_in_set(6,topografia_terreno) > 0,'SI','NO') VegetacionInterior,
-                            `formato_predio`.`vegetacion_interior_est_arboreo` EstratoArboreo,
-                            `formato_predio`.`vegetacion_interior_est_arbustivo` EstratoArbustivo,
+                            case when `formato_predio`.`vegetacion_interior_est_arboreo` = 1 then '<40%'
+                                when `formato_predio`.`vegetacion_interior_est_arboreo` = 2 then '>40%'
+                                else ''
+                            end EstratoArboreo,
+                            case when `formato_predio`.`vegetacion_interior_est_arbustivo` = 1 then '<40%'
+                                when `formato_predio`.`vegetacion_interior_est_arbustivo` = 2 then '>40%'
+                                else ''
+                            end EstratoArbustivo,
                             `formato_predio`.`hidrografia` CveHidrografia,
                             if(find_in_set(1,hidrografia) > 0,'SI','NO') HRios,
                             if(find_in_set(2,hidrografia) > 0,'SI','NO') Escurrimientos,

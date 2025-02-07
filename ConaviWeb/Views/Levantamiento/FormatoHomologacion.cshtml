@@ -1082,12 +1082,48 @@
                         <div class="checkbox"><label><input type="checkbox" asp-for="CveTopografiaTerreno" value="6" /> Vegetación al interior</label></div>
                     </div>
                     <div class="col-sm-12">
-                        <label for="EstratoArboreo">%Estrato arbóreo</label>
-                        <input type="number" min="1" max="100" class="form-control" asp-for="EstratoArboreo" id="porc_arboreo" disabled />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="EstratoArboreo">Estrato arboreo</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="1" class="radio" asp-for="EstratoArboreo" disabled /> &lt;40%
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="2" class="radio" asp-for="EstratoArboreo" disabled /> &gt;40%
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<input type="number" min="1" max="100" class="form-control" asp-for="EstratoArboreo" id="porc_arboreo" disabled />*@
                     </div>
                     <div class="col-sm-12">
-                        <label for="EstratoArbustivo">%Estrato arbustivo</label>
-                        <input type="number" min="1" max="100" asp-for="EstratoArbustivo" class="form-control" id="porc_arbustivo" disabled />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="EstratoArbustivo">Estrato arbustivo</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="1" class="radio" asp-for="EstratoArbustivo" disabled /> &lt;40%
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" value="2" class="radio" asp-for="EstratoArbustivo" disabled /> &gt;40%
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @*<input type="number" min="1" max="100" asp-for="EstratoArbustivo" class="form-control" id="porc_arbustivo" disabled />*@
                     </div>
                 </div>
             </div>
@@ -1413,7 +1449,7 @@
                 $("[id^=acceso_distancia_nivel_" + this.value + "],[id^=condicionesAccesoPredioNivel" + this.value + "],[id^=acceso_materiales_nivel_"+ this.value +"]").prop("disabled", false);
             });
             $("[name='CveTopografiaTerreno'][value=6]").on("change", function (e) {
-                this.checked ? $("[name='EstratoArboreo'],[name='EstratoArbustivo']").prop("disabled", false) : $("[name='EstratoArboreo'],[name='EstratoArbustivo']").prop("disabled", true).val("");
+                this.checked ? $("[name='EstratoArboreo'],[name='EstratoArbustivo']").prop("disabled", false) : $("[name='EstratoArboreo'],[name='EstratoArbustivo']").prop("disabled", true).prop("checked", false);
             });
             $("[name='CveRestriccionesFederales']").on("change", function (e) {
                 this.checked ? $("[id^='resfed_" + this.value + "']").prop("disabled", false) : $("[id^='resfed_" + this.value +"']").prop("disabled", true).val("");
@@ -1526,8 +1562,6 @@
                         $("#fecha_recorrido").val(result.fechaRecorrido);
                         $("#domicilio").val(result.domicilio);
                         $("#kmz").val(result.kmz);
-                        //$("#c_norte").val(result.coordN);
-                        //$("#c_oeste").val(result.coordO);
                         $("#slctEstados option[value=" + result.cveEstado + "]").prop("selected", true);
                         $("#slctEstados").trigger("change");
                         setTimeout(function () { $("#slctMunicipios option[value=" + result.cveMunicipio + "]").prop("selected", true); }, 1000);
@@ -1538,7 +1572,6 @@
                         $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").prop("checked", true);
                         $("[name='CveLocalizacion'][value='" + result.cveLocalizacion + "']").trigger("change");
                         $("[name='DistanciaLocalizacion']").val(result.distanciaLocalizacion);
-                        //$("[name='CveAcceso'][value='" + result.cveAcceso + "']").prop("checked", true);
                         $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").prop("checked", true);
                         $("[name='CveOtrasCaracteristicas'][value='" + result.cveOtrasCaracteristicas + "']").trigger("change");
                         $("[name='CaracPredioOtro']").val(result.caracPredioOtro);
@@ -1634,8 +1667,8 @@
                             $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").prop("checked", true);
                             $("[name='CveTopografiaTerreno'][value=" + currentValue + "]").trigger("change");
                         });
-                        $("[name='EstratoArboreo']").val(result.estratoArboreo);
-                        $("[name='EstratoArbustivo']").val(result.estratoArbustivo);
+                        $("[name='EstratoArboreo'][value='" + result.estratoArboreo + "']").prop("checked", true);
+                        $("[name='EstratoArbustivo'][value='" + result.estratoArbustivo + "']").prop("checked", true);
                         if (result.cveHidrografia != null) {
                             let hidrografia = result.cveHidrografia.split(",");
                             hidrografia.forEach(function (currentValue) {
@@ -1704,7 +1737,6 @@
         function showTipoVialidad(val) {
             if (val == 1) {
                 $("[name=div_opciones_vialidad]").slideDown();
-                //$("[name=TipoVialidadConexion],[name=TipoVialidadNivel],[id^='vialidad_distancia_'],[name=CondicionVialidadConexion],[id^=vialidad_materiales_],[name=CondicionVialidadNivel]").prop("disabled", false);
                 $("[name=TipoVialidadConexion],[name=TipoVialidadNivel]").prop("disabled", false);
             } else {
                 $("[name=div_opciones_vialidad]").slideUp();
@@ -1716,7 +1748,6 @@
         function showTipoAcceso(val) {
             if (val == 1) {
                 $("[name=div_opciones_acceso_predio]").slideDown();
-                //$("[name=TipoAccesoPredio],[name=TipoAccesoPredioNivel],[id^='acceso_distancia_'],[name=CondicionAccesoPredio],[id^=acceso_materiales_],[name=CondicionAccesoPredioNivel]").prop("disabled", false);
                 $("[name=TipoAccesoPredio],[name=TipoAccesoPredioNivel]").prop("disabled", false);
             } else {
                 $("[name=div_opciones_acceso_predio]").slideUp();
