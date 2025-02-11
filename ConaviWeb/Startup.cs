@@ -1,11 +1,11 @@
 using ConaviWeb.Data;
+using ConaviWeb.Data.Expedientes;
+using ConaviWeb.Data.Levantamientos;
 using ConaviWeb.Data.Reporteador;
 using ConaviWeb.Data.Repositories;
 using ConaviWeb.Data.RH;
 using ConaviWeb.Data.Shell;
 using ConaviWeb.Data.Sisevive;
-using ConaviWeb.Data.Expedientes;
-using ConaviWeb.Data.Levantamientos;
 using ConaviWeb.Model.Common;
 using ConaviWeb.Services;
 using ConaviWeb.Tools;
@@ -21,7 +21,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Net;
 using System.Text;
-using ConaviWeb.Data.Minuta;
 
 namespace ConaviWeb
 {
@@ -82,7 +81,6 @@ namespace ConaviWeb
             services.AddScoped<ILevantamientoRepository, LevantamientoRepository>();
             services.AddScoped<INominaRepository, NominaRepository>();
             services.AddScoped<IReporteadorRepository, ReporteadorRepository>();
-            services.AddScoped<IMinutaRepository, MinutaRepository>();
             var appSettingSection = Configuration.GetSection("AppSettings");
             //services.AddSingleton<HttpClient>();  Revisar el uso de esta inyección
             services.AddScoped<IProcessSignRepository, ProcessSignRepository>();
