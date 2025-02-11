@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <label>
-                RUTA Y REQUERIMIENTOS GENERALES DE GESTIÓN PARA LOS PREDIOS DE INTÉRES
+                RUTA Y REQUERIMIENTOS GENERALES DE GESTIÓN PARA LOS PREDIOS DE INTERÉS
             </label>
         </div>
     </div>
@@ -634,7 +634,7 @@
                 success: function (result) {
                     $('#spinner').hide();
                     if (result.data != null) {
-                        $("#div_file" + idFile).html(" <a href='/doc/PrediosAdquisicion/" + idPredio + "/" + idFile + "/" + result.data.descripcion + "' target='_blank'>(" + result.data.descripcion + ")</a>");
+                        $("#div_file" + idFile).html(" <a href='/doc/PrediosAdquisicion/" + idPredio + "/" + idFile + "/" + result.data.descripcion + "' target='_blank'>(" + result.data.descripcion + ") <span class='fa fa-download'></span></a>");
                         result.data.clave != null ? $("#div_status" + idFile).html(' <b>(' + result.data.clave + ')</b>') : '';
                         $('#file' + idFile).nextAll('.btn-validar').first().removeClass('hidden');
                         $('#file' + idFile).nextAll('.btn-rechazar').first().removeClass('hidden');

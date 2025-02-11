@@ -1,0 +1,361 @@
+﻿@model ConaviWeb.Model.PrediosAdquisicion.PropuestaConceptual
+@{
+    ViewData["Title"] = "Propuesta Conceptual";
+}
+<style type="text/css">
+    .input-group-addon {
+        width: auto !important;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <h3 class="text-center">Propuesta Conceptual</h3>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12" id="alert">
+        @Html.Raw(@ViewBag.Alert)
+    </div>
+</div>
+@*Filtro para listar los predios*@
+<div class="row">
+    <div class="col-md-12 text-center">
+        <label>Reporte General de Predios</label>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label>Ejercicio fiscal</label>
+        <select class="form-control">
+            <option value="0">- Seleccione -</option>
+            <option value="2025">2025</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>Estado</label>
+        <select class="form-control">
+            <option value="0">- Seleccione -</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>Empresa</label>
+        <select class="form-control">
+            <option value="0">- Seleccione -</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>Nombre del predio</label>
+        <select class="form-control">
+            <option value="0">- Seleccione -</option>
+        </select>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12 text-center form-group">
+        <button class="btn btn-primary" type="button">Generar reporte <span class="fa fa-list-alt"></span></button>
+        @*<button class="btn btn-primary" type="button">Crear excel <span class="fa fa-file-excel-o"></span></button>*@
+    </div>
+</div>
+<hr />
+@*Captura de propuesta conceptual*@
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        &nbsp;
+    </div>
+    <div class="col-md-2 text-center">
+        <label>&nbsp;</label>
+        <button type="button" id="criterios_tecnicos" class="btn btn-primary form-control">Descargar <span class="fa fa-download"></span></button>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="criterios_tecnicos">Criterios técnicos</label>
+        <input type="file" id="criterios_tecnicos" class="form-control" />
+        <button type="button" class="btn btn-primary form-control">Cargar <span class="fa fa-upload"></span></button>
+    </div>
+</div>
+<hr />
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label for="superficie_terreno">Superficie de terreno</label>
+        <div class="input-group">
+            <input asp-for="SuperficieTerreno" type="number" id="txt_superficie_terreno" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_desplante">Superficie total desplante vivienda</label>
+        <div class="input-group">
+            <input asp-for="SuperficieDesplante" type="number" id="txt_superficie_total_desplante" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_donacion">Superficie total donación</label>
+        <div class="input-group">
+            <input asp-for="SuperficieDonacion" type="number" id="txt_superficie_total_donacion" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_equipamiento">Superficie total equipamiento</label>
+        <div class="input-group">
+            <input asp-for="SuperficieEquipamiento" type="number" id="txt_superficie_total_equipamiento" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_construccion">Superficie total de construcción</label>
+        <div class="input-group">
+            <input asp-for="SuperficieConstruccion" type="number" id="txt_superficie_total_construccion" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_afectacion">Superficie total desplante restricción o afectación</label>
+        <div class="input-group">
+            <input asp-for="SuperficieRestriccion" type="number" id="txt_superficie_total_afectacion" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_recreativa">Superficie total recreativa y convivencia</label>
+        <div class="input-group">
+            <input asp-for="SuperficieRecreativa" type="number" id="txt_superficie_total_recreativa" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_areas_verdes">Superficie total áreas verdes</label>
+        <div class="input-group">
+            <input asp-for="SuperficieEquipamiento" type="number" id="superficie_total_equipamiento" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_circulaciones">Superficie total de circulaciones vehiculares</label>
+        <div class="input-group">
+            <input asp-for="SuperficieCirculacionesVehiculares" type="number" id="txt_superficie_total_circulaciones" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_circulaciones_peatonales">Superficie total circulaciones peatonales</label>
+        <div class="input-group">
+            <input asp-for="SuperficieCirculacionesPeatonales" type="number" id="txt_superficie_total_circulaciones_peatonales" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="total_cajones_estacionamiento">Número total de cajones de estacionamiento</label>
+        <input asp-for="CajonesEstacionamiento" type="number" id="txt_total_cajones_estacionamiento" class="form-control" />
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_total_cajones_estacionamiento">Superficie total cajones estacionamiento</label>
+        <div class="input-group">
+            <input asp-for="SuperficieCajonesEstacionamiento" type="number" id="txt_superficie_total_cajones_estacionamiento" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label for="total_viviendas">Número total de viviendas</label>
+        <div class="input-group">
+            <input asp-for="TotalViviendas" type="number" id="txt_total_viviendas" class="form-control" min="0" />
+            <span class="input-group-addon fa fa-home"></span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="viviendas_unifamiliar">Número de viviendas Unifamiliar</label>
+        <div class="input-group">
+            <input asp-for="ViviendasUnifamiliar" type="number" id="txt_viviendas_unifamiliar" class="form-control" min="0" />
+            <span class="input-group-addon fa fa-home"></span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="viviendas_multifamiliar">Número viviendas Multifamilliar</label>
+        <div class="input-group">
+            <input asp-for="ViviendasMultifamiliar" type="number" id="txt_viviendas_multifamiliar" class="form-control" min="0" />
+            <span class="input-group-addon fa fa-home"></span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="viviendas_renta">Número de viviendas Renta</label>
+        <div class="input-group">
+            <input asp-for="ViviendasRenta" type="number" id="txt_viviendas_renta" class="form-control" min="0" />
+            <span class="input-group-addon fa fa-home"></span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_vivienda_unifamiliar">Superficie vivienda Unifamiliar</label>
+        <div class="input-group">
+            <input asp-for="SuperficieViviendasUnifamiliar" type="number" id="txt_superficie_vivienda_unifamiliar" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_vivienda_multifamiliar">Superficie vivienda Multifamilliar</label>
+        <div class="input-group">
+            <input asp-for="SuperficieViviendasMultifamiliar" type="number" id="txt_superficie_vivienda_multifamiliar" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="superficie_vivienda_renta">Superficie vivienda Renta</label>
+        <div class="input-group">
+            <input asp-for="SuperficieViviendasRenta" type="number" id="txt_superficie_vivienda_renta" class="form-control" />
+            <span class="input-group-addon">m²</span>
+        </div>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="niveles_vivienda_unifamiliar">Niveles vivienda Unifamiliar</label>
+        <select asp-for="NivelesViviendasUnifamiliar" id="niveles_vivienda_unifamiliar" class="form-control" multiple>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="niveles_vivienda_multifamiliar">Niveles vivienda Multifamilliar</label>
+        <select asp-for="NivelesViviendasMultifamiliar" id="niveles_vivienda_multifamiliar" class="form-control" multiple>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="niveles_vivienda_renta">Niveles vivienda Renta</label>
+        <select asp-for="NivelesViviendasRenta" id="niveles_vivienda_renta" class="form-control" multiple>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">&nbsp;</div>
+</div>
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="total_viviendas">Validación / Estatus</label>
+    </div>
+    <div class="col-md-3 text-center">
+        <select id="estatus" class="form-control" multiple>
+            <option selected>Sin validar</option>
+            <option>En Correción</option>
+            <option>En revisión</option>
+            <option>Validado</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label for="observaciones"></label>
+        <input asp-for="ObservacionesEstatus" type="text" id="txt_observaciones_estatus" class="form-control" placeholder="¿Por qué?" />
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <button class="btn btn-primary pull-right">Enviar <span class="fa fa-paper-plane-o"></span></button>
+    </div>
+</div>
+<hr />
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+        <label>&nbsp;</label>
+        <button id="btn-download-" class="btn btn-primary form-control">Descargar <i class="fa fa-download" aria-hidden="true"></i></button>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>Propuesta Conceptual</label>
+        <input type="file" class="form-control" />
+        <button class="btn btn-primary form-control">Cargar <span class="fa fa-upload"></span></button>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>&nbsp;</label>
+        <select class="form-control" multiple>
+            <option selected>Sin validar</option>
+            <option>En corrección</option>
+            <option>En revisión</option>
+            <option>Validado</option>
+        </select>
+    </div>
+    <div class="col-md-3 text-center">
+        <label>&nbsp;</label>
+        <input asp-for="ObservacionesPropuesta" type="text" class="form-control" placeholder="¿Por qué?" />
+    </div>
+</div>
+<hr />
+<div class="row form-group">
+    <div class="col-md-3 text-center">
+
+    </div>
+    <div class="col-md-2 text-center">
+        <label>&nbsp;</label>
+        <button type="button" class="btn btn-primary form-control">Descargar <i class="fa fa-download" aria-hidden="true"></i></button>
+    </div>
+    <div class="col-md-3 text-center">
+        <label class="form-check-label">Conciliación</label>
+        <input type="file" class="form-control" />
+        <button class="btn btn-primary form-control">Cargar <span class="fa fa-upload"></span></button>
+    </div>
+</div>
+<hr />
+<div class="row form-group">
+    <div class="col-md-4 text-center">
+        <label>Número total de viviendas</label>
+        <div class="input-group">
+            <input asp-for="TotalViviendasFinal" type="number" min="1" class="form-control" aria-describedby="basic-addon1">
+            <span class="input-group-addon" style="width:auto;" id="basic-addon1"><i class="fa fa-home" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <label>Número total de cajones de estacionamiento</label>
+        <div class="input-group">
+            <input asp-for="TotalCajonesEstacionamiento" type="number" class="form-control" min="1" aria-describedby="parkin" />
+            <span class="input-group-addon" style="width:auto;" id="parkin"><i class="fa fa-car" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <label>Niveles de vivienda</label>
+        <select asp-for="NivelesVivienda" class="form-control" multiple>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <button class="btn btn-primary pull-right">Enviar <span class="fa fa-paper-plane-o"></span></button>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".breadcrumb").html("<li><i class='fa fa-home'></i></li><li><a href='/'>Inicio</a></li>");
+        });
+    </script>
+}

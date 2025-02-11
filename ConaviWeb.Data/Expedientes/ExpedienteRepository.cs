@@ -189,96 +189,19 @@ namespace ConaviWeb.Data.Expedientes
         public async Task<bool> InsertInventarioTP(Inventario inventario)
         {
             var db = DbConnection();
-
-            //var sql = @"
-            //            INSERT INTO prod_control_exp.inventario_transferencia
-            //            (id_area, fecha_elaboracion, fecha_transferencia, nombre_responsable_archivo_tramite)
-            //            VALUES (@IdArea, @FechaElaboracion, @FechaTransferencia, @NombreResponsable)
-            //            ON DUPLICATE KEY UPDATE id_area = @IdArea, fecha_elaboracion = @FechaElaboracion, fecha_transferencia = @FechaTransferencia, nombre_responsable_archivo_tramite = @NombreResponsable;";
             var sql = @"
                         UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_puesto = @IdPuesto;";
 
             var result = await db.ExecuteAsync(sql, new
             {
                 IdPuesto = inventario.IdPuesto,
-                //FechaElaboracion = inventario.FechaElaboracion,
-                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
                 FechaTransferencia = inventario.FechaTransferencia,
-                //NombreResponsable = inventario.NombreResponsableAT
             });
             return result > 0;
         }
-        //public async Task<bool> InsertExpedienteInventarioTP(Expediente expediente)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                INSERT INTO prod_control_exp.expediente_transferencia
-        //                (id_expediente, nombre, periodo, anios_resguardo, numero_legajos, numero_fojas, observaciones, id_inventario, id_user)
-        //                VALUES (@IdExpediente, @Nombre, @Periodo, @AniosResguardo, @NumeroLegajos, @NumeroFojas, @Observaciones, @IdInventario, @IdUser);";
-
-        //    var result = await db.ExecuteAsync(sql, new
-        //    {
-        //        IdExpediente = expediente.IdExpediente,
-        //        Nombre = expediente.Nombre,
-        //        Periodo = expediente.Periodo,
-        //        AniosResguardo = expediente.AniosResguardo,
-        //        NumeroLegajos = expediente.Legajos,
-        //        NumeroFojas = expediente.Fojas,
-        //        Observaciones = expediente.Observaciones,
-        //        IdUser = expediente.IdUser,
-        //        IdInventario = expediente.IdInventario
-        //    });
-        //    return result > 0;
-        //}
-        //public async Task<bool> InsertCaratulaExpedienteTP(Caratula caratula)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                INSERT INTO prod_control_exp.caratula
-        //                (`cant_doc_ori`,`cant_doc_copias`,`cant_cds`,`tec_sel_doc`,`publica`,`confidencial`,`reservada_sol_info`,`descripcion_asunto_expediente`,`fecha_clasificacion`,`periodo_reserva`,`fundamento_legal`,`ampliacion_periodo_reserva`,`fecha_desclasificacion`,`nombre_desclasifica`,`cargo_desclasifica`,`partes_reservando`,`id_user_captura`,`datos_topograficos`,`id_expediente_tp`)
-        //                VALUES (@DocOriginales, @DocCopias, @Cds, @TecnicasSeleccion, @Publica, @Confidencial, @Reservada, @DescripcionAsunto, @FechaClasificacion, @PeriodoReserva, @FundamentoLegal, @AmpliacionPeriodo, @FechaDesclasificacion, @NombreDesclasifica, @CargoDesclasifica, @PartesReservando, @IdUser, @DatosTopograficos, @IdExpediente)
-        //                ON DUPLICATE KEY UPDATE `cant_doc_ori` = @DocOriginales,`cant_doc_copias` = @DocCopias,`cant_cds` = @Cds,`tec_sel_doc` = @TecnicasSeleccion,`publica` = @Publica,`confidencial` = @Confidencial,`reservada_sol_info` = @Reservada,`descripcion_asunto_expediente` = @DescripcionAsunto,`fecha_clasificacion` = @FechaClasificacion,`periodo_reserva` = @PeriodoReserva,`fundamento_legal` = @FundamentoLegal,`ampliacion_periodo_reserva` = @AmpliacionPeriodo,`fecha_desclasificacion` = @FechaDesclasificacion,`nombre_desclasifica` = @NombreDesclasifica,`cargo_desclasifica` = @CargoDesclasifica,`partes_reservando` = @PartesReservando,`id_user_captura` = @IdUser,`datos_topograficos` = @DatosTopograficos;";
-
-        //    var result = await db.ExecuteAsync(sql, new
-        //    {
-        //        IdExpediente = caratula.IdExpediente,
-        //        //Nombre = caratula.Nombre,
-        //        //NumeroLegajos = caratula.Legajos,
-        //        //Fojas = caratula.Fojas,
-        //        DocOriginales = caratula.DocOriginales,
-        //        DocCopias = caratula.DocCopias,
-        //        Cds = caratula.Cds,
-        //        TecnicasSeleccion = caratula.TecnicasSeleccion,
-        //        Publica = caratula.Publica,
-        //        Confidencial = caratula.Confidencial,
-        //        Reservada = caratula.Reservada,
-        //        DescripcionAsunto = caratula.DescripcionAsunto,
-        //        FechaClasificacion = caratula.FechaClasificacion,
-        //        PeriodoReserva = caratula.PeriodoReserva,
-        //        FundamentoLegal = caratula.FundamentoLegal,
-        //        AmpliacionPeriodo = caratula.AmpliacionPeriodo,
-        //        FechaDesclasificacion = caratula.FechaDesclasificacion,
-        //        NombreDesclasifica = caratula.NombreDesclasifica,
-        //        CargoDesclasifica = caratula.CargoDesclasifica,
-        //        PartesReservando = caratula.PartesReservando,
-        //        DatosTopograficos = caratula.DatosTopograficos,
-        //        IdUser = caratula.IdUser,
-        //    });
-        //    return result > 0;
-        //}
         public async Task<IEnumerable<Expediente>> GetExpedientesInventarioTP(int id, int id_inventario)
         {
             var db = DbConnection();
-
-            //var sql = @"
-            //            select ROW_NUMBER() over(order by et.id) NoProg, et.id Id, et.id_expediente IdExpediente, csd.codigo Codigo, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, et.id_inventario IdInventario
-            //                ,if(et.id_user = @id, 'editable', 'noeditable') EsEditable, et.estatus Estatus
-            //            from prod_control_exp.expediente_transferencia et
-            //            join prod_control_exp.cat_serie_documental csd on et.id_expediente = csd.id
-            //            where et.id_inventario = @IdInv
-            //            order by et.id;";
             var sql = @"
                         select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ROW_NUMBER() over(partition by year(ec.fecha_ultimo) order by ec.fecha_ultimo, ec.id) Consecutivo, ec.id Id, ec.id_expediente IdExpediente, csd.codigo Codigo, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, ec.numero_fojas Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, ec.id_inventario_control IdInventario
                             ,if(ec.id_user = @id, 'editable', 'noeditable') EsEditable, ec.estatus Estatus
@@ -301,52 +224,9 @@ namespace ConaviWeb.Data.Expedientes
                         order by ec.fecha_ultimo, ec.id;";
             return await db.QueryAsync<Expediente>(sql, new { Id = id });
         }
-        //public async Task<IEnumerable<ExpedienteBibliohemerografico>> GetExpedientesValidacionBiblio(int idArea)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                select cons.NoProg NoProg, eb.id Id, eb.numero_ejemplar Ejemplar, eb.id_tipo_soporte IdTipoSoporte, ct.clave ClaveSoporte, eb.titulo_del_libro Titulo, eb.nombre_autor Autor, eb.tema Tema, eb.editorial Editorial, eb.anio Anio, eb.isbn_issn IsbnIssn, eb.numero_paginas Paginas, eb.numero_volumen Volumen, eb.id_inventario_bibliohemerografico IdInventario
-        //                from prod_control_exp.expediente_bibliohemerografico eb
-        //                join prod_control_exp.inventario_bibliohemerografico ib on eb.id_inventario_bibliohemerografico = ib.id
-        //                join prod_control_exp.cat_tipo_soporte ct on eb.id_tipo_soporte = ct.id
-        //                join (select ROW_NUMBER() over(order by ets.anio,ets.id) NoProg, ets.id from prod_control_exp.expediente_bibliohemerografico ets join prod_control_exp.inventario_bibliohemerografico ib on ets.id_inventario_bibliohemerografico = ib.id where ib.id_area = @IdArea) cons on eb.id = cons.id
-        //                where ib.id_area = @IdArea and eb.estatus = 2
-        //                order by eb.anio,eb.id;";
-        //    return await db.QueryAsync<ExpedienteBibliohemerografico>(sql, new { IdArea = idArea });
-        //}
-        //public async Task<Expediente> GetExpedienteTP(int id)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                select cons.NoProg NoProg, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, id_inventario IdInventario
-        //                    ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-        //                    ,ca.descripcion Area, et.estatus Estatus
-        //                from prod_control_exp.expediente_transferencia et
-        //                join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
-        //                join prod_control_exp.inventario_transferencia itf on et.id_inventario = itf.id
-        //                join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-        //                join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_transferencia ets where ets.id_inventario = (select id_inventario from expediente_transferencia where id = @Id)) cons on et.id = cons.id
-        //                where et.id = @Id";
-
-        //    return await db.QueryFirstOrDefaultAsync<Expediente>(sql, new { Id = id });
-        //}
         public async Task<Caratula> GetCaratulaExpedienteTP(int id, int legajo)
         {
             var db = DbConnection();
-            //var sql = @"
-            //            select cons.NoProg NoProg, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, periodo Periodo, anios_resguardo AniosResguardo, numero_legajos Legajos, numero_fojas Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, id_inventario IdInventario
-            //                ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-            //                ,ca.descripcion Area, et.estatus Estatus
-            //                ,crt.fojas Fojas, crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_tp
-            //            from prod_control_exp.expediente_transferencia et
-            //            join prod_control_exp.cat_serie_documental cs on et.id_expediente = cs.id
-            //            join prod_control_exp.inventario_transferencia itf on et.id_inventario = itf.id
-            //            join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-            //            join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_transferencia ets where ets.id_inventario = (select id_inventario from expediente_transferencia where id = @Id)) cons on et.id = cons.id
-            //            left join prod_control_exp.caratula crt on et.id = crt.id_expediente_tp
-            //            where et.id = @Id";
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, et.id Id, cs.codigo Codigo, id_expediente IdExpediente, nombre Nombre, if(year(et.fecha_primero)=year(et.fecha_ultimo),year(et.fecha_primero),concat(year(et.fecha_primero),'-',year(et.fecha_ultimo))) Periodo, anios_resguardo AniosResguardo, et.numero_legajos Legajos, if(et.numero_legajos>1,crt.fojas,ifnull(crt.fojas,et.numero_fojas)) Fojas, et.observaciones Observaciones, et.fecha_registro FechaRegistro, if(et.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(et.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(et.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(et.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, et.id_inventario_control IdInventario, et.ubicacion DatosTopograficos, et.descripcion DescripcionAsunto, et.tipo_soporte_documental TipoSoporteDocumental
                             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
@@ -362,14 +242,6 @@ namespace ConaviWeb.Data.Expedientes
                         where et.id = @Id";
             return await db.QueryFirstOrDefaultAsync<Caratula>(sql, new { Id = id, Legajo = legajo });
         }
-        //public async Task<bool> DropExpediente(int id)
-        //{
-        //    var db = DbConnection();
-        //    var sql = @"
-        //                delete from prod_control_exp.expediente_transferencia where id = @Id;";
-        //    var result = await db.ExecuteAsync(sql, new { Id = id });
-        //    return result > 0;
-        //}
         public async Task<int> sePuedeMigrarExpediente(int id, int tipo)
         {
             var db = DbConnection();
@@ -397,20 +269,6 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }
-        //public async Task<int> sePuedeMigrarExpedienteInvNE(int id)
-        //{
-        //    var db = DbConnection();
-        //    var sql = @"
-        //                select id from prod_control_exp.expediente_control ec where id = @Id and ec.numero_partes is not null and ec.fecha_elaboracion is not null and ec.id_tipo_documental is not null and ec.id_tipo_soporte is not null;";
-        //    var result = await db.QueryFirstOrDefaultAsync<int>(sql, new { Id = id });
-        //    if (result == 0)
-        //    {
-        //        sql = @"
-        //                UPDATE prod_control_exp.expediente_control SET estatus = 5 WHERE id = @Id;";
-        //        _ = db.ExecuteAsync(sql, new { Id = id });
-        //    }
-        //    return result;
-        //}
         public async Task<bool> MigrarExpedienteInvNE(int id)
         {
             var db = DbConnection();
@@ -423,11 +281,6 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
 
-            //var sql = @"
-            //            select itr.id Id, itr.id_area IdArea, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia
-            //            from prod_control_exp.inventario_control itr
-            //            join prod_control_exp.cat_areas ca on itr.id_area = ca.id
-            //            where ca.descripcion = @Area";
             var sql = @"
                         select itr.id Id, itr.id_puesto IdPuesto, itr.responsable_archivo_tramite NombreResponsableAT, date_format(itr.fecha_elaboracion, '%Y/%m/%d') FechaElaboracion, date_format(itr.fecha_entrega, '%Y/%m/%d') FechaEntrega, date_format(itr.fecha_transferencia,'%Y/%m/%d') FechaTransferencia, itr.ubicacion Ubicacion, itr.peso_electronico PesoElectronico, itr.almacenamiento Almacenamiento
                         from prod_control_exp.inventario_control itr
@@ -463,7 +316,6 @@ namespace ConaviWeb.Data.Expedientes
             {
                 IdPuesto = inventario.IdPuesto,
                 NombreResponsable = inventario.NombreResponsableAT,
-                //FechaElaboracion = inventario.FechaElaboracion.ToString("yyyy-MM-dd"),
                 FechaElaboracion = inventario.FechaElaboracion,
                 FechaEntrega = inventario.FechaEntrega,
                 Ubicacion = inventario.Ubicacion,
@@ -475,7 +327,6 @@ namespace ConaviWeb.Data.Expedientes
         public async Task<bool> InsertExpedienteInventarioControl(Expediente expediente)
         {
             var db = DbConnection();
-            //(id_expediente, nombre, numero_legajos, fecha_primero, fecha_ultimo, id_inventario_control, id_user)
             var sql = @"
                         INSERT INTO prod_control_exp.expediente_control
                         (nombre, numero_legajos, numero_fojas, numero_partes, fecha_primero, fecha_ultimo, fecha_elaboracion, ubicacion, descripcion, observaciones, anios_resguardo, id_user, id_expediente, id_inventario_control, id_tipo_documental, id_tipo_soporte, tipo_soporte_documental)
@@ -487,7 +338,6 @@ namespace ConaviWeb.Data.Expedientes
                 NumeroLegajos = expediente.Legajos,
                 NumeroFojas = expediente.Fojas,
                 NumeroPartes = expediente.NoPartes,
-                //FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
                 FechaPrimero = expediente.FechaPrimeroAntiguo,
                 FechaUltimo = expediente.FechaUltimoReciente,
                 FechaElaboracion = expediente.FechaElaboracion,
@@ -518,7 +368,6 @@ namespace ConaviWeb.Data.Expedientes
                 NumeroLegajos = expediente.Legajos,
                 NumeroFojas = expediente.Fojas,
                 NumeroPartes = expediente.NoPartes,
-                //FechaPrimero = expediente.FechaPrimeroAntiguo.ToString("yyyy-MM-dd"),
                 FechaPrimero = expediente.FechaPrimeroAntiguo,
                 FechaUltimo = expediente.FechaUltimoReciente,
                 FechaElaboracion = expediente.FechaElaboracion,
@@ -554,7 +403,6 @@ namespace ConaviWeb.Data.Expedientes
                 Publica = caratula.Publica,
                 Confidencial = caratula.Confidencial,
                 Reservada = caratula.Reservada,
-                //DescripcionAsunto = caratula.DescripcionAsunto,
                 FechaClasificacion = caratula.FechaClasificacion,
                 PeriodoReserva = caratula.PeriodoReserva,
                 FundamentoLegal = caratula.FundamentoLegal,
@@ -563,7 +411,6 @@ namespace ConaviWeb.Data.Expedientes
                 NombreDesclasifica = caratula.NombreDesclasifica,
                 CargoDesclasifica = caratula.CargoDesclasifica,
                 PartesReservando = caratula.PartesReservando,
-                //DatosTopograficos = caratula.DatosTopograficos,
                 FechaPrimero = caratula.FechaPrimeroAntiguo,
                 FechaUltimo = caratula.FechaUltimoReciente,
                 Fojas = caratula.Fojas,
@@ -637,7 +484,6 @@ namespace ConaviWeb.Data.Expedientes
         public async Task<Caratula> GetCaratulaExpedienteControl(int id, int legajo, int idUser)
         {
             var db = DbConnection();
-            // crt.descripcion_asunto_expediente DescripcionAsunto,
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(ec.numero_legajos>1,crt.fojas,ifnull(crt.fojas,ec.numero_fojas)) Fojas, ec.numero_legajos Legajos, if(ec.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(ec.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(ec.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(ec.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.estatus Estatus, ec.descripcion DescripcionAsunto, ec.observaciones Observaciones, ec.tipo_soporte_documental TipoSoporteDocumental, ec.ubicacion DatosTopograficos
                             ,if(ec.id_user = @IdUser, 'editable', 'noeditable') EsEditable
@@ -728,7 +574,6 @@ namespace ConaviWeb.Data.Expedientes
             {
                 IdPuesto = inventario.IdPuesto,
                 NombreResponsable = inventario.NombreResponsableAT,
-                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
                 FechaTransferencia = inventario.FechaTransferencia,
                 FechaElaboracion = inventario.FechaElaboracion
             });
@@ -783,7 +628,6 @@ namespace ConaviWeb.Data.Expedientes
                 Isbn = expediente.IsbnIssn,
                 Paginas = expediente.Paginas,
                 Volumen = expediente.Volumen,
-                //IdInventario = expediente.IdInventario,
                 IdUser = expediente.IdUser
             });
             return result > 0;
@@ -832,15 +676,6 @@ namespace ConaviWeb.Data.Expedientes
                         where eb.id = @Id;";
             return await db.QueryFirstOrDefaultAsync<ExpedienteBibliohemerografico>(sql, new { Id = id });
         }
-        //public async Task<bool> SendValExpedienteBiblio(int id)
-        //{
-        //    var db = DbConnection();
-        //    var sql = @"
-        //                update prod_control_exp.expediente_bibliohemerografico set estatus = 2 where id = @Id;";
-        //    var result = await db.ExecuteAsync(sql, new { Id = id });
-        //    return result > 0;
-        //}
-
         public async Task<bool> DropExpedienteBibliohemerografico(int id)
         {
             var db = DbConnection();
@@ -849,92 +684,23 @@ namespace ConaviWeb.Data.Expedientes
             var result = await db.ExecuteAsync(sql, new { Id = id });
             return result > 0;
         }
-        //public async Task<bool> VoBoExpedienteBiblio(int id)
-        //{
-        //    var db = DbConnection();
-        //    var sql = @"
-        //                update prod_control_exp.expediente_bibliohemerografico set estatus = 3 where id = @Id;";
-        //    var result = await db.ExecuteAsync(sql, new { Id = id });
-        //    return result > 0;
-        //}
-        //public async Task<bool> RevalidacionExpedienteBiblio(int id)
-        //{
-        //    var db = DbConnection();
-        //    var sql = @"
-        //                update prod_control_exp.expediente_bibliohemerografico set estatus = 4 where id = @Id;";
-        //    var result = await db.ExecuteAsync(sql, new { Id = id });
-        //    return result > 0;
-        //}
-        //public async Task<Inventario> GetInventarioNoExpedientable(string area)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                select itr.id Id, itr.id_area IdArea, itr.nombre_responsable NombreResponsableAT, itr.fecha_elaboracion FechaElaboracion, itr.fecha_transferencia FechaTransferencia
-        //                from prod_control_exp.inventario_noexpedientable itr
-        //                join prod_control_exp.cat_areas ca on itr.id_area = ca.id
-        //                where ca.descripcion = @Area";
-
-        //    return await db.QueryFirstOrDefaultAsync<Inventario>(sql, new { Area = area });
-        //}
         public async Task<bool> InsertInventarioNoExpedientable(Inventario inventario)
         {
             var db = DbConnection();
 
-            //var sql = @"
-            //            INSERT INTO prod_control_exp.inventario_noexpedientable
-            //            (id_area, nombre_responsable, fecha_elaboracion, fecha_transferencia)
-            //            VALUES (@IdArea, @NombreResponsable, @FechaElaboracion, @FechaTransferencia)
-            //            ON DUPLICATE KEY UPDATE nombre_responsable = @NombreResponsable, fecha_elaboracion = @FechaElaboracion, fecha_transferencia = @FechaTransferencia;";
             var sql = @"
                         UPDATE prod_control_exp.inventario_control SET fecha_transferencia = @FechaTransferencia WHERE id_puesto = @IdPuesto;";
 
             var result = await db.ExecuteAsync(sql, new
             {
                 IdPuesto = inventario.IdPuesto,
-                //NombreResponsable = inventario.NombreResponsableAT,
-                //FechaElaboracion = inventario.FechaElaboracion,
-                //FechaTransferencia = inventario.FechaTransferencia?.ToString("yyyy-MM-dd"),
                 FechaTransferencia = inventario.FechaTransferencia,
             });
             return result > 0;
         }
-        //public async Task<bool> InsertExpedienteNoExpedientable(ExpedienteNoExpedientable expediente)
-        //{
-        //    var db = DbConnection();
-
-        //    var sql = @"
-        //                INSERT INTO prod_control_exp.expediente_no_expedientable
-        //                (id_tipo_documental, id_tipo_soporte, id_clave_interna, numero_partes, fecha_elaboracion, titulo_expediente, observaciones, id_inventario_no_expedientable, id_user)
-        //                VALUES (@IdTipoDocumental, @IdSoporte, @IdClaveInterna, @Partes, @FechaElaboracion, @Titulo, @Observaciones, @IdInventario, @IdUser);";
-
-        //    var result = await db.ExecuteAsync(sql, new
-        //    {
-        //        IdTipoDocumental = expediente.IdTipoDocumental,
-        //        IdSoporte = expediente.IdTipoSoporte,
-        //        IdClaveInterna = expediente.IdClaveInterna,
-        //        Partes = expediente.Partes,
-        //        FechaElaboracion = expediente.FechaElaboracion,
-        //        Titulo = expediente.Titulo,
-        //        Observaciones = expediente.Observaciones,
-        //        IdInventario = expediente.IdInventario,
-        //        IdUser = expediente.IdUser
-        //    });
-        //    return result > 0;
-        //}
         public async Task<IEnumerable<Expediente>> GetExpedientesNoExpedientables(int id, int id_inventario)
         {
             var db = DbConnection();
-            //var sql = @"
-            //            select ROW_NUMBER() over(order by en.id) NoProg, en.id Id, cts.clave Clave, en.id_tipo_soporte IdTipoSoporte, en.id_tipo_documental IdTipoDocumental
-            //                ,cts.descripcion Soporte,en.id_clave_interna IdClaveInterna, csd.codigo ClaveInterna, en.titulo_expediente Titulo, en.numero_partes Partes
-            //                ,en.observaciones Observaciones, en.fecha_elaboracion FechaElaboracion, en.fecha_registro FechaRegistro
-            //                ,en.id_inventario_no_expedientable IdInventario,if(en.id_user = @Id, 'editable', 'noeditable') EsEditable
-            //            from prod_control_exp.expediente_no_expedientable en
-            //            join prod_control_exp.cat_serie_documental csd on en.id_clave_interna = csd.id
-            //            left join prod_control_exp.cat_tipo_soporte cts on en.id_tipo_soporte = cts.id
-            //            where en.id_inventario_no_expedientable = @IdInv
-            //            order by en.id;";
             var sql = @"
                         select ROW_NUMBER() over(order by ec.fecha_ultimo, ec.id) NoProg, ROW_NUMBER() over(partition by year(ec.fecha_ultimo) order by ec.fecha_ultimo, ec.id) Consecutivo, ec.id Id, cts.clave Codigo, ec.id_tipo_soporte IdTipoSoporte, ec.id_tipo_documental IdTipoDocumental
 	                        ,cts.descripcion Soporte, ec.id_expediente IdClaveInterna, csd.codigo Clave, ec.nombre Nombre, ec.numero_partes NoPartes
@@ -986,18 +752,6 @@ namespace ConaviWeb.Data.Expedientes
         {
             var db = DbConnection();
 
-            //var sql = @"
-            //            select cons.NoProg NoProg, ec.id Id, cs.codigo Codigo, year(ec.fecha_elaboracion) Periodo, ec.id IdExpediente, ec.titulo_expediente Nombre, ec.fecha_elaboracion FechaElaboracion, ec.id_inventario_no_expedientable IdInventario
-	           //             ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
-	           //             ,ca.descripcion Area
-            //                ,crt.fojas Fojas, crt.cant_doc_ori DocOriginales, crt.cant_doc_copias DocCopias, crt.cant_cds Cds, crt.tec_sel_doc TecnicasSeleccion, crt.publica Publica, crt.confidencial Confidencial, crt.reservada_sol_info Reservada, crt.descripcion_asunto_expediente DescripcionAsunto, crt.fecha_clasificacion FechaClasificacion, crt.periodo_reserva PeriodoReserva, crt.fundamento_legal FundamentoLegal, crt.ampliacion_periodo_reserva AmpliacionPeriodo, crt.fecha_desclasificacion FechaDesclasificacion, crt.nombre_desclasifica NombreDesclasifica, crt.cargo_desclasifica CargoDesclasifica, crt.partes_reservando PartesReservando, crt.datos_topograficos DatosTopograficos, crt.id_expediente_noexp
-            //            from prod_control_exp.expediente_no_expedientable ec
-            //            join prod_control_exp.cat_serie_documental cs on ec.id = cs.id
-            //            join prod_control_exp.inventario_noexpedientable itf on ec.id_inventario_no_expedientable = itf.id
-            //            join prod_control_exp.cat_areas ca on itf.id_area = ca.id
-            //            join (select ROW_NUMBER() over(order by ets.id) NoProg, ets.id from prod_control_exp.expediente_no_expedientable ets where ets.id_inventario_no_expedientable = (select id_inventario_no_expedientable from expediente_no_expedientable where id = @Id)) cons on ec.id = cons.id
-            //            left join prod_control_exp.caratula crt on ec.id = crt.id_expediente_noexp
-            //            where ec.id = @Id";
             var sql = @"
                         select cons.NoProg, cons.Consecutivo, ec.id Id, cs.codigo Codigo, ec.id_expediente IdExpediente, ec.nombre Nombre, if(year(ec.fecha_primero)=year(ec.fecha_ultimo),year(ec.fecha_primero),concat(year(ec.fecha_primero),'-',year(ec.fecha_ultimo))) Periodo, ec.anios_resguardo AniosResguardo, ec.numero_legajos Legajos, if(ec.numero_legajos>1,crt.fojas,ifnull(crt.fojas,ec.numero_fojas)) Fojas, ec.observaciones Observaciones, ec.fecha_registro FechaRegistro, if(ec.numero_legajos>1,date_format(crt.fecha_primero,'%Y/%m/%d'),ifnull(date_format(crt.fecha_primero,'%Y/%m/%d'),date_format(ec.fecha_primero,'%Y/%m/%d'))) FechaPrimeroAntiguo, if(ec.numero_legajos>1,date_format(crt.fecha_ultimo,'%Y/%m/%d'),ifnull(date_format(crt.fecha_ultimo,'%Y/%m/%d'),date_format(ec.fecha_ultimo,'%Y/%m/%d'))) FechaUltimoReciente, ec.id_inventario_control IdInventario, ec.ubicacion DatosTopograficos, ec.descripcion DescripcionAsunto, ec.tipo_soporte_documental TipoSoporteDocumental
 	                        ,cs.vig_doc_val_a VigDocValA, cs.vig_doc_val_l VigDocValL, cs.vig_doc_val_fc VigDocValFC, cs.vig_doc_pla_con_at VigDocPlaConAT, cs.vig_doc_pla_con_ac VigDocPlaConAC, cs.vig_doc_pla_con_tot VigDocPlaConTot, cs.tec_sel_e TecSelE, cs.tec_sel_c TecSelC, cs.tec_sel_m TecSelM
