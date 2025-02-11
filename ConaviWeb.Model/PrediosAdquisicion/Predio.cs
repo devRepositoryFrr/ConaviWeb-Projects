@@ -193,7 +193,7 @@ namespace ConaviWeb.Model.PrediosAdquisicion
         public string CorreoElectronico { get; set; }
         public string ReporteFotografico { get; set; }
         public int IdUser { get; set; }
-        public int Calificacion { get; set; }
+        public float Calificacion { get; set; }
         public string FechaRegistro { get; set; }
         public string FechaUltimaActualizacion { get; set; }
     }
